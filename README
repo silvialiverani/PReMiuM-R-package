@@ -12,7 +12,7 @@ cd DiPBaC-R-package
 git add FILE_NAME
 
 # commit all files
-git commit -m "MESSAGE"
+git commit -am "MESSAGE"
 
 # push to github
 git push origin
