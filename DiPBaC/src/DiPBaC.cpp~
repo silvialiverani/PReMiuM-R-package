@@ -38,7 +38,7 @@
 #include<sstream>
 
 // Custom includes
-#include<MCMC/sampler.h>
+#include<src/include/MCMC/sampler.h>
 #include<MCMC/model.h>
 #include<MCMC/proposal.h>
 #include<DiPBaCOptions.h>
@@ -56,7 +56,7 @@ using std::ostringstream;
 using std::time;
 using std::string;
 
-SEXP profRegr(SEXP inputString){
+SEXP profRegr(SEXP inputString) {
 
 	string inputStr = Rcpp::as<string>(inputString);
 
@@ -246,7 +246,10 @@ SEXP profRegr(SEXP inputString){
 
 	/* ---------- Clean Up ---------------- */
 	diPBaCSampler.closeOutputFiles();
-	return Rcpp::List::create(Rcpp::Named("lsOptSweep")=100);//return(0);
+	int err = 0;
+	return Rcpp::wrap(0);
+// alternative output
+//	return Rcpp::List::create(Rcpp::Named("yModel")=options.outcomeType());
 
 }
 
