@@ -47,8 +47,8 @@ profRegr<-function(nCovariates, covNames, nFixedEffects, fixedEffectsNames, xLev
 	} else {
 		write(as.character(0), fileName,append=T,ncolumns=1)
 	}
-	if (xModel=="Categorical") write(yLevels,fileName,append=T)
-	if (xModel=="Discrete") write(xLevels,fileName,append=T)
+	if (xModel=="Categorical") write(yLevels,fileName,append=T,ncolumns=length(yLevels))
+	if (xModel=="Discrete") write(xLevels,fileName,append=T,ncolumns=length(xLevels))
 	write(t(dataMatrix), fileName,append=T,ncolumns=nColsData)
 
 	# other checks to ensure that there are no errors when calling the program
@@ -920,12 +920,12 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			plotObj<-plotObj+
 				scale_fill_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
 				scale_colour_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
-				opts(legend.position="none")+labs(x="Cluster")+opts(axis.title.x=theme_text(size=10))
-			plotObj<-plotObj+labs(y="Probability")+opts(axis.title.y=theme_text(size=10,angle=90))
-			plotObj<-plotObj+opts(title=ifelse(showRelativeRisk,'Relative Risk','Risk'),plot.title=theme_text(size=10))
+				theme(legend.position="none")+labs(x="Cluster")+theme(axis.title.x=element_text(size=10))
+			plotObj<-plotObj+labs(y="Probability")+theme(axis.title.y=element_text(size=10,angle=90))
+			plotObj<-plotObj+labs(title=ifelse(showRelativeRisk,'Relative Risk','Risk'),plot.title=element_text(size=10))
 			# Margin order is (top,right,bottom,left)
-			plotObj<-plotObj+opts(plot.margin=unit(c(0.5,0.15,0.5,0.15),'lines'))+
-				opts(print.margin=unit(c(0,0,0,0),'lines'))
+			plotObj<-plotObj+theme(plot.margin=unit(c(0.5,0.15,0.5,0.15),'lines'))+
+				theme(plot.margin=unit(c(0,0,0,0),'lines'))
 			print(plotObj,vp=viewport(layout.pos.row=1:6,layout.pos.col=2))
 	   }else{
 			rownames(riskDF)<-seq(1,nrow(riskDF),1)
@@ -939,13 +939,13 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=upperRisk,colour=as.factor(fillColor)),size=1.5)
 			plotObj<-plotObj+scale_fill_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
 				scale_colour_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
-				opts(legend.position="none")+
+				theme(legend.position="none")+
 				labs(x="Cluster",y=ifelse(showRelativeRisk,'RR',
 				ifelse(yModel=="Categorical"||yModel=="Bernoulli"||yModel=="Binomial","Probability","E[Y]")))
-			plotObj<-plotObj+opts(axis.title.y=theme_text(size=10,angle=90),axis.title.x=theme_text(size=10))
-			plotObj<-plotObj+opts(title=ifelse(showRelativeRisk,'Relative Risk','Risk'),plot.title=theme_text(size=10))
+			plotObj<-plotObj+theme(axis.title.y=element_text(size=10,angle=90),axis.title.x=element_text(size=10))
+			plotObj<-plotObj+labs(title=ifelse(showRelativeRisk,'Relative Risk','Risk'),plot.title=element_text(size=10))
 			# Margin order is (top,right,bottom,left)
-			plotObj<-plotObj+opts(print.margin=unit(c(0,0,0,0),'lines'))+opts(plot.margin=unit(c(0.5,0.15,0.5,0.15),'lines'))
+			plotObj<-plotObj+theme(plot.margin=unit(c(0,0,0,0),'lines'))+theme(plot.margin=unit(c(0.5,0.15,0.5,0.15),'lines'))
 			print(plotObj,vp=viewport(layout.pos.row=1:6,layout.pos.col=2))
 		}	
 	}
@@ -956,25 +956,25 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 		plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=empiricals,colour=as.factor(fillColor)),size=3)
 		plotObj<-plotObj+geom_hline(aes(x=as.factor(cluster),y=empiricals,yintercept=meanEmpirical))
 		plotObj<-plotObj+scale_colour_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
-			opts(legend.position="none")
-		plotObj<-plotObj+opts(title='Empirical Data',plot.title=theme_text(size=10))
-		plotObj<-plotObj+opts(axis.title.x=theme_text(size=10),axis.title.y=theme_text(size=10,angle=90))
+			theme(legend.position="none")
+		plotObj<-plotObj+labs(title='Empirical Data',plot.title=element_text(size=10))
+		plotObj<-plotObj+theme(axis.title.x=element_text(size=10),axis.title.y=element_text(size=10,angle=90))
 		plotObj<-plotObj+
 			labs(y=ifelse(yModel=="Bernoulli","Proportion of cases",
 			ifelse(yModel=="Binomial","Avg Proportion of occurrence",
 			ifelse(yModel=="Poisson","Avg Count",
 			ifelse(yModel=="Categorical","Avg Proportion of occurrence","Avg Y")))),x="Cluster")
-		plotObj<-plotObj+opts(print.margin=unit(c(0,0,0,0),'lines'))+opts(plot.margin=unit(c(0.15,0.5,0.5,1),'lines'))
+		plotObj<-plotObj+theme(plot.margin=unit(c(0,0,0,0),'lines'))+theme(plot.margin=unit(c(0.15,0.5,0.5,1),'lines'))
 		print(plotObj,vp=viewport(layout.pos.row=1:3,layout.pos.col=1))
 	}
 	# Create a bar chart of cluster sizes
 	plotObj<-ggplot(sizeDF)
 	plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=clusterSize,colour=as.factor(fillColor)),size=3)
-	plotObj<-plotObj+scale_colour_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+opts(legend.position="none")
-	plotObj<-plotObj+opts(title="Size",plot.title=theme_text(size=10))
-	plotObj<-plotObj+opts(axis.title.x=theme_text(size=10),axis.title.y=theme_text(size=10,angle=90))
+	plotObj<-plotObj+scale_colour_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+theme(legend.position="none")
+	plotObj<-plotObj+labs(title="Size",plot.title=element_text(size=10))
+	plotObj<-plotObj+theme(axis.title.x=element_text(size=10),axis.title.y=element_text(size=10,angle=90))
 	plotObj<-plotObj+labs(y="No. of Subjects",x="Cluster")
-	plotObj<-plotObj+opts(print.margin=unit(c(0,0,0,0),'lines'))+opts(plot.margin=unit(c(0.15,0.5,0.5,1),'lines'))
+	plotObj<-plotObj+theme(plot.margin=unit(c(0,0,0,0),'lines'))+theme(plot.margin=unit(c(0.15,0.5,0.5,1),'lines'))
 	print(plotObj,vp=viewport(layout.pos.row=4:6,layout.pos.col=1))
 
 	# Loop over the covariates
@@ -1016,15 +1016,15 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			plotObj<-plotObj+
 				scale_fill_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
 				scale_colour_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
-				opts(legend.position="none")+labs(x="Cluster")+opts(axis.title.x=theme_text(size=10))
+				theme(legend.position="none")+labs(x="Cluster")+theme(axis.title.x=element_text(size=10))
 			if(j==1){
-				plotObj<-plotObj+labs(y="Probability")+opts(axis.title.y=theme_text(size=10,angle=90))
+				plotObj<-plotObj+labs(y="Probability")+theme(axis.title.y=element_text(size=10,angle=90))
 			}else{
-				plotObj<-plotObj+opts(axis.title.y=theme_blank())
+				plotObj<-plotObj+theme(axis.title.y=element_blank())
 			}
-			plotObj<-plotObj+opts(title=covNames[j],plot.title=theme_text(size=10))
-			plotObj<-plotObj+opts(plot.margin=unit(c(0.5,ifelse(j==nCovariates,1,0),0.5,ifelse(j==1,0.5,0)),'lines'))+
-				opts(print.margin=unit(c(0,0,0,0),'lines'))
+			plotObj<-plotObj+labs(title=covNames[j],plot.title=element_text(size=10))
+			plotObj<-plotObj+theme(plot.margin=unit(c(0.5,ifelse(j==nCovariates,1,0),0.5,ifelse(j==1,0.5,0)),'lines'))+
+				theme(plot.margin=unit(c(0,0,0,0),'lines'))
 		
 			print(plotObj,vp=viewport(layout.pos.row=1:6,layout.pos.col=j+2))
 		}else if(xModel=='Normal'){
@@ -1063,16 +1063,16 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			plotObj<-plotObj+
 				scale_fill_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
 				scale_colour_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
-				opts(legend.position="none")+labs(x="Cluster")+opts(axis.title.x=theme_text(size=10))
+				theme(legend.position="none")+labs(x="Cluster")+theme(axis.title.x=element_text(size=10))
 			if(j==1){
-				plotObj<-plotObj+labs(y="Mean")+opts(axis.title.y=theme_text(size=10,angle=90))
+				plotObj<-plotObj+labs(y="Mean")+theme(axis.title.y=element_text(size=10,angle=90))
 			}else{
-				plotObj<-plotObj+opts(axis.title.y=theme_blank())
+				plotObj<-plotObj+theme(axis.title.y=element_blank())
 			}
-				plotObj<-plotObj+opts(title=covNames[j],plot.title=theme_text(size=10))
+				plotObj<-plotObj+labs(title=covNames[j],plot.title=element_text(size=10))
 				plotObj<-plotObj+
-					opts(plot.margin=unit(c(0.5,ifelse(j==nCovariates,1,0),0.5,ifelse(j==1,0.5,0)),'lines'))+
-					opts(print.margin=unit(c(0,0,0,0),'lines'))
+					theme(plot.margin=unit(c(0.5,ifelse(j==nCovariates,1,0),0.5,ifelse(j==1,0.5,0)),'lines'))+
+					theme(plot.margin=unit(c(0,0,0,0),'lines'))
 		
 			print(plotObj,vp=viewport(layout.pos.row=1:3,layout.pos.col=j+2))
 		
@@ -1109,15 +1109,15 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			plotObj<-plotObj+
 				scale_fill_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
 				scale_colour_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
-				opts(legend.position="none")+labs(x="Cluster")+opts(axis.title.x=theme_text(size=10))
+				theme(legend.position="none")+labs(x="Cluster")+theme(axis.title.x=element_text(size=10))
 			if(j==1){
-				plotObj<-plotObj+labs(y="Std Dev")+opts(axis.title.y=theme_text(size=10,angle=90))
+				plotObj<-plotObj+labs(y="Std Dev")+theme(axis.title.y=element_text(size=10,angle=90))
 			}else{
-				plotObj<-plotObj+opts(axis.title.y=theme_blank())
+				plotObj<-plotObj+theme(axis.title.y=element_blank())
 			}
 			plotObj<-plotObj+
-				opts(plot.margin=unit(c(0.5,ifelse(j==nCovariates,1,0),0.5,ifelse(j==1,0.5,0)),'lines'))+
-				opts(print.margin=unit(c(0,0,0,0),'lines'))
+				theme(plot.margin=unit(c(0.5,ifelse(j==nCovariates,1,0),0.5,ifelse(j==1,0.5,0)),'lines'))+
+				theme(plot.margin=unit(c(0,0,0,0),'lines'))
 		
 			print(plotObj,vp=viewport(layout.pos.row=4:6,layout.pos.col=j+2))
 	
