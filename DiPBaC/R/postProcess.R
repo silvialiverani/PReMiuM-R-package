@@ -113,8 +113,8 @@ profRegr<-function(covNames, fixedEffectsNames=-999, outcome="outcome", outcomeT
 	write(t(dataMatrix), fileName,append=T,ncolumns=dim(dataMatrix)[2])
 
 	# other checks to ensure that there are no errors when calling the program
-	if (xModel!="Discrete"&xModel!="Continuous") stop("Error in xModel")
-	if (yModel!="Poisson"&yModel!="Binomial"&yModel!="Bernoulli"&yModel!="Normal"&yModel!="Categorical") stop("Error in xModel")
+	if (xModel!="Discrete"&xModel!="Normal") stop("Error in xModel")
+	if (yModel!="Poisson"&yModel!="Binomial"&yModel!="Bernoulli"&yModel!="Normal"&yModel!="Categorical") stop("Error in yModel")
 
 	inputString<-paste("--xModel=",xModel," --yModel=",yModel," --input=",fileName," --output=",output,sep="")
 
@@ -813,6 +813,9 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 		profile<-profileStar
 	}
 	if(!is.null(whichCovariates)){
+		if (!is.numeric(whichCovariates)){
+			
+		}
 		if(xModel=='Discrete'){
 			profile<-profile[,,whichCovariates,]
 			nCategories<-nCategories[whichCovariates]

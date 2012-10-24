@@ -38,7 +38,7 @@
 #include<sstream>
 
 // Custom includes
-#include<src/include/MCMC/sampler.h>
+#include<MCMC/sampler.h>
 #include<MCMC/model.h>
 #include<MCMC/proposal.h>
 #include<DiPBaCOptions.h>
