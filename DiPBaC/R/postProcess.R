@@ -21,9 +21,123 @@
 # is released under the Boost Software Licence, Version 1.0, a copy  of which is
 # included in the documentation directory.
 
+profRegr<-function(covNames, fixedEffectsNames=-999, outcome="outcome", outcomeT=-999, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY, extraYVar, varSelect, entropy){
+
+	nCovariates<-length(covNames)
+	
+	if (!is.data.frame(data)) stop("Input data must be a data.frame with outcome, covariates and fixed effect names as column names.")
+
+	# open file to write output
+	fileName<-paste(output,"_input.txt",sep="")
+	# make big data matrix with outcome, covariates and fixed effects	
+	# outcome
+	dataMatrix<-data$outcome
+
+	# covariates
+	covIndeces<-vector()
+	for (i in 1:nCovariates){
+		tmpIndex<-which(colnames(data)==covNames[i])
+		if (length(tmpIndex)==0) stop("ERROR: covariate names in data.frame provided do not correspond to list of covariates for profile regression")
+		covIndeces<-append(covIndeces,tmpIndex)
+	}
+	dataMatrix<-cbind(dataMatrix,data[,covIndeces])
+
+	# fixed effects
+	if (fixedEffectsNames!=-999) {
+		nFixedEffects<-length(fixedEffectsNames)
+		FEIndeces<-vector()
+		for (i in 1:nFixedEffects){
+			tmpIndex<-which(colnames(data)==fixedEffectsNames[i])
+			if (length(tmpIndex)==0) stop("ERROR: fixed effects names in data.frame provided do not correspond to list of fixed effects for profile regression")
+			FEIndeces<-append(FEIndeces,tmpIndex)
+		}
+		dataMatrix<-cbind(dataMatrix,data[,FEIndeces])
+	} else {
+		nFixedEffects<-0
+	}
+
+	#  extra outcome data
+	if (yModel=="Poisson"||yModel=="Binomial") {
+		if(outcomeT==-999){
+			stop ("It is required to set outcomeT for Poisson (offset) or Binomial (number of trials) outcome.")
+		} else {
+			dataMatrix<-cbind(dataMatrix,outcomeT)	
+		}
+	} else {
+		if(outcomeT!=-999) stop ("It is only required to set outcomeT for Poisson and Binomial outcome.")
+	}		
+
+	# print number of subjects
+	write(as.character(dim(dataMatrix)[1]), fileName,ncolumns=1)
+	# print number of covariates and their names
+	write(as.character(nCovariates),fileName,append=T,ncolumns=1)
+	write(t(covNames), fileName,append=T,ncolumns=1)
+	# print number of fixed effects and their names
+	write(nFixedEffects, fileName,append=T,ncolumns=1)
+	if (nFixedEffects>0){
+		write(t(fixedEffectsNames), fileName,append=T,ncolumns=1)
+	}
+
+	is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
+
+	if (yModel=="Categorical"||yModel=="Bernoulli"){
+		outcomeFactor<-as.factor(dataMatrix[,1])
+		yLevels<-length(levels(outcomeFactor))	
+		if (yModel=="Categorical") write(yLevels,fileName,append=T,ncolumns=length(yLevels))
+		if (!(min(outcome)==0&&max(outcome)==(yLevels-1)&&sum(!is.wholenumber(outcome))==0)) {
+			print("Recoding of the outcome as follows")
+			tmpLevels<-levels(outcomeFactor)
+			print(paste("Replacing level ",levels(outcomeFactor)," with ",c(0:(yLevels-1)),sep=""))
+			levels(outcomeFactor)<-c(0:(yLevels-1))
+			dataMatrix[,1]<-outcomeFactor
+		}
+	}
+
+	if (xModel=="Discrete"){
+		xLevels<-vector()
+		for (k in 1:nCovariates){
+			tmpCov<-dataMatrix[,(1+k)]
+			xLevels[k]<-length(levels(as.factor(tmpCov)))	
+			if (!(min(tmpCov)==0&&max(tmpCov)==(xLevels[k]-1)&&sum(!is.wholenumber(tmpCov))==0)) {
+				print(paste("Recoding of covariate number ",colnames(dataMatrix)[k+1]," as follows",sep=""))
+				tmpCovFactor<-as.factor(tmpCov)
+				tmpLevels<-levels(tmpCovFactor)
+				print(paste("Replacing level ",levels(tmpCovFactor)," with ",c(0:(xLevels[k]-1)),sep=""))
+				levels(tmpCovFactor)<-c(0:(xLevels[k]-1))	
+				dataMatrix[,(1+k)]<-tmpCovFactor
+			}
+		}
+		write(xLevels,fileName,append=T,ncolumns=length(xLevels))
+	}
+
+	write(t(dataMatrix), fileName,append=T,ncolumns=dim(dataMatrix)[2])
+
+	# other checks to ensure that there are no errors when calling the program
+	if (xModel!="Discrete"&xModel!="Continuous") stop("Error in xModel")
+	if (yModel!="Poisson"&yModel!="Binomial"&yModel!="Bernoulli"&yModel!="Normal"&yModel!="Categorical") stop("Error in xModel")
+
+	inputString<-paste("--xModel=",xModel," --yModel=",yModel," --input=",fileName," --output=",output,sep="")
+
+	if (!missing(alpha)) inputString<-paste(inputString," --alpha=",alpha,sep="")
+	if (!missing(sampler)) inputString<-paste(inputString," --sampler=",sampler,sep="")
+	if (!missing(hyper)) inputString<-paste(inputString," --hyper=",hyper,sep="")
+	if (!missing(predict)) inputString<-paste(inputString," --predict=",predict,sep="")
+	if (!missing(nSweeps)) inputString<-paste(inputString," --nSweeps=",nSweeps,sep="")
+	if (!missing(nBurn)) inputString<-paste(inputString," --nBurn=",nBurn,sep="")
+	if (!missing(nProgress)) inputString<-paste(inputString," --nProgress=",nProgress,sep="")
+	if (!missing(nFilter)) inputString<-paste(inputString," --nFilter=",nFilter,sep="")
+	if (!missing(nClusInit)) inputString<-paste(inputString," --nClusInit=",nClusInit,sep="")
+	if (!missing(seed)) inputString<-paste(inputString," --seed=",seed,sep="")
+	if (!missing(excludeY)) inputString<-paste(inputString," --excludeY",sep="")
+	if (!missing(extraYVar)) inputString<-paste(inputString," --extraYVar",sep="")
+	if (!missing(varSelect)) inputString<-paste(inputString," --varSelect=",varSelect,sep="")
+	if (!missing(entropy)) inputString<-paste(inputString," --entropy",sep="")
+
+	.Call('profRegr', inputString, PACKAGE = 'DiPBaC')
+}
 
 
-profRegr<-function(nCovariates, covNames, nFixedEffects, fixedEffectsNames, xLevels, yLevel, data="./input.txt", output="./output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY, extraYVar, varSelect, entropy){
+profRegrOld<-function(nCovariates, covNames, nFixedEffects, fixedEffectsNames, xLevels, yLevel, data="./input.txt", output="./output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY, extraYVar, varSelect, entropy){
 	
 	# prepare input file
 	nColsData<-nCovariates+nFixedEffects+1

@@ -3,19 +3,17 @@
 \alias{DiPBaC}
 \docType{package}
 \title{
-What the package does (short line)
-~~ package title ~~
+Dirichlet Process Bayesian Clustering
 }
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
+Dirichlet Process Bayesian Clustering and functions for the post-processing of its output. 
 }
 \details{
 \tabular{ll}{
-Package: \tab prova2\cr
+Package: \tab DiPBaC\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2010-11-02\cr
+Version: \tab 2.0.2\cr
+Date: \tab 2012-10-23\cr
 License: \tab What license is it under?\cr
 LazyLoad: \tab yes\cr
 }
@@ -23,21 +21,26 @@ LazyLoad: \tab yes\cr
 ~~ functions ~~
 }
 \author{
-Who wrote it
+David Hastie and Silvia Liverani
 
-Maintainer: Who to complain to <yourfault@somewhere.net>
-~~ The author and/or maintainer of the package ~~
+Maintainer: Silvia Liverani <liveranis@gmail.com>
 }
 \references{
-~~ Literature or other references for background information ~~
+Hastie et al (2012) blah blah
 }
-~~ Optionally other standard keywords, one per line, from file KEYWORDS in ~~
-~~ the R documentation directory ~~
 \keyword{ package }
-\seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
-}
+
 \examples{
-%% ~~ simple examples of the most important functions ~~
+
+outcome<-c(0,0,1,1,1,0)
+Variable1<-c(0,1,2,0,2,2)
+Variable2<-c(0,0,2,0,2,2)
+Variable3<-c(0,1,0,0,2,2)
+Variable4<-c(0,1,1,0,2,2)
+Variable5<-c(0,1,2,1,1,1)
+
+inputData<-data.frame(cbind(outcome,Variable1,Variable2,Variable3,Variable4,Variable5))
+
+profRegr(yModel="Bernoulli", xModel="Discrete", nSweeps=100, nBurn=100, data=inputData, output="output", covNames=c("Variable1","Variable2","Variable3","Variable4","Variable5"))
+
 }
