@@ -59,7 +59,7 @@ using std::string;
 SEXP profRegr(SEXP inputString) {
 
 	string inputStr = Rcpp::as<string>(inputString);
-
+cout<<inputStr<<endl;
 	/* ---------- Start the timer ------------------*/
 	time_t beginTime,currTime;
 	beginTime = time(NULL);

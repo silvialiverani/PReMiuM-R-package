@@ -21,7 +21,9 @@
 # is released under the Boost Software Licence, Version 1.0, a copy  of which is
 # included in the documentation directory.
 
-profRegr<-function(covNames, fixedEffectsNames=-999, outcome="outcome", outcomeT=-999, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY, extraYVar, varSelect, entropy){
+is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
+
+profRegr<-function(covNames, fixedEffectsNames=NA, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY, extraYVar, varSelect, entropy){
 
 	nCovariates<-length(covNames)
 	
@@ -43,7 +45,7 @@ profRegr<-function(covNames, fixedEffectsNames=-999, outcome="outcome", outcomeT
 	dataMatrix<-cbind(dataMatrix,data[,covIndeces])
 
 	# fixed effects
-	if (fixedEffectsNames!=-999) {
+	if (!is.na(fixedEffectsNames)) {
 		nFixedEffects<-length(fixedEffectsNames)
 		FEIndeces<-vector()
 		for (i in 1:nFixedEffects){
@@ -58,13 +60,13 @@ profRegr<-function(covNames, fixedEffectsNames=-999, outcome="outcome", outcomeT
 
 	#  extra outcome data
 	if (yModel=="Poisson"||yModel=="Binomial") {
-		if(outcomeT==-999){
+		if(is.na(outcomeT)){
 			stop ("It is required to set outcomeT for Poisson (offset) or Binomial (number of trials) outcome.")
 		} else {
 			dataMatrix<-cbind(dataMatrix,outcomeT)	
 		}
 	} else {
-		if(outcomeT!=-999) stop ("It is only required to set outcomeT for Poisson and Binomial outcome.")
+		if(!is.na(outcomeT)) stop ("It is only required to set outcomeT for Poisson and Binomial outcome.")
 	}		
 
 	# print number of subjects
@@ -77,8 +79,6 @@ profRegr<-function(covNames, fixedEffectsNames=-999, outcome="outcome", outcomeT
 	if (nFixedEffects>0){
 		write(t(fixedEffectsNames), fileName,append=T,ncolumns=1)
 	}
-
-	is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
 
 	if (yModel=="Categorical"||yModel=="Bernoulli"){
 		outcomeFactor<-as.factor(dataMatrix[,1])
@@ -113,10 +113,10 @@ profRegr<-function(covNames, fixedEffectsNames=-999, outcome="outcome", outcomeT
 	write(t(dataMatrix), fileName,append=T,ncolumns=dim(dataMatrix)[2])
 
 	# other checks to ensure that there are no errors when calling the program
-	if (xModel!="Discrete"&xModel!="Normal") stop("Error in xModel")
-	if (yModel!="Poisson"&yModel!="Binomial"&yModel!="Bernoulli"&yModel!="Normal"&yModel!="Categorical") stop("Error in yModel")
+	if (xModel!="Discrete"&xModel!="Normal") stop("This xModel is not defined.")
+	if (yModel!="Poisson"&yModel!="Binomial"&yModel!="Bernoulli"&yModel!="Normal"&yModel!="Categorical") stop("This yModel is not defined")
 
-	inputString<-paste("--xModel=",xModel," --yModel=",yModel," --input=",fileName," --output=",output,sep="")
+	inputString<-paste("DiPBaC --input=",fileName," --output=",output," --xModel=",xModel," --yModel=",yModel,sep="")
 
 	if (!missing(alpha)) inputString<-paste(inputString," --alpha=",alpha,sep="")
 	if (!missing(sampler)) inputString<-paste(inputString," --sampler=",sampler,sep="")

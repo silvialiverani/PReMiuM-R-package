@@ -91,7 +91,7 @@ SEXP profRegr(SEXP inputString) {
 	diPBaCSampler.nBurn(options.nBurn());
 	diPBaCSampler.nFilter(options.nFilter());
 	diPBaCSampler.nProgress(options.nProgress());
-	diPBaCSampler.reportBurnIn(false);
+	diPBaCSampler.reportBurnIn(true);
 
 	/* ---------- Read in the data -------- */
 	diPBaCSampler.model().dataset().outcomeType(options.outcomeType());
