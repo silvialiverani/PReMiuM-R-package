@@ -81,10 +81,19 @@ profRegr<-function(covNames, fixedEffectsNames=NA, outcome="outcome", outcomeT=N
 	}
 
 	if (yModel=="Categorical"||yModel=="Bernoulli"){
-		outcomeFactor<-as.factor(dataMatrix[,1])
-		yLevels<-length(levels(outcomeFactor))	
+		outcome<-dataMatrix[,1]
+		outcomeFactor<-as.factor(outcome)
+		yLevels<-length(levels(outcomeFactor))
+		if (yModel=="Bernoulli"&yLevels>2) stop("The number of levels of the outcome is greater than 2, which is not allowed for Bernoulli outcome. You might want to set yModel to be Categorical.") 
 		if (yModel=="Categorical") write(yLevels,fileName,append=T,ncolumns=length(yLevels))
-		if (!(min(outcome)==0&&max(outcome)==(yLevels-1)&&sum(!is.wholenumber(outcome))==0)) {
+		if (is.numeric(outcome)){
+			if (!(min(outcome)==0&&max(outcome)==(yLevels-1)&&sum(!is.wholenumber(outcome))==0)) {
+				print("Recoding of the outcome as follows")
+				print(paste("Replacing level ",yLevels," with ",c(0:(yLevels-1)),sep=""))
+				levels(outcomeFactor)<-c(0:(yLevels-1))
+				dataMatrix[,1]<-outcomeFactor
+			}
+		} else {
 			print("Recoding of the outcome as follows")
 			tmpLevels<-levels(outcomeFactor)
 			print(paste("Replacing level ",levels(outcomeFactor)," with ",c(0:(yLevels-1)),sep=""))
