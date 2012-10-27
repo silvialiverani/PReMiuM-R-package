@@ -823,7 +823,11 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 	}
 	if(!is.null(whichCovariates)){
 		if (!is.numeric(whichCovariates)){
-			
+			whichCovariatesTmp<-vector()
+			for (k in 1:length(whichCovariates)){
+				whichCovariatesTmp[k]<-which(riskProfClusObj$clusObjRunInfoObj$covNames==whichCovariates[k])
+			}
+			whichCovariates<-whichCovariatesTmp
 		}
 		if(xModel=='Discrete'){
 			profile<-profile[,,whichCovariates,]
