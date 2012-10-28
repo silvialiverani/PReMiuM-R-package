@@ -94,6 +94,7 @@ diPBaCOptions processCommandLine(string inputStr){
 			cout << "--predict=<string>" << endl << "\tThe full file path to the file containing prediction" << endl << "\t covariates. (Prediction file not used)" << endl;
 			cout << "--nSweeps=<unsigned int>" << endl << "\tThe number of sweeps (after burn in) to run the" << endl << "\t sampler for (10000)" << endl;
 			cout << "--nBurn=<unsigned int>" << endl << "\tThe number of sweeps in the burn in period (1000)" << endl;
+			cout << "--reportBurnIn=<bool>" << endl << "\tIt enables reporting in the output files of the burn-in period (true)." << endl;
 			cout << "--nProgress=<unsigned int>" << endl << "\tThe number of sweeps at which to print a" << endl << "progress update (500)" << endl;
 			cout << "--nFilter=<unsigned int>" << endl << "\tThe frequency (in sweeps) with which to write" << endl << "\tthe output to file (1)" << endl;
 			cout << "--nClusInit=<unsigned int>" << endl << "\tThe number of clusters individuals should be" << endl << "\tinitially randomly assigned to (Unif[50,60])" << endl;
@@ -136,6 +137,8 @@ diPBaCOptions processCommandLine(string inputStr){
 					string tmpStr = inString.substr(pos,inString.size()-pos);
 					unsigned int nBurn=(unsigned int)atoi(tmpStr.c_str());
 					options.nBurn(nBurn);
+				}else if(inString.find("--reportBurnIn")!=string::npos){
+					options.reportBurnIn(true);
 				}else if(inString.find("--nProgress")!=string::npos){
 					size_t pos = inString.find("=")+1;
 					string tmpStr = inString.substr(pos,inString.size()-pos);
@@ -1596,6 +1599,11 @@ string storeLogFileData(const diPBaCOptions& options,
 		tmpStr << "Compute allocation entropy: True" << endl;
 	}else{
 		tmpStr << "Compute allocation entropy: False" << endl;
+	}
+	if(options.reportBurnIn()){
+		tmpStr << "Report burn in: True" << endl;
+	}else{
+		tmpStr << "Report burn in: False" << endl;
 	}
 
 	tmpStr << "Model for X: " << options.covariateType() << endl;

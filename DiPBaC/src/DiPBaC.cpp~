@@ -22,7 +22,7 @@
 /// for details.
 
 /// The Boost C++ header library, parts of which are included in the  lib directory
-/// is released under the Boost Software Licence, Version 1.0, a copy  of which is
+/// is released under the Boost Software Licence, Version 1.0, a copy of which is
 /// included in the documentation directory.
 
 
@@ -59,7 +59,7 @@ using std::string;
 SEXP profRegr(SEXP inputString) {
 
 	string inputStr = Rcpp::as<string>(inputString);
-cout<<inputStr<<endl;
+
 	/* ---------- Start the timer ------------------*/
 	time_t beginTime,currTime;
 	beginTime = time(NULL);
@@ -91,7 +91,8 @@ cout<<inputStr<<endl;
 	diPBaCSampler.nBurn(options.nBurn());
 	diPBaCSampler.nFilter(options.nFilter());
 	diPBaCSampler.nProgress(options.nProgress());
-	diPBaCSampler.reportBurnIn(true);
+	diPBaCSampler.reportBurnIn(options.reportBurnIn());
+cout<<diPBaCSampler.reportBurnIn()<<endl;
 
 	/* ---------- Read in the data -------- */
 	diPBaCSampler.model().dataset().outcomeType(options.outcomeType());

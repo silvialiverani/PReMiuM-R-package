@@ -22,7 +22,7 @@
 /// for details.
 
 /// The Boost C++ header library, parts of which are included in the  lib directory
-/// is released under the Boost Software Licence, Version 1.0, a copy  of which is
+/// is released under the Boost Software Licence, Version 1.0, a copy of which is
 /// included in the documentation directory.
 
 
@@ -91,7 +91,7 @@ SEXP profRegr(SEXP inputString) {
 	diPBaCSampler.nBurn(options.nBurn());
 	diPBaCSampler.nFilter(options.nFilter());
 	diPBaCSampler.nProgress(options.nProgress());
-	diPBaCSampler.reportBurnIn(true);
+	diPBaCSampler.reportBurnIn(options.reportBurnIn());
 
 	/* ---------- Read in the data -------- */
 	diPBaCSampler.model().dataset().outcomeType(options.outcomeType());

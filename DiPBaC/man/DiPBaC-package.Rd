@@ -41,9 +41,9 @@ inputData<-data.frame(cbind(outcome,Variable1,Variable2,Variable3,Variable4,Vari
 
 profRegr(yModel="Bernoulli", xModel="Discrete", nSweeps=100, nBurn=100, data=inputData, output="output", covNames=c("Variable1","Variable2","Variable3","Variable4","Variable5"))
 
-runInfoObj<-readRunInfo(fileStem="output",directoryPath="output")
+runInfoObj<-readRunInfo(fileStem="output",directoryPath=".")
 dissimObj<-calcDissimilarityMatrix(runInfoObj)
 clusObj<-calcOptimalClustering(dissimObj)
 riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-clusterOrderObj<-plotRiskProfile(riskProfileObj,"output/summary.png",whichCovariates=c(1,2))
+clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",whichCovariates=c(1,2))
 }

@@ -23,7 +23,7 @@
 
 is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
 
-profRegr<-function(covNames, fixedEffectsNames=NA, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY, extraYVar, varSelect, entropy){
+profRegr<-function(covNames, fixedEffectsNames=NA, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY, extraYVar, varSelect, entropy,reportBurnIn=FALSE){
 
 	nCovariates<-length(covNames)
 	
@@ -123,9 +123,11 @@ profRegr<-function(covNames, fixedEffectsNames=NA, outcome="outcome", outcomeT=N
 
 	# other checks to ensure that there are no errors when calling the program
 	if (xModel!="Discrete"&xModel!="Normal") stop("This xModel is not defined.")
-	if (yModel!="Poisson"&yModel!="Binomial"&yModel!="Bernoulli"&yModel!="Normal"&yModel!="Categorical") stop("This yModel is not defined")
+	if (yModel!="Poisson"&yModel!="Binomial"&yModel!="Bernoulli"&yModel!="Normal"&yModel!="Categorical") stop("This yModel is not defined.")
 
 	inputString<-paste("DiPBaC --input=",fileName," --output=",output," --xModel=",xModel," --yModel=",yModel,sep="")
+
+	if (reportBurnIn) inputString<-paste(inputString," --reportBurnIn",sep="")
 
 	if (!missing(alpha)) inputString<-paste(inputString," --alpha=",alpha,sep="")
 	if (!missing(sampler)) inputString<-paste(inputString," --sampler=",sampler,sep="")
@@ -217,7 +219,14 @@ readRunInfo<-function(directoryPath,fileStem='output'){
 	nBurn<-gsub(' ','',nBurn)
 	nBurn<-gsub('\t','',nBurn)
 	nBurn<-as.integer(nBurn)
-	 
+
+	# Whether the burn in iterations are reported
+	reportBurnIn<-runData[grep('Report burn in',runData)]
+	reportBurnIn<-substr(reportBurnIn,regexpr(':',reportBurnIn)+1,nchar(reportBurnIn))
+	reportBurnIn<-gsub(' ','',reportBurnIn)
+	reportBurnIn<-gsub('\t','',reportBurnIn)
+	reportBurnIn<-ifelse(reportBurnIn=="True",TRUE,FALSE)
+	
 	# Output filter
 	nFilter<-runData[grep('Output filter',runData)]
 	nFilter<-substr(nFilter,regexpr(':',nFilter)+1,nchar(nFilter))
@@ -332,6 +341,7 @@ readRunInfo<-function(directoryPath,fileStem='output'){
 		"inputFileName"=inputFileName,
 		"nSweeps"=nSweeps,
 		"nBurn"=nBurn,
+		"reportBurnIn"=reportBurnIn,
 		"nFilter"=nFilter,
 		"nSubjects"=nSubjects,
 		"nPredictSubjects"=nPredictSubjects,
@@ -415,8 +425,8 @@ calcOptimalClustering<-function(disSimObj,maxNClusters=NULL,useLS=F){
 			nClustersFile<-file(nClustersFileName,open="r")
    	
 			# Restrict to sweeps after burn in
-			firstLine<-2+nBurn/nFilter
-			lastLine<-1+(nSweeps+nBurn)/nFilter
+			firstLine<-ifelse(reportBurnIn,nBurn/nFilter+2,1)
+			lastLine<-(nSweeps+ifelse(reportBurnIn,nBurn+1,0))/nFilter
 			maxNClusters<-0
    	
 			for(sweep in firstLine:lastLine){
@@ -558,8 +568,8 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 	}
 	
 	# Restrict to sweeps after burn in
-	firstLine<-2+nBurn/nFilter
-	lastLine<-1+(nSweeps+nBurn)/nFilter
+	firstLine<-ifelse(reportBurnIn,nBurn/nFilter+2,1)
+	lastLine<-(nSweeps+ifelse(reportBurnIn,nBurn+1,0))/nFilter
 	nSamples<-lastLine-firstLine+1
 	
 	# Make a list of the subjects in each of the optimal clusters
@@ -1324,8 +1334,8 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL,doRaoBlackwel
 		cat("Log odds ratio does not make sense for Poisson or Normal response\n")
 	}
 	
-	firstLine<-2+nBurn/nFilter
-	lastLine<-1+(nSweeps+nBurn)/nFilter
+	firstLine<-ifelse(reportBurnIn,nBurn/nFilter+2,1)
+	lastLine<-(nSweeps+ifelse(reportBurnIn,nBurn+1,0))/nFilter
 	nSamples<-lastLine-firstLine+1
 	
 	# First of all we see if there a covariate file has been supplied
@@ -1516,8 +1526,8 @@ computeRatioOfVariance<-function(runInfoObj){
 	epsilonFileName <- file.path(directoryPath,paste(fileStem,'_epsilon.txt',sep=''))
 	
 	# Restrict to sweeps after burn in
-	firstLine<-2+nBurn/nFilter
-	lastLine<-1+(nBurn+nSweeps)/nFilter
+	firstLine<-ifelse(reportBurnIn,nBurn/nFilter+2,1)
+	lastLine<-(nSweeps+ifelse(reportBurnIn,nBurn+1,0))/nFilter
 	
 	ratioOfVariance<-rep(0,length(lastLine-firstLine+1))
 	for(sweep in firstLine:lastLine){
@@ -1547,8 +1557,8 @@ summariseVarSelectRho<-function(runInfoObj){
 	rhoMat<-matrix(scan(rhoFileName,what=double(),quiet=T),ncol=nCovariates,byrow=T)
 	
 	# Restrict to after burn in
-	firstLine<-2+nBurn/nFilter
-	lastLine<-1+(nBurn+nSweeps)/nFilter
+	firstLine<-ifelse(reportBurnIn,nBurn/nFilter+2,1)
+	lastLine<-1+(nSweeps+ifelse(reportBurnIn,nBurn,0))/nFilter
 	
 	rhoMat<-rhoMat[firstLine:lastLine,]
 	

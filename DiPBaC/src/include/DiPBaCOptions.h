@@ -61,10 +61,11 @@ class diPBaCOptions{
 			// MCMC sampler variables
 			_nSweeps=10000;
 			_nBurn=1000;
+			_reportBurnIn=false;
 			_nProgress=500;
 			_nFilter=1;
 			// The default of 0 initial clusters, means a random number between
-			// 5 and 15 is used at initialisation
+			// 50 and 60 is used at initialisation
 			_nClusInit=0;
 
 			// Random number seed
@@ -103,6 +104,16 @@ class diPBaCOptions{
 		/// \brief Set the number of burn in sweeps
 		void nBurn(const unsigned int& nB){
 			_nBurn=nB;
+		}
+
+		/// \brief Return whether the burn in period is reported
+		bool reportBurnIn() const{
+			return _reportBurnIn;
+		}
+
+		/// \brief Sets whether the burn in period is reported
+		void reportBurnIn(const bool& rBI){
+			_reportBurnIn=rBI;
 		}
 
 		/// \brief Return the number of filter sweeps
@@ -285,6 +296,7 @@ class diPBaCOptions{
 			_predictFileName = options.predictFileName();
 			_nSweeps = options.nSweeps();
 			_nBurn = options.nBurn();
+			_reportBurnIn = options.reportBurnIn();
 			_nFilter=options.nFilter();
 			_nProgress=options.nProgress();
 			_nClusInit=options.nClusInit();
@@ -315,6 +327,8 @@ class diPBaCOptions{
 		unsigned int _nSweeps;
 		// The length of burn in
 		unsigned int _nBurn;
+		// Whether to report the burn in period
+		bool _reportBurnIn;
 		// How often the output should be filtered for reporting
 		unsigned int _nFilter;
 		// The number of iterations to print how sampler is progressing
