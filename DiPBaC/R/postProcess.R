@@ -23,7 +23,7 @@
 
 is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
 
-profRegr<-function(covNames, fixedEffectsNames=NA, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY, extraYVar, varSelect, entropy,reportBurnIn=FALSE){
+profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY, extraYVar, varSelect, entropy,reportBurnIn=FALSE){
 
 	nCovariates<-length(covNames)
 	
@@ -48,7 +48,7 @@ profRegr<-function(covNames, fixedEffectsNames=NA, outcome="outcome", outcomeT=N
 	dataMatrix<-cbind(dataMatrix,covariates)
 
 	# fixed effects
-	if (!is.na(fixedEffectsNames)) {
+	if (!missing(fixedEffectsNames)) {
 		nFixedEffects<-length(fixedEffectsNames)
 		FEIndeces<-vector()
 		for (i in 1:nFixedEffects){
@@ -268,6 +268,7 @@ readRunInfo<-function(directoryPath,fileStem='output'){
 	covNames<-inputData[3:(2+nCovariates)]
 
 	xMat<-inputData[(4+nCovariates+nFixedEffects+nExtraRows):length(inputData)]
+	xMat<-gsub("  "," ",xMat)
 	xMat<-matrix(as.numeric(unlist(strsplit(xMat," "))),nrow=nSubjects,byrow=T)
 	yMat<-NULL
 	wMat<-NULL
