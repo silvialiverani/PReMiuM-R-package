@@ -34,6 +34,7 @@ profRegr<-function(covNames, fixedEffectsNames=NA, outcome="outcome", outcomeT=N
 	# make big data matrix with outcome, covariates and fixed effects	
 	# outcome
 	dataMatrix<-data$outcome
+	if (sum(is.na(dataMatrix))>0) stop("ERROR: the outcome cannot have missing values. Use the profiles with missing outcome for predictions.")
 
 	# covariates
 	covIndeces<-vector()
@@ -42,7 +43,9 @@ profRegr<-function(covNames, fixedEffectsNames=NA, outcome="outcome", outcomeT=N
 		if (length(tmpIndex)==0) stop("ERROR: covariate names in data.frame provided do not correspond to list of covariates for profile regression")
 		covIndeces<-append(covIndeces,tmpIndex)
 	}
-	dataMatrix<-cbind(dataMatrix,data[,covIndeces])
+	covariates<-data[,covIndeces]
+	if (sum(is.na(covariates))>0) covariates[is.na(covariates)]<- -999
+	dataMatrix<-cbind(dataMatrix,covariates)
 
 	# fixed effects
 	if (!is.na(fixedEffectsNames)) {
@@ -53,7 +56,9 @@ profRegr<-function(covNames, fixedEffectsNames=NA, outcome="outcome", outcomeT=N
 			if (length(tmpIndex)==0) stop("ERROR: fixed effects names in data.frame provided do not correspond to list of fixed effects for profile regression")
 			FEIndeces<-append(FEIndeces,tmpIndex)
 		}
-		dataMatrix<-cbind(dataMatrix,data[,FEIndeces])
+		fixedEffects<-data[,FEIndeces]
+		if (sum(is.na(fixedEffects))>0) stop("ERROR: fixed effects cannot have missing values. Use an imputation method before using profRegr().")
+		dataMatrix<-cbind(dataMatrix,fixedEffects)
 	} else {
 		nFixedEffects<-0
 	}
@@ -89,7 +94,7 @@ profRegr<-function(covNames, fixedEffectsNames=NA, outcome="outcome", outcomeT=N
 		if (is.numeric(outcome)){
 			if (!(min(outcome)==0&&max(outcome)==(yLevels-1)&&sum(!is.wholenumber(outcome))==0)) {
 				print("Recoding of the outcome as follows")
-				print(paste("Replacing level ",yLevels," with ",c(0:(yLevels-1)),sep=""))
+				print(paste("Replacing level ",levels(outcomeFactor)," with ",c(0:(yLevels-1)),sep=""))
 				levels(outcomeFactor)<-c(0:(yLevels-1))
 				dataMatrix[,1]<-outcomeFactor
 			}
@@ -146,60 +151,6 @@ profRegr<-function(covNames, fixedEffectsNames=NA, outcome="outcome", outcomeT=N
 
 	.Call('profRegr', inputString, PACKAGE = 'DiPBaC')
 }
-
-
-profRegrOld<-function(nCovariates, covNames, nFixedEffects, fixedEffectsNames, xLevels, yLevel, data="./input.txt", output="./output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY, extraYVar, varSelect, entropy){
-	
-	# prepare input file
-	nColsData<-nCovariates+nFixedEffects+1
-	if (yModel=="Poisson"||yModel=="Binomial") nColsData<-nColsData+1
-	fileName<-paste(output,"_input.txt",sep="")
-	dataMatrix<-as.matrix(read.table(data))
-	# print number of subjects
-	write(as.character(dim(dataMatrix)[1]), fileName,ncolumns=1)
-	# print number of covariates and their names
-	# check that the dimension of the data matrix against other inputs given	
-	if (nColsData==dim(dataMatrix)[2]) {
-		write(as.character(nCovariates), fileName,append=T,ncolumns=1)
-	} else {
-		stop("The number of covariates, fixed effects and other columns in data does not match the other inputs.")
-	}
-	write(t(covNames), fileName,append=T,ncolumns=1)
-	# print number of fixed effects and their names
-	if (nFixedEffects>0){
-		write(nFixedEffects, fileName,append=T,ncolumns=1)
-		write(t(fixedEffectsNames), fileName,append=T,ncolumns=1)
-	} else {
-		write(as.character(0), fileName,append=T,ncolumns=1)
-	}
-	if (xModel=="Categorical") write(yLevels,fileName,append=T,ncolumns=length(yLevels))
-	if (xModel=="Discrete") write(xLevels,fileName,append=T,ncolumns=length(xLevels))
-	write(t(dataMatrix), fileName,append=T,ncolumns=nColsData)
-
-	# other checks to ensure that there are no errors when calling the program
-	if (xModel!="Discrete"&xModel!="Continuous") stop("Error in xModel")
-	if (yModel!="Poisson"&yModel!="Binomial"&yModel!="Bernoulli"&yModel!="Normal"&yModel!="Categorical") stop("Error in xModel")
-
-	inputString<-paste("--xModel=",xModel," --yModel=",yModel," --input=",fileName," --output=",output,sep="")
-
-	if (!missing(alpha)) inputString<-paste(inputString," --alpha=",alpha,sep="")
-	if (!missing(sampler)) inputString<-paste(inputString," --sampler=",sampler,sep="")
-	if (!missing(hyper)) inputString<-paste(inputString," --hyper=",hyper,sep="")
-	if (!missing(predict)) inputString<-paste(inputString," --predict=",predict,sep="")
-	if (!missing(nSweeps)) inputString<-paste(inputString," --nSweeps=",nSweeps,sep="")
-	if (!missing(nBurn)) inputString<-paste(inputString," --nBurn=",nBurn,sep="")
-	if (!missing(nProgress)) inputString<-paste(inputString," --nProgress=",nProgress,sep="")
-	if (!missing(nFilter)) inputString<-paste(inputString," --nFilter=",nFilter,sep="")
-	if (!missing(nClusInit)) inputString<-paste(inputString," --nClusInit=",nClusInit,sep="")
-	if (!missing(seed)) inputString<-paste(inputString," --seed=",seed,sep="")
-	if (!missing(excludeY)) inputString<-paste(inputString," --excludeY",sep="")
-	if (!missing(extraYVar)) inputString<-paste(inputString," --extraYVar",sep="")
-	if (!missing(varSelect)) inputString<-paste(inputString," --varSelect=",varSelect,sep="")
-	if (!missing(entropy)) inputString<-paste(inputString," --entropy",sep="")
-
-	.Call('profRegr', inputString, PACKAGE = 'DiPBaC')
-}
-
 
 readRunInfo<-function(directoryPath,fileStem='output'){
 
