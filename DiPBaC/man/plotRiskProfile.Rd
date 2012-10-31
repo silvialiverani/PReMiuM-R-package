@@ -8,13 +8,13 @@ plotRiskProfile(riskProfObj, outFile, showRelativeRisk=F,
     whichCovariates=NULL, useProfileStar=F)
 }
 \arguments{
-\item{riskProfObj}{}
+\item{riskProfObj}{An object of type riskProfObj}
 \item{outFile}{Path and file name to save the plot.}
-\item{showRelativeRisk}{}
-\item{orderBy}{}
-\item{whichClusters}{}
+\item{showRelativeRisk}{Whether to show the relative risk.}
+\item{orderBy}{Order by?}
+\item{whichClusters}{Which clusters to show?}
 \item{whichCovariates}{Optional. Either a vector of indeces or a vector of strings that corresponds to the covariates that are to be displayed. The length of this vector must be greater than 1.}
-\item{useProfileStar}{}
+\item{useProfileStar}{Whether to use Profile Star??}
 }
 \value{
 Need to write this 
@@ -85,5 +85,4 @@ riskProfileObj<-calcAvgRiskAndProfile(clusObj)
 clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
     whichCovariates=c(1,2))
 }
-\keyword{regression}
-
+\keyword{plot}

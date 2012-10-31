@@ -105,5 +105,5 @@ clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
     whichCovariates=c(1,2))
 
 }
-\keyword{regression}
+\keyword{profileRegression}
 

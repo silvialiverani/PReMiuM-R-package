@@ -22,7 +22,7 @@
 # included in the documentation directory.
 
 # Generate simulated data for testing C++ DiPBaC
-generateSampleDataFile<-function(clusterSummary,fileName){
+generateSampleDataFile<-function(clusterSummary){
 
 	subjectsPerCluster<-clusterSummary$clusterSizes
 	nSubjects<-sum(subjectsPerCluster)
@@ -161,41 +161,37 @@ generateSampleDataFile<-function(clusterSummary,fileName){
 	}
 
 	# Write the output
-	write(nSubjects,fileName,append=F)
-	nCovariates<-clusterSummary$nCovariates
-	nFixedEffects<-clusterSummary$nFixedEffects
-	write(nCovariates,fileName,append=T)
 	covNames<-paste('Variable',seq(1,nCovariates,1),sep="")
-	write(covNames,fileName,append=T,ncolumns=1)
-	write(nFixedEffects,fileName,append=T)
 	if(nFixedEffects>0){
 		fixEffNames<-paste('FixedEffects',seq(1,nFixedEffects,1),sep="")
-		write(fixEffNames,fileName,append=T,ncolumns=1)
 	}
-	# write number of categories of Y if categorical outcome
-	if(clusterSummary$outcomeType=="Categorical"){
-		write(nCategoriesY,fileName,append=T)
-	}
-	if(clusterSummary$covariateType=='Discrete'){
-		write(clusterSummary$nCategories,fileName,ncolumns=nCovariates,append=T)
-	}
-	outData<-paste(Y,apply(X,1,paste,collapse=" "))
+	outData<-data.frame(cbind(matrix(Y),X))
+	colnames(outData) <- c("outcome",covNames)
+	out<-list(inputData=outData,covNames=covNames,xModel=covariateType,yModel=outcomeType)
 	if(nFixedEffects>0){
-		outData<-paste(outData,apply(W,1,paste,collapse=" "))
+		outData<-data.frame(cbind(outData,W))
+		colnames(outData) <- c("outcome",covNames,fixEffNames)
+		out$fixedEffectNames <- fixEffNames
 	}
 	if(clusterSummary$outcomeType=="Poisson"){
-		outData<-paste(outData,offset)
+		outData<-data.frame(cbind(outData,offset))
+		out$inputData <- outData
+		colnames(outData) <- c("outcome",covNames,fixEffNames,"outcomeT")
+		out$outcomeT <- "outcomeT"
 	}
 	if(clusterSummary$outcomeType=="Binomial"){
-		outData<-paste(outData,nTrials)
+		outData<-data.frame(cbind(outData,nTrials))
+		out$inputData <- outData	
+		colnames(outData) <- c("outcome",covNames,fixEffNames,"outcomeT")
+		out$outcomeT <- "outcomeT"
 	}
-	write(outData,fileName,append=T,ncolumns=1)
+	return(out)
 }
 
 
 ############################
 # Sample datasets
-clusSummaryCategoricalDiscrete<-list(
+clusSummaryCategoricalDiscrete<-function(){list(
 	'outcomeType'='Categorical',
 	'covariateType'='Discrete',
 	'nCovariates'=5,
@@ -225,8 +221,10 @@ clusSummaryCategoricalDiscrete<-list(
 			c(0.1,0.1,0.8),
 			c(0.1,0.1,0.8),
 			c(0.1,0.1,0.8)))))
+}
 
-clusSummaryBernoulliDiscrete<-list(
+clusSummaryBernoulliDiscrete<-function(){
+	list(
 	'outcomeType'='Bernoulli',
 	'covariateType'='Discrete',
 	'nCovariates'=5,
@@ -235,7 +233,7 @@ clusSummaryBernoulliDiscrete<-list(
 	'fixedEffectsCoeffs'=c(0.1,-0.5),
 	'missingDataProb'=0,
 	'nClusters'=5,
-	'clusterSizes'=c(1000,1000,1000,1000,1000),
+	'clusterSizes'=c(100,100,100,100,100),
 	'clusterData'=list(list('theta'=log(9),
 		'covariateProbs'=list(c(0.8,0.1,0.1),
 			c(0.8,0.1,0.1),
@@ -266,8 +264,10 @@ clusSummaryBernoulliDiscrete<-list(
 			c(0.1,0.1,0.8),
 			c(0.1,0.1,0.8),
 			c(0.1,0.1,0.8)))))
+}
 
-clusSummaryPoissonDiscrete<-list(
+clusSummaryPoissonDiscrete<-function(){
+	list(
 	'outcomeType'='Poisson',
 	'covariateType'='Discrete',
 	'nCovariates'=5,
@@ -308,8 +308,10 @@ clusSummaryPoissonDiscrete<-list(
 			c(0.1,0.1,0.8),
 			c(0.8,0.1,0.1),
 			c(0.1,0.1,0.1,0.7)))))
+}
 
-clusSummaryNormalDiscrete<-list(
+clusSummaryNormalDiscrete<-function(){
+	list(
    'outcomeType'='Normal',
    'covariateType'='Discrete',
    'nCovariates'=5,
@@ -350,8 +352,10 @@ clusSummaryNormalDiscrete<-list(
                                                  c(0.1,0.1,0.8),
                                                  c(0.1,0.1,0.8),
                                                  c(0.1,0.1,0.8)))))
+}
 
-clusSummaryPoissonNormal<-list(
+clusSummaryPoissonNormal<-function(){
+	list(
 	'outcomeType'='Poisson',
 	'covariateType'='Normal',
 	'nCovariates'=2,
@@ -370,8 +374,10 @@ clusSummaryPoissonNormal<-list(
 		list('theta'=log(0.1),
 			'covariateMeans'=c(10,-5),
 			'covariateCovariance'=matrix(c(2,0.7,0.7,1),nrow=2))))
+}
 
-clusSummaryBinomialNormal<-list(
+clusSummaryBinomialNormal<-function(){
+	list(
 	'outcomeType'='Binomial',
 	'covariateType'='Normal',
 	'nCovariates'=2,
@@ -390,9 +396,10 @@ clusSummaryBinomialNormal<-list(
 		list('theta'=log(0.1),
 			'covariateMeans'=c(10,-5),
 			'covariateCovariance'=matrix(c(2,0.7,0.7,1),nrow=2))))
-
+}
 	
-clusSummaryNormalNormal<-list(
+clusSummaryNormalNormal<-function(){
+	list(
 	'outcomeType'='Normal',
 	'covariateType'='Normal',
 	'nCovariates'=2,
@@ -410,9 +417,10 @@ clusSummaryNormalNormal<-list(
 		list('theta'=5,
 			'covariateMeans'=c(10,-5),
 			'covariateCovariance'=matrix(c(2,0.9,0.9,1),nrow=2))))
+}
 
-
-clusSummaryVarSelectBernoulliDiscrete<-list(
+clusSummaryVarSelectBernoulliDiscrete<-function(){
+	list(
 	'outcomeType'='Bernoulli',
 	'covariateType'='Discrete',
 	'nCovariates'=10,
@@ -476,3 +484,4 @@ clusSummaryVarSelectBernoulliDiscrete<-list(
 			c(0.9,0.1),
 			c(0.9,0.1),
 			c(0.1,0.9)))))
+}
