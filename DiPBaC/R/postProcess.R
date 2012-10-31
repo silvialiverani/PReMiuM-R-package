@@ -36,8 +36,32 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	fileName<-paste(output,"_input.txt",sep="")
 	# make big data matrix with outcome, covariates and fixed effects	
 	# outcome
-	dataMatrix<-data$outcome
+	dataMatrix<-data[,which(colnames(data)==outcome)]
+
 	if (sum(is.na(dataMatrix))>0) stop("ERROR: the outcome cannot have missing values. Use the profiles with missing outcome for predictions.")
+
+	# recode outcome covariates
+	if (yModel=="Categorical"||yModel=="Bernoulli"){
+		outcomeY<-dataMatrix
+		outcomeFactor<-as.factor(outcomeY)
+		yLevels<-length(levels(outcomeFactor))
+		if (yModel=="Bernoulli"&yLevels>2) stop("The number of levels of the outcome is greater than 2, which is not allowed for Bernoulli outcome. You might want to set yModel to be Categorical.") 
+		if (yModel=="Categorical") write(yLevels,fileName,append=T,ncolumns=length(yLevels))
+		if (is.numeric(outcomeY)){
+			if (!(min(outcomeY)==0&&max(outcomeY)==(yLevels-1)&&sum(!is.wholenumber(outcomeY))==0)) {
+				print("Recoding of the outcome as follows")
+				print(paste("Replacing level ",levels(outcomeFactor)," with ",c(0:(yLevels-1)),sep=""))
+				levels(outcomeFactor)<-c(0:(yLevels-1))
+				dataMatrix[,1]<-outcomeFactor
+			}
+		} else {
+			print("Recoding of the outcome as follows")
+			tmpLevels<-levels(outcomeFactor)
+			print(paste("Replacing level ",levels(outcomeFactor)," with ",c(0:(yLevels-1)),sep=""))
+			levels(outcomeFactor)<-c(0:(yLevels-1))
+			dataMatrix<-outcomeFactor
+		}
+	}
 
 	# covariates
 	covIndeces<-vector()
@@ -46,9 +70,34 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		if (length(tmpIndex)==0) stop("ERROR: covariate names in data.frame provided do not correspond to list of covariates for profile regression")
 		covIndeces<-append(covIndeces,tmpIndex)
 	}
+
 	covariates<-data[,covIndeces]
-	if (sum(is.na(covariates))>0) covariates[is.na(covariates)]<- -999
 	dataMatrix<-cbind(dataMatrix,covariates)
+
+	# recode covariate levels
+	if (xModel=="Discrete"){
+		xLevels<-vector()
+		for (k in 1:nCovariates){
+			tmpCov<-dataMatrix[,(1+k)]
+			xLevels[k]<-length(levels(as.factor(tmpCov)))	
+			if (!(min(tmpCov,na.rm=TRUE)==0&&max(tmpCov,na.rm=TRUE)==(xLevels[k]-1)&&sum(!is.wholenumber(tmpCov[!is.na(tmpCov)]))==0)) {
+				print(paste("Recoding of covariate number ",colnames(dataMatrix)[k+1]," as follows",sep=""))
+				tmpCovFactor<-as.factor(tmpCov)
+				tmpLevels<-levels(tmpCovFactor)
+				print(paste("Replacing level ",levels(tmpCovFactor)," with ",c(0:(xLevels[k]-1)),sep=""))
+				levels(tmpCovFactor)<-c(0:(xLevels[k]-1))	
+				dataMatrix[,(1+k)]<-tmpCovFactor
+			}
+		}
+	}
+	
+	for (k in 1:nCovariates){
+		missingX<-is.na(dataMatrix[,(k+1)])
+		nMissingX<-sum(missingX)
+		if (nMissingX>0) {
+			dataMatrix[missingX,(k+1)]<- rep(-999,nMissingX)
+		}
+	}
 
 	# fixed effects
 	if (!missing(fixedEffectsNames)) {
@@ -87,45 +136,10 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	if (nFixedEffects>0){
 		write(t(fixedEffectsNames), fileName,append=T,ncolumns=1)
 	}
-
-	if (yModel=="Categorical"||yModel=="Bernoulli"){
-		outcome<-dataMatrix[,1]
-		outcomeFactor<-as.factor(outcome)
-		yLevels<-length(levels(outcomeFactor))
-		if (yModel=="Bernoulli"&yLevels>2) stop("The number of levels of the outcome is greater than 2, which is not allowed for Bernoulli outcome. You might want to set yModel to be Categorical.") 
-		if (yModel=="Categorical") write(yLevels,fileName,append=T,ncolumns=length(yLevels))
-		if (is.numeric(outcome)){
-			if (!(min(outcome)==0&&max(outcome)==(yLevels-1)&&sum(!is.wholenumber(outcome))==0)) {
-				print("Recoding of the outcome as follows")
-				print(paste("Replacing level ",levels(outcomeFactor)," with ",c(0:(yLevels-1)),sep=""))
-				levels(outcomeFactor)<-c(0:(yLevels-1))
-				dataMatrix[,1]<-outcomeFactor
-			}
-		} else {
-			print("Recoding of the outcome as follows")
-			tmpLevels<-levels(outcomeFactor)
-			print(paste("Replacing level ",levels(outcomeFactor)," with ",c(0:(yLevels-1)),sep=""))
-			levels(outcomeFactor)<-c(0:(yLevels-1))
-			dataMatrix[,1]<-outcomeFactor
-		}
-	}
-
 	if (xModel=="Discrete"){
-		xLevels<-vector()
-		for (k in 1:nCovariates){
-			tmpCov<-dataMatrix[,(1+k)]
-			xLevels[k]<-length(levels(as.factor(tmpCov)))	
-			if (!(min(tmpCov)==0&&max(tmpCov)==(xLevels[k]-1)&&sum(!is.wholenumber(tmpCov))==0)) {
-				print(paste("Recoding of covariate number ",colnames(dataMatrix)[k+1]," as follows",sep=""))
-				tmpCovFactor<-as.factor(tmpCov)
-				tmpLevels<-levels(tmpCovFactor)
-				print(paste("Replacing level ",levels(tmpCovFactor)," with ",c(0:(xLevels[k]-1)),sep=""))
-				levels(tmpCovFactor)<-c(0:(xLevels[k]-1))	
-				dataMatrix[,(1+k)]<-tmpCovFactor
-			}
-		}
 		write(xLevels,fileName,append=T,ncolumns=length(xLevels))
 	}
+
 
 	write(t(dataMatrix), fileName,append=T,ncolumns=dim(dataMatrix)[2])
 
