@@ -200,7 +200,6 @@ diPBaCOptions processCommandLine(string inputStr){
 					options.fixedAlpha(alpha);
 				}else if(inString.find("--excludeY")!=string::npos){
 					options.includeResponse(false);
-cout<<"here2 "<<options.includeResponse()<<endl;
 				}else if(inString.find("--extraYVar")!=string::npos){
 					if(options.outcomeType().compare("Normal")!=0){
 						options.responseExtraVar(true);
@@ -699,6 +698,7 @@ void initialiseDiPBaC(baseGeneratorType& rndGenerator,
 	params.workNClusInit(nClusInit);
 	for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
 		int c=(int) nClusInit*unifRand(rndGenerator);
+cout<<c<<endl;
 		params.z(i,c,covariateType);
 		if(c>(int)maxZ){
 			maxZ=c;

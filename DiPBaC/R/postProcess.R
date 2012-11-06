@@ -52,7 +52,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 				print("Recoding of the outcome as follows")
 				print(paste("Replacing level ",levels(outcomeFactor)," with ",c(0:(yLevels-1)),sep=""))
 				levels(outcomeFactor)<-c(0:(yLevels-1))
-				dataMatrix[,1]<-outcomeFactor
+				dataMatrix<-outcomeFactor
 			}
 		} else {
 			print("Recoding of the outcome as follows")
