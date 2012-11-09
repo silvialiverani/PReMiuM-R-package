@@ -140,6 +140,19 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		write(xLevels,fileName,append=T,ncolumns=length(xLevels))
 	}
 
+	# write prediction file
+	if (!missing(predict)) {
+		nPreds<-dim(predict)[1]
+		write(nPreds, paste(output,"_predict.txt",sep=""),ncolumns=1)
+		for (k in 1:nPreds){
+			missingX<-is.na(predict[k,])
+			nMissingX<-sum(missingX)
+			if (nMissingX>0) {
+				predict[k,missingX]<- rep(-999,nMissingX)
+			}
+		}		
+		write(t(as.matrix(predict)), paste(output,"_predict.txt",sep=""),append=T,ncolumns=dim(predict)[2])
+	}
 
 	write(t(dataMatrix), fileName,append=T,ncolumns=dim(dataMatrix)[2])
 
@@ -150,11 +163,10 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	inputString<-paste("DiPBaC --input=",fileName," --output=",output," --xModel=",xModel," --yModel=",yModel,sep="")
 
 	if (reportBurnIn) inputString<-paste(inputString," --reportBurnIn",sep="")
-
 	if (!missing(alpha)) inputString<-paste(inputString," --alpha=",alpha,sep="")
 	if (!missing(sampler)) inputString<-paste(inputString," --sampler=",sampler,sep="")
 	if (!missing(hyper)) inputString<-paste(inputString," --hyper=",hyper,sep="")
-	if (!missing(predict)) inputString<-paste(inputString," --predict=",predict,sep="")
+	if (!missing(predict)) inputString<-paste(inputString," --predict=",paste(output,"_predict.txt",sep=""),sep="")
 	if (!missing(nSweeps)) inputString<-paste(inputString," --nSweeps=",nSweeps,sep="")
 	if (!missing(nBurn)) inputString<-paste(inputString," --nBurn=",nBurn,sep="")
 	if (!missing(nProgress)) inputString<-paste(inputString," --nProgress=",nProgress,sep="")
@@ -459,7 +471,7 @@ calcOptimalClustering<-function(disSimObj,maxNClusters=NULL,useLS=F){
 			clusteringPred<-rep(0,nPredictSubjects)
 			for(i in 1:nPredictSubjects){
 				tmpVec<-disSimMatPred[i,clustMedoids]
-				clusteringPred[i]<-which(tmpVec==min(tmpVec))
+				clusteringPred[i]<-sample(which(tmpVec==min(tmpVec)),1)
 			}
 		}
 	}
@@ -1292,7 +1304,7 @@ plotClustering<-function(clusObj,outFile,clusterPlotOrder=NULL,whichCovariates=N
 	
 	
 # Calculate predictions, and if possible assess predictive performance
-calcPredictions<-function(riskProfObj,predictResponseFileName=NULL,doRaoBlackwell=F,fullSweepPredictions=F,fullSweepLogOR=F){
+calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwell=F, fullSweepPredictions=F,fullSweepLogOR=F){
 	
 	attach(riskProfObj)
 	attach(riskProfClusObj)

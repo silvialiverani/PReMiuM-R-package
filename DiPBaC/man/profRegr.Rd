@@ -18,7 +18,7 @@ profRegr(covNames, fixedEffectsNames, outcome="outcome",
 \item{data}{A data frame which has as columns the outcome, the covariates, the fixed effects if any and the offset (for Poisson outcome) or the number of trials (for Binomial outcome). The outcome cannot have missing values - you could consider predicting the value of the outcome for those subjects for which it has not been observed.}
 \item{output}{Path to folder to save all output files. The covariates can have missing values, which must be coded as 'NA'. There cannot be missing values in the fixed effects - if there are, use an imputation method before using profile regression.}
 \item{hyper}{Path to file with hyperparameters specifications. This is optional: default values are provided for all hyperparameters.}
-\item{predict}{Path to file with predictive scenarios. This is only required if predictions are requested.}
+\item{predict}{Data frame containing the predictive scenarios. See ?calcPredictions for more details. This is only required if predictions are requested.}
 \item{nSweeps}{Number of iterations of the MCMC after the burn-in period. By default this is 1000.}
 \item{nBurn}{Number of initial iterations of the MCMC to be discarded. By default this is 1000.}
 \item{reportBurnIn}{If TRUE then the burn in iterations are reported in the output files, if set to FALSE they are not. It is set to FALSE by default.}
