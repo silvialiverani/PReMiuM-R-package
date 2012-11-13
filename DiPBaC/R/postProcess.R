@@ -345,7 +345,8 @@ readRunInfo<-function(directoryPath,fileStem='output'){
 # matrix
 calcDissimilarityMatrix<-function(runInfoObj){
 
-   attach(runInfoObj)
+   for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
+
    fileName <- file.path(directoryPath,paste(fileStem,'_z.txt',sep=''))
       
    # Call the C++ to compute the dissimilarity matrix
@@ -359,7 +360,6 @@ calcDissimilarityMatrix<-function(runInfoObj){
       disSimMatPred<-disSimMat[(1+(nSubjects*(nSubjects-1)/2)):length(disSimMat)]
       disSimMat<-disSimMat[1:(nSubjects*(nSubjects-1)/2)]
    }   
-   detach(runInfoObj)              
    disSimObj<-list('disSimRunInfoObj'=runInfoObj,'disSimMat'=disSimMat,
                      'disSimMatPred'=disSimMatPred,'lsOptSweep'=lsOptSweep)              
    return(disSimObj)
@@ -369,8 +369,8 @@ calcDissimilarityMatrix<-function(runInfoObj){
 # run partitioning around medoids clustering
 calcOptimalClustering<-function(disSimObj,maxNClusters=NULL,useLS=F){
    
-   attach(disSimObj)
-   attach(disSimRunInfoObj)
+   for (i in 1:length(disSimObj)) assign(names(disSimObj)[i],disSimObj[[i]])
+   for (i in 1:length(disSimRunInfoObj)) assign(names(disSimRunInfoObj)[i],disSimRunInfoObj[[i]])
 
    if(useLS){
       zFileName <- file.path(directoryPath,paste(fileStem,'_z.txt',sep=''))
@@ -476,8 +476,6 @@ calcOptimalClustering<-function(disSimObj,maxNClusters=NULL,useLS=F){
 		}
 	}
 	
-	detach(disSimRunInfoObj)
-	detach(disSimObj)
 	return(list("clusObjRunInfoObj"=disSimObj$disSimRunInfoObj,
 		"clusObjDisSimMat"=disSimObj$disSimMat,
 		"nClusters"=chosenNClusters,
@@ -491,8 +489,8 @@ calcOptimalClustering<-function(disSimObj,maxNClusters=NULL,useLS=F){
 # profile
 calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 
-	attach(clusObj)
-	attach(clusObjRunInfoObj)
+	for (i in 1:length(clusObj)) assign(names(clusObj)[i],clusObj[[i]])
+	for (i in 1:length(clusObjRunInfoObj)) assign(names(clusObjRunInfoObj)[i],clusObjRunInfoObj[[i]])
 	 
 	# Construct the number of clusters file name
 	nClustersFileName<-file.path(directoryPath,paste(fileStem,'_nClusters.txt',sep=''))
@@ -788,9 +786,6 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 		}
 	}
 	
-	detach(clusObjRunInfoObj)
-	detach(clusObj)
-		
 	return(out)
 }
 	
@@ -799,9 +794,9 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 # Plot output values
 plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,whichClusters=NULL,whichCovariates=NULL,useProfileStar=F){
 
-	attach(riskProfObj)
-	attach(riskProfClusObj)
-	attach(clusObjRunInfoObj)
+	for (i in 1:length(riskProfObj)) assign(names(riskProfObj)[i],riskProfObj[[i]])
+	for (i in 1:length(riskProfClusObj)) assign(names(riskProfClusObj)[i],riskProfClusObj[[i]])
+	for (i in 1:length(clusObjRunInfoObj)) assign(names(clusObjRunInfoObj)[i],clusObjRunInfoObj[[i]])
 
 	if(includeResponse){
 		if(yModel=="Normal"){
@@ -1246,18 +1241,15 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 		}
 	}
 	dev.off()
-	detach(clusObjRunInfoObj)
-	detach(riskProfClusObj)
-	detach(riskProfObj)
-	
+
 	return(meanSortIndex)
 	
 }
 	
 plotClustering<-function(clusObj,outFile,clusterPlotOrder=NULL,whichCovariates=NULL){
 	
-	attach(clusObj)
-	attach(clusObjRunInfoObj)
+	for (i in 1:length(clusObj)) assign(names(clusObj)[i],clusObj[[i]])
+	for (i in 1:length(clusObjRunInfoObj)) assign(names(clusObjRunInfoObj)[i],clusObjRunInfoObj[[i]])
 	
 	png(outFile,width=1200,height=800)
 	
@@ -1296,9 +1288,6 @@ plotClustering<-function(clusObj,outFile,clusterPlotOrder=NULL,whichCovariates=N
 	box()
 	dev.off()
 	
-	detach(clusObjRunInfoObj)
-	detach(clusObj)
-	
 	return(list("rawXDist"=d,"rawXprincipalComponents"=principalComp,"rawXIncludeVec"=includeVec))
 }
 	
@@ -1306,9 +1295,9 @@ plotClustering<-function(clusObj,outFile,clusterPlotOrder=NULL,whichCovariates=N
 # Calculate predictions, and if possible assess predictive performance
 calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwell=F, fullSweepPredictions=F,fullSweepLogOR=F){
 	
-	attach(riskProfObj)
-	attach(riskProfClusObj)
-	attach(clusObjRunInfoObj)
+	for (i in 1:length(riskProfObj)) assign(names(riskProfObj)[i],riskProfObj[[i]])
+	for (i in 1:length(riskProfClusObj)) assign(names(riskProfClusObj)[i],riskProfClusObj[[i]])
+	for (i in 1:length(clusObjRunInfoObj)) assign(names(clusObjRunInfoObj)[i],clusObjRunInfoObj[[i]])
 	
 	if(yModel=="Poisson"||yModel=="Normal"){
 		fullSweepLogOR=F
@@ -1321,9 +1310,6 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 	
 	# First of all we see if there a covariate file has been supplied
 	if(nPredictSubjects==0){
-		detach(clusObjRunInfoObj)
-		detach(riskProfClusObj)
-		detach(riskProfObj)
 		stop("No prediction subjects processed by C++\n")
 	}
 	
@@ -1486,9 +1472,6 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 		}
 		output$logORPerSweep<-logORPerSweep
 	}
-	detach(clusObjRunInfoObj)
-	detach(riskProfClusObj)
-	detach(riskProfObj)
 	
 	return(output)
 }
@@ -1496,7 +1479,7 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 # Compute Ratio of variances (for extra variation case)
 computeRatioOfVariance<-function(runInfoObj){
 	
-	attach(runInfoObj)
+	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 	# Construct the number of clusters file name
 	nClustersFileName <- file.path(directoryPath,paste(fileStem,'_nClusters.txt',sep=''))
 	# Construct the allocation file name
@@ -1523,7 +1506,6 @@ computeRatioOfVariance<-function(runInfoObj){
 		ratioOfVariance[sweep-firstLine+1]<-vTheta/(vTheta+vEpsilon)
 		
 	}
-	detach(runInfoObj)
 	return(ratioOfVariance)
 	
 }
@@ -1531,7 +1513,7 @@ computeRatioOfVariance<-function(runInfoObj){
 # Show the continuous hyperparameter for variable selection
 summariseVarSelectRho<-function(runInfoObj){
 	
-	attach(runInfoObj)
+	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 	# Rho file name
 	rhoFileName <- file.path(directoryPath,paste(fileStem,'_rho.txt',sep=''))
 	
@@ -1549,7 +1531,6 @@ summariseVarSelectRho<-function(runInfoObj){
 	rhoUpperCI<-apply(rhoMat,2,quantile,0.95)
 	
 	output<-list("rho"=rhoMat,"rhoMean"=rhoMean,"rhoMedian"=rhoMedian,"rhoLowerCI"=rhoLowerCI,"rhoUpperCI"=rhoUpperCI)
-	detach(runInfoObj)
 	return(output)
 }
 	
@@ -1557,7 +1538,7 @@ summariseVarSelectRho<-function(runInfoObj){
 # For a particular clustering, show the cluster values of a separate variable
 computeAssociatedVariable<-function(subjectValues,clusObj,clusterPlotOrder,latexFile=NULL){
 	
-	attach(clusObj)
+	for (i in 1:length(clusObj)) assign(names(clusObj)[i],clusObj[[i]])
 	outData<-data.frame('cluster'=rep(0,nClusters),'Mean'=rep(NA,nClusters),
 		'SD'=rep(NA,nClusters),'Q1'=rep(NA,nClusters),
 		'Med'=rep(NA,nClusters),'Q3'=rep(NA,nClusters))
@@ -1582,7 +1563,6 @@ computeAssociatedVariable<-function(subjectValues,clusObj,clusterPlotOrder,latex
 		}
 		write(outStr,file=latexFile,append=F)
 	}
-	detach(clusObj)
 	return(outData)
 }
 	
