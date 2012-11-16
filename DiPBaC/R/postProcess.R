@@ -87,10 +87,11 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 				print(paste("Replacing level ",levels(tmpCovFactor)," with ",c(0:(xLevels[k]-1)),sep=""))
 				levels(tmpCovFactor)<-c(0:(xLevels[k]-1))	
 				dataMatrix[,(1+k)]<-tmpCovFactor
+				dataMatrix[,(1+k)]<-as.numeric(levels(dataMatrix[,(1+k)]))[as.integer(dataMatrix[,(1+k)])]
 			}
 		}
 	}
-	
+
 	for (k in 1:nCovariates){
 		missingX<-is.na(dataMatrix[,(k+1)])
 		nMissingX<-sum(missingX)
