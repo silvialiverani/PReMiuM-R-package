@@ -8,7 +8,7 @@ profRegr(covNames, fixedEffectsNames, outcome="outcome",
         nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, 
         nClusInit, seed, yModel="Bernoulli", xModel="Discrete", 
         sampler="SliceDependent", alpha=-1, excludeY, 
-        extraYVar, varSelect, entropy,reportBurnIn=FALSE)
+        extraYVar, varSelectType, entropy,reportBurnIn=FALSE)
 }
 \arguments{
 \item{covNames}{A vector of strings of the covariate names as by the column names in the data argument.}
@@ -32,7 +32,7 @@ profRegr(covNames, fixedEffectsNames, outcome="outcome",
 \item{alpha}{The value to be used if alpha is to remain fixed. If a negative value is used then alpha is updated. The default value is -1.}
 \item{excludeY}{If included only the covariate data X is modelled. By default this is not included.}
 \item{extraYVar}{If included extra Gaussian variance is included in the response model. By default the extra Gaussian variance is not included.}
-\item{varSelect}{The type of variable selection to be used "None", "BinaryCluster" or "Continuous".  The default value is "None".}
+\item{varSelectType}{The type of variable selection to be used "None", "BinaryCluster" or "Continuous".  The default value is "None".}
 \item{entropy}{If included then we compute allocation entropy. By default the allocation entropy is not included.}
 }
 \value{

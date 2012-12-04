@@ -23,7 +23,7 @@
 
 is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
 
-profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY, extraYVar, varSelect, entropy,reportBurnIn=FALSE){
+profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY, extraYVar, varSelectType="None", entropy,reportBurnIn=FALSE){
 
 	# suppress scientific notation
 	options(scipen=999)
@@ -61,6 +61,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 			levels(outcomeFactor)<-c(0:(yLevels-1))
 			dataMatrix<-outcomeFactor
 		}
+	} else {
+		yLevels <- 0
 	}
 
 	# covariates
@@ -90,6 +92,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 				dataMatrix[,(1+k)]<-as.numeric(levels(dataMatrix[,(1+k)]))[as.integer(dataMatrix[,(1+k)])]
 			}
 		}
+	} else {
+		xLevels <- 0
 	}
 
 	for (k in 1:nCovariates){
@@ -128,7 +132,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	}		
 
 	# print number of subjects
-	write(as.character(dim(dataMatrix)[1]), fileName,ncolumns=1)
+	nSubjects <- dim(dataMatrix)[1]
+	write(as.character(nSubjects), fileName,ncolumns=1)
 	# print number of covariates and their names
 	write(as.character(nCovariates),fileName,append=T,ncolumns=1)
 	write(t(covNames), fileName,append=T,ncolumns=1)
@@ -153,6 +158,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 			}
 		}		
 		write(t(as.matrix(predict)), paste(output,"_predict.txt",sep=""),append=T,ncolumns=dim(predict)[2])
+	} else {
+		nPreds<-0
 	}
 
 	write(t(dataMatrix), fileName,append=T,ncolumns=dim(dataMatrix)[2])
@@ -161,7 +168,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	if (xModel!="Discrete"&xModel!="Normal") stop("This xModel is not defined.")
 	if (yModel!="Poisson"&yModel!="Binomial"&yModel!="Bernoulli"&yModel!="Normal"&yModel!="Categorical") stop("This yModel is not defined.")
 
-	inputString<-paste("DiPBaC --input=",fileName," --output=",output," --xModel=",xModel," --yModel=",yModel,sep="")
+	inputString<-paste("DiPBaC --input=",fileName," --output=",output," --xModel=",xModel," --yModel=",yModel," --varSelect=",varSelectType,sep="")
 
 	if (reportBurnIn) inputString<-paste(inputString," --reportBurnIn",sep="")
 	if (!missing(alpha)) inputString<-paste(inputString," --alpha=",alpha,sep="")
@@ -176,170 +183,76 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	if (!missing(seed)) inputString<-paste(inputString," --seed=",seed,sep="")
 	if (!missing(excludeY)) inputString<-paste(inputString," --excludeY",sep="")
 	if (!missing(extraYVar)) inputString<-paste(inputString," --extraYVar",sep="")
-	if (!missing(varSelect)) inputString<-paste(inputString," --varSelect=",varSelect,sep="")
 	if (!missing(entropy)) inputString<-paste(inputString," --entropy",sep="")
 
 	.Call('profRegr', inputString, PACKAGE = 'DiPBaC')
-}
 
-readRunInfo<-function(directoryPath,fileStem='output'){
-
-	# Read the number of sweeps, the length of burn in and filter from the log file
-	runData<-readLines(file.path(directoryPath,paste(fileStem,'_log.txt',sep='')))
-
-	# Number of sweeps
-	nSweeps<-runData[grep('Number of sweeps',runData)]
-	nSweeps<-substr(nSweeps,regexpr(':',nSweeps)+1,nchar(nSweeps))
-	nSweeps<-gsub(' ','',nSweeps)
-	nSweeps<-gsub('\t','',nSweeps)
-	nSweeps<-as.integer(nSweeps)
- 
-	# Length of burn in
-	nBurn<-runData[grep('Burn in sweeps',runData)]
-	nBurn<-substr(nBurn,regexpr(':',nBurn)+1,nchar(nBurn))
-	nBurn<-gsub(' ','',nBurn)
-	nBurn<-gsub('\t','',nBurn)
-	nBurn<-as.integer(nBurn)
-
-	# Whether the burn in iterations are reported
-	reportBurnIn<-runData[grep('Report burn in',runData)]
-	reportBurnIn<-substr(reportBurnIn,regexpr(':',reportBurnIn)+1,nchar(reportBurnIn))
-	reportBurnIn<-gsub(' ','',reportBurnIn)
-	reportBurnIn<-gsub('\t','',reportBurnIn)
-	reportBurnIn<-ifelse(reportBurnIn=="True",TRUE,FALSE)
-	
-	# Output filter
-	nFilter<-runData[grep('Output filter',runData)]
-	nFilter<-substr(nFilter,regexpr(':',nFilter)+1,nchar(nFilter))
-	nFilter<-gsub(' ','',nFilter)
-	nFilter<-gsub('\t','',nFilter)
-	nFilter<-as.integer(nFilter)
-	 
-	# Number of subjects
-	nSubjects<-runData[grep('Number of subjects',runData)]
-	nSubjects<-substr(nSubjects,regexpr(':',nSubjects)+1,nchar(nSubjects))
-	nSubjects<-gsub(' ','',nSubjects)
-	nSubjects<-gsub('\t','',nSubjects)	
-	nSubjects<-as.integer(nSubjects)
- 
-	# Number of prediction subjects
-	nPredictSubjects<-runData[grep('Number of prediction subjects',runData)]
-	if(length(nPredictSubjects)==0){
-		# This is for legacy runs
-		nPredictSubjects<-0
-	}else{
-		nPredictSubjects<-substr(nPredictSubjects,regexpr(':',nPredictSubjects)+1,
-		nchar(nPredictSubjects))
-		nPredictSubjects<-gsub(' ','',nPredictSubjects)
-		nPredictSubjects<-gsub('\t','',nPredictSubjects)
-		nPredictSubjects<-as.integer(nPredictSubjects)
+	# define directory path and fileStem
+	outputSplit <- strsplit(output,split="/")
+	fileStem <- tail(outputSplit[[1]],1)
+	if (length(outputSplit[[1]])>1) {
+		directoryPath <- paste(head(outputSplit[[1]],-1),collapse="/")
+	} else {
+		directoryPath <-"."
 	}
 	
-	# Model for X
-	xModel<-as.character(runData[grep('Model for X',runData)])
-	xModel<-substr(xModel,regexpr(':',xModel)+1,nchar(xModel))
-	xModel<-gsub(' ','',xModel)
-	xModel<-gsub('\t','',xModel)
-
-	if(length(grep('Include response: False',runData))>0){
-		includeResponse<-F
-		yModel<-NULL
-		readNCategoriesY<-as.character(runData[grep('Model for Y',runData)])
-	}else{
-		includeResponse<-T
-		# Model for Y
-		yModel<-as.character(runData[grep('Model for Y',runData)])
-		yModel<-substr(yModel,regexpr(':',yModel)+1,nchar(yModel))
-		yModel<-gsub(' ','',yModel)
-		yModel<-gsub('\t','',yModel)
-		readNCategoriesY<-yModel
+	# other re-writes for function return
+	# include response
+	if (!missing(excludeY)) {
+		includeResponse <- FALSE
+		yModel <- NULL
+	} else {
+		includeResponse <- TRUE
 	}
-	
-	# Variable selection type
-	if(length(grep("Variable selection",runData))==0){
-		varSelect<-F
-		varSelectType<-NULL
-	}else{
-		if(length(grep('Variable selection: None',runData))>0){
-			varSelect<-F
-			varSelectType<-NULL
-		}else{
-			varSelect<-T
-			varSelectType<-as.character(runData[grep('Variable selection',runData)])
-			varSelectType<-substr(varSelectType,regexpr(':',varSelectType)+1,nchar(varSelectType))
-			varSelectType<-gsub(' ','',varSelectType)
-			varSelectType<-gsub('\t','',varSelectType)
-		}
+	# var select and var select type
+	if (varSelectType=="None") {
+		varSelect <- FALSE
+		varSelType <- NULL
+	} else {
+		varSelect <- TRUE
+		varSelType <- varSelectType
 	}
-	# Input data file name
-	inputFileName<-runData[grep('Data file path',runData)]
-	inputFileName<-substr(inputFileName,regexpr(':',inputFileName)+1,nchar(inputFileName))
-	inputFileName<-gsub(' ','',inputFileName)
-	inputFileName<-gsub('\t','',inputFileName)
-
-	# Get covariate and fixed effect information
-	inputData<-readLines(inputFileName)
-	inputData<-gsub("\t"," ",inputData)
-	nCovariates<-as.integer(inputData[2])
-	nFixedEffects<-as.integer(inputData[3+nCovariates])
-	nExtraRows<-0   
-	nCategoriesY<-1
-	if ((includeResponse && yModel=='Categorical')||readNCategoriesY=="Categorical"){
-		nCategoriesY<-as.integer(inputData[(4+nCovariates+nFixedEffects)])
-		nExtraRows<-nExtraRows+1
-	}
-  	nCategories<-NULL
-	if(xModel=='Discrete'){
-		nCategories<-inputData[(4+nCovariates+nFixedEffects+nExtraRows)]
-		nCategories<-as.integer(unlist(strsplit(nCategories," ")))
-		nExtraRows<-nExtraRows+1
-	}
-	# Covariate names
-	covNames<-inputData[3:(2+nCovariates)]
-
-	xMat<-inputData[(4+nCovariates+nFixedEffects+nExtraRows):length(inputData)]
-	xMat<-gsub("  "," ",xMat)
-	xMat<-matrix(as.numeric(unlist(strsplit(xMat," "))),nrow=nSubjects,byrow=T)
-	yMat<-NULL
-	wMat<-NULL
+	# covariate matrix
+	xMat <- dataMatrix[,2:(nCovariates+1)]
+	# outcome and fixed effect matrix
+	yMat <- NULL
+	wMat <- NULL
 	if(includeResponse){
-		yMat<-matrix(xMat[,1],ncol=1)
+		yMat<-dataMatrix[,1]
 		if(yModel=='Poisson'){
-			offset<-xMat[,ncol(xMat)]
+			offset<-dataMatrix[,ncol(dataMatrix)]
 			yMat<-cbind(yMat,offset)
 		}else if(yModel=='Binomial'){
-			nTrials<-xMat[,ncol(xMat)]
+			nTrials<-dataMatrix[,ncol(dataMatrix)]
 			yMat<-cbind(yMat,nTrials)
 		}
-	
 		if(nFixedEffects>0){
-			wMat<-as.matrix(xMat[,(2+nCovariates):(1+nCovariates+nFixedEffects)])
+			wMat<-dataMatrix[,(2+nCovariates):(1+nCovariates+nFixedEffects)]
 		}
 	}
-	xMat<-matrix(xMat[,2:(nCovariates+1)],nrow=nSubjects)
-	
+
 	return(list("directoryPath"=directoryPath,
 		"fileStem"=fileStem,
-		"inputFileName"=inputFileName,
+		"inputFileName"=fileName,
 		"nSweeps"=nSweeps,
 		"nBurn"=nBurn,
 		"reportBurnIn"=reportBurnIn,
 		"nFilter"=nFilter,
 		"nSubjects"=nSubjects,
-		"nPredictSubjects"=nPredictSubjects,
+		"nPredictSubjects"=nPreds,
 		"covNames"=covNames,
 		"xModel"=xModel,
 		"includeResponse"=includeResponse,
 		"yModel"=yModel,
 		"varSelect"=varSelect,
-		"varSelectType"=varSelectType,
+		"varSelectType"=varSelType,
 		"nCovariates"=nCovariates,
 		"nFixedEffects"=nFixedEffects,
-		"nCategoriesY"=nCategoriesY,
-		"nCategories"=nCategories,
+		"nCategoriesY"=yLevels,
+		"nCategories"=xLevels,
 		"xMat"=xMat,"yMat"=yMat,"wMat"=wMat))
-
 }
+
 
 
 # Function to take the output from the C++ run and return an average dissimilarity
@@ -349,7 +262,7 @@ calcDissimilarityMatrix<-function(runInfoObj){
    for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 
    fileName <- file.path(directoryPath,paste(fileStem,'_z.txt',sep=''))
-      
+    
    # Call the C++ to compute the dissimilarity matrix
    disSimList<-.Call('calcDisSimMat',fileName,nSweeps,nBurn,nFilter,nSubjects,
                        nPredictSubjects, PACKAGE = 'DiPBaC')
@@ -374,6 +287,7 @@ calcOptimalClustering<-function(disSimObj,maxNClusters=NULL,useLS=F){
    for (i in 1:length(disSimRunInfoObj)) assign(names(disSimRunInfoObj)[i],disSimRunInfoObj[[i]])
 
    if(useLS){
+      # maniupulation for least squares method, but computation has been done in previous function
       zFileName <- file.path(directoryPath,paste(fileStem,'_z.txt',sep=''))
       zFile<-file(zFileName,open="r")
             

@@ -77,7 +77,9 @@ SEXP calcDisSimMat(SEXP fileName, SEXP nSweeps, SEXP nBurn, SEXP nFilter,SEXP nS
 			}
     	}
     }
-
+	
+    // Computing the optimal partition for least squares method 
+    // Could make these steps optional as only relevant for R option useLS=T
     // Cheaper (for large datasets) to re-read everything in again, instead
     // of storing things
     zFile.seekg(0,std::ios::beg);
