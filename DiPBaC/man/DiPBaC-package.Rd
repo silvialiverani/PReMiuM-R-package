@@ -81,12 +81,11 @@ for (i in 1:200){
 
 inputData<-data.frame(cbind(outcome,X,fe1,fe2))
 
-profRegr(yModel="Bernoulli", xModel="Discrete", nSweeps=100, 
+runInfoObj<-profRegr(yModel="Bernoulli", xModel="Discrete", nSweeps=100, 
     nBurn=100, data=inputData, output="output", 
     covNames=c("Var1","Var2","Var3","Var4","Var5"),
     fixedEffectsNames=c("fe1","fe2"))
 
-runInfoObj<-readRunInfo(fileStem="output",directoryPath=".")
 dissimObj<-calcDissimilarityMatrix(runInfoObj)
 clusObj<-calcOptimalClustering(dissimObj)
 riskProfileObj<-calcAvgRiskAndProfile(clusObj)

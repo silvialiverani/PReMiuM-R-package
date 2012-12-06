@@ -20,11 +20,10 @@ Need to write this
 
 generateDataList <- clusSummaryBernoulliDiscrete()
 inputs <- generateSampleDataFile(generateDataList)
-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, nSweeps=100, 
+runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, nSweeps=100, 
     nBurn=100, data=inputs$inputData, output="output", 
     covNames=inputs$covNames)
 
-runInfoObj<-readRunInfo(fileStem="output",directoryPath=".")
 dissimObj<-calcDissimilarityMatrix(runInfoObj)
 clusObj<-calcOptimalClustering(dissimObj)
 riskProfileObj<-calcAvgRiskAndProfile(clusObj)

@@ -23,7 +23,7 @@
 
 is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
 
-profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY, extraYVar, varSelectType="None", entropy,reportBurnIn=FALSE){
+profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY, extraYVar, varSelectType="None", entropy,reportBurnIn=FALSE,run=TRUE){
 
 	# suppress scientific notation
 	options(scipen=999)
@@ -61,8 +61,9 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 			levels(outcomeFactor)<-c(0:(yLevels-1))
 			dataMatrix<-outcomeFactor
 		}
+		if (yModel=="Bernoulli") yLevels <- 1
 	} else {
-		yLevels <- 0
+		yLevels <- 1
 	}
 
 	# covariates
@@ -93,7 +94,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 			}
 		}
 	} else {
-		xLevels <- 0
+		xLevels <- 1
 	}
 
 	for (k in 1:nCovariates){
@@ -185,7 +186,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	if (!missing(extraYVar)) inputString<-paste(inputString," --extraYVar",sep="")
 	if (!missing(entropy)) inputString<-paste(inputString," --entropy",sep="")
 
-	.Call('profRegr', inputString, PACKAGE = 'DiPBaC')
+	if (run) .Call('profRegr', inputString, PACKAGE = 'DiPBaC')
 
 	# define directory path and fileStem
 	outputSplit <- strsplit(output,split="/")
@@ -218,7 +219,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	yMat <- NULL
 	wMat <- NULL
 	if(includeResponse){
-		yMat<-dataMatrix[,1]
+		yMat<-matrix(dataMatrix[,1],ncol=1)
 		if(yModel=='Poisson'){
 			offset<-dataMatrix[,ncol(dataMatrix)]
 			yMat<-cbind(yMat,offset)
@@ -262,9 +263,15 @@ calcDissimilarityMatrix<-function(runInfoObj){
    for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 
    fileName <- file.path(directoryPath,paste(fileStem,'_z.txt',sep=''))
-    
+ 	   
+   if (reportBurnIn) {
+	recordedNBurn<-nBurn
+    } else {
+	recordedNBurn<-1
+    }
+
    # Call the C++ to compute the dissimilarity matrix
-   disSimList<-.Call('calcDisSimMat',fileName,nSweeps,nBurn,nFilter,nSubjects,
+   disSimList<-.Call('calcDisSimMat',fileName,nSweeps,recordedNBurn,nFilter,nSubjects,
                        nPredictSubjects, PACKAGE = 'DiPBaC')
 
    disSimMat<-disSimList$disSimMat
@@ -519,13 +526,12 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 		if(sweep-firstLine==0||(sweep-firstLine+1)%%1000==0){
 			cat(paste("Processing sweep",sweep-firstLine+1,"of ",lastLine-firstLine+1,"\n"))
 		}
-	
 		currMaxNClusters<-scan(nClustersFile,what=integer(),skip=skipVal,n=1,quiet=T)
 	
 		# Get the current allocation data for this sweep
 		currZ<-scan(zFile,what=integer(),skip=skipVal,n=nSubjects+nPredictSubjects,quiet=T)
 		currZ<-1+currZ
-	
+
 		if(includeResponse){
 			# Get the risk data corresponding to this sweep
 			if (yModel=="Categorical") {
@@ -656,7 +662,6 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 		}
 	}
 	
-	
 	# Calculate the empiricals
 	empiricals<-rep(0,nClusters)
 	if(!is.null(yModel)){
@@ -712,6 +717,8 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 	for (i in 1:length(riskProfObj)) assign(names(riskProfObj)[i],riskProfObj[[i]])
 	for (i in 1:length(riskProfClusObj)) assign(names(riskProfClusObj)[i],riskProfClusObj[[i]])
 	for (i in 1:length(clusObjRunInfoObj)) assign(names(clusObjRunInfoObj)[i],clusObjRunInfoObj[[i]])
+
+	if (nClusters==1) stop("Cannot produce plots because only one cluster has been found.")
 
 	if(includeResponse){
 		if(yModel=="Normal"){
@@ -1156,9 +1163,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 		}
 	}
 	dev.off()
-
 	return(meanSortIndex)
-	
 }
 	
 plotClustering<-function(clusObj,outFile,clusterPlotOrder=NULL,whichCovariates=NULL){
@@ -1202,7 +1207,7 @@ plotClustering<-function(clusObj,outFile,clusterPlotOrder=NULL,whichCovariates=N
 	legend("topleft",legend=1:nClusters,pch=1:nClusters,col=1:nClusters,bg="white")
 	box()
 	dev.off()
-	
+
 	return(list("rawXDist"=d,"rawXprincipalComponents"=principalComp,"rawXIncludeVec"=includeVec))
 }
 	
@@ -1445,8 +1450,8 @@ summariseVarSelectRho<-function(runInfoObj){
 	rhoLowerCI<-apply(rhoMat,2,quantile,0.05)
 	rhoUpperCI<-apply(rhoMat,2,quantile,0.95)
 	
-	output<-list("rho"=rhoMat,"rhoMean"=rhoMean,"rhoMedian"=rhoMedian,"rhoLowerCI"=rhoLowerCI,"rhoUpperCI"=rhoUpperCI)
-	return(output)
+	return(list("rho"=rhoMat,"rhoMean"=rhoMean,"rhoMedian"=rhoMedian,"rhoLowerCI"=rhoLowerCI,"rhoUpperCI"=rhoUpperCI))
+	
 }
 	
 	
@@ -1493,7 +1498,7 @@ compareClustering<-function(riskProfileObjA,riskProfileObjB,clusterOrder=NULL){
 	riskMeansB<-apply(riskProfileObjB$risk,2,mean)
 	nSubjects<-runInfoObjA$nSubjects
 	if(runInfoObjB$nSubjects!=nSubjects){
-		exit("Number of subjects not the same in comparison")
+		stop("Number of subjects not the same in comparison")
 	}
 	
 	optSimObjA<-matrix(0,nSubjects,nSubjects)

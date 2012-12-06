@@ -8,7 +8,8 @@ profRegr(covNames, fixedEffectsNames, outcome="outcome",
         nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, 
         nClusInit, seed, yModel="Bernoulli", xModel="Discrete", 
         sampler="SliceDependent", alpha=-1, excludeY, 
-        extraYVar, varSelectType, entropy,reportBurnIn=FALSE)
+        extraYVar, varSelectType, entropy,reportBurnIn=FALSE,
+        run=TRUE)
 }
 \arguments{
 \item{covNames}{A vector of strings of the covariate names as by the column names in the data argument.}
@@ -34,10 +35,32 @@ profRegr(covNames, fixedEffectsNames, outcome="outcome",
 \item{extraYVar}{If included extra Gaussian variance is included in the response model. By default the extra Gaussian variance is not included.}
 \item{varSelectType}{The type of variable selection to be used "None", "BinaryCluster" or "Continuous".  The default value is "None".}
 \item{entropy}{If included then we compute allocation entropy. By default the allocation entropy is not included.}
+\item{run}{Logical. If TRUE then the MCMC is run. Set run=FALSE if the MCMC has been run already and it is only required to collect information about the run.}
 }
 \value{
-Need to write this 
-\item{none}{it creates files outside}
+It returns a number of files in the output directory as well as a list with the following elements.
+\item{directoryPath}{String. Directory path of the output files.}
+\item{fileStem}{String. The }
+\item{inputFileName}{String. Location and file name of input dataset as created by this function for the C++ routines}
+\item{nSweeps}{Integer. The number of sweeps of the MCMC after the burn-in.}
+\item{nBurn}{Integer. The number of iterations in the burn-in period of the MCMC.}
+\item{reportBurnIn}{Logical. Whether the output of the burn-in report should be included.}
+\item{nFilter}{Integer. The frequency (in sweeps) with which to write the output to file. The default value is 1.}
+\item{nSubjects}{Integer. The number of subjects.}
+\item{nPredictSubjects}{Integer. The number of subjects for which to run predictions.}
+\item{covNames}{A vector of strings with the names of the covariates.}
+\item{xModel}{String. The model type for the covariates.}
+\item{includeResponse}{Logical. If FALSE only the covariate data X is modelled.}
+\item{yModel}{String. The model type for the outcome.}
+\item{varSelect}{Logical. If FALSE no variable selection is performed.}
+\item{varSelectType}{String. It specifies what type of variable selection has been performed, if any.} 
+\item{nCovariates}{Integer. The number of covariates.}
+\item{nFixedEffects}{Integer. The number of fixed effects.}
+\item{nCategoriesY}{Integer. The number of categories of the outcome, if yModel = "Categorical". It is 1 otherwise.}
+\item{nCategories}{Vector of integers. The number of categories of each covariate, if xModel = "Discrete". It is 1 otherwise.}
+\item{xMat}{A matrix of the covariate data.}
+\item{yMat}{A matrix of the outcome data, including the offset if the outcome is Poisson and the number of trials if the outcome is Binomial.}
+\item{wMat}{A matrix of the fixed effect data.}
 }
 \author{David Hastie and Silvia Liverani}
 \examples{
@@ -92,12 +115,11 @@ for (i in 1:200){
 
 inputData<-data.frame(cbind(outcome,X,fe1,fe2))
 
-profRegr(yModel="Bernoulli", xModel="Discrete", nSweeps=100, 
-    nBurn=100, data=inputData, output="output", 
+runInfoObj<-profRegr(yModel="Bernoulli", xModel="Discrete", 
+    nSweeps=100, nBurn=100, data=inputData, output="output", 
     covNames=c("Var1","Var2","Var3","Var4","Var5"),
     fixedEffectsNames=c("fe1","fe2"))
 
-runInfoObj<-readRunInfo(fileStem="output",directoryPath=".")
 dissimObj<-calcDissimilarityMatrix(runInfoObj)
 clusObj<-calcOptimalClustering(dissimObj)
 riskProfileObj<-calcAvgRiskAndProfile(clusObj)

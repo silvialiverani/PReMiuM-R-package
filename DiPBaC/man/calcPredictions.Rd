@@ -75,12 +75,11 @@ preds<-data.frame(matrix(c(0, 0, 1, 0, 0,
 colnames(preds)<-names(inputs$inputData)[-1]
 
 # run profiel regression
-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, nSweeps=100, 
-	nBurn=1000, data=inputs$inputData, output="output", 
-	covNames=inputs$covNames,predict=preds)
+runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+    nSweeps=100, nBurn=1000, data=inputs$inputData, output="output", 
+    covNames=inputs$covNames,predict=preds)
 
 # postprocessing
-runInfoObj<-readRunInfo(fileStem="output",directoryPath=".")
 dissimObj<-calcDissimilarityMatrix(runInfoObj)
 clusObj<-calcOptimalClustering(dissimObj)
 riskProfileObj<-calcAvgRiskAndProfile(clusObj)
