@@ -12,8 +12,8 @@ Dirichlet Process Bayesian Clustering and functions for the post-processing of i
 \tabular{ll}{
 Package: \tab DiPBaC\cr
 Type: \tab Package\cr
-Version: \tab 2.0.2\cr
-Date: \tab 2012-10-23\cr
+Version: \tab 2.0.10\cr
+Date: \tab 2012-12-13\cr
 License: \tab What license is it under?\cr
 LazyLoad: \tab yes\cr
 }

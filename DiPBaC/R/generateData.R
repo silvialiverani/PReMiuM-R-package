@@ -26,8 +26,12 @@ generateSampleDataFile<-function(clusterSummary){
 
 	subjectsPerCluster<-clusterSummary$clusterSizes
 	nSubjects<-sum(subjectsPerCluster)
-	nCovariates<-clusterSummary$nCovariates
 	covariateType<-clusterSummary$covariateType
+	nCovariates<-clusterSummary$nCovariates
+	if (covariateType=="Mixed"){
+		nDiscreteCovariates<-clusterSummary$nDiscreteCovariates
+		nContinuousCovariates<-clusterSummary$nContinuousCovariates
+	}
 	missingDataProb<-clusterSummary$missingDataProb
 	nFixedEffects<-clusterSummary$nFixedEffects
 	nCategoriesY<-clusterSummary$nCategoriesY
@@ -67,6 +71,27 @@ generateSampleDataFile<-function(clusterSummary){
 		}else if(covariateType=='Normal'){
 			X[i,]<-clusterData$covariateMeans+t(chol(clusterData$covariateCovariance))%*%rnorm(nCovariates,0,1)
 			for(j in 1:nCovariates){
+				if(i>1&&runif(1)<missingDataProb){
+					X[i,j]<--999
+				}
+			}
+		}else if(covariateType=='Mixed'){
+			for(j in 1:nDiscreteCovariates){
+				if(i>1&&runif(1)<missingDataProb){
+					X[i,j]<--999
+				}else{
+					u<-runif(1)
+					nCategories<-length(clusterData$covariateProbs[[j]])
+					for(kk in 1:nCategories){
+						if(u<cumsum(clusterData$covariateProbs[[j]])[kk]){
+							X[i,j]<-kk-1
+							break
+						}
+					}
+				}
+			}
+			X[i,(nDiscreteCovariates+1):nCovariates]<-clusterData$covariateMeans+t(chol(clusterData$covariateCovariance))%*%rnorm(nContinuousCovariates,0,1)
+			for(j in 1:nContinuousCovariates){
 				if(i>1&&runif(1)<missingDataProb){
 					X[i,j]<--999
 				}
@@ -157,7 +182,7 @@ generateSampleDataFile<-function(clusterSummary){
 			p[1]<-1/sumMu
 			for (kk in 2:nCategoriesY) p[kk]<-exp(mu[kk])/sumMu
 			Y[i]<-which(rmultinom(1,1,p)==1)-1
-      }
+		}
 	}
 
 	# Write the output
@@ -488,3 +513,37 @@ clusSummaryVarSelectBernoulliDiscrete<-function(){
 			c(0.9,0.1),
 			c(0.1,0.9)))))
 }
+
+clusSummaryBernoulliMixed<-function(){
+	list(
+	'outcomeType'='Bernoulli',
+	'covariateType'='Mixed',
+	'nCovariates'=5,
+	'nDiscreteCovariates'=3,
+	'nContinuousCovariates'=2,
+	'nCategories'=c(3,3,3,3,3),
+	'nFixedEffects'=0,
+	'missingDataProb'=0,
+	'nClusters'=5,
+	'clusterSizes'=c(300,300,300),
+	'clusterData'=list(list('theta'=log(9),
+		'covariateProbs'=list(c(0.8,0.1,0.1),
+			c(0.8,0.1,0.1),
+			c(0.8,0.1,0.1)),
+			'covariateMeans'=c(0,2),
+			'covariateCovariance'=matrix(c(0.5,0,0,3),nrow=2)),
+		list('theta'=log(2),
+		'covariateProbs'=list(c(0.8,0.1,0.1),
+			c(0.8,0.1,0.1),
+			c(0.1,0.8,0.1)),
+			'covariateMeans'=c(0,2),
+			'covariateCovariance'=matrix(c(0.5,0,0,3),nrow=2)),
+		list('theta'=log(1/9),
+		'covariateProbs'=list(c(0.1,0.1,0.8),
+			c(0.1,0.1,0.8),
+			c(0.1,0.1,0.8)),
+			'covariateMeans'=c(0,2),
+			'covariateCovariance'=matrix(c(0.5,0,0,3),nrow=2))))
+}
+
+			
