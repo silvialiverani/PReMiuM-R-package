@@ -122,7 +122,20 @@ SEXP profRegr(SEXP inputString) {
 		// Update for the active Sigma parameters
 		diPBaCSampler.addProposal("gibbsForTauActive",1.0,1,1,&gibbsForTauActive);
 
+	}else if(options.covariateType().compare("Mixed")==0){
+		// For discrete X data we do a mixture of Categorical and ordinal updates
+		//  Update for the active phi parameters
+		diPBaCSampler.addProposal("updateForPhiActive",1.0,1,1,&updateForPhiActive);
+
+		// Need to add the proposals for the normal case
+		// Update for the active mu parameters
+		diPBaCSampler.addProposal("gibbsForMuActive",1.0,1,1,&gibbsForMuActive);
+
+		// Update for the active Sigma parameters
+		diPBaCSampler.addProposal("gibbsForTauActive",1.0,1,1,&gibbsForTauActive);
+
 	}
+
 
 	if(options.varSelectType().compare("None")!=0){
 		// Add the variable selection moves
@@ -162,6 +175,19 @@ SEXP profRegr(SEXP inputString) {
 		diPBaCSampler.addProposal("gibbsForPhiInActive",1.0,1,1,&gibbsForPhiInActive);
 
 	}else if(options.covariateType().compare("Normal")==0){
+		// Need to add the proposals for the normal case
+		// Update for the active mu parameters
+		diPBaCSampler.addProposal("gibbsForMuInActive",1.0,1,1,&gibbsForMuInActive);
+
+		// Update for the active Sigma parameters
+		diPBaCSampler.addProposal("gibbsForTauInActive",1.0,1,1,&gibbsForTauInActive);
+
+	}else if(options.covariateType().compare("Mixed")==0){
+
+		// For discrete X data we do a mixture of Categorical and ordinal updates
+		//  Update for the inactive phi parameters
+		diPBaCSampler.addProposal("gibbsForPhiInActive",1.0,1,1,&gibbsForPhiInActive);
+
 		// Need to add the proposals for the normal case
 		// Update for the active mu parameters
 		diPBaCSampler.addProposal("gibbsForMuInActive",1.0,1,1,&gibbsForMuInActive);
@@ -239,13 +265,14 @@ SEXP profRegr(SEXP inputString) {
 
 	/* -- End the clock time and write the full run details to log file --*/
 	currTime = time(NULL);
-    double timeInSecs=(double)currTime-(double)beginTime;
+    	double timeInSecs=(double)currTime-(double)beginTime;
 	string tmpStr = storeLogFileData(options,dataset,hyperParams,nClusInit,maxNClusters,timeInSecs);
 	diPBaCSampler.appendToLogFile(tmpStr);
 
 
 	/* ---------- Clean Up ---------------- */
 	diPBaCSampler.closeOutputFiles();
+
 	int err = 0;
 	return Rcpp::wrap(0);
 // alternative output

@@ -80,11 +80,41 @@ class diPBaCData{
 			return _nCovariates;
 		}
 
-
 		/// \brief Set the number of covariates
 		void nCovariates(const unsigned int& nCov){
 			_nCovariates = nCov;
 		}
+
+		/// \brief Return the number of discrete covariates
+		unsigned int nDiscreteCovs() const{
+			return _nDiscreteCovs;
+		}
+
+		/// \brief Return the number of discrete covariates
+		unsigned int& nDiscreteCovs(){
+			return _nDiscreteCovs;
+		}
+
+		/// \brief Set the number of discrete covariates
+		void nDiscreteCovs(const unsigned int& nDiscrCovs){
+			_nDiscreteCovs = nDiscrCovs;
+		}
+		/// \brief Return the number of continuous covariates
+		unsigned int nContinuousCovs() const{
+			return _nContinuousCovs;
+		}
+
+		/// \brief Return the number of continuous covariates
+		unsigned int& nContinuousCovs(){
+			return _nContinuousCovs;
+		}
+
+
+		/// \brief Set the number of continuous covariates
+		void nContinuousCovs(const unsigned int& nContCovs){
+			_nContinuousCovs = nContCovs;
+		}
+
 
 		/// \brief Return the number of fixed effectss
 		unsigned int nFixedEffects() const{
@@ -331,13 +361,13 @@ class diPBaCData{
 		}
 
 		/// \brief Return the number of covariates not missing for subject i
-		unsigned int nCovariatesNotMissing(const unsigned int& i) const{
-			return _nCovariatesNotMissing[i];
+		unsigned int nContinuousCovariatesNotMissing(const unsigned int& i) const{
+			return _nContinuousCovariatesNotMissing[i];
 		}
 
 		/// \brief Return the number of covariates not missing for each subject
-		vector<unsigned int>& nCovariatesNotMissing(){
-			return _nCovariatesNotMissing;
+		vector<unsigned int>& nContinuousCovariatesNotMissing(){
+			return _nContinuousCovariatesNotMissing;
 		}
 
 		/// \brief Return the fixed effects matrix
@@ -393,6 +423,12 @@ class diPBaCData{
 		/// \brief The number of covariates
 		unsigned int _nCovariates;
 
+		/// \brief The number of discrete covariates
+		unsigned int _nDiscreteCovs;
+
+		/// \brief The number of continuous covariates
+		unsigned int _nContinuousCovs;
+
 		/// \brief The number of fixed effects covariates
 		unsigned int _nFixedEffects;
 
@@ -437,7 +473,7 @@ class diPBaCData{
 		vector<vector<bool> > _missingX;
 
 		/// \brief A matrix of the number of non missing covariates for each subject
-		vector<unsigned int> _nCovariatesNotMissing;
+		vector<unsigned int> _nContinuousCovariatesNotMissing;
 
 		/// \brief A matrix of the fixed effects covariates
 		/// \note This may need to changed to be signed or double

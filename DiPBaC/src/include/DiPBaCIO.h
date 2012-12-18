@@ -100,7 +100,7 @@ diPBaCOptions processCommandLine(string inputStr){
 			cout << "--nClusInit=<unsigned int>" << endl << "\tThe number of clusters individuals should be" << endl << "\tinitially randomly assigned to (Unif[50,60])" << endl;
 			cout << "--seed=<unsigned int>" << endl << "\tThe value for the seed for the random number" << endl << "\tgenerator (current time)" << endl;
 			cout << "--yModel=<string>" << endl << "\tThe model type for the outcome variable. Options are" << endl << "\tcurrently 'Bernoulli','Poisson','Binomial', 'Categorical' and 'Normal' (Bernoulli)" << endl;
-			cout << "--xModel=<string>" << endl << "\tThe model type for the covariates. Options are" << endl << "\tcurrently 'Discrete' and 'Normal' (Discrete)" << endl;
+			cout << "--xModel=<string>" << endl << "\tThe model type for the covariates. Options are" << endl << "\tcurrently 'Discrete', 'Normal' and 'Mixed' (Discrete)" << endl;
 			cout << "--sampler=<string>" << endl << "\tThe sampler type to be used. Options are" << endl << "\tcurrently 'SliceDependent', 'SliceIndependent' and 'Truncated' (SliceDependent)" << endl;
 			cout << "--alpha=<double>" << endl << "\tThe value to be used if alpha is to remain fixed." << endl << "\tIf a negative value is used then alpha is updated (-1)" << endl;
 			cout << "--excludeY" << endl << "\tIf included only the covariate data X is modelled (not included)" << endl;
@@ -177,7 +177,7 @@ diPBaCOptions processCommandLine(string inputStr){
 				}else if(inString.find("--xModel")!=string::npos){
 					size_t pos = inString.find("=")+1;
 					string covariateType = inString.substr(pos,inString.size()-pos);
-					if(covariateType.compare("Discrete")!=0&&covariateType.compare("Normal")!=0){
+					if(covariateType.compare("Discrete")!=0&&covariateType.compare("Normal")!=0&&covariateType.compare("Mixed")!=0){
 						// Illegal covariate type entered
 						wasError=true;
 						break;
@@ -258,6 +258,8 @@ void importDiPBaCData(const string& fitFilename,const string& predictFilename,di
 	}
 	unsigned int& nSubjects=dataset.nSubjects();
 	unsigned int& nCovariates=dataset.nCovariates();
+	unsigned int& nDiscreteCovs=dataset.nDiscreteCovs();
+	unsigned int& nContinuousCovs=dataset.nContinuousCovs();
 	unsigned int& nFixedEffects=dataset.nFixedEffects();
 	unsigned int& nCategoriesY=dataset.nCategoriesY();
 	unsigned int& nPredictSubjects=dataset.nPredictSubjects();
@@ -268,7 +270,7 @@ void importDiPBaCData(const string& fitFilename,const string& predictFilename,di
 	vector<vector<double> >& continuousX=dataset.continuousX();
 	vector<string>& covNames=dataset.covariateNames();
 	vector<vector<bool> >& missingX=dataset.missingX();
-	vector<unsigned int>& nCovariatesNotMissing=dataset.nCovariatesNotMissing();
+	vector<unsigned int>& nContinuousCovariatesNotMissing=dataset.nContinuousCovariatesNotMissing();
 	vector<vector<double> >& W=dataset.W();
 	vector<string>& confNames=dataset.fixedEffectNames();
 	string outcomeType = dataset.outcomeType();
@@ -276,11 +278,30 @@ void importDiPBaCData(const string& fitFilename,const string& predictFilename,di
 	vector<double>& logOffset=dataset.logOffset();
 	vector<unsigned int>& nTrials=dataset.nTrials();
 
+	bool wasError=false;
+
 	// Get the number of subjects
 	inputFile >> nSubjects;
 	// Get the number of covariates
 	inputFile >> nCovariates;
 	covNames.resize(nCovariates);
+	if(covariateType.compare("Mixed")==0){
+		inputFile >> nDiscreteCovs;
+		inputFile >> nContinuousCovs;
+		if(nDiscreteCovs+nContinuousCovs!=nCovariates){
+				cout << "Illegal number of covariates, discrete covariates or continuous covariates" <<endl;
+				// Illegal number of covariates, discrete covariates or continuous covariates
+				wasError=true;
+		}
+		if(nDiscreteCovs==0 || nContinuousCovs==0){
+				cout << "If xModel=Mixed a positive number of discrete and continuous covariates must be provided " <<endl;
+				// Illegal number of discrete covariates or continuous covariates
+				wasError=true;
+		}
+	} else {
+		nDiscreteCovs = 0;
+		nContinuousCovs = 0;
+	}
 	for(unsigned int i=0;i<nCovariates;i++){
 		inputFile >> covNames[i];
 	}
@@ -309,6 +330,13 @@ void importDiPBaCData(const string& fitFilename,const string& predictFilename,di
 		for(unsigned int j=0;j<nCovariates;j++){
 			nCategories[j]=0;
 		}
+	}else if(covariateType.compare("Mixed")==0){
+		for(unsigned int j=0;j<nDiscreteCovs;j++){
+			inputFile >> nCategories[j];
+		}
+		for(unsigned int j=nDiscreteCovs;j<nCovariates;j++){
+			nCategories[j]=0;
+		}
 	}
 
 	if(predictFile.is_open()){
@@ -328,7 +356,7 @@ void importDiPBaCData(const string& fitFilename,const string& predictFilename,di
 		nTrials.resize(nSubjects);
 	}
 	missingX.resize(nSubjects+nPredictSubjects);
-	nCovariatesNotMissing.resize(nSubjects+nPredictSubjects);
+	nContinuousCovariatesNotMissing.resize(nSubjects+nPredictSubjects);
 	vector<double> meanX(nCovariates,0);
 	vector<unsigned int> nXNotMissing(nCovariates,0);
 	for(unsigned int i=0;i<nSubjects;i++){
@@ -337,8 +365,13 @@ void importDiPBaCData(const string& fitFilename,const string& predictFilename,di
 		}else{
 			inputFile >> discreteY[i];
 		}
-		discreteX[i].resize(nCovariates);
-		continuousX[i].resize(nCovariates);
+		if(covariateType.compare("Discrete")==0 || covariateType.compare("Normal")==0){
+			discreteX[i].resize(nCovariates);
+			continuousX[i].resize(nCovariates);
+		} else if(covariateType.compare("Mixed")==0){
+			discreteX[i].resize(nDiscreteCovs);
+			continuousX[i].resize(nContinuousCovs);
+		}
 		missingX[i].resize(nCovariates);
 		for(unsigned int j=0;j<nCovariates;j++){
 			missingX[i][j]=true;
@@ -346,7 +379,6 @@ void importDiPBaCData(const string& fitFilename,const string& predictFilename,di
 				inputFile >> discreteX[i][j];
 				// -999 is missing data indicator
 				if(discreteX[i][j]!=-999){
-					nCovariatesNotMissing[i]++;
 					meanX[j]+=(double)discreteX[i][j];
 					nXNotMissing[j]+=1;
 					missingX[i][j]=false;
@@ -355,13 +387,29 @@ void importDiPBaCData(const string& fitFilename,const string& predictFilename,di
 				inputFile >> continuousX[i][j];
 				// -999 is missing data indicator
 				if(fabs(continuousX[i][j]+999)>0.00000000001){
-					nCovariatesNotMissing[i]++;
+					nContinuousCovariatesNotMissing[i]++;
 					meanX[j]+=continuousX[i][j];
 					nXNotMissing[j]+=1;
 					missingX[i][j]=false;
 				}
+			}else if(covariateType.compare("Mixed")==0){
+				if (j < nDiscreteCovs) {
+					inputFile >> discreteX[i][j];
+					if(discreteX[i][j]!=-999){
+						meanX[j]+=(double)discreteX[i][j];
+						nXNotMissing[j]+=1;
+						missingX[i][j]=false;
+					}
+				} else {
+					inputFile >> continuousX[i][j-nDiscreteCovs];
+					if(fabs(continuousX[i][j-nDiscreteCovs]+999)>0.00000000001){
+						nContinuousCovariatesNotMissing[i]++;
+						meanX[j]+=continuousX[i][j-nDiscreteCovs];
+						nXNotMissing[j]+=1;
+						missingX[i][j]=false;
+					}
+				}
 			}
-
 		}
 		W[i].resize(nFixedEffects);
 		for(unsigned int j=0;j<nFixedEffects;j++){
@@ -378,8 +426,13 @@ void importDiPBaCData(const string& fitFilename,const string& predictFilename,di
 	}
 
 	for(unsigned int i=nSubjects;i<nSubjects+nPredictSubjects;i++){
-		discreteX[i].resize(nCovariates);
-		continuousX[i].resize(nCovariates);
+		if(covariateType.compare("Discrete")==0 || covariateType.compare("Normal")==0){
+			discreteX[i].resize(nCovariates);
+			continuousX[i].resize(nCovariates);
+		} else if(covariateType.compare("Mixed")==0){
+			discreteX[i].resize(nDiscreteCovs);
+			continuousX[i].resize(nContinuousCovs);
+		}
 		missingX[i].resize(nCovariates);
 		for(unsigned int j=0;j<nCovariates;j++){
 			missingX[i][j]=true;
@@ -387,18 +440,29 @@ void importDiPBaCData(const string& fitFilename,const string& predictFilename,di
 				predictFile >> discreteX[i][j];
 				// -999 is missing data indicator
 				if(discreteX[i][j]!=-999){
-					nCovariatesNotMissing[i]++;
 					missingX[i][j]=false;
 				}
 			}else if(covariateType.compare("Normal")==0){
 				predictFile >> continuousX[i][j];
 				// -999 is missing data indicator
 				if(fabs(continuousX[i][j]+999)>0.00000000001){
-					nCovariatesNotMissing[i]++;
+					nContinuousCovariatesNotMissing[i]++;
 					missingX[i][j]=false;
 				}
+			}else if(covariateType.compare("Mixed")==0){
+				if (j < nDiscreteCovs) {
+					predictFile >> discreteX[i][j];
+					if(discreteX[i][j]!=-999){
+						missingX[i][j]=false;
+					}
+				} else {
+					predictFile >> continuousX[i][j-nDiscreteCovs];
+					if(fabs(continuousX[i][j-nDiscreteCovs]+999)>0.00000000001){
+						nContinuousCovariatesNotMissing[i]++;
+						missingX[i][j]=false;
+					}
+				}
 			}
-
 		}
 	}
 
@@ -415,6 +479,12 @@ void importDiPBaCData(const string& fitFilename,const string& predictFilename,di
 					discreteX[i][j]=(int)meanX[j];
 				}else if(covariateType.compare("Normal")==0){
 					continuousX[i][j]=meanX[j];
+				}else if(covariateType.compare("Mixed")==0){
+					if (j < nDiscreteCovs) {
+						discreteX[i][j]=(int)meanX[j];
+					} else {
+						continuousX[i][j-nDiscreteCovs]=meanX[j];
+					}
 				}
 			}
 		}
@@ -424,6 +494,15 @@ void importDiPBaCData(const string& fitFilename,const string& predictFilename,di
 	if(predictFile.is_open()){
 		predictFile.close();
 	}
+
+	// Return if there was an error
+	if(wasError){
+		cout << "Please use:" << endl;
+		cout << "\t profileRegression --help" << endl;
+		cout << "to get help on correct usage." << endl;
+		exit(-1);
+	}
+
 }
 
 // Function to read the hyper parameters from file
@@ -624,6 +703,8 @@ void initialiseDiPBaC(baseGeneratorType& rndGenerator,
 
 	unsigned int nSubjects=dataset.nSubjects();
 	unsigned int nCovariates=dataset.nCovariates();
+	unsigned int nDiscreteCovs=dataset.nDiscreteCovs();
+	unsigned int nContinuousCovs=dataset.nContinuousCovs();
 	unsigned int nFixedEffects=dataset.nFixedEffects();
 	unsigned int nCategoriesY=dataset.nCategoriesY();
 	unsigned int nPredictSubjects=dataset.nPredictSubjects();
@@ -640,7 +721,8 @@ void initialiseDiPBaC(baseGeneratorType& rndGenerator,
 	nCategories = dataset.nCategories();
 
 	// Set the hyper parameters to their default values
-	hyperParams.setSizes(nCovariates,covariateType);
+	hyperParams.setSizes(nCovariates,nDiscreteCovs,
+			nContinuousCovs,covariateType);
 	hyperParams.setDefaults(dataset,options);
 	// Read the parameters from file if file provided
 	if(hyperParamFileName.compare("")!=0){
@@ -650,7 +732,7 @@ void initialiseDiPBaC(baseGeneratorType& rndGenerator,
 	// Allocate the right sizes for each of the parameter variables
 	// This also switches "on" all variable indicators (gamma)
 	// This gets changed below if variable selection is being done
-	params.setSizes(nSubjects,nCovariates,nFixedEffects,nCategoriesY,nPredictSubjects,nCategories,nClusInit,covariateType);
+	params.setSizes(nSubjects,nCovariates,nDiscreteCovs,nContinuousCovs,nFixedEffects,nCategoriesY,nPredictSubjects,nCategories,nClusInit,covariateType);
 	unsigned int maxNClusters=params.maxNClusters();
 
 	// Fix the number of clusters if we are using the truncated sampler
@@ -952,6 +1034,144 @@ void initialiseDiPBaC(baseGeneratorType& rndGenerator,
 			params.nullMu(nullMu);
 		}
 
+	}else if(covariateType.compare("Mixed")==0){
+		// Sample logPhi
+		// Need to count the number of X[i][j]==p for each covariate and category of p
+		vector<vector<unsigned int> > nXpMembers(nDiscreteCovs);
+		for(unsigned int j=0;j<nDiscreteCovs;j++){
+			nXpMembers[j].resize(nCategories[j]);
+			for(unsigned int p=0;p<nCategories[j];p++){
+				nXpMembers[j][p]=0;
+				for(unsigned int i=0;i<nSubjects;i++){
+					if(dataset.discreteX(i,j)==(int)p&&!dataset.missingX(i,j)){
+						nXpMembers[j][p]++;
+					}
+				}
+			}
+		}
+
+		// Now we can sample. We don't use the priors, but instead look at the number
+		// of people in each category and do a dirichlet sample that takes account of that
+		normal_distribution<double> norm01(0.0,1.0);
+		for(unsigned int c=0;c<maxNClusters;c++){
+			for(unsigned int j=0;j<nDiscreteCovs;j++){
+				vector<double> dirichParams(nCategories[j]);
+				for(unsigned int p=0;p<nCategories[j];p++){
+					dirichParams[p]=(double)nXpMembers[j][p]+hyperParams.aPhi(j);
+				}
+				vector<double> logDirichSample(nCategories[j]);
+				vector<double> dirichSample(nCategories[j]);
+				dirichSample=dirichletRand(rndGenerator,dirichParams);
+				for(unsigned int p=0;p<nCategories[j];p++){
+					logDirichSample[p]=log(dirichSample[p]);
+				}
+				params.logPhi(c,j,logDirichSample);
+			}
+		}
+		// Initialise the null parameters for the variable selection case
+		// In all cases, initialise it at the value it will be fixed at for
+		// the continuous indicator case
+		if(varSelectType.compare("None")!=0){
+			for(unsigned int j=0;j<nDiscreteCovs;j++){
+				double sumVec=0.0;
+				vector<double> probVec(nCategories[j],0.0000001);
+				for(unsigned int p=0;p<nCategories[j];p++){
+					probVec[p]+=(double)(nXpMembers[j][p]);
+					sumVec+=(double)nXpMembers[j][p];
+				}
+				vector<double> logProbVec(nCategories[j]);
+				for(unsigned int p=0;p<nCategories[j];p++){
+					logProbVec[p]=log(probVec[p]/sumVec);
+				}
+				params.logNullPhi(j,logProbVec);
+			}
+		}
+
+		// In the following it is useful to have the rows of X as
+		// Eigen dynamic vectors
+		vector<VectorXd> xi(nSubjects);
+		for(unsigned int i=0;i<nSubjects;i++){
+			xi[i].setZero(nContinuousCovs);
+			for(unsigned int j=0;j<nContinuousCovs;j++){
+				xi[i](j)=dataset.continuousX(i,j);
+			}
+		}
+
+		// Now we can sample from the conditionals (using Sigma_c=Sigma_0 and
+		// mu_c=mu_0 for all c) to get mu_c and Sigma_c for each cluster
+
+		// First we sample mu_c for each cluster
+
+		// We begin by computing the mean X for individuals in each cluster
+		vector<VectorXd> meanX(maxNClusters);
+		for(unsigned int c=0;c<maxNClusters;c++){
+			meanX[c].setZero(nContinuousCovs);
+		}
+		for(unsigned int i=0;i<nSubjects;i++){
+			meanX[params.z(i)]=meanX[params.z(i)]+xi[i];
+		}
+
+		for(unsigned int c=0;c<maxNClusters;c++){
+			// Having computed this we can calcuate the posterior mean
+			// and posterior covariance for each mu_c
+			if(params.workNXInCluster(c)>0){
+				meanX[c]=meanX[c]/(double)params.workNXInCluster(c);
+			}else{
+				meanX[c].setZero(nContinuousCovs);
+			}
+			MatrixXd covMat(nContinuousCovs,nContinuousCovs);
+			covMat = (hyperParams.Tau0()+params.workNXInCluster(c)*hyperParams.Tau0()).inverse();
+			VectorXd meanVec(nContinuousCovs);
+			meanVec = hyperParams.Tau0()*hyperParams.mu0()+params.workNXInCluster(c)*hyperParams.Tau0()*meanX[c];
+			meanVec = covMat*meanVec;
+
+			VectorXd mu(nContinuousCovs);
+			// We sample from this posterior
+			mu = multivarNormalRand(rndGenerator,meanVec,covMat);
+
+			// We store our sample
+			params.mu(c,mu);
+
+		}
+
+		// Now we can sample Tau_c for each cluster
+		vector<MatrixXd> Rc(maxNClusters);
+		for(unsigned int c=0;c<maxNClusters;c++){
+			Rc[c].setZero(nContinuousCovs,nContinuousCovs);
+		}
+
+		for(unsigned int i=0;i<nSubjects;i++){
+			unsigned int zi = params.z(i);
+			Rc[zi]=Rc[zi]+(xi[i]-params.mu(zi))*((xi[i]-params.mu(zi)).transpose());
+		}
+
+		for(unsigned int c=0;c<maxNClusters;c++){
+			Rc[c]=(hyperParams.R0().inverse()+Rc[c]).inverse();
+			MatrixXd Tau = wishartRand(rndGenerator,Rc[c],params.workNXInCluster(c)+hyperParams.kappa0());
+			params.Tau(c,Tau);
+		}
+
+		// Now do the null mu for variable selection
+		// In all cases, initialise it at the value it will be fixed at for
+		// the continuous indicator case
+		if(varSelectType.compare("None")!=0){
+			vector<double> meanXVec(nContinuousCovs,0.0);
+			vector<unsigned int> countXVec(nContinuousCovs,0);
+			for(unsigned int i=0;i<nSubjects;i++){
+				for(unsigned int j=0;j<nContinuousCovs;j++){
+					if(!dataset.missingX(i,j)){
+						meanXVec[j]+=dataset.continuousX(i,j);
+						countXVec[j]+=1;
+					}
+				}
+			}
+			VectorXd nullMu=VectorXd::Zero(nContinuousCovs);
+			for(unsigned int j=0;j<nContinuousCovs;j++){
+				nullMu(j)=meanXVec[j]/(double)countXVec[j];
+			}
+			params.nullMu(nullMu);
+		}
+
 
 	}
 
@@ -1080,6 +1300,8 @@ void writeDiPBaCOutput(mcmcSampler<diPBaCParams,diPBaCOptions,diPBaCPropParams,d
 		unsigned int nPredictSubjects = params.nPredictSubjects();
 		unsigned int maxNClusters = params.maxNClusters();
 		unsigned int nCovariates = params.nCovariates();
+		unsigned int nDiscreteCovs=params.nDiscreteCovs();
+		unsigned int nContinuousCovs=params.nContinuousCovs();
 		unsigned int nCategoriesY = params.nCategoriesY();
 		string covariateType = sampler.model().dataset().covariateType();
 		bool includeResponse = sampler.model().options().includeResponse();
@@ -1094,7 +1316,7 @@ void writeDiPBaCOutput(mcmcSampler<diPBaCParams,diPBaCOptions,diPBaCPropParams,d
 		diPBaCPropParams& proposalParams = sampler.proposalParams();
 
 		vector<unsigned int> nCategories;
-		if(covariateType.compare("Discrete")==0){
+		if(covariateType.compare("Discrete")==0||covariateType.compare("Mixed")==0){
 			nCategories = params.nCategories();
 		}
 
@@ -1109,6 +1331,13 @@ void writeDiPBaCOutput(mcmcSampler<diPBaCParams,diPBaCOptions,diPBaCPropParams,d
 				fileName = fileStem + "_phi.txt";
 				outFiles.push_back(new ofstream(fileName.c_str()));
 			}else if(covariateType.compare("Normal")==0){
+				fileName = fileStem + "_mu.txt";
+				outFiles.push_back(new ofstream(fileName.c_str()));
+				fileName = fileStem + "_Sigma.txt";
+				outFiles.push_back(new ofstream(fileName.c_str()));
+			}else if(covariateType.compare("Mixed")==0){
+				fileName = fileStem + "_phi.txt";
+				outFiles.push_back(new ofstream(fileName.c_str()));
 				fileName = fileStem + "_mu.txt";
 				outFiles.push_back(new ofstream(fileName.c_str()));
 				fileName = fileStem + "_Sigma.txt";
@@ -1168,10 +1397,14 @@ void writeDiPBaCOutput(mcmcSampler<diPBaCParams,diPBaCOptions,diPBaCPropParams,d
 				if(covariateType.compare("Discrete")==0){
 					fileName = fileStem + "_nullPhi.txt";
 					outFiles.push_back(new ofstream(fileName.c_str()));
-				}else{
+				}else if(covariateType.compare("Normal")==0){
 					fileName = fileStem + "_nullMu.txt";
 					outFiles.push_back(new ofstream(fileName.c_str()));
-
+				}else if(covariateType.compare("Mixed")==0){
+					fileName = fileStem + "_nullPhi.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+					fileName = fileStem + "_nullMu.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
 				}
 			}
 		}
@@ -1190,6 +1423,10 @@ void writeDiPBaCOutput(mcmcSampler<diPBaCParams,diPBaCOptions,diPBaCPropParams,d
 		if(covariateType.compare("Discrete")==0){
 			phiInd=r++;
 		}else if(covariateType.compare("Normal")==0){
+			muInd=r++;
+			SigmaInd=r++;
+		}else if(covariateType.compare("Mixed")==0){
+			phiInd=r++;
 			muInd=r++;
 			SigmaInd=r++;
 		}
@@ -1229,7 +1466,10 @@ void writeDiPBaCOutput(mcmcSampler<diPBaCParams,diPBaCOptions,diPBaCPropParams,d
 			}
 			if(covariateType.compare("Discrete")==0){
 				nullPhiInd=r++;
-			}else{
+			}else if (covariateType.compare("Normal")==0){
+				nullMuInd=r++;
+			}else if (covariateType.compare("Mixed")==0){
+				nullPhiInd=r++;
 				nullMuInd=r++;
 			}
 		}
@@ -1323,6 +1563,59 @@ void writeDiPBaCOutput(mcmcSampler<diPBaCParams,diPBaCOptions,diPBaCPropParams,d
 					for(unsigned int c=0;c<maxNClusters;c++){
 						*(outFiles[SigmaInd]) << params.Sigma(c,j1,j2);
 						if(c<(maxNClusters-1)||j1<(nCovariates-1)||j2<(nCovariates-1)){
+							*(outFiles[SigmaInd]) << " ";
+						}
+					}
+				}
+			}
+			*(outFiles[SigmaInd]) << endl;
+		}else if(covariateType.compare("Mixed")==0){
+			for(unsigned int j=0;j<nDiscreteCovs;j++){
+				if(nCategories[j]>maxNCategories){
+					maxNCategories=nCategories[j];
+				}
+			}
+
+			for(unsigned int j=0;j<nDiscreteCovs;j++){
+				for(unsigned int p=0;p<maxNCategories;p++){
+					for(unsigned int c=0;c<maxNClusters;c++){
+						// Print Phi
+						if(p<nCategories[j]){
+							*(outFiles[phiInd]) << exp(params.logPhi(c,j,p));
+						}else{
+							// pad the output with dummy variables
+							// to make reading in R easier
+							*(outFiles[phiInd]) << -999;
+						}
+						if(c<(maxNClusters-1)||p<(maxNCategories-1)||j<(nDiscreteCovs-1)){
+							*(outFiles[phiInd]) << " ";
+						}
+
+					}
+				}
+			}
+			*(outFiles[phiInd]) << endl;
+
+			// To make the output comparable with discrete, we will write the
+			// output grouped by covariate (for each cluster)
+			for(unsigned int j=0;j<nContinuousCovs;j++){
+				for(unsigned int c=0;c<maxNClusters;c++){
+					*(outFiles[muInd]) << params.mu(c,j);
+					if(c<(maxNClusters-1)||j<(nContinuousCovs-1)){
+						*(outFiles[muInd]) << " ";
+					}
+				}
+			}
+			*(outFiles[muInd]) << endl;
+
+
+			// For the covariance matrices we write by covariate x covariate (for each cluster)
+
+			for(unsigned int j1=0;j1<nContinuousCovs;j1++){
+				for(unsigned int j2=0;j2<nContinuousCovs;j2++){
+					for(unsigned int c=0;c<maxNClusters;c++){
+						*(outFiles[SigmaInd]) << params.Sigma(c,j1,j2);
+						if(c<(maxNClusters-1)||j1<(nContinuousCovs-1)||j2<(nContinuousCovs-1)){
 							*(outFiles[SigmaInd]) << " ";
 						}
 					}
@@ -1501,6 +1794,28 @@ void writeDiPBaCOutput(mcmcSampler<diPBaCParams,diPBaCOptions,diPBaCPropParams,d
 							*(outFiles[nullMuInd]) << endl;
 						}
 
+					}else if(covariateType.compare("Mixed")==0){
+						if (j < nDiscreteCovs){
+							for(unsigned int p=0;p<maxNCategories;p++){
+								if(p<nCategories[j]){
+									*(outFiles[nullPhiInd]) << exp(params.logNullPhi(j,p));
+								}else{
+									*(outFiles[nullPhiInd]) << -999;
+								}
+								if(p<(maxNCategories-1)||j<(nDiscreteCovs-1)){
+									*(outFiles[nullPhiInd]) << " ";
+								}else{
+									*(outFiles[nullPhiInd]) << endl;
+								}
+							}
+						} else {
+							*(outFiles[nullMuInd]) << params.nullMu(j-nDiscreteCovs);
+							if(j<nCovariates-1){
+								*(outFiles[nullMuInd]) << " ";
+							}else{
+								*(outFiles[nullMuInd]) << endl;
+							}
+						}
 					}
 				}
 				if(varSelectType.compare("BinaryCluster")==0){
@@ -1560,10 +1875,18 @@ string storeLogFileData(const diPBaCOptions& options,
 		tmpStr << endl;
 	}
 	tmpStr << "Covariates: " << endl;
+	if(options.covariateType().compare("Mixed")==0){
+		tmpStr << "Number of discrete covariates: " << dataset.nDiscreteCovs() << endl;
+		tmpStr << "Number of continuous covariates: " << dataset.nContinuousCovs() << endl;
+	}
 	for(unsigned int j=0;j<dataset.nCovariates();j++){
 		tmpStr << "\t" << dataset.covariateNames(j);
 		if(options.covariateType().compare("Discrete")==0){
 			tmpStr << " (categorical)";
+		} else if(options.covariateType().compare("Mixed")==0){
+			if (j < dataset.nDiscreteCovs()){
+				tmpStr << " (categorical)";
+			}
 		}
 		tmpStr << endl;
 	}
@@ -1600,11 +1923,6 @@ string storeLogFileData(const diPBaCOptions& options,
 	}else{
 		tmpStr << "Compute allocation entropy: False" << endl;
 	}
-	if(options.reportBurnIn()){
-		tmpStr << "Report burn in: True" << endl;
-	}else{
-		tmpStr << "Report burn in: False" << endl;
-	}
 
 	tmpStr << "Model for X: " << options.covariateType() << endl;
 	tmpStr << "Variable selection: " << options.varSelectType() << endl;
@@ -1614,7 +1932,7 @@ string storeLogFileData(const diPBaCOptions& options,
 		tmpStr << "shapeAlpha: " << hyperParams.shapeAlpha() << endl;
 		tmpStr << "rateAlpha: " << hyperParams.rateAlpha() << endl;
 	}
-	if(options.covariateType().compare("Discrete")==0){
+	if(options.covariateType().compare("Discrete")==0 ||options.covariateType().compare("Mixed")==0 ){
 		if(hyperParams.useReciprocalNCatsPhi()){
 			tmpStr << "aPhi[j]: 1/nCategories[j]" << endl;
 		}else{
@@ -1627,7 +1945,7 @@ string storeLogFileData(const diPBaCOptions& options,
 
 	}
 
-	if(options.covariateType().compare("Normal")==0){
+	if(options.covariateType().compare("Normal")==0 ||options.covariateType().compare("Mixed")==0 ){
 		tmpStr << "mu0: " << endl;
 		tmpStr << hyperParams.mu0() << endl;
 		tmpStr << "Tau0:" << endl;

@@ -29,8 +29,8 @@ generateSampleDataFile<-function(clusterSummary){
 	covariateType<-clusterSummary$covariateType
 	nCovariates<-clusterSummary$nCovariates
 	if (covariateType=="Mixed"){
-		nDiscreteCovariates<-clusterSummary$nDiscreteCovariates
-		nContinuousCovariates<-clusterSummary$nContinuousCovariates
+		nDiscreteCovs<-clusterSummary$nDiscreteCovs
+		nContinuousCovs<-clusterSummary$nContinuousCovs
 	}
 	missingDataProb<-clusterSummary$missingDataProb
 	nFixedEffects<-clusterSummary$nFixedEffects
@@ -76,7 +76,7 @@ generateSampleDataFile<-function(clusterSummary){
 				}
 			}
 		}else if(covariateType=='Mixed'){
-			for(j in 1:nDiscreteCovariates){
+			for(j in 1:nDiscreteCovs){
 				if(i>1&&runif(1)<missingDataProb){
 					X[i,j]<--999
 				}else{
@@ -90,8 +90,8 @@ generateSampleDataFile<-function(clusterSummary){
 					}
 				}
 			}
-			X[i,(nDiscreteCovariates+1):nCovariates]<-clusterData$covariateMeans+t(chol(clusterData$covariateCovariance))%*%rnorm(nContinuousCovariates,0,1)
-			for(j in 1:nContinuousCovariates){
+			X[i,(nDiscreteCovs+1):nCovariates]<-clusterData$covariateMeans+t(chol(clusterData$covariateCovariance))%*%rnorm(nContinuousCovs,0,1)
+			for(j in 1:nContinuousCovs){
 				if(i>1&&runif(1)<missingDataProb){
 					X[i,j]<--999
 				}
@@ -193,6 +193,15 @@ generateSampleDataFile<-function(clusterSummary){
 	outData<-data.frame(cbind(matrix(Y),X))
 	colnames(outData) <- c("outcome",covNames)
 	out<-list(inputData=outData,covNames=covNames,xModel=covariateType,yModel=outcomeType)
+	out$nCovariates <- nCovariates
+	if (covariateType=="Mixed"){
+		discreteCovs<-covNames[1:nDiscreteCovs]
+		continuousCovs<-covNames[(nDiscreteCovs+1):nCovariates]
+		out$nDiscreteCovs <- nDiscreteCovs
+		out$nContinuousCovs <- nContinuousCovs
+		out$discreteCovs <- discreteCovs
+		out$continuousCovs <- continuousCovs
+	}
 	if(nFixedEffects>0){
 		outData<-data.frame(cbind(outData,W))
 		colnames(outData) <- c("outcome",covNames,fixEffNames)
@@ -519,31 +528,31 @@ clusSummaryBernoulliMixed<-function(){
 	'outcomeType'='Bernoulli',
 	'covariateType'='Mixed',
 	'nCovariates'=5,
-	'nDiscreteCovariates'=3,
-	'nContinuousCovariates'=2,
-	'nCategories'=c(3,3,3,3,3),
+	'nDiscreteCovs'=3,
+	'nContinuousCovs'=2,
+	'nCategories'=c(3,3,3),
 	'nFixedEffects'=0,
 	'missingDataProb'=0,
-	'nClusters'=5,
+	'nClusters'=3,
 	'clusterSizes'=c(300,300,300),
-	'clusterData'=list(list('theta'=log(9),
+	'clusterData'=list(list('theta'=log(10),
 		'covariateProbs'=list(c(0.8,0.1,0.1),
 			c(0.8,0.1,0.1),
 			c(0.8,0.1,0.1)),
-			'covariateMeans'=c(0,2),
+			'covariateMeans'=c(-10,2),
 			'covariateCovariance'=matrix(c(0.5,0,0,3),nrow=2)),
-		list('theta'=log(2),
-		'covariateProbs'=list(c(0.8,0.1,0.1),
-			c(0.8,0.1,0.1),
+		list('theta'=log(3),
+		'covariateProbs'=list(c(0.1,0.8,0.1),
+			c(0.1,0.8,0.1),
 			c(0.1,0.8,0.1)),
-			'covariateMeans'=c(0,2),
-			'covariateCovariance'=matrix(c(0.5,0,0,3),nrow=2)),
-		list('theta'=log(1/9),
+			'covariateMeans'=c(3,20),
+			'covariateCovariance'=matrix(c(1,0,0,1),nrow=2)),
+		list('theta'=log(0.1),
 		'covariateProbs'=list(c(0.1,0.1,0.8),
 			c(0.1,0.1,0.8),
 			c(0.1,0.1,0.8)),
-			'covariateMeans'=c(0,2),
-			'covariateCovariance'=matrix(c(0.5,0,0,3),nrow=2))))
+			'covariateMeans'=c(10,-5),
+			'covariateCovariance'=matrix(c(2,0.9,0.9,1),nrow=2))))
 }
 
 			

@@ -85,17 +85,25 @@ class diPBaCHyperParams{
 
 		// Set sizes
 		void setSizes(const unsigned int& nCovariates,
+				const unsigned int& nDiscreteCov,
+				const unsigned int& nContinuousCov,
 				const string covariateType){
 			if (covariateType.compare("Discrete")==0){
 				_aPhi.resize(nCovariates);
-			} else {
-				if (covariateType.compare("Normal")==0){
+			} else if (covariateType.compare("Normal")==0){
 					_mu0.setZero(nCovariates);
 					_Tau0.setZero(nCovariates,nCovariates);
 					_workSqrtTau0.setZero(nCovariates,nCovariates);
 					_R0.setZero(nCovariates,nCovariates);
 					_workInverseR0.setZero(nCovariates,nCovariates);
-				}
+			}
+			else if (covariateType.compare("Mixed")==0 ){
+				_aPhi.resize(nDiscreteCov);
+				_mu0.setZero(nContinuousCov);
+				_Tau0.setZero(nContinuousCov,nContinuousCov);
+				_workSqrtTau0.setZero(nContinuousCov,nContinuousCov);
+				_R0.setZero(nContinuousCov,nContinuousCov);
+				_workInverseR0.setZero(nContinuousCov,nContinuousCov);
 			}
 		}
 
@@ -104,13 +112,15 @@ class diPBaCHyperParams{
 						const diPBaCOptions& options){
 
 			unsigned int nSubjects = dataset.nSubjects();
-			unsigned int nCovariates = dataset.nCovariates();
+			//unsigned int nCov = dataset.nCovariates();
+			//unsigned int nDiscreteCov = dataset.nDiscreteCovs();
+			//unsigned int nContinuousCov = dataset.nContinuousCovs();
 
 			// For alpha
 			_shapeAlpha=2.0;
 			_rateAlpha=1.0;
 
-			if(options.covariateType().compare("Discrete")==0){
+			if(options.covariateType().compare("Discrete")==0 || options.covariateType().compare("Mixed")==0 ){
 				// For Phi
 				_useReciprocalNCatsPhi=false;
 				for(unsigned int j=0;j<_aPhi.size();j++){
@@ -118,23 +128,24 @@ class diPBaCHyperParams{
 				}
 			}
 
-			if(options.covariateType().compare("Normal")==0){
+			if(options.covariateType().compare("Normal")==0 || options.covariateType().compare("Mixed")==0 ){
+				unsigned int nContCovs=_mu0.size();
 				// Values for mu, Tau0, R0, kappa0
 				// In the following it is useful to have the rows of X as
 				// Eigen vectors
 				vector<VectorXd> xi(nSubjects);
 				for(unsigned int i=0;i<nSubjects;i++){
-					xi[i].setZero(nCovariates);
-					for(unsigned int j=0;j<nCovariates;j++){
+					xi[i].setZero(nContCovs);
+					for(unsigned int j=0;j<nContCovs;j++){
 						xi[i](j)=dataset.continuousX(i,j);
 					}
 				}
 
 				// First compute the hyper prior parameters
 				// First compute the hyper parameter for mu_c
-				VectorXd mu0=VectorXd::Zero(nCovariates);
-				MatrixXd Sigma0=MatrixXd::Zero(nCovariates,nCovariates);
-				for(unsigned int j=0;j<nCovariates;j++){
+				VectorXd mu0=VectorXd::Zero(nContCovs);
+				MatrixXd Sigma0=MatrixXd::Zero(nContCovs,nContCovs);
+				for(unsigned int j=0;j<nContCovs;j++){
 					double meanX=0.0;
 					double minX=0;
 					double maxX=0;
@@ -162,18 +173,18 @@ class diPBaCHyperParams{
 
 				// Now we compute the hyper parameters for Tau_c
 				// First we compute the sample covariance
-				MatrixXd R=MatrixXd::Zero(nCovariates,nCovariates);
+				MatrixXd R=MatrixXd::Zero(nContCovs,nContCovs);
 
 				for(unsigned int i=0;i<nSubjects;i++){
 					R += (xi[i]-mu0)*((xi[i]-mu0).transpose());
 				}
 				R/=(double)nSubjects;
-				R*=(double)nCovariates;
+				R*=(double)nContCovs;
 				_workInverseR0=R;
 				R=R.inverse();
 				_R0=R;
 				_workLogDetR0=log(R.determinant());
-				_kappa0 = nCovariates;
+				_kappa0 = nContCovs;
 			}
 			_muTheta = 0.0;
 			_sigmaTheta = 2.5;
@@ -525,12 +536,17 @@ class diPBaCParams{
 
 		/// \brief Function to set the sizes of the various class members
 		void setSizes(const unsigned int& nSubjects,
-				const unsigned int& nCovariates,const unsigned int& nFixedEffects,
+				const unsigned int& nCovariates,
+				const unsigned int& nDiscreteCov,
+				const unsigned int& nContinuousCov,
+				const unsigned int& nFixedEffects,
 				const unsigned int& nCategoriesY,
 				const unsigned int& nPredictSubjects,
 				const vector<unsigned int>& nCategories,
 				const unsigned int& nClusInit,
 				const string covariateType){
+
+			unsigned int nDiscrCovs = 0;
 
 			// Initially make the maximum number of clusters  the bigger or
 			// the initial number of clusters and 100.
@@ -562,21 +578,37 @@ class diPBaCParams{
 				if(c==0){
 					if (covariateType.compare("Discrete")==0) _logNullPhi.resize(nCovariates);
 					if (covariateType.compare("Normal")==0) _nullMu.setZero(nCovariates);
+					if (covariateType.compare("Mixed")==0){
+						 _logNullPhi.resize(nDiscreteCov);
+						 _nullMu.setZero(nContinuousCov);
+					}
 				}
 				if (covariateType.compare("Discrete")==0) {
 					_logPhi[c].resize(nCovariates);
 					_workLogPhiStar[c].resize(nCovariates);
-				}
-				if (covariateType.compare("Normal")==0) {
+				} else if (covariateType.compare("Normal")==0) {
 					_mu[c].setZero(nCovariates);
 					_workMuStar[c].setZero(nCovariates);
 					_Tau[c].setZero(nCovariates,nCovariates);
 					_Sigma[c].setZero(nCovariates,nCovariates);
 					_workSqrtTau[c].setZero(nCovariates,nCovariates);
+				} else if (covariateType.compare("Mixed")==0) {
+					_logPhi[c].resize(nDiscreteCov);
+					_workLogPhiStar[c].resize(nDiscreteCov);
+					_mu[c].setZero(nContinuousCov);
+					_workMuStar[c].setZero(nContinuousCov);
+					_Tau[c].setZero(nContinuousCov,nContinuousCov);
+					_Sigma[c].setZero(nContinuousCov,nContinuousCov);
+					_workSqrtTau[c].setZero(nContinuousCov,nContinuousCov);
 				}
 				_gamma[c].resize(nCovariates);
-				for(unsigned int j=0;j<nCovariates;j++){
-					if (covariateType.compare("Discrete")==0){
+				if (covariateType.compare("Discrete")==0||covariateType.compare("Mixed")==0){
+					if (covariateType.compare("Mixed")==0){
+						nDiscrCovs = nDiscreteCov;
+					} else {
+						nDiscrCovs = nCovariates;
+					}
+					for(unsigned int j=0;j<nDiscrCovs;j++){
 						if(c==0){
 							_logNullPhi[j].resize(nCategories[j]);
 						}
@@ -593,10 +625,10 @@ class diPBaCParams{
 								_logNullPhi[j][p]=0.0;
 							}
 						}
+						// Everything in by default
+						// This allows us to write general case with switches.
+						_gamma[c][j]=1;
 					}
-					// Everything in by default
-					// This allows us to write general case with switches.
-					_gamma[c][j]=1;
 				}
 			}
 
@@ -623,8 +655,13 @@ class diPBaCParams{
 			}
 			_workEntropy.resize(nSubjects+nPredictSubjects,0);
 			for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
-				_workDiscreteX[i].resize(nCovariates,0);
-				_workContinuousX[i].resize(nCovariates,0);
+				if (covariateType.compare("Discrete")==0||covariateType.compare("Normal")==0){
+					_workDiscreteX[i].resize(nCovariates,0);
+					_workContinuousX[i].resize(nCovariates,0);
+				} else {
+					_workDiscreteX[i].resize(nDiscreteCov,0);
+					_workContinuousX[i].resize(nContinuousCov,0);
+				}
 				if(i<nSubjects){
 					_workLogPXiGivenZi[i]=0;
 				}
@@ -640,11 +677,15 @@ class diPBaCParams{
 		void maxNClusters(const unsigned int& nClus,
 				const string covariateType){
 			_maxNClusters=nClus;
+
 			// Check if we need to do a resize of the
 			// number of various vectors
 			unsigned int prevNClus = _logPsi.size();
 			if(nClus>prevNClus){
 				unsigned int nCov=nCovariates();
+				unsigned int nDiscrCovs=nDiscreteCovs();
+				unsigned int nDCovs = 0;
+				unsigned int nContCovs=nContinuousCovs();
 				vector<unsigned int> nCats=nCategories();
 				unsigned int nCategoriesY = _theta[0].size();
 
@@ -658,15 +699,23 @@ class diPBaCParams{
 				if (covariateType.compare("Discrete")==0){
 					_logPhi.resize(nClus);
 					_workLogPhiStar.resize(nClus);
-				} else {
-					if (covariateType.compare("Normal")==0){
+				} else if (covariateType.compare("Normal")==0){
 						_mu.resize(nClus);
 						_workMuStar.resize(nClus);
 						_Tau.resize(nClus);
 						_workSqrtTau.resize(nClus);
 						_workLogDetTau.resize(nClus);
 						_Sigma.resize(nClus);
-					}
+				} else if (covariateType.compare("Mixed")==0){
+					_logPhi.resize(nClus);
+					_workLogPhiStar.resize(nClus);
+					_mu.resize(nClus);
+					_workMuStar.resize(nClus);
+					_Tau.resize(nClus);
+					_workSqrtTau.resize(nClus);
+					_workLogDetTau.resize(nClus);
+					_Sigma.resize(nClus);
+
 				}
 				_gamma.resize(nClus);
 				for(unsigned int c=prevNClus;c<nClus;c++){
@@ -674,18 +723,29 @@ class diPBaCParams{
 					if (covariateType.compare("Discrete")==0){
 						_logPhi[c].resize(nCov);
 						_workLogPhiStar[c].resize(nCov);
-					} else {
-						if (covariateType.compare("Normal")==0){
+					} else if (covariateType.compare("Normal")==0){
 							_mu[c].setZero(nCov);
 							_workMuStar[c].setZero(nCov);
 							_Tau[c].setZero(nCov,nCov);
 							_workSqrtTau[c].setZero(nCov,nCov);
 							_Sigma[c].setZero(nCov,nCov);
-						}
+					} else if (covariateType.compare("Mixed")==0){
+						_logPhi[c].resize(nDiscrCovs);
+						_workLogPhiStar[c].resize(nDiscrCovs);
+						_mu[c].setZero(nContCovs);
+						_workMuStar[c].setZero(nContCovs);
+						_Tau[c].setZero(nContCovs,nContCovs);
+						_workSqrtTau[c].setZero(nContCovs,nContCovs);
+						_Sigma[c].setZero(nContCovs,nContCovs);
 					}
 					_gamma[c].resize(nCov);
-					for(unsigned int j=0;j<nCov;j++){
-						if (covariateType.compare("Discrete")==0){
+					if (covariateType.compare("Discrete")==0 || covariateType.compare("Mixed")==0){
+						if (covariateType.compare("Mixed")==0){
+							nDCovs = nDiscrCovs;
+						} else {
+							nDCovs = nCov;
+						}
+						for(unsigned int j=0;j<nDCovs;j++){
 							_logPhi[c][j].resize(nCats[j]);
 							_workLogPhiStar[c][j].resize(nCats[j]);
 							for(unsigned int p=0;p<nCats[j];p++){
@@ -696,10 +756,10 @@ class diPBaCParams{
 								_logPhi[c][j][p]=0.0;
 								_workLogPhiStar[c][j][p]=0.0;
 							}
+							// Everything in by default
+							// This allows us to write general case with switches.
+							_gamma[c][j]=1;
 						}
-						// Everything in by default
-						// This allows us to write general case with switches.
-						_gamma[c][j]=1;
 					}
 				}
 			}
@@ -713,6 +773,16 @@ class diPBaCParams{
 		/// \brief Return the number of covariates
 		unsigned int nCovariates() const{
 			return _gamma[0].size();
+		}
+
+		/// \brief Return the number of covariates
+		unsigned int nDiscreteCovs() const{
+			return _logPhi[0].size();
+		}
+
+		/// \brief Return the number of covariates
+		unsigned int nContinuousCovs() const{
+			return _mu[0].size();
 		}
 
 		/// \brief Return the number of fixed effects
@@ -907,6 +977,10 @@ class diPBaCParams{
 
 			unsigned int nSbj = nSubjects();
 			unsigned int nCov = nCovariates();
+			unsigned int nContCov = nContinuousCovs();
+			if (nCov!=nContCov) {
+				nCov = nContCov;
+			}
 
 			if(Sigma(c).trace()>0){
 				// This condition should stop this being evaluated when
@@ -996,6 +1070,10 @@ class diPBaCParams{
 
 			unsigned int nSbj = nSubjects();
 			unsigned int nCov = nCovariates();
+			unsigned int nContCov = nContinuousCovs();
+			if (nCov!=nContCov) {
+				nCov = nContCov;
+			}
 
 			VectorXd muStar=workMuStar(c);
 
@@ -1119,6 +1197,8 @@ class diPBaCParams{
 		/// \brief Set the ith allocation variable to cluster c
 		void z(const unsigned int& i,const int& c,const string& covariateType){
 			unsigned int nCov = nCovariates();
+			unsigned int nDiscreteCov = nDiscreteCovs();
+			unsigned int nContinuousCov = nContinuousCovs();
 
 			if(i<nSubjects()){
 				if(covariateType.compare("Discrete")==0){
@@ -1130,7 +1210,6 @@ class diPBaCParams{
 						logPhiStarNew = workLogPhiStar(c,j,Xij);
 						_workLogPXiGivenZi[i]+=(logPhiStarNew-logPhiStar);
 					}
-
 				}else if(covariateType.compare("Normal")==0){
 					if(Sigma(0).trace()>0){
 						VectorXd xi=VectorXd::Zero(nCov);
@@ -1138,6 +1217,22 @@ class diPBaCParams{
 							xi(j)=workContinuousX(i,j);
 						}
 						_workLogPXiGivenZi[i]=logPdfMultivarNormal(nCov,xi,workMuStar(c),workSqrtTau(c),workLogDetTau(c));
+					}
+				}else if(covariateType.compare("Mixed")==0){
+					for(unsigned int j=0;j<nDiscreteCov;j++){
+						unsigned int zi = z(i);
+						int Xij=workDiscreteX(i,j);
+						double logPhiStar,logPhiStarNew;
+						logPhiStar = workLogPhiStar(zi,j,Xij);
+						logPhiStarNew = workLogPhiStar(c,j,Xij);
+						_workLogPXiGivenZi[i]+=(logPhiStarNew-logPhiStar);
+					}
+					if(Sigma(0).trace()>0){
+						VectorXd xi=VectorXd::Zero(nContinuousCov);
+						for(unsigned int j=0;j<nContinuousCov;j++){
+							xi(j)=workContinuousX(i,j);
+						}
+						_workLogPXiGivenZi[i]+=logPdfMultivarNormal(nContinuousCov,xi,workMuStar(c),workSqrtTau(c),workLogDetTau(c));
 					}
 				}
 			}
@@ -1168,6 +1263,8 @@ class diPBaCParams{
 			unsigned int nClusters = maxNClusters();
 			unsigned int nSbj = nSubjects();
 			unsigned int nCov = nCovariates();
+			unsigned int nDiscreteCov = nDiscreteCovs();
+			unsigned int nContinuousCov = nContinuousCovs();
 
 			// Need to update working vector here
 			if(covariateType.compare("Discrete")==0){
@@ -1186,11 +1283,9 @@ class diPBaCParams{
 					double logPhiStar;
 					logPhiStar = workLogPhiStar(c,j,Xij);
 					_workLogPXiGivenZi[i]+=(logPhiStarNew[c][Xij]-logPhiStar);
-
 				}
 				for(unsigned int c=0;c<nClusters;c++){
 					_workLogPhiStar[c][j]=logPhiStarNew[c];
-
 				}
 			}else if(covariateType.compare("Normal")==0){
 				if(Sigma(0).trace()>0){
@@ -1212,9 +1307,49 @@ class diPBaCParams{
 						_workMuStar[c]=muStar[c];
 					}
 				}
+			} else if (covariateType.compare("Mixed")==0){
+				if (j < nDiscreteCov){
+					unsigned int nCat = nCategories(j);
+					vector<vector<double> > logPhiStarNew(nClusters);
+					for(unsigned int c=0;c<nClusters;c++){
+						logPhiStarNew[c].resize(nCat);
+						for(unsigned int p=0;p<nCat;p++){
+							logPhiStarNew[c][p] = log(gammaVal*exp(logPhi(c,j,p))+(1.0-gammaVal)*exp(logNullPhi(j,p)));
+						}
+					}
 
+					for(unsigned int i=0;i<nSbj;i++){
+						unsigned int c=z(i);
+						int Xij=_workDiscreteX[i][j];
+						double logPhiStar;
+						logPhiStar = workLogPhiStar(c,j,Xij);
+						_workLogPXiGivenZi[i]+=(logPhiStarNew[c][Xij]-logPhiStar);
+					}
+					for(unsigned int c=0;c<nClusters;c++){
+						_workLogPhiStar[c][j]=logPhiStarNew[c];
+					}
+				} else {
+					if(Sigma(0).trace()>0){
+						VectorXd xi=VectorXd::Zero(nContinuousCov);
+						vector<VectorXd> muStar(nClusters);
+						for(unsigned int c=0;c<nClusters;c++){
+							muStar[c] = workMuStar(c);
+							muStar[c](j-nDiscreteCov)=gammaVal*mu(c,j-nDiscreteCov)+(1-gammaVal)*nullMu(j-nDiscreteCov);
+						}
+						for(unsigned int i=0;i<nSbj;i++){
+							int c=z(i);
+							for(unsigned int jj=0;jj<nContinuousCov;jj++){
+								xi(jj)=workContinuousX(i,jj);
+							}
+							_workLogPXiGivenZi[i]=logPdfMultivarNormal(nContinuousCov,xi,muStar[c],workSqrtTau(c),workLogDetTau(c));
+
+						}
+						for(unsigned c=0;c<nClusters;c++){
+							_workMuStar[c]=muStar[c];
+						}
+					}
+				}
 			}
-
 			for(unsigned int c=0;c<nClusters;c++){
 				_gamma[c][j]=gammaVal;
 			}
@@ -1227,6 +1362,8 @@ class diPBaCParams{
 
 			unsigned int nSbj = nSubjects();
 			unsigned int nCov = nCovariates();
+			unsigned int nDiscrCov = nDiscreteCovs();
+			unsigned int nContCov = nContinuousCovs();
 
 			// Need to update working vector here
 			if(covariateType.compare("Discrete")==0){
@@ -1261,8 +1398,39 @@ class diPBaCParams{
 						}
 					}
 				}
+			}else if(covariateType.compare("Mixed")==0){
+				if (j<nDiscrCov){
+					unsigned int nCat = nCategories(j);
+					vector<double> logPhiStarNew(nCat);
+					for(unsigned int p=0;p<nCat;p++){
+						logPhiStarNew[p] = log(gammaVal*exp(logPhi(c,j,p))+(1.0-gammaVal)*exp(logNullPhi(j,p)));
+					}
+					for(unsigned int i=0;i<nSbj;i++){
+						if(z(i)==(int)c){
+							int Xij=workDiscreteX(i,j);
+							double logPhiStar;
+							logPhiStar = workLogPhiStar(c,j,Xij);
+							_workLogPXiGivenZi[i]+=(logPhiStarNew[Xij]-logPhiStar);
+						}
+					}
+					_workLogPhiStar[c][j] = logPhiStarNew;
+				} else {
+					if(Sigma(0).trace()>0){
+						VectorXd xi=VectorXd::Zero(nContCov);
+						VectorXd muStar = workMuStar(c);
+						muStar(j-nDiscrCov)=gammaVal*mu(c,j-nDiscrCov)+(1-gammaVal)*nullMu(j-nDiscrCov);
+						_workMuStar[c]=muStar;
+						for(unsigned int i=0;i<nSbj;i++){
+							if(z(i)==(int)c){
+								for(unsigned int jj=0;jj<nContCov;jj++){
+									xi(jj)=workContinuousX(i,jj);
+								}
+								_workLogPXiGivenZi[i]=logPdfMultivarNormal(nContCov,xi,muStar,workSqrtTau(c),workLogDetTau(c));
+							}
+						}
+					}
+				}
 			}
-
 			_gamma[c][j]=gammaVal;
 
 		}
@@ -1529,7 +1697,27 @@ class diPBaCParams{
 				double logDetTauTmp = _workLogDetTau[c1];
 				_workLogDetTau[c1]=_workLogDetTau[c2];
 				_workLogDetTau[c2]=logDetTauTmp;
-
+			}else if(covariateType.compare("Mixed")==0){
+				_logPhi[c1].swap(_logPhi[c2]);
+				_workLogPhiStar[c1].swap(_workLogPhiStar[c2]);
+				VectorXd muTmp = _mu[c1];
+				_mu[c1]=_mu[c2];
+				_mu[c2]=muTmp;
+				VectorXd workMuStarTmp = _workMuStar[c1];
+				_workMuStar[c1]=_workMuStar[c2];
+				_workMuStar[c2]=workMuStarTmp;
+				MatrixXd SigmaTmp = _Sigma[c1];
+				_Sigma[c1]=_Sigma[c2];
+				_Sigma[c2]=SigmaTmp;
+				MatrixXd TauTmp = _Tau[c1];
+				_Tau[c1]=_Tau[c2];
+				_Tau[c2]=TauTmp;
+				MatrixXd sqrtTauTmp = _workSqrtTau[c1];
+				_workSqrtTau[c1]=_workSqrtTau[c2];
+				_workSqrtTau[c2]=sqrtTauTmp;
+				double logDetTauTmp = _workLogDetTau[c1];
+				_workLogDetTau[c1]=_workLogDetTau[c2];
+				_workLogDetTau[c2]=logDetTauTmp;
 			}
 
 			//Variable selection parameters
@@ -1847,6 +2035,8 @@ vector<double> diPBaCLogPost(const diPBaCParams& params,
 	unsigned int nSubjects=dataset.nSubjects();
 	unsigned int maxNClusters=params.maxNClusters();
 	unsigned int nCovariates=dataset.nCovariates();
+	unsigned int nDiscreteCov=dataset.nDiscreteCovs();
+	unsigned int nContinuousCov=dataset.nContinuousCovs();
 	unsigned int nFixedEffects=dataset.nFixedEffects();
 	unsigned int nCategoriesY=dataset.nCategoriesY();
 	vector<unsigned int> nCategories = dataset.nCategories();
@@ -1923,6 +2113,7 @@ vector<double> diPBaCLogPost(const diPBaCParams& params,
 		for(unsigned int i=0;i<nSubjects;i++){
 			int zi = params.z(i);
 			logLikelihood+=logPYiGivenZiWi(params,dataset,nFixedEffects,zi,i);
+
 		}
 	}
 
@@ -1960,7 +2151,6 @@ vector<double> diPBaCLogPost(const diPBaCParams& params,
 						dirichParams[k]=hyperParams.aPhi(j);
 					}
 					logPrior+=logPdfDirichlet(params.logPhi(c,j),dirichParams,true);
-
 				}
 			}
 		}
@@ -1974,7 +2164,24 @@ vector<double> diPBaCLogPost(const diPBaCParams& params,
 
 			}
 		}
+	}else if(covariateType.compare("Mixed")==0){
+		// If covariate type is discrete
+		for(unsigned int c=0;c<maxNClusters;c++){
+			if(params.workNXInCluster(c)>0){
+				for(unsigned int j=0;j<nDiscreteCov;j++){
+					// We use a Dirichlet prior
+					vector<double> dirichParams(nCategories[j]);
+					for(unsigned int k=0;k<nCategories[j];k++){
+						dirichParams[k]=hyperParams.aPhi(j);
+					}
+					logPrior+=logPdfDirichlet(params.logPhi(c,j),dirichParams,true);
+				}
+				logPrior+=logPdfMultivarNormal(nContinuousCov,params.mu(c),hyperParams.mu0(),hyperParams.workSqrtTau0(),hyperParams.workLogDetTau0());
+				logPrior+=logPdfWishart(nContinuousCov,params.Tau(c),params.workLogDetTau(c),hyperParams.workInverseR0(),hyperParams.workLogDetR0(),(double)hyperParams.kappa0());
+			}
+		}
 	}
+
 
 	// Prior for variable selection parameters
 	if(varSelectType.compare("None")!=0){

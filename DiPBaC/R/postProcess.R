@@ -23,11 +23,16 @@
 
 is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
 
-profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY, extraYVar, varSelectType="None", entropy,reportBurnIn=FALSE,run=TRUE){
+profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY, extraYVar, varSelectType="None", entropy,reportBurnIn=FALSE, run=TRUE, discreteCovs, continuousCovs){
 
 	# suppress scientific notation
 	options(scipen=999)
 
+	if (xModel=="Mixed"){
+		covNames <- c(discreteCovs, continuousCovs)
+		nDiscreteCovs <- length(discreteCovs)
+		nContinuousCovs <- length(continuousCovs)
+	}
 	nCovariates<-length(covNames)
 	
 	if (!is.data.frame(data)) stop("Input data must be a data.frame with outcome, covariates and fixed effect names as column names.")
@@ -93,6 +98,21 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 				dataMatrix[,(1+k)]<-as.numeric(levels(dataMatrix[,(1+k)]))[as.integer(dataMatrix[,(1+k)])]
 			}
 		}
+	} else 	if (xModel=="Mixed"){
+		xLevels<-vector()
+		for (k in 1:nDiscreteCovs){
+			tmpCov<-dataMatrix[,(1+k)]
+			xLevels[k]<-length(levels(as.factor(tmpCov)))	
+			if (!(min(tmpCov,na.rm=TRUE)==0&&max(tmpCov,na.rm=TRUE)==(xLevels[k]-1)&&sum(!is.wholenumber(tmpCov[!is.na(tmpCov)]))==0)) {
+				print(paste("Recoding of covariate number ",colnames(dataMatrix)[k+1]," as follows",sep=""))
+				tmpCovFactor<-as.factor(tmpCov)
+				tmpLevels<-levels(tmpCovFactor)
+				print(paste("Replacing level ",levels(tmpCovFactor)," with ",c(0:(xLevels[k]-1)),sep=""))
+				levels(tmpCovFactor)<-c(0:(xLevels[k]-1))	
+				dataMatrix[,(1+k)]<-tmpCovFactor
+				dataMatrix[,(1+k)]<-as.numeric(levels(dataMatrix[,(1+k)]))[as.integer(dataMatrix[,(1+k)])]
+			}
+		}
 	} else {
 		xLevels <- 1
 	}
@@ -137,13 +157,17 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	write(as.character(nSubjects), fileName,ncolumns=1)
 	# print number of covariates and their names
 	write(as.character(nCovariates),fileName,append=T,ncolumns=1)
+	if (xModel=="Mixed"){
+		write(as.character(nDiscreteCovs),fileName,append=T,ncolumns=1)
+		write(as.character(nContinuousCovs),fileName,append=T,ncolumns=1)
+	}
 	write(t(covNames), fileName,append=T,ncolumns=1)
 	# print number of fixed effects and their names
 	write(nFixedEffects, fileName,append=T,ncolumns=1)
 	if (nFixedEffects>0){
 		write(t(fixedEffectsNames), fileName,append=T,ncolumns=1)
 	}
-	if (xModel=="Discrete"){
+	if (xModel=="Discrete"||xModel=="Mixed"){
 		write(xLevels,fileName,append=T,ncolumns=length(xLevels))
 	}
 
@@ -166,7 +190,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	write(t(dataMatrix), fileName,append=T,ncolumns=dim(dataMatrix)[2])
 
 	# other checks to ensure that there are no errors when calling the program
-	if (xModel!="Discrete"&xModel!="Normal") stop("This xModel is not defined.")
+	if (xModel!="Discrete"&xModel!="Normal"&xModel!="Mixed") stop("This xModel is not defined.")
 	if (yModel!="Poisson"&yModel!="Binomial"&yModel!="Bernoulli"&yModel!="Normal"&yModel!="Categorical") stop("This yModel is not defined.")
 
 	inputString<-paste("DiPBaC --input=",fileName," --output=",output," --xModel=",xModel," --yModel=",yModel," --varSelect=",varSelectType,sep="")

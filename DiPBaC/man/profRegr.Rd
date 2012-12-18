@@ -9,7 +9,7 @@ profRegr(covNames, fixedEffectsNames, outcome="outcome",
         nClusInit, seed, yModel="Bernoulli", xModel="Discrete", 
         sampler="SliceDependent", alpha=-1, excludeY, 
         extraYVar, varSelectType, entropy,reportBurnIn=FALSE,
-        run=TRUE)
+        run=TRUE, discreteCovs, continuousCovs)
 }
 \arguments{
 \item{covNames}{A vector of strings of the covariate names as by the column names in the data argument.}
@@ -28,7 +28,7 @@ profRegr(covNames, fixedEffectsNames, outcome="outcome",
 \item{nClusInit}{The number of clusters individuals should be initially randomly assigned to (Unif[50,60]).}
 \item{seed}{The value for the seed for the random number generator. The default value is the current time.}
 \item{yModel}{The model type for the outcome variable. The options currently available are "Bernoulli", "Poisson", "Binomial", "Categorical" and "Normal". The default value is Bernoulli.}
-\item{xModel}{The model type for the covariates. The options currently available are "Discrete" and "Normal". The default value is "Discrete".}
+\item{xModel}{The model type for the covariates. The options currently available are "Discrete", "Normal" and "Mixed". The default value is "Discrete".}
 \item{sampler}{The sampler type to be used. Options are "SliceDependent", "SliceIndependent" and "Truncated".  The default value is "SliceDependent".}
 \item{alpha}{The value to be used if alpha is to remain fixed. If a negative value is used then alpha is updated. The default value is -1.}
 \item{excludeY}{If included only the covariate data X is modelled. By default this is not included.}
@@ -36,6 +36,8 @@ profRegr(covNames, fixedEffectsNames, outcome="outcome",
 \item{varSelectType}{The type of variable selection to be used "None", "BinaryCluster" or "Continuous".  The default value is "None".}
 \item{entropy}{If included then we compute allocation entropy. By default the allocation entropy is not included.}
 \item{run}{Logical. If TRUE then the MCMC is run. Set run=FALSE if the MCMC has been run already and it is only required to collect information about the run.}
+\item{discreteCovs}{The names of the discrete covariates among the covariate names, if xModel="Mixed". This and continuousCovs must be defined if xModel="Mixed", while covNames is ignored.}
+\item{continuousCovs}{The names of the discrete covariates among the covariate names, if xModel="Mixed". This and continuousCovs must be defined if xModel="Mixed", while covNames is ignored.}
 }
 \value{
 It returns a number of files in the output directory as well as a list with the following elements.

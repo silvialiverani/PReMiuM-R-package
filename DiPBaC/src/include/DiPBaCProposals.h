@@ -807,7 +807,12 @@ void updateForPhiActive(mcmcChain<diPBaCParams>& chain,
 	// Find the number of clusters
 	unsigned int maxZ = currentParams.workMaxZi();
 	// Find the number of covariates
-	unsigned int nCovariates = currentParams.nCovariates();
+	unsigned int nCovariates = 0;
+	if(model.options().covariateType().compare("Mixed")==0){
+		nCovariates = currentParams.nDiscreteCovs();
+	} else {
+		nCovariates = currentParams.nCovariates();
+	}
 	// Find the number of subjects
 	unsigned int nSubjects = dataset.nSubjects();
 
@@ -896,7 +901,12 @@ void gibbsForMuActive(mcmcChain<diPBaCParams>& chain,
 	// Find the number of clusters
 	unsigned int maxZ = currentParams.workMaxZi();
 	// Find the number of covariates
-	unsigned int nCovariates = currentParams.nCovariates();
+	unsigned int nCovariates = 0;
+	if(model.options().covariateType().compare("Mixed")==0){
+		nCovariates = currentParams.nContinuousCovs();
+	} else {
+		nCovariates = currentParams.nCovariates();
+	}
 	// Find the number of subjects
 	unsigned int nSubjects = dataset.nSubjects();
 
@@ -976,7 +986,12 @@ void gibbsForTauActive(mcmcChain<diPBaCParams>& chain,
 	// Find the number of clusters
 	unsigned int maxZ = currentParams.workMaxZi();
 	// Find the number of covariates
-	unsigned int nCovariates = currentParams.nCovariates();
+	unsigned int nCovariates = 0;
+	if(model.options().covariateType().compare("Mixed")==0){
+		nCovariates = currentParams.nContinuousCovs();
+	} else {
+		nCovariates = currentParams.nCovariates();
+	}
 	// Find the number of subjects
 	unsigned int nSubjects = dataset.nSubjects();
 
@@ -1558,7 +1573,12 @@ void gibbsForPhiInActive(mcmcChain<diPBaCParams>& chain,
 	unsigned int maxNClusters = currentParams.maxNClusters();
 
 	// Find the number of covariates
-	unsigned int nCovariates = currentParams.nCovariates();
+	unsigned int nCovariates = 0;
+	if(model.options().covariateType().compare("Mixed")==0){
+		nCovariates = currentParams.nContinuousCovs();
+	} else {
+		nCovariates = currentParams.nCovariates();
+	}
 
 	nTry++;
 	nAccept++;
@@ -1596,8 +1616,13 @@ void gibbsForMuInActive(mcmcChain<diPBaCParams>& chain,
 	// Find the number of clusters
 	unsigned int maxZ = currentParams.workMaxZi();
 	unsigned int maxNClusters = currentParams.maxNClusters();
-		// Find the number of covariates
-	unsigned int nCovariates = currentParams.nCovariates();
+	// Find the number of covariates
+	unsigned int nCovariates = 0;
+	if(model.options().covariateType().compare("Mixed")==0){
+		nCovariates = currentParams.nContinuousCovs();
+	} else {
+		nCovariates = currentParams.nCovariates();
+	}
 
 	nTry++;
 	nAccept++;
@@ -2168,6 +2193,8 @@ void gibbsForZ(mcmcChain<diPBaCParams>& chain,
 	unsigned int nFixedEffects=dataset.nFixedEffects();
 	unsigned int nCategoriesY=dataset.nCategoriesY();
 	unsigned int nCovariates=dataset.nCovariates();
+	unsigned int nDiscreteCovs=dataset.nDiscreteCovs();
+	unsigned int nContinuousCovs=dataset.nContinuousCovs();
 	vector<unsigned int>nCategories=dataset.nCategories();
 	const vector<vector<bool> >& missingX=dataset.missingX();
 	bool includeResponse = model.options().includeResponse();
@@ -2264,7 +2291,7 @@ void gibbsForZ(mcmcChain<diPBaCParams>& chain,
 		for(unsigned int i=nSubjects;i<nSubjects+nPredictSubjects;i++){
 			logPXiGivenZi[i].resize(maxNClusters,0.0);
 
-			unsigned int nNotMissing=dataset.nCovariatesNotMissing(i);
+			unsigned int nNotMissing=dataset.nContinuousCovariatesNotMissing(i);
 
 			for(unsigned int c=0;c<maxNClusters;c++){
 				if(u[i]<testBound[c]){
@@ -2306,6 +2333,94 @@ void gibbsForZ(mcmcChain<diPBaCParams>& chain,
 
 					}
 					logPXiGivenZi[i][c]=logPdfMultivarNormal(nNotMissing,xi,muStar,sqrtTau,logDetTau);
+				}
+			}
+		}
+
+	}else if(covariateType.compare("Mixed")==0){
+		for(unsigned int i=0;i<nSubjects;i++){
+			VectorXd xi=VectorXd::Zero(nContinuousCovs);
+			logPXiGivenZi[i].resize(maxNClusters,0);
+			for(unsigned int c=0;c<maxNClusters;c++){
+				if(u[i]<testBound[c]){
+					if(currentParams.z(i)==(int)c){
+						logPXiGivenZi[i][c]=currentParams.workLogPXiGivenZi(i);
+					}else{
+						logPXiGivenZi[i][c]=0;
+						for(unsigned int j=0;j<nDiscreteCovs;j++){
+							int Xij = currentParams.workDiscreteX(i,j);
+							logPXiGivenZi[i][c]+=currentParams.workLogPhiStar(c,j,(unsigned int)Xij);
+						}
+						for(unsigned int j=0;j<nContinuousCovs;j++){
+							xi(j)=currentParams.workContinuousX(i,j);
+						}
+						logPXiGivenZi[i][c]+=logPdfMultivarNormal(nContinuousCovs,xi,currentParams.workMuStar(c),currentParams.workSqrtTau(c),currentParams.workLogDetTau(c));
+					}
+				}
+			}
+		}
+
+		// For the predictive subjects we do not count missing data
+		for(unsigned int i=nSubjects;i<nSubjects+nPredictSubjects;i++){
+			logPXiGivenZi[i].resize(maxNClusters,0);
+			for(unsigned int c=0;c<maxNClusters;c++){
+				if(u[i]<testBound[c]){
+					for(unsigned int j=0;j<nDiscreteCovs;j++){
+						if(!missingX[i][j]){
+							int Xij = currentParams.workDiscreteX(i,j);
+							logPXiGivenZi[i][c]+=currentParams.workLogPhiStar(c,j,(unsigned int)Xij);
+						}
+					}
+				}
+			}
+		}
+
+		// For the predictive subjects we do not count missing data
+		LLT<MatrixXd> llt;
+		for(unsigned int i=nSubjects;i<nSubjects+nPredictSubjects;i++){
+
+			unsigned int nNotMissing=dataset.nContinuousCovariatesNotMissing(i);
+
+			for(unsigned int c=0;c<maxNClusters;c++){
+				if(u[i]<testBound[c]){
+					VectorXd workMuStar=currentParams.workMuStar(c);
+
+					VectorXd xi=VectorXd::Zero(nNotMissing);
+					VectorXd muStar=VectorXd::Zero(nNotMissing);
+					MatrixXd sqrtTau=MatrixXd::Zero(nNotMissing,nNotMissing);
+					double logDetTau =0.0;
+					if(nNotMissing==nContinuousCovs){
+						muStar=workMuStar;
+						sqrtTau=currentParams.workSqrtTau(c);
+						logDetTau=currentParams.workLogDetTau(c);
+						for(unsigned int j=0;j<nContinuousCovs;j++){
+							xi(j)=currentParams.workContinuousX(i,j);
+						}
+					}else{
+						MatrixXd workSigma=currentParams.Sigma(c);
+						MatrixXd Sigma=MatrixXd::Zero(nNotMissing,nNotMissing);
+						MatrixXd Tau=MatrixXd::Zero(nNotMissing,nNotMissing);
+						unsigned int j=0;
+						for(unsigned int j0=0;j0<nContinuousCovs;j0++){
+							if(!missingX[i][j0]){
+								xi(j)=currentParams.workContinuousX(i,j0);
+								muStar(j)=workMuStar(j0);
+								unsigned int r=0;
+								for(unsigned int j1=0;j1<nContinuousCovs;j1++){
+									if(!missingX[i][j1]){
+										Sigma(j,r)=workSigma(j0,j1);
+										r++;
+									}
+								}
+								j++;
+							}
+						}
+						Tau = Sigma.inverse();
+						sqrtTau = (llt.compute(Tau)).matrixU();
+						logDetTau = log(Tau.determinant());
+
+					}
+					logPXiGivenZi[i][c]+=logPdfMultivarNormal(nNotMissing,xi,muStar,sqrtTau,logDetTau);
 				}
 			}
 		}
@@ -2429,6 +2544,7 @@ void gibbsForZ(mcmcChain<diPBaCParams>& chain,
 			}
 		}
 		unsigned int zi;
+
 		if(maxNClusters==1){
 			zi=0;
 		}else{
@@ -2459,7 +2575,6 @@ void gibbsForZ(mcmcChain<diPBaCParams>& chain,
 			}
 		}
 	}
-
 	currentParams.workNXInCluster(nMembers);
 	currentParams.workMaxZi(maxZ);
 
@@ -2473,6 +2588,8 @@ void updateMissingDiPBaCData(baseGeneratorType& rndGenerator,
 
 	unsigned int nSubjects = dataset.nSubjects();
 	unsigned int nCovariates = dataset.nCovariates();
+	unsigned int nDiscreteCovs = dataset.nDiscreteCovs();
+	unsigned int nContinuousCovs = dataset.nContinuousCovs();
 	vector<unsigned int> nCategories = params.nCategories();
 	string covariateType = options.covariateType();
 
@@ -2518,7 +2635,7 @@ void updateMissingDiPBaCData(baseGeneratorType& rndGenerator,
 	}else if(covariateType.compare("Normal")==0){
 		for(unsigned int i=0;i<nSubjects;i++){
 			// Check if there is anything to do
-			if(dataset.nCovariatesNotMissing(i)<nCovariates){
+			if(dataset.nContinuousCovariatesNotMissing(i)<nCovariates){
 				int zi = params.z(i);
 				VectorXd newXi=multivarNormalRand(rndGenerator,params.workMuStar(zi),params.Sigma(zi));
 				for(unsigned int j=0;j<nCovariates;j++){
@@ -2533,6 +2650,62 @@ void updateMissingDiPBaCData(baseGeneratorType& rndGenerator,
 				params.workLogPXiGivenZi(i,logVal);
 			}
 		}
+
+	}else if(covariateType.compare("Mixed")==0){
+		// Discrete part of mixed type covariates
+		// We don't update the predictive subjects as their X values which
+		// were missing are not used anywhere
+		for(unsigned int i=0;i<nSubjects;i++){
+			int zi = params.z(i);
+			for(unsigned int j=0;j<nDiscreteCovs;j++){
+				if(dataset.missingX(i,j)){
+					vector<double> cumPhiStar(nCategories[j]);
+					// Sample uniform
+					double u=unifRand(rndGenerator);
+					int k=0;
+					cumPhiStar[k]=exp(params.workLogPhiStar(zi,j,k));
+					while(u>cumPhiStar[k]){
+						k++;
+						// Make phi cumulative
+						cumPhiStar[k]=cumPhiStar[k-1]+exp(params.workLogPhiStar(zi,j,k));
+					}
+
+					int prevX = params.workDiscreteX(i,j);
+					dataset.discreteX(i,j,k);
+					params.workDiscreteX(i,j,k);
+					// Now we need to recompute the workLogPXiGivenZi values based
+					// on the new X
+					if(prevX!=k){
+						double logVal = params.workLogPXiGivenZi(i);
+						double oldVal, newVal;
+						oldVal = params.workLogPhiStar(zi,j,prevX);
+						newVal = params.workLogPhiStar(zi,j,k);
+						logVal+=(newVal-oldVal);
+						params.workLogPXiGivenZi(i,logVal);
+					}
+				}
+			}
+		}
+
+		// Normal part of mixed type covariates
+		for(unsigned int i=0;i<nSubjects;i++){
+			// Check if there is anything to do
+			if(dataset.nContinuousCovariatesNotMissing(i)<nContinuousCovs){
+				int zi = params.z(i);
+				VectorXd newXi=multivarNormalRand(rndGenerator,params.workMuStar(zi),params.Sigma(zi));
+				for(unsigned int j=0;j<nContinuousCovs;j++){
+					if(dataset.missingX(i,j)){
+						dataset.continuousX(i,j,newXi(j));
+						params.workContinuousX(i,j,newXi(j));
+					}else{
+						newXi(j)=dataset.continuousX(i,j);
+					}
+				}
+				double logVal = logPdfMultivarNormal(nCovariates,newXi,params.workMuStar(zi),params.workSqrtTau(zi),params.workLogDetTau(zi));
+				params.workLogPXiGivenZi(i,logVal);
+			}
+		}
+
 
 	}
 
