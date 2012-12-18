@@ -7,6 +7,7 @@
 \alias{clusSummaryPoissonDiscrete}
 \alias{clusSummaryPoissonNormal}
 \alias{clusSummaryVarSelectBernoulliDiscrete}
+\alias{clusSummaryBernoulliMixed}
 \title{Definition of characteristics of sample datasets for profile regression}
 \description{.}
 \usage{
@@ -19,6 +20,7 @@ clusSummaryNormalNormal()
 clusSummaryPoissonDiscrete()
 clusSummaryPoissonNormal()
 clusSummaryVarSelectBernoulliDiscrete()
+clusSummaryBernoulliMixed()
 }
 \value{
 Need to write this 

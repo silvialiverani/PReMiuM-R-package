@@ -30,67 +30,32 @@ Hastie et al (2012) blah blah
 }
 \examples{
 
-# generation of data for clustering
-## generation of fixed effects
-fe1<-rnorm(200,0,1)
-fe2<-runif(200,0,1)
-## generation of the outcome 
-beta<-c(2,3)
-W <- cbind(fe1,fe2) %*% beta
-theta<- c(-7,0,3)
-clusterIndex<-c(rep(1,80),rep(2,60),rep(3,60))
-mu<-theta[clusterIndex]+W
-p<-1/(1+exp(-mu))
-outcome<-vector()
-for (i in 1:200){
-    if(runif(1)<p[i]){
-        outcome[i]<-1
-    }else{
-        outcome[i]<-0
-    }
-}
-## generation of the covariates
-covariateProbs<-list(list(c(0.8,0.1,0.1),
-    c(0.8,0.1,0.1),
-    c(0.8,0.1,0.1),
-    c(0.8,0.1,0.1),
-    c(0.8,0.1,0.1)),
-    list(c(0.1,0.8,0.1),
-    c(0.1,0.8,0.1),
-    c(0.1,0.8,0.1),
-    c(0.1,0.8,0.1),
-    c(0.8,0.1,0.1)),
-    list(c(0.8,0.1,0.1),
-    c(0.1,0.1,0.8),
-    c(0.1,0.1,0.8),
-    c(0.1,0.1,0.8),
-    c(0.1,0.1,0.8)))
-X<-data.frame(Var1=rep(NA,200),Var2=rep(NA,200),
-    Var3=rep(NA,200),Var4=rep(NA,200),Var5=rep(NA,200))
-for (i in 1:200){
-    for (j in 1:5){
-        u<-runif(1)
-        for(kk in 1:3){
-            if(u<cumsum(covariateProbs[[clusterIndex[i]]][[j]])[kk]){
-                X[i,j]<-kk-1
-                break
-            }
-        }
-    }	
-}
+# example for Poisson outcome and Discrete covariates
+inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
+runInfoObj<-profRegr(yModel=inputs$yModel, 
+    xModel=inputs$xModel, nSweeps=1000, 
+    nBurn=1000, data=inputs$inputData, output="output", 
+    covNames = inputs$covNames, outcomeT = inputs$outcomeT,
+    fixedEffectsNames = inputs$fixedEffectNames)
 
-inputData<-data.frame(cbind(outcome,X,fe1,fe2))
+dissimObj<-calcDissimilarityMatrix(runInfoObj)
+clusObj<-calcOptimalClustering(dissimObj)
+riskProfileObj<-calcAvgRiskAndProfile(clusObj)
+clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
 
-runInfoObj<-profRegr(yModel="Bernoulli", xModel="Discrete", nSweeps=100, 
-    nBurn=100, data=inputData, output="output", 
-    covNames=c("Var1","Var2","Var3","Var4","Var5"),
-    fixedEffectsNames=c("fe1","fe2"))
+# example with Bernoulli outcome and Mixed covariates
+inputs <- generateSampleDataFile(clusSummaryBernoulliMixed())
+runInfoObj<-profRegr(yModel=inputs$yModel, 
+    xModel=inputs$xModel, nSweeps=1000, 
+    nBurn=1000, data=inputs$inputData, output="output", 
+    discreteCovs = inputs$discreteCovs,
+    continuousCovs = inputs$continuousCovs, nClusInit=10)
 
 dissimObj<-calcDissimilarityMatrix(runInfoObj)
 clusObj<-calcOptimalClustering(dissimObj)
 riskProfileObj<-calcAvgRiskAndProfile(clusObj)
 clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
-    whichCovariates=c(1,2))
+    whichCovariates=c(1,2,4,5))
 
 
 }

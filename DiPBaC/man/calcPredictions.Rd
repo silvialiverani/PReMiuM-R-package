@@ -65,26 +65,24 @@ Need to write this
 }
 \author{David Hastie and Silvia Liverani}
 \examples{
-# generate data
-generateDataList <- clusSummaryBernoulliDiscrete()
-inputs <- generateSampleDataFile(generateDataList)
-
+inputs <- generateSampleDataFile(clusSummaryBernoulliDiscrete())
+     
 # prediction profiles
 preds<-data.frame(matrix(c(0, 0, 1, 0, 0,
 0, 0, 1, NA, 0),ncol=5,byrow=TRUE))
-colnames(preds)<-names(inputs$inputData)[-1]
-
+colnames(preds)<-names(inputs$inputData)[2:(inputs$nCovariates+1)]
+     
 # run profiel regression
 runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
     nSweeps=100, nBurn=1000, data=inputs$inputData, output="output", 
     covNames=inputs$covNames,predict=preds)
-
+     
 # postprocessing
-dissimObj<-calcDissimilarityMatrix(runInfoObj)
-clusObj<-calcOptimalClustering(dissimObj)
-riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
-	whichCovariates=c(1,2))
-calcPredictions(riskProfileObj)
+dissimObj <- calcDissimilarityMatrix(runInfoObj)
+clusObj <- calcOptimalClustering(dissimObj)
+riskProfileObj <- calcAvgRiskAndProfile(clusObj)
+clusterOrderObj <- plotRiskProfile(riskProfileObj,"summary.png",
+    whichCovariates=c(1,2))
+output_predictions <- calcPredictions(riskProfileObj,fullSweepPredictions=TRUE)
 }
 

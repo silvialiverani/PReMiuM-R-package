@@ -38,7 +38,7 @@ generateSampleDataFile<-function(clusterSummary){
 	if (is.null(nCategoriesY)) nCategoriesY<-1
    
 	# Clustering covariates X
-	X<-matrix(-999,nSubjects,nCovariates)
+	X<-matrix(NA,nSubjects,nCovariates)
 
 	k<-1
 	
@@ -56,7 +56,7 @@ generateSampleDataFile<-function(clusterSummary){
 		if(covariateType=='Discrete'){
 			for(j in 1:nCovariates){
 				if(i>1&&runif(1)<missingDataProb){
-					X[i,j]<--999
+					X[i,j]<-NA
 				}else{
 					u<-runif(1)
 					nCategories<-length(clusterData$covariateProbs[[j]])
@@ -72,13 +72,13 @@ generateSampleDataFile<-function(clusterSummary){
 			X[i,]<-clusterData$covariateMeans+t(chol(clusterData$covariateCovariance))%*%rnorm(nCovariates,0,1)
 			for(j in 1:nCovariates){
 				if(i>1&&runif(1)<missingDataProb){
-					X[i,j]<--999
+					X[i,j]<-NA
 				}
 			}
 		}else if(covariateType=='Mixed'){
 			for(j in 1:nDiscreteCovs){
 				if(i>1&&runif(1)<missingDataProb){
-					X[i,j]<--999
+					X[i,j]<-NA
 				}else{
 					u<-runif(1)
 					nCategories<-length(clusterData$covariateProbs[[j]])
@@ -93,7 +93,7 @@ generateSampleDataFile<-function(clusterSummary){
 			X[i,(nDiscreteCovs+1):nCovariates]<-clusterData$covariateMeans+t(chol(clusterData$covariateCovariance))%*%rnorm(nContinuousCovs,0,1)
 			for(j in 1:nContinuousCovs){
 				if(i>1&&runif(1)<missingDataProb){
-					X[i,j]<--999
+					X[i,j]<-NA
 				}
 			}
 		}

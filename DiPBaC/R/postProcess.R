@@ -146,7 +146,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		if(is.na(outcomeT)){
 			stop ("It is required to set outcomeT for Poisson (offset) or Binomial (number of trials) outcome.")
 		} else {
-			dataMatrix<-cbind(dataMatrix,outcomeT)	
+			indexOutcomeT <- which(colnames(data)==outcomeT)
+			dataMatrix <- cbind(dataMatrix,data[indexOutcomeT])
 		}
 	} else {
 		if(!is.na(outcomeT)) stop ("It is only required to set outcomeT for Poisson and Binomial outcome.")
@@ -266,12 +267,16 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		"nSubjects"=nSubjects,
 		"nPredictSubjects"=nPreds,
 		"covNames"=covNames,
+		"discreteCovs"=ifelse(xModel=="Mixed",discreteCovs,NA),
+		"continuousCovs"=ifelse(xModel=="Mixed",continuousCovs,NA),
 		"xModel"=xModel,
 		"includeResponse"=includeResponse,
 		"yModel"=yModel,
 		"varSelect"=varSelect,
 		"varSelectType"=varSelType,
 		"nCovariates"=nCovariates,
+		"nDiscreteCovs"=ifelse(xModel=="Mixed",nDiscreteCovs,NA),
+		"nContinuousCovs"=ifelse(xModel=="Mixed",nContinuousCovs,NA),
 		"nFixedEffects"=nFixedEffects,
 		"nCategoriesY"=yLevels,
 		"nCategories"=xLevels,
@@ -478,6 +483,27 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 				gammaFile<-file(gammaFileName,open="r")
 			}
 		}
+	}else if(xModel=="Mixed"){
+		# Construct the allocation file name
+		phiFileName <- file.path(directoryPath,paste(fileStem,'_phi.txt',sep=''))
+		phiFile<-file(phiFileName,open="r")
+		# Get the maximum number of categories
+		maxNCategories<-max(nCategories)
+		muFileName <- file.path(directoryPath,paste(fileStem,'_mu.txt',sep=''))
+		muFile<-file(muFileName,open="r")
+		SigmaFileName <- file.path(directoryPath,paste(fileStem,'_Sigma.txt',sep=''))
+		SigmaFile<-file(SigmaFileName,open="r")
+		if(varSelect){
+			nullPhiFileName <- file.path(directoryPath,paste(fileStem,'_nullPhi.txt',sep=''))
+			nullMuFileName <- file.path(directoryPath,paste(fileStem,'_nullMu.txt',sep=''))
+			if(varSelectType=="Continuous"){
+				gammaFileName <- file.path(directoryPath,paste(fileStem,'_rho.txt',sep=''))
+				gammaFile<-file(gammaFileName,open="r")
+			}else{
+				gammaFileName <- file.path(directoryPath,paste(fileStem,'_gamma.txt',sep=''))
+				gammaFile<-file(gammaFileName,open="r")
+			}
+		}
 	}
 	
 	if(includeResponse){
@@ -537,6 +563,27 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 			muStarArray<-NULL
 		}
 		sigmaArray<-array(dim=c(nSamples,nClusters,nCovariates,nCovariates))
+	}else if(xModel=='Mixed'){
+		phiArray<-array(dim=c(nSamples,nClusters,nDiscreteCovs,maxNCategories))
+		if(varSelect){
+			phiStarArray<-array(dim=c(nSamples,nClusters,nDiscreteCovs,maxNCategories))
+			tmpCurrNullPhi<-scan(nullPhiFileName,what=double(),quiet=T)
+			tmpCurrNullPhi<-array(tmpCurrNullPhi,dim=c(maxNCategories,nDiscreteCovs))
+			currNullPhi<-array(dim=c(1,maxNCategories,nDiscreteCovs))
+			currNullPhi[1,,]<-tmpCurrNullPhi
+		}else{
+			phiStarArray<-NULL
+		}
+		muArray<-array(dim=c(nSamples,nClusters,nContinuousCovs))
+		if(varSelect){
+			muStarArray<-array(dim=c(nSamples,nClusters,nContinuousCovs))
+			currNullMu<-scan(nullMuFileName,what=double(),quiet=T)
+			currNullMu<-array(currNullMu,dim=c(nContinuousCovs,1))
+			currNullMu<-t(currNullMu)
+		}else{
+			muStarArray<-NULL
+		}
+		sigmaArray<-array(dim=c(nSamples,nClusters,nContinuousCovs,nContinuousCovs))
 	}
 	
 	
@@ -611,23 +658,23 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 		if(xModel=='Discrete'){
 			currPhi<-scan(phiFile,what=double(),
 				skip=skipVal,n=currMaxNClusters*maxNCategories*nCovariates,quiet=T)
-				# This is slightly convoluted, because of the way that R reads in by column
-				# I switched the order of categories and covariates in column below, and then
-				# take the transpose to correct in the loop
-				currPhi<-array(currPhi,dim=c(currMaxNClusters,maxNCategories,nCovariates))
-				if(varSelect){
-					# We increase dimensions of currGamma using duplicates, to
-					# enable easier calculation of phiStar
-					if(varSelectType=='BinaryCluster'){
-						tmpCurrGamma<-scan(gammaFile,what=double(),
-							skip=skipVal,n=nCovariates*currMaxNClusters,quiet=T)
-						tmpCurrGamma<-array(tmpCurrGamma,dim=c(currMaxNClusters,nCovariates))
-					}else{
-						tmpCurrGamma<-scan(gammaFile,what=double(),skip=skipVal,n=nCovariates,quiet=T)
-						tmpCurrGamma<-array(tmpCurrGamma,dim=c(nCovariates,currMaxNClusters))
-						tmpCurrGamma<-t(tmpCurrGamma)
-					}
-					currGamma<-array(dim=c(currMaxNClusters,maxNCategories,nCovariates))
+			# This is slightly convoluted, because of the way that R reads in by column
+			# I switched the order of categories and covariates in column below, and then
+			# take the transpose to correct in the loop
+			currPhi<-array(currPhi,dim=c(currMaxNClusters,maxNCategories,nCovariates))
+			if(varSelect){
+				# We increase dimensions of currGamma using duplicates, to
+				# enable easier calculation of phiStar
+				if(varSelectType=='BinaryCluster'){
+					tmpCurrGamma<-scan(gammaFile,what=double(),
+						skip=skipVal,n=nCovariates*currMaxNClusters,quiet=T)
+					tmpCurrGamma<-array(tmpCurrGamma,dim=c(currMaxNClusters,nCovariates))
+				}else{
+					tmpCurrGamma<-scan(gammaFile,what=double(),skip=skipVal,n=nCovariates,quiet=T)
+					tmpCurrGamma<-array(tmpCurrGamma,dim=c(nCovariates,currMaxNClusters))
+					tmpCurrGamma<-t(tmpCurrGamma)
+				}
+				currGamma<-array(dim=c(currMaxNClusters,maxNCategories,nCovariates))
 				for(p in 1:maxNCategories){
 					currGamma[,p,]<-tmpCurrGamma
 				}
@@ -683,6 +730,63 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 				sigmaArray[sweep-firstLine+1,c,,]<-apply(array(currSigma[currZ[optAlloc[[c]]],,],
 					dim=c(length(optAlloc[[c]]),dim(currSigma)[2],dim(currSigma)[3])),2:3,mean)
 			}
+		}else if(xModel=='Mixed'){
+			currPhi<-scan(phiFile,what=double(),
+				skip=skipVal,n=currMaxNClusters*maxNCategories*nDiscreteCovs,quiet=T)
+			# This is slightly convoluted, because of the way that R reads in by column
+			# I switched the order of categories and covariates in column below, and then
+			# take the transpose to correct in the loop
+			currPhi<-array(currPhi,dim=c(currMaxNClusters,maxNCategories,nDiscreteCovs))
+			# mu stored like phi
+			currMu<-scan(muFile,what=double(),skip=skipVal,n=currMaxNClusters*nContinuousCovs,quiet=T)
+			currMu<-array(currMu,dim=c(currMaxNClusters,nContinuousCovs))
+			if(varSelect){
+				# We increase dimensions of currGamma using duplicates, to
+				# enable easier calculation of phiStar
+				if(varSelectType=='BinaryCluster'){
+					tmpCurrGamma<-scan(gammaFile,what=double(),
+						skip=skipVal,n=nCovariates*currMaxNClusters,quiet=T)
+					tmpCurrGamma<-array(tmpCurrGamma,dim=c(currMaxNClusters,nCovariates))
+				}else{
+					tmpCurrGamma<-scan(gammaFile,what=double(),skip=skipVal,n=nCovariates,quiet=T)
+					tmpCurrGamma<-array(tmpCurrGamma,dim=c(nCovariates,currMaxNClusters))
+					tmpCurrGamma<-t(tmpCurrGamma)
+				}
+				currGamma<-array(dim=c(currMaxNClusters,maxNCategories,nCovariates))
+				for(p in 1:maxNCategories){
+					currGamma[,p,]<-tmpCurrGamma
+				}
+			}	
+			for(c in 1:nClusters){
+				phiArray[sweep-firstLine+1,c,,]<-t(apply(array(currPhi[currZ[optAlloc[[c]]],,],
+					dim=c(length(optAlloc[[c]]),
+					dim(currPhi)[2],dim(currPhi)[3])),2:3,mean))
+				if(varSelect){
+					phiStarArray[sweep-firstLine+1,c,,]<-t(apply(array(currGamma[currZ[optAlloc[[c]]],,],
+						dim=c(length(optAlloc[[c]]),dim(currGamma)[2],
+						dim(currGamma)[3]))*array(currPhi[currZ[optAlloc[[c]]],,],
+						dim=c(length(optAlloc[[c]]),dim(currPhi)[2],dim(currPhi)[3]))+
+						(1-array(currGamma[currZ[optAlloc[[c]]],,],
+						dim=c(length(optAlloc[[c]]),dim(currGamma)[2],dim(currGamma)[3])))*
+						array(currNullPhi[rep(1,length(optAlloc[[c]])),,],
+						dim=c(length(optAlloc[[c]]),dim(currNullPhi)[2],
+						dim(currNullPhi)[3])),2:3,mean))
+				}
+				muArray[sweep-firstLine+1,c,]<-apply(matrix(currMu[currZ[optAlloc[[c]]],],ncol=nContinuousCovs),2,mean)
+				if(varSelect){
+					muStarArray[sweep-firstLine+1,c,]<-apply(matrix(currGamma[currZ[optAlloc[[c]]],],
+						ncol=nContinuousCovs)*matrix(currMu[currZ[optAlloc[[c]]],],ncol=nContinuousCovs)+
+						matrix(1-currGamma[currZ[optAlloc[[c]]],],ncol=nContinuousCovs)*
+						matrix(currNullMu[rep(1,length(optAlloc[[c]])),],ncol=nContinuousCovs),2,mean)
+				}
+			}
+	
+			currSigma<-scan(SigmaFile,what=double(),skip=skipVal,n=currMaxNClusters*nContinuousCovs*nContinuousCovs,quiet=T)
+			currSigma<-array(currSigma,dim=c(currMaxNClusters,nContinuousCovs,nContinuousCovs))
+			for(c in 1:nClusters){
+				sigmaArray[sweep-firstLine+1,c,,]<-apply(array(currSigma[currZ[optAlloc[[c]]],,],
+					dim=c(length(optAlloc[[c]]),dim(currSigma)[2],dim(currSigma)[3])),2:3,mean)
+			}
 		}
 	}
 	
@@ -706,6 +810,11 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 		out<-list('riskProfClusObj'=clusObj,'risk'=riskArray,
 			'profile'=muArray,'profileStar'=muStarArray,
 			'profileStdDev'=sigmaArray,'empiricals'=empiricals)
+	}else if(xModel=='Mixed'){
+		out<-list('riskProfClusObj'=clusObj,'risk'=riskArray,
+			'profilePhi'=phiArray,'profileStarPhi'=phiStarArray,
+			'profileMu'=muArray,'profileStarMu'=muStarArray,
+			'profileStdDev'=sigmaArray,'empiricals'=empiricals)
 	}
 	
 	close(zFile)
@@ -721,7 +830,15 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 		if(varSelect){
 			close(gammaFile)
 		}
+	}else if(xModel=="Mixed"){
+		close(phiFile)
+		close(muFile)
+		close(SigmaFile)
+		if(varSelect){
+			close(gammaFile)
+		}
 	}
+
 	
 	if(includeResponse){
 		close(thetaFile)
@@ -764,12 +881,30 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 		if(xModel=='Discrete'){
 			profile<-profile[,,whichCovariates,]
 			nCategories<-nCategories[whichCovariates]
+			covNames<-covNames[whichCovariates]
+			nCovariates<-length(whichCovariates)
 		}else if(xModel=='Normal'){
 			profile<-profile[,,whichCovariates]
 			profileStdDev<-profileStdDev[,,whichCovariates,whichCovariates]
+			covNames<-covNames[whichCovariates]
+			nCovariates<-length(whichCovariates)
+		}else if(xModel=='Mixed'){
+			nDiscreteCovsAll <- nDiscreteCovs
+			nContinuousCovsAll <- nContinuousCovs
+			whichDiscreteCovs <- which(whichCovariates<=nDiscreteCovs)
+			discreteCovs <- discreteCovs[whichDiscreteCovs]
+			nDiscreteCovs <- length(discreteCovs)
+			tmpContCovs <- whichCovariates-nDiscreteCovsAll
+			whichContinuousCovs <- tmpContCovs[tmpContCovs>=0]
+			continuousCovs <- continuousCovs[whichContinuousCovs]
+			nContinuousCovs <- length(continuousCovs)
+			profilePhi<-profilePhi[,,whichDiscreteCovs,]
+			nCategories<-nCategories[whichDiscreteCovs]
+			profileMu<-profileMu[,,whichContinuousCovs]
+			profileStdDev<-profileStdDev[,,whichContinuousCovs,whichContinuousCovs]
+			covNames<-c(discreteCovs,continuousCovs)
+			nCovariates<-length(covNames)
 		}
-		covNames<-covNames[whichCovariates]
-		nCovariates<-length(whichCovariates)
 	}
 
 	png(outFile,width=1200,height=800)
@@ -1182,7 +1317,149 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 				theme(plot.margin=unit(c(0,0,0,0),'lines'))
 		
 			print(plotObj,vp=viewport(layout.pos.row=4:6,layout.pos.col=j+2))
+		}else if(xModel=='Mixed'){
+			if (j<=nDiscreteCovs){
+			profileDF<-data.frame("prob"=c(),"cluster"=c(),"category"=c(),"meanProb"=c(),
+				"lowerProb"=c(),"upperProb"=c(),"fillColor"=c())
+			for(k in 1:nCategories[j]){
+				probMat<-profilePhi[,meanSortIndex,j,k]
+				nPoints<-nrow(probMat)
+				probMeans<-apply(probMat,2,mean)
+				probMean<-sum(probMeans*clusterSizes)/sum(clusterSizes)
+				probLower<-apply(probMat,2,quantile,0.05)
+				probUpper<-apply(probMat,2,quantile,0.95)
+		
+				# Get the plot colors
+				probColor<-ifelse(probLower>rep(probMean,nClusters),"high",
+				ifelse(probUpper<rep(probMean,nClusters),"low","avg"))
+			
 	
+				for(c in whichClusters){
+					profileDF<-rbind(profileDF,data.frame("prob"=probMat[,c],"cluster"=rep(c,nPoints),
+						"category"=rep(k-1,nPoints),
+						"meanProb"=rep(probMean,nPoints),
+						"lowerProb"=rep(probLower[c],nPoints),
+						"upperProb"=rep(probUpper[c],nPoints),
+						"fillColor"=rep(probColor[c],nPoints)))
+						 rownames(profileDF)<-seq(1,nrow(profileDF),1)
+				
+				}
+			}
+		
+			plotObj<-ggplot(profileDF)
+			plotObj<-plotObj+facet_wrap(~category,ncol=1,as.table=F,scales="free_y")
+			plotObj<-plotObj+geom_hline(aes(x=as.factor(cluster),y=prob,yintercept=meanProb))
+			plotObj<-plotObj+geom_boxplot(aes(x=as.factor(cluster),y=prob,fill=as.factor(fillColor)),outlier.size=0.5)
+			plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=lowerProb,colour=as.factor(fillColor)),size=1.5)
+			plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=upperProb,colour=as.factor(fillColor)),size=1.5)
+			plotObj<-plotObj+
+				scale_fill_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
+				scale_colour_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
+				theme(legend.position="none")+labs(x="Cluster")+theme(axis.title.x=element_text(size=10))
+			if(j==1){
+				plotObj<-plotObj+labs(y="Probability")+theme(axis.title.y=element_text(size=10,angle=90))
+			}else{
+				plotObj<-plotObj+theme(axis.title.y=element_blank())
+			}
+			plotObj<-plotObj+labs(title=covNames[j],plot.title=element_text(size=10))
+			plotObj<-plotObj+theme(plot.margin=unit(c(0.5,ifelse(j==nCovariates,1,0),0.5,ifelse(j==1,0.5,0)),'lines'))+
+				theme(plot.margin=unit(c(0,0,0,0),'lines'))
+		
+			print(plotObj,vp=viewport(layout.pos.row=1:6,layout.pos.col=j+2))
+			} else {			
+			# Plot the means
+			profileDF<-data.frame("mu"=c(),"cluster"=c(),"muMean"=c(),
+				"lowerMu"=c(),"upperMu"=c(),"fillColor"=c())
+			muMat<-profileMu[,meanSortIndex,(j-nDiscreteCovs)]
+			muMeans<-apply(muMat,2,mean)
+			muMean<-sum(muMeans*clusterSizes)/sum(clusterSizes)
+			muLower<-apply(muMat,2,quantile,0.05)
+			muUpper<-apply(muMat,2,quantile,0.95)
+			# The next line is to avoid outliers spoiling plot scales
+			plotMax<-2*max(muUpper)-muMean
+			plotMin<-2*min(muLower)-muMean
+			
+			# Get the plot colors
+			muColor<-ifelse(muLower>rep(muMean,nClusters),"high",
+			ifelse(muUpper<rep(muMean,nClusters),"low","avg"))
+			for(c in whichClusters){
+				plotMu<-muMat[,c]
+				plotMu<-plotMu[plotMu<plotMax&plotMu>plotMin]
+				nPoints<-length(plotMu)
+				profileDF<-rbind(profileDF,data.frame("mu"=plotMu,"cluster"=rep(c,nPoints),
+					"meanMu"=rep(muMean,nPoints),
+					"lowerMu"=rep(muLower[c],nPoints),
+					"upperMu"=rep(muUpper[c],nPoints),
+					"fillColor"=rep(muColor[c],nPoints)))
+			}
+			rownames(profileDF)<-seq(1,nrow(profileDF),1)
+			
+			plotObj<-ggplot(profileDF)
+			plotObj<-plotObj+geom_hline(aes(x=as.factor(cluster),y=mu,yintercept=meanMu))
+			plotObj<-plotObj+geom_boxplot(aes(x=as.factor(cluster),y=mu,fill=as.factor(fillColor)),outlier.size=0.5)
+			plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=lowerMu,colour=as.factor(fillColor)),size=1.5)
+			plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=upperMu,colour=as.factor(fillColor)),size=1.5)
+			plotObj<-plotObj+
+				scale_fill_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
+				scale_colour_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
+				theme(legend.position="none")+labs(x="Cluster")+theme(axis.title.x=element_text(size=10))
+			if(j==1){
+				plotObj<-plotObj+labs(y="Mean")+theme(axis.title.y=element_text(size=10,angle=90))
+			}else{
+				plotObj<-plotObj+theme(axis.title.y=element_blank())
+			}
+				plotObj<-plotObj+labs(title=covNames[j],plot.title=element_text(size=10))
+				plotObj<-plotObj+
+					theme(plot.margin=unit(c(0.5,ifelse(j==nCovariates,1,0),0.5,ifelse(j==1,0.5,0)),'lines'))+
+					theme(plot.margin=unit(c(0,0,0,0),'lines'))
+		
+			print(plotObj,vp=viewport(layout.pos.row=1:3,layout.pos.col=j+2))
+		
+			# Plot the variances
+			profileDF<-data.frame("sigma"=c(),"cluster"=c(),"sigmaMean"=c(),
+				"lowerSigma"=c(),"upperSigma"=c(),"fillColor"=c())
+			sigmaMat<-profileStdDev[,meanSortIndex,(j-nDiscreteCovs),(j-nDiscreteCovs)]
+			sigmaMeans<-apply(sigmaMat,2,mean)
+			sigmaMean<-sum(sigmaMeans*clusterSizes)/sum(clusterSizes)
+			sigmaLower<-apply(sigmaMat,2,quantile,0.05)
+			sigmaUpper<-apply(sigmaMat,2,quantile,0.95)
+			# The next line is to avoid outliers spoiling plot scales
+			plotMax<-2*max(sigmaUpper)-sigmaMean
+	
+			# Get the plot colors
+			sigmaColor<-ifelse(sigmaLower>rep(sigmaMean,nClusters),"high",
+			ifelse(sigmaUpper<rep(sigmaMean,nClusters),"low","avg"))
+			for(c in whichClusters){
+				plotSigma<-sigmaMat[,c]
+				plotSigma<-plotSigma[plotSigma<plotMax]
+				nPoints<-length(plotSigma)
+				profileDF<-rbind(profileDF,data.frame("sigma"=plotSigma,"cluster"=rep(c,nPoints),
+					"meanSigma"=rep(sigmaMean,nPoints),
+					"lowerSigma"=rep(sigmaLower[c],nPoints),
+					"upperSigma"=rep(sigmaUpper[c],nPoints),
+					"fillColor"=rep(sigmaColor[c],nPoints)))
+			}
+			rownames(profileDF)<-seq(1,nrow(profileDF),1)
+			plotObj<-ggplot(profileDF)
+			plotObj<-plotObj+geom_hline(aes(x=as.factor(cluster),y=sigma,yintercept=meanSigma))
+			plotObj<-plotObj+geom_boxplot(aes(x=as.factor(cluster),y=sigma,fill=as.factor(fillColor)),outlier.size=0.5)
+			plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=lowerSigma,colour=as.factor(fillColor)),size=1.5)
+			plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=upperSigma,colour=as.factor(fillColor)),size=1.5)
+			plotObj<-plotObj+
+				scale_fill_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
+				scale_colour_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
+				theme(legend.position="none")+labs(x="Cluster")+theme(axis.title.x=element_text(size=10))
+			if(j==1){
+				plotObj<-plotObj+labs(y="Std Dev")+theme(axis.title.y=element_text(size=10,angle=90))
+			}else{
+				plotObj<-plotObj+theme(axis.title.y=element_blank())
+			}
+			plotObj<-plotObj+
+				theme(plot.margin=unit(c(0.5,ifelse(j==nCovariates,1,0),0.5,ifelse(j==1,0.5,0)),'lines'))+
+				theme(plot.margin=unit(c(0,0,0,0),'lines'))
+		
+			print(plotObj,vp=viewport(layout.pos.row=4:6,layout.pos.col=j+2))
+		}
 	
 		}
 	}
