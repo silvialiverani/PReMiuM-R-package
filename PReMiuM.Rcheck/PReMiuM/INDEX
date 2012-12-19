@@ -1,0 +1,22 @@
+PReMiuM-package         Dirichlet Process Bayesian Clustering
+calcAvgRiskAndProfile   Calculation of the average risks and profiles
+calcDissimilarityMatrix
+                        Calculates the dissimilarity matrix
+calcOptimalClustering   Calculation of the optimal clustering
+calcPredictions         Calculates the predictions
+clusSummaryBernoulliDiscrete
+                        Definition of characteristics of sample
+                        datasets for profile regression
+compareClustering       Function to compare different partitions
+computeAssociatedVariable
+                        computeAssociatedVariable
+computeRatioOfVariance
+                        computeRatioOfVariance
+generateSampleDataFile
+                        Generate sample data files for profile
+                        regression
+is.wholenumber          Function to check if a number is a whole number
+plotClustering          Plot the clustering using principal components
+plotRiskProfile         Plot the Risk Profiles
+profRegr                Profile Regression
+summariseVarSelectRho   summariseVarSelectRho

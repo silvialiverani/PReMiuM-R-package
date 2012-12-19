@@ -1,0 +1,67 @@
+Date and time: 2012-12-19 13:1917
+
+Data file path: output_input.txt
+
+Output file path: output
+
+Predict file path: No predictions run.
+
+Seed: 1355919557
+
+Number of sweeps: 1000
+Burn in sweeps: 1000
+Output filter: 1
+Proposal Type: gibbsForVActive, Acceptance Rate: 1
+Proposal Type: updateForPhiActive, Acceptance Rate: 1
+Proposal Type: gibbsForMuActive, Acceptance Rate: 1
+Proposal Type: gibbsForTauActive, Acceptance Rate: 1
+Proposal Type: metropolisHastingsForThetaActive, Acceptance Rate: 0.433852
+Proposal Type: metropolisHastingsForLabels, Acceptance Rate: 0.9425
+Proposal Type: gibbsForU, Acceptance Rate: 1
+Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.4365
+Proposal Type: gibbsForVInActive, Acceptance Rate: 1
+Proposal Type: gibbsForPhiInActive, Acceptance Rate: 1
+Proposal Type: gibbsForMuInActive, Acceptance Rate: 1
+Proposal Type: gibbsForTauInActive, Acceptance Rate: 1
+Proposal Type: gibbsForThetaInActive, Acceptance Rate: 1
+Proposal Type: gibbsForZ, Acceptance Rate: 1
+Number of subjects: 900
+Number of prediction subjects: 0
+Sampler type: SliceDependent
+Number of initial clusters: 10
+Covariates: 
+Number of discrete covariates: 3
+Number of continuous covariates: 2
+	Variable1 (categorical)
+	Variable2 (categorical)
+	Variable3 (categorical)
+	Variable4
+	Variable5
+No fixed effects
+Model for Y: Bernoulli
+Extra Y variance: False
+Include response: True
+Update alpha: True
+Compute allocation entropy: False
+Model for X: Mixed
+Variable selection: None
+
+Hyperparameters:
+shapeAlpha: 2
+rateAlpha: 1
+aPhi[j]: 1 1 1 2.85076e-321 6.92004e-310 
+mu0: 
+0.948685
+5.7272
+Tau0:
+0.00150066          0
+         0 0.00101132
+R0: 
+ 0.00725686 0.000582268
+0.000582268   0.0044858
+kappa0: 2
+muTheta: 0
+sigmaTheta: 2.5
+dofTheta: 7
+
+2000 sweeps done in 8 seconds
