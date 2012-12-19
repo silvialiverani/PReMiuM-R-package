@@ -1,4 +1,4 @@
-DiPBaC-R-package
+PReMiuM-R-package
 ================
 
-DiPBaC R package
+PReMiuM R package

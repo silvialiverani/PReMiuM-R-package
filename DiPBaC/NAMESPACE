@@ -1,2 +1,0 @@
-useDynLib(DiPBaC)
-exportPattern("^[[:alpha:]]+")
