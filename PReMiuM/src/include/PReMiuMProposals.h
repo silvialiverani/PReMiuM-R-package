@@ -928,6 +928,7 @@ void gibbsForMuActive(mcmcChain<pReMiuMParams>& chain,
 	for(unsigned int c=0;c<=maxZ;c++){
 		meanX[c].setZero(nCovariates);
 	}
+
 	for(unsigned int i=0;i<nSubjects;i++){
 		meanX[currentParams.z(i)]=meanX[currentParams.z(i)]+xi[i];
 	}
@@ -952,11 +953,10 @@ void gibbsForMuActive(mcmcChain<pReMiuMParams>& chain,
 		}else{
 			meanX[c].setZero(nCovariates);
 		}
-
 		MatrixXd covMat(nCovariates,nCovariates);
 		covMat = (hyperParams.Tau0()+nXInC*gammaMat[c]*currentParams.Tau(c)*gammaMat[c]).inverse();
 		VectorXd meanVec(nCovariates);
-        meanVec = hyperParams.Tau0()*hyperParams.mu0()+
+	        meanVec = hyperParams.Tau0()*hyperParams.mu0()+
 					nXInC*gammaMat[c]*currentParams.Tau(c)*(meanX[c]-oneMinusGammaMat[c]*currentParams.nullMu());
 		meanVec = covMat*meanVec;
 		VectorXd mu(nCovariates);
