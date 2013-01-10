@@ -17,7 +17,7 @@ computeAssociatedVariable	computeAssociatedVariable
 computeRatioOfVariance	computeRatioOfVariance
 generateSampleDataFile	generateSampleDataFile
 is.wholenumber	is.wholenumber
-plotClustering	plotClustering
+margModelPosterior	margModelPosterior
 plotRiskProfile	plotRiskProfile
 PReMiuM	PReMiuM-package
 profRegr	profRegr

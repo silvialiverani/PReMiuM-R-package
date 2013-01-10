@@ -16,7 +16,7 @@ generateSampleDataFile
                         Generate sample data files for profile
                         regression
 is.wholenumber          Function to check if a number is a whole number
-plotClustering          Plot the clustering using principal components
+margModelPosterior      Marginal Model Posterior
 plotRiskProfile         Plot the Risk Profiles
 profRegr                Profile Regression
 summariseVarSelectRho   summariseVarSelectRho

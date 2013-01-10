@@ -128,23 +128,23 @@ SEXP calcDisSimMat(SEXP fileName, SEXP nSweeps, SEXP nBurn, SEXP nFilter,SEXP nS
 
 SEXP pYGivenZW(SEXP betaIn,SEXP thetaIn,SEXP zAlloc,SEXP sigmaBeta,
 		SEXP sigmaTheta, SEXP dofTheta, SEXP dofBeta, SEXP nSubjects,
-		SEXP yMat,SEXP betaW,SEXP nFixedEffects,SEXP nNames,SEXP constants,
-		SEXP maxnNames){
+		SEXP yMat,SEXP betaW,SEXP nFixedEffects,SEXP nTableNames,SEXP constants,
+		SEXP maxNTableNames){
 
+	int nFE = Rcpp::as<int>(nFixedEffects);
 	Rcpp::NumericVector beta(betaIn);
 	Rcpp::NumericVector bW(betaW);
-    Rcpp::NumericVector theta(thetaIn);
-    Rcpp::IntegerVector z(zAlloc);
-    unsigned long int nSj = Rcpp::as<int>(nSubjects);
-    Rcpp::NumericVector yM(yMat);
-    int nFE = Rcpp::as<int>(nFixedEffects);
-    double con = Rcpp::as<double>(constants);
-    Rcpp::IntegerVector nN(nNames);
-    int maxnN = Rcpp::as<int>(maxnNames);
-    double sigmaB = Rcpp::as<double>(sigmaBeta);
-    double sigmaT = Rcpp::as<double>(sigmaTheta);
-    double dofB = Rcpp::as<double>(dofBeta);
-    double dofT = Rcpp::as<double>(dofTheta);
+	double sigmaB = Rcpp::as<double>(sigmaBeta);
+	double dofB = Rcpp::as<double>(dofBeta);
+	Rcpp::NumericVector theta(thetaIn);
+	Rcpp::IntegerVector z(zAlloc);
+	unsigned long int nSj = Rcpp::as<int>(nSubjects);
+	Rcpp::NumericVector yM(yMat);
+	double con = Rcpp::as<double>(constants);
+	Rcpp::IntegerVector nN(nTableNames);
+	int maxnN = Rcpp::as<int>(maxNTableNames);
+	double sigmaT = Rcpp::as<double>(sigmaTheta);
+	double dofT = Rcpp::as<double>(dofTheta);
 
     vector<double> thetaTmp(maxnN+1);
     unsigned int k=0;
@@ -157,8 +157,14 @@ SEXP pYGivenZW(SEXP betaIn,SEXP thetaIn,SEXP zAlloc,SEXP sigmaBeta,
 		pred[i] = thetaTmp.at(z(i));
 	}
 	vector<double> predictorAll(nSj);
-	for (unsigned int i=0; i<nSj;i++) {
-		predictorAll[i] = pred[i] + bW[i];
+	if (nFE>0){
+		for (unsigned int i=0; i<nSj;i++) {
+			predictorAll[i] = pred[i] + bW[i];
+		}
+	} else {
+		for (unsigned int i=0; i<nSj;i++) {
+			predictorAll[i] = pred[i];
+		}
 	}
 	double output = 0.0;
 	for (unsigned int i=0;i<nSj;i++){
@@ -171,29 +177,32 @@ SEXP pYGivenZW(SEXP betaIn,SEXP thetaIn,SEXP zAlloc,SEXP sigmaBeta,
 		outputTheta = outputTheta+ log(dofT+pow(theta[i],2)*paramsThetaTmp);
 	}
 	outputTheta = outputTheta*0.5*(dofT+1);
-	// contribution from beta
-	double paramsBetaTmp = 1/pow(sigmaB,2);
-	double outputBeta = 0.0;
-	for (unsigned int i=0;i<beta.size();i++){
-		outputBeta = outputBeta+ log(dofB+pow(beta[i],2)*paramsBetaTmp);
+
+	double out = -(output-outputTheta+con)/nSj;
+	if (nFE>0) {	
+		// contribution from beta
+		double paramsBetaTmp = 1/pow(sigmaB,2);
+		double outputBeta = 0.0;
+		for (unsigned int i=0;i<beta.size();i++){
+			outputBeta = outputBeta+ log(dofB+pow(beta[i],2)*paramsBetaTmp);
+		}
+		outputBeta = outputBeta*0.5*(dofB+1);
+		out = out - (-outputBeta)/nSj;
 	}
-	outputBeta = outputBeta*0.5*(dofB+1);
-	//can i drop constants?
-	double out = -(output-outputTheta-outputBeta+con)/nSj;
     return Rcpp::List::create(Rcpp::Named("pYGivenZW")=out);
 }
 
 
 SEXP GradpYGivenZW(SEXP betaIn,SEXP thetaIn,SEXP zAlloc, SEXP nSubjects,
-		SEXP betaW,SEXP yMat, SEXP nFixedEffects,SEXP nNames,SEXP maxnNames){
+		SEXP betaW,SEXP yMat, SEXP nFixedEffects,SEXP nTableNames,SEXP maxNTableNames){
 	Rcpp::NumericVector beta(betaIn);
 	Rcpp::NumericVector bW(betaW);
     Rcpp::NumericVector theta(thetaIn);
     Rcpp::IntegerVector z(zAlloc);
     unsigned long int nSj = Rcpp::as<int>(nSubjects);
     int nFE = Rcpp::as<int>(nFixedEffects);
-    Rcpp::IntegerVector nN(nNames);
-    int maxnN = Rcpp::as<int>(maxnNames);
+    Rcpp::IntegerVector nN(nTableNames);
+    int maxnN = Rcpp::as<int>(maxNTableNames);
     Rcpp::NumericVector yM(yMat);
 
     vector<double> thetaTmp(maxnN+1);
@@ -207,8 +216,14 @@ SEXP GradpYGivenZW(SEXP betaIn,SEXP thetaIn,SEXP zAlloc, SEXP nSubjects,
 		pred[i] = thetaTmp.at(z(i));
 	}
 	Rcpp::NumericVector yPred(nSj);
-	for (unsigned int i=0;i<nSj;i++){
-		yPred[i] = yM[i]-1/(1+1/exp(pred[i]+bW[i]));
+	if (nFE>0) {
+		for (unsigned int i=0;i<nSj;i++){
+			yPred[i] = yM[i]-1/(1+1/exp(pred[i]+bW[i]));
+		}
+	} else {
+		for (unsigned int i=0;i<nSj;i++){
+			yPred[i] = yM[i]-1/(1+1/exp(pred[i]));
+		}
 	}
 
     return Rcpp::wrap(yPred);
@@ -219,18 +234,17 @@ SEXP pZpX(SEXP nClusters, SEXP nCategories,SEXP aPhi, SEXP n,SEXP nCovariates,SE
 	int nC = Rcpp::as<int>(nClusters);
 	Rcpp::NumericVector nCat(nCategories);
 	Rcpp::NumericVector nn(n);
-	double aP = Rcpp::as<double>(aPhi);
+	Rcpp::NumericVector aP(aPhi);
 	int nCov = Rcpp::as<int>(nCovariates);
 	Rcpp::NumericVector xM(xMat);
 	Rcpp::NumericVector z(zAlloc);
 	Rcpp::NumericVector names(nNames);
 	double a = Rcpp::as<double>(alpha);
-
 	unsigned int nSj = z.size();
 
 	double out = 0.0;
 	for (unsigned int k=0;k<nCov;k++){
-		out = out+nC*(LogGamma(nCat[k]*aP)-nCat[k]*LogGamma(aP));
+		out = out+nC*(LogGamma(nCat[k]*aP[k])-nCat[k]*LogGamma(aP[k]));
 	}
 
 	double sumNCat = std::accumulate(nCat.begin(),nCat.end(),0);
@@ -238,7 +252,7 @@ SEXP pZpX(SEXP nClusters, SEXP nCategories,SEXP aPhi, SEXP n,SEXP nCovariates,SE
 	for (unsigned int c=0;c<nC;c++){
 		unsigned int index = 0;
 		for (unsigned int k=0;k<nCov;k++){
-			out = out-LogGamma(nCat[k]*aP+nn[c]);
+			out = out-LogGamma(nCat[k]*aP[k]+nn[c]);
 		} 
 		for (unsigned int j=0;j<nCov;j++){
 			for (unsigned int kj=0;kj<nCat[j];kj++){
@@ -249,12 +263,14 @@ SEXP pZpX(SEXP nClusters, SEXP nCategories,SEXP aPhi, SEXP n,SEXP nCovariates,SE
 						}
 					}			
 				}
+				nCatK[c*sumNCat+index] = nCatK[c*sumNCat+index] + aP[j];
 				index = index+1;
-			}	
+			}
+			
 		}		
 	}
 	for (unsigned int i=0; i< nCatK.size();i++){
-		out = out + LogGamma(aP + nCatK[i]);
+		out = out + LogGamma(nCatK[i]); 
 	}
 
 	out = out + nC * log(a) + LogGamma(nSj+1);

@@ -30,21 +30,6 @@ clusObj<-calcOptimalClustering(dissimObj)
 riskProfileObj<-calcAvgRiskAndProfile(clusObj)
 clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
 
-# example with Bernoulli outcome and Mixed covariates
-inputs <- generateSampleDataFile(clusSummaryBernoulliMixed())
-runInfoObj<-profRegr(yModel=inputs$yModel, 
-    xModel=inputs$xModel, nSweeps=1000, 
-    nBurn=1000, data=inputs$inputData, output="output", 
-    discreteCovs = inputs$discreteCovs,
-    continuousCovs = inputs$continuousCovs, nClusInit=10)
-
-dissimObj<-calcDissimilarityMatrix(runInfoObj)
-clusObj<-calcOptimalClustering(dissimObj)
-riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
-    whichCovariates=c(1,2,4,5))
-
-
 
 
 
@@ -196,18 +181,29 @@ flush(stderr()); flush(stdout())
 
 ### ** Examples
 
+
+# simulate a dataset
 generateDataList <- clusSummaryBernoulliDiscrete()
 inputs <- generateSampleDataFile(generateDataList)
-runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+
+# do clustering a first time
+runInfoObjA<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
     nSweeps=100, nBurn=100, data=inputs$inputData, output="output", 
     covNames=inputs$covNames)
+dissimObjA<-calcDissimilarityMatrix(runInfoObjA)
+clusObjA<-calcOptimalClustering(dissimObjA)
+riskProfileObjA<-calcAvgRiskAndProfile(clusObjA)
 
-dissimObj<-calcDissimilarityMatrix(runInfoObj)
-clusObj<-calcOptimalClustering(dissimObj)
-riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
-    whichCovariates=c(1,2))
+# do clustering a second time
+runInfoObjB<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+    nSweeps=100, nBurn=100, data=inputs$inputData, output="output", 
+    covNames=inputs$covNames)
+dissimObjB<-calcDissimilarityMatrix(runInfoObjB)
+clusObjB<-calcOptimalClustering(dissimObjB)
+riskProfileObjB<-calcAvgRiskAndProfile(clusObjB)
 
+# compare clustering
+compareClustering(riskProfileObjA,riskProfileObjB)
 
 
 
@@ -254,30 +250,27 @@ is.wholenumber(3.4) # FALSE
 
 
 cleanEx()
-nameEx("plotClustering")
-### * plotClustering
+nameEx("margModelPosterior")
+### * margModelPosterior
 
 flush(stderr()); flush(stdout())
 
-### Name: plotClustering
-### Title: Plot the clustering using principal components
-### Aliases: plotClustering
-### Keywords: plots
+### Name: margModelPosterior
+### Title: Marginal Model Posterior
+### Aliases: margModelPosterior
+### Keywords: margModelPosterior
 
 ### ** Examples
 
+inputs <- generateSampleDataFile(clusSummaryBernoulliDiscrete())
 
-generateDataList <- clusSummaryBernoulliDiscrete()
-inputs <- generateSampleDataFile(generateDataList)
-runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, nSweeps=100, 
-    nBurn=100, data=inputs$inputData, output="output", 
-    covNames=inputs$covNames)
+runInfoObj<-profRegr(yModel=inputs$yModel, 
+         xModel=inputs$xModel, nSweeps=10, 
+         nBurn=10, data=inputs$inputData, output="output", 
+         covNames = inputs$covNames, 
+         fixedEffectsNames = inputs$fixedEffectNames,seed=12567)
 
-dissimObj<-calcDissimilarityMatrix(runInfoObj)
-clusObj<-calcOptimalClustering(dissimObj)
-riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
-    whichCovariates=c(1,2))
+margModelPosterior(runInfoObj)
 
 
 
@@ -291,7 +284,7 @@ flush(stderr()); flush(stdout())
 ### Name: plotRiskProfile
 ### Title: Plot the Risk Profiles
 ### Aliases: plotRiskProfile
-### Keywords: plot
+### Keywords: plots
 
 ### ** Examples
 
@@ -399,6 +392,31 @@ riskProfileObj<-calcAvgRiskAndProfile(clusObj)
 clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
     whichCovariates=c(1,2,4,5))
 
+
+
+
+cleanEx()
+nameEx("summariseVarSelectRho")
+### * summariseVarSelectRho
+
+flush(stderr()); flush(stdout())
+
+### Name: summariseVarSelectRho
+### Title: summariseVarSelectRho
+### Aliases: summariseVarSelectRho
+### Keywords: variableSelection
+
+### ** Examples
+
+
+inputs <- generateSampleDataFile(clusSummaryVarSelectBernoulliDiscrete())
+
+runInfoObj<-profRegr(yModel=inputs$yModel, 
+    xModel=inputs$xModel, nSweeps=100, 
+    nBurn=1000, data=inputs$inputData, output="output", 
+    covNames = inputs$covNames, varSelect="Continuous")
+
+rho<-summariseVarSelectRho(runInfoObj)
 
 
 

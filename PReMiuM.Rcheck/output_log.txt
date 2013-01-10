@@ -1,4 +1,4 @@
-Date and time: 2012-12-19 13:1917
+Date and time: 2013-01-10 15:0302
 
 Data file path: output_input.txt
 
@@ -6,62 +6,54 @@ Output file path: output
 
 Predict file path: No predictions run.
 
-Seed: 1355919557
+Seed: 1357830182
 
-Number of sweeps: 1000
+Number of sweeps: 100
 Burn in sweeps: 1000
 Output filter: 1
 Proposal Type: gibbsForVActive, Acceptance Rate: 1
-Proposal Type: updateForPhiActive, Acceptance Rate: 1
-Proposal Type: gibbsForMuActive, Acceptance Rate: 1
-Proposal Type: gibbsForTauActive, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForThetaActive, Acceptance Rate: 0.433852
-Proposal Type: metropolisHastingsForLabels, Acceptance Rate: 0.9425
+Proposal Type: updateForPhiActive, Acceptance Rate: 0.836472
+Proposal Type: metropolisHastingsForThetaActive, Acceptance Rate: 0.405682
+Proposal Type: metropolisHastingsForLabels, Acceptance Rate: 0.787273
 Proposal Type: gibbsForU, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.4365
+Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.428182
 Proposal Type: gibbsForVInActive, Acceptance Rate: 1
 Proposal Type: gibbsForPhiInActive, Acceptance Rate: 1
-Proposal Type: gibbsForMuInActive, Acceptance Rate: 1
-Proposal Type: gibbsForTauInActive, Acceptance Rate: 1
 Proposal Type: gibbsForThetaInActive, Acceptance Rate: 1
+Proposal Type: metropolisHastingsForRhoOmega, Acceptance Rate: 0.1506
 Proposal Type: gibbsForZ, Acceptance Rate: 1
-Number of subjects: 900
+Number of subjects: 1000
 Number of prediction subjects: 0
 Sampler type: SliceDependent
-Number of initial clusters: 10
+Number of initial clusters: 54 (Random, Unif[5,15])
 Covariates: 
-Number of discrete covariates: 3
-Number of continuous covariates: 2
 	Variable1 (categorical)
 	Variable2 (categorical)
 	Variable3 (categorical)
-	Variable4
-	Variable5
+	Variable4 (categorical)
+	Variable5 (categorical)
+	Variable6 (categorical)
+	Variable7 (categorical)
+	Variable8 (categorical)
+	Variable9 (categorical)
+	Variable10 (categorical)
 No fixed effects
 Model for Y: Bernoulli
 Extra Y variance: False
 Include response: True
 Update alpha: True
 Compute allocation entropy: False
-Model for X: Mixed
-Variable selection: None
+Model for X: Discrete
+Variable selection: Continuous
 
 Hyperparameters:
 shapeAlpha: 2
 rateAlpha: 1
-aPhi[j]: 1 1 1 2.85076e-321 6.92004e-310 
-mu0: 
-0.948685
-5.7272
-Tau0:
-0.00150066          0
-         0 0.00101132
-R0: 
- 0.00725686 0.000582268
-0.000582268   0.0044858
-kappa0: 2
+aPhi[j]: 1 1 1 1 1 1 1 1 1 1 
 muTheta: 0
 sigmaTheta: 2.5
 dofTheta: 7
+aRho: 0.5
+bRho: 0.5
 
-2000 sweeps done in 8 seconds
+1100 sweeps done in 6 seconds

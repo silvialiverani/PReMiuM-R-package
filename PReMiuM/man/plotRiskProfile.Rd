@@ -84,4 +84,4 @@ riskProfileObj<-calcAvgRiskAndProfile(clusObj)
 clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
     whichCovariates=c(1,2))
 }
-\keyword{plot}
+\keyword{plots}

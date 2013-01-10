@@ -43,19 +43,4 @@ clusObj<-calcOptimalClustering(dissimObj)
 riskProfileObj<-calcAvgRiskAndProfile(clusObj)
 clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
 
-# example with Bernoulli outcome and Mixed covariates
-inputs <- generateSampleDataFile(clusSummaryBernoulliMixed())
-runInfoObj<-profRegr(yModel=inputs$yModel, 
-    xModel=inputs$xModel, nSweeps=1000, 
-    nBurn=1000, data=inputs$inputData, output="output", 
-    discreteCovs = inputs$discreteCovs,
-    continuousCovs = inputs$continuousCovs, nClusInit=10)
-
-dissimObj<-calcDissimilarityMatrix(runInfoObj)
-clusObj<-calcOptimalClustering(dissimObj)
-riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
-    whichCovariates=c(1,2,4,5))
-
-
 }

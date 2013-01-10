@@ -30,7 +30,7 @@ riskProfileObj<-calcAvgRiskAndProfile(clusObj)
 clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
     whichCovariates=c(1,2))
 
-plotClustering(clusObj,"prova.png",clusterPlotOrder=NULL,whichCovariates=NULL)
+plotClustering(clusObj,"prova.png")
 
 }
 \keyword{plots}

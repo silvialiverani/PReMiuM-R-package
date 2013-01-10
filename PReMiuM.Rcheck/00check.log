@@ -1,10 +1,10 @@
-* using log directory ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
+* using log directory ‘/home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
 * using R version 2.15.2 (2012-10-26)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘PReMiuM’ version ‘3.0.1’
+* this is package ‘PReMiuM’ version ‘3.0.4’
 * checking package namespace information ... OK
 * checking package dependencies ... OK
 * checking if this is a source package ... OK
@@ -18,10 +18,7 @@
 * checking package directory ... OK
 * checking for portable file names ... OK
 * checking for sufficient/correct file permissions ... OK
-* checking DESCRIPTION meta-information ... WARNING
-Non-standard license specification:
-  What license is it under?
-Standardizable: FALSE
+* checking DESCRIPTION meta-information ... OK
 * checking top-level files ... OK
 * checking for left-over files ... OK
 * checking index information ... OK
@@ -39,6 +36,16 @@ Standardizable: FALSE
 * checking replacement functions ... OK
 * checking foreign function calls ... OK
 * checking R code for possible problems ... NOTE
+.pZpXpY: no visible binding for global variable ‘nFixedEffects’
+.pZpXpY: no visible binding for global variable ‘nCategories’
+.pZpXpY: no visible binding for global variable ‘hyperParams’
+.pZpXpY: no visible binding for global variable ‘nCovariates’
+.pZpXpY: no visible binding for global variable ‘xMat’
+.pZpXpY: no visible binding for global variable ‘includeResponse’
+.pZpXpY: no visible binding for global variable ‘yMat’
+.pZpXpY: no visible binding for global variable ‘wMat’
+.pZpXpY: no visible binding for global variable ‘nSubjects’
+.pZpXpY: no visible binding for global variable ‘nSweeps’
 calcAvgRiskAndProfile: no visible binding for global variable
   ‘clusObjRunInfoObj’
 calcAvgRiskAndProfile: no visible binding for global variable
@@ -147,14 +154,23 @@ computeRatioOfVariance: no visible binding for global variable
   ‘nSubjects’
 computeRatioOfVariance: no visible binding for global variable
   ‘nPredictSubjects’
-plotClustering: no visible binding for global variable
-  ‘clusObjRunInfoObj’
-plotClustering: no visible binding for global variable ‘nClusters’
-plotClustering: no visible binding for global variable ‘inputFileName’
-plotClustering: no visible binding for global variable ‘nCovariates’
-plotClustering: no visible binding for global variable ‘covNames’
-plotClustering: no visible binding for global variable ‘xMat’
-plotClustering: no visible binding for global variable ‘nSubjects’
+margModelPosterior: no visible binding for global variable ‘xModel’
+margModelPosterior: no visible binding for global variable ‘yModel’
+margModelPosterior: no visible binding for global variable ‘varSelect’
+margModelPosterior: no visible binding for global variable ‘nSubjects’
+margModelPosterior: no visible binding for global variable ‘xMat’
+margModelPosterior: no visible binding for global variable
+  ‘directoryPath’
+margModelPosterior: no visible binding for global variable ‘fileStem’
+margModelPosterior: no visible binding for global variable
+  ‘includeResponse’
+margModelPosterior: no visible binding for global variable
+  ‘nFixedEffects’
+margModelPosterior: no visible binding for global variable
+  ‘reportBurnIn’
+margModelPosterior: no visible binding for global variable ‘nBurn’
+margModelPosterior: no visible binding for global variable ‘nFilter’
+margModelPosterior: no visible binding for global variable ‘nSweeps’
 plotRiskProfile: no visible binding for global variable
   ‘riskProfClusObj’
 plotRiskProfile: no visible binding for global variable
@@ -208,7 +224,7 @@ summariseVarSelectRho: no visible binding for global variable ‘nSweeps’
 * checking for portable compilation flags in Makevars ... OK
 * checking for portable use of $(BLAS_LIBS) and $(LAPACK_LIBS) ... OK
 * checking compiled code ... NOTE
-File ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/PReMiuM/libs/PReMiuM.so’:
+File ‘/home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/PReMiuM/libs/PReMiuM.so’:
   Found ‘_ZSt4cout’, possibly from ‘std::cout’ (C++)
     Objects: ‘PReMiuM.o’, ‘postProcess.o’
   Found ‘exit’, possibly from ‘exit’ (C)
@@ -220,8 +236,7 @@ write to stdout/stderr instead of to the console.
 See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
 * checking examples ... OK
 * checking PDF version of manual ... OK
-WARNING: There was 1 warning.
 NOTE: There were 3 notes.
 See
-  ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/00check.log’
+  ‘/home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/00check.log’
 for details.

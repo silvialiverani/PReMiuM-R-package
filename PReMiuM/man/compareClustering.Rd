@@ -15,18 +15,29 @@ Need to look into this, I don't know how it compares them.
 }
 \author{David Hastie and Silvia Liverani}
 \examples{
+
+# simulate a dataset
 generateDataList <- clusSummaryBernoulliDiscrete()
 inputs <- generateSampleDataFile(generateDataList)
-runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+
+# do clustering a first time
+runInfoObjA<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
     nSweeps=100, nBurn=100, data=inputs$inputData, output="output", 
     covNames=inputs$covNames)
+dissimObjA<-calcDissimilarityMatrix(runInfoObjA)
+clusObjA<-calcOptimalClustering(dissimObjA)
+riskProfileObjA<-calcAvgRiskAndProfile(clusObjA)
 
-dissimObj<-calcDissimilarityMatrix(runInfoObj)
-clusObj<-calcOptimalClustering(dissimObj)
-riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
-    whichCovariates=c(1,2))
+# do clustering a second time
+runInfoObjB<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+    nSweeps=100, nBurn=100, data=inputs$inputData, output="output", 
+    covNames=inputs$covNames)
+dissimObjB<-calcDissimilarityMatrix(runInfoObjB)
+clusObjB<-calcOptimalClustering(dissimObjB)
+riskProfileObjB<-calcAvgRiskAndProfile(clusObjB)
 
+# compare clustering
+compareClustering(riskProfileObjA,riskProfileObjB)
 }
 
 

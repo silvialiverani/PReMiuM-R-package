@@ -625,10 +625,12 @@ class pReMiuMParams{
 								_logNullPhi[j][p]=0.0;
 							}
 						}
-						// Everything in by default
-						// This allows us to write general case with switches.
-						_gamma[c][j]=1;
 					}
+				}
+				for(unsigned int j=0;j<nCovariates;j++){
+					// Everything in by default
+					// This allows us to write general case with switches.
+					_gamma[c][j]=1;
 				}
 			}
 
@@ -1021,6 +1023,10 @@ class pReMiuMParams{
 			unsigned int nClusters = maxNClusters();
 			unsigned int nSbj = nSubjects();
 			unsigned int nCov = nCovariates();
+			unsigned int nContCov = nContinuousCovs();
+			if (nCov!=nContCov) {
+				nCov = nContCov;
+			}
 
 			// This condition should stop this being evaluated when
 			// mu has been initialised but Sigma hasn't

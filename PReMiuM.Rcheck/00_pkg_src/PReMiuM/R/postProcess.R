@@ -1467,52 +1467,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 	return(meanSortIndex)
 }
 	
-plotClustering<-function(clusObj,outFile,clusterPlotOrder=NULL,whichCovariates=NULL){
-	
-	for (i in 1:length(clusObj)) assign(names(clusObj)[i],clusObj[[i]])
-	for (i in 1:length(clusObjRunInfoObj)) assign(names(clusObjRunInfoObj)[i],clusObjRunInfoObj[[i]])
-	
-	png(outFile,width=1200,height=800)
-	
-	if(is.null(clusterPlotOrder)){
-		clusterPlotOrder<-1:nClusters
-	}
-	# Read in the raw X data
-	rawXFileName<-gsub('.txt','_RawX.txt',inputFileName)
-	rawXData<-readLines(rawXFileName)
-	rawXData<-rawXData[(nCovariates+3):length(rawXData)]
-	rawXData<-matrix(as.numeric(unlist(strsplit(rawXData," "))),ncol=nCovariates,byrow=T)
-	if('CessationTime'%in%covNames){
-		relInd<-match('CessationTime',covNames)
-		meanCat1<-mean(rawXData[xMat[,relInd]==1,relInd])
-		rawXData[xMat[,relInd]==0,relInd]<-meanCat1+10
-	}
-	rawXData[rawXData==-999]<-NA
-	includeVec<-rep(T,nSubjects)
-	for(i in 1:nSubjects){
-		if(any(is.na(rawXData[i,]))){
-			includeVec[i]<-F
-		}
-	}
-	rawXData<-rawXData[includeVec,]
-	if(!is.null(whichCovariates)){
-		rawXData<-rawXData[,whichCovariates]
-	}
-	clustering<-clustering[includeVec]
-	d<-dist(rawXData)
-	
-	principalComp<-cmdscale(d,k=2)
-	plot(principalComp[,1],principalComp[,2],pch=match(clustering,clusterPlotOrder),
-		col=match(clustering,clusterPlotOrder),xlab="Principal Component 1",ylab="Principal Component 2")
-	title(main="2D visualization of how subjects cluster")
-	legend("topleft",legend=1:nClusters,pch=1:nClusters,col=1:nClusters,bg="white")
-	box()
-	dev.off()
 
-	return(list("rawXDist"=d,"rawXprincipalComponents"=principalComp,"rawXIncludeVec"=includeVec))
-}
-	
-	
 # Calculate predictions, and if possible assess predictive performance
 calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwell=F, fullSweepPredictions=F,fullSweepLogOR=F){
 	
@@ -1735,22 +1690,22 @@ computeRatioOfVariance<-function(runInfoObj){
 summariseVarSelectRho<-function(runInfoObj){
 	
 	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
+
 	# Rho file name
 	rhoFileName <- file.path(directoryPath,paste(fileStem,'_rho.txt',sep=''))
-	
 	rhoMat<-matrix(scan(rhoFileName,what=double(),quiet=T),ncol=nCovariates,byrow=T)
 	
 	# Restrict to after burn in
 	firstLine<-ifelse(reportBurnIn,nBurn/nFilter+2,1)
-	lastLine<-1+(nSweeps+ifelse(reportBurnIn,nBurn,0))/nFilter
-	
+	lastLine<-(nSweeps+ifelse(reportBurnIn,nBurn+1,0))/nFilter
+
 	rhoMat<-rhoMat[firstLine:lastLine,]
 	
 	rhoMean<-apply(rhoMat,2,mean)
 	rhoMedian<-apply(rhoMat,2,median)
 	rhoLowerCI<-apply(rhoMat,2,quantile,0.05)
 	rhoUpperCI<-apply(rhoMat,2,quantile,0.95)
-	
+
 	return(list("rho"=rhoMat,"rhoMean"=rhoMean,"rhoMedian"=rhoMedian,"rhoLowerCI"=rhoLowerCI,"rhoUpperCI"=rhoUpperCI))
 	
 }
@@ -1847,5 +1802,349 @@ compareClustering<-function(riskProfileObjA,riskProfileObjB,clusterOrder=NULL){
 	
 }
 	
+
+# Function to compute the marginal model posterior (only for discrete covariates and Bernoulli outcome)
+margModelPosterior<-function(runInfoObj){
+
+	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
+
+	# this function only works for Bernoulli outcome and discrete covariates, so check that it is used correctly
+	if (xModel!="Discrete"||yModel!="Bernoulli") stop("ERROR: The computation of the marginal model posterior has only been implemented for Bernoulli outcome and discrete covariates.")
+	# no variable selection has been implemented
+	if (varSelect==TRUE) print("Warning: Variable selection is not taken into account for the computation of marginal model posterior")
+	# the subjects with missing values are simply removed for now
+	missingX<-FALSE
+	for (k in 1:nSubjects){
+		if (sum(xMat[k,]==-999)>0) {
+			missingX<-TRUE
+			stop("ERROR: No missing value handling technique has been implemented for the marginal model posterior. This function cannot be run if missing values are present.")
+		}
+	}
+
+	# read in value of hyperparameters
+	runData<-readLines(file.path(directoryPath,paste(fileStem,'_log.txt',sep='')))
+
+	hyperParams<-list()
+
+	if (includeResponse==T){
+		sigmaTheta<-runData[grep('sigmaTheta',runData)]
+		sigmaTheta<-substr(sigmaTheta,regexpr(':',sigmaTheta)+1,nchar(sigmaTheta))
+		sigmaTheta<-gsub(' ','',sigmaTheta)
+		sigmaTheta<-gsub('\t','',sigmaTheta)
+		sigmaTheta<-as.integer(sigmaTheta)
+
+		dofTheta<-runData[grep('dofTheta',runData)]
+		dofTheta<-substr(dofTheta,regexpr(':',dofTheta)+1,nchar(dofTheta))
+		dofTheta<-gsub(' ','',dofTheta)
+		dofTheta<-gsub('\t','',dofTheta)
+		dofTheta<-as.integer(dofTheta)
+
+		hyperParams<-list(sigmaTheta=sigmaTheta,dofTheta=dofTheta)
+	}
+	
+	if (nFixedEffects>0){
+		sigmaBeta<-runData[grep('sigmaBeta',runData)]
+		sigmaBeta<-substr(sigmaBeta,regexpr(':',sigmaBeta)+1,nchar(sigmaBeta))
+		sigmaBeta<-gsub(' ','',sigmaBeta)
+		sigmaBeta<-gsub('\t','',sigmaBeta)
+		sigmaBeta<-as.integer(sigmaBeta)
+
+		dofBeta<-runData[grep('dofBeta',runData)]
+		dofBeta<-substr(dofBeta,regexpr(':',dofBeta)+1,nchar(dofBeta))
+		dofBeta<-gsub(' ','',dofBeta)
+		dofBeta<-gsub('\t','',dofBeta)
+		dofBeta<-as.integer(dofBeta)
+
+		hyperParams$sigmaBeta<-sigmaBeta
+		hyperParams$dofBeta<-dofBeta
+	}
+
+
+	# set alpha, whether it has been estimated or it is fixed
+	# find out if it was fixed or estimated 
+	alphaUpdate<-runData[grep('Update alpha',runData)]
+	alphaUpdate<-substr(alphaUpdate,regexpr(':',alphaUpdate)+1,nchar(alphaUpdate))
+	alphaUpdate<-gsub(' ','',alphaUpdate)
+	if (alphaUpdate=="False") {
+		alpha<-runData[grep('Fixed alpha: ',runData)]
+		alpha<-substr(alpha,regexpr(':',alpha)+1,nchar(alpha))
+		alpha<-as.integer(alpha)
+	} else {
+		# if alpha wasn't fixed, take median value of chain
+		skipLines<-ifelse(reportBurnIn,nBurn/nFilter+1,0)
+		lastLine<-(nSweeps+ifelse(reportBurnIn,nBurn+1,0))/nFilter		
+		alphaFileName <- file(file.path(directoryPath,paste(fileStem,'_alpha.txt',sep='')))
+		open(alphaFileName)
+		alphaValues<-vector()
+		alphaValues[1]<-scan(alphaFileName,what=double(),skip=skipLines,nlines=1,quiet=T)
+		for (i in 2:lastLine){
+			alphaValues[i]<-scan(alphaFileName,what=double(),skip=0,nlines=1,quiet=T)
+		}
+		close(alphaFileName)
+		alpha<-median(alphaValues)
+	}
+	runInfoObj$alpha <- alpha
+
+	if (xModel=="Discrete"){
+		aPhi<-runData[grep('aPhi',runData)]
+		aPhi<-substr(aPhi,regexpr(':',aPhi)+1,nchar(aPhi))
+		aPhi<-strsplit(aPhi," ")[[1]][-1]
+		aPhi<-as.integer(aPhi)
+		hyperParams$aPhi<-aPhi
+	}
+
+	runInfoObj$hyperParams <- hyperParams
+
+	# open allocation file
+	zFileName <- file(file.path(directoryPath,paste(fileStem,'_z.txt',sep='')))
+	open(zFileName)
+	
+	# initialise output vectors
+	margModPost<-rep(0,length=nSweeps/nFilter)
+
+	print(1)
+	
+	# read first allocation iteration after burnin
+	skipLines<-ifelse(reportBurnIn,nBurn/nFilter+1,0)
+	lastLine<-(nSweeps+ifelse(reportBurnIn,nBurn+1,0))/nFilter	
+	zAllocCurrent<-scan(zFileName,what=integer(),skip=skipLines,nlines=1,quiet=T)
+	zAllocCurrent<-zAllocCurrent[1:nSubjects]
+
+	clusterSizes<-table(zAllocCurrent)
+	nClusters<-length(clusterSizes)
+	# set initial values of parameters of interest
+	if (nFixedEffects>0){
+		parFirstIter<-c(rep(0,nClusters),rep(0,nFixedEffects))
+	} else {
+		parFirstIter<-c(rep(0,nClusters))
+	}
+	# compute marginal model posterior
+	output<-.pZpXpY(zAlloc=zAllocCurrent, par=parFirstIter, clusterSizes=clusterSizes, nClusters=nClusters, runInfoObj=runInfoObj, alpha=alpha)
+	margModPost[1]<-output$margModPost
+	for (iter in 2:lastLine){
+		if (iter%%500==0) print(iter)
+		# identify allocations for this sweep
+		zAllocCurrent<-scan(zFileName,what=integer(),nlines=1,quiet=T)
+		zAllocCurrent<-zAllocCurrent[1:nSubjects]
+		# parameters
+		# number of elements in each cluster
+		clusterSizes<-table(zAllocCurrent)
+		# number of clusters
+		nClusters<-length(clusterSizes)
+		# computing the marginal likelihood
+		# version using the previous beta mode for next step	
+		if (nFixedEffects>0){
+			parTmp<-c(rep(0,nClusters),rep(0,nFixedEffects))
+		} else {
+			parTmp<-c(rep(0,nClusters))
+		}
+
+		output<-.pZpXpY(zAlloc=zAllocCurrent,par=parTmp, clusterSizes=clusterSizes, nClusters=nClusters, runInfoObj = runInfoObj, alpha=alpha)
+		margModPost[iter]<-output$margModPost
+	}	
+
+	close(zFileName)
+	print(margModPost[iter])
+	write.table(margModPost,file.path(directoryPath,paste(fileStem,"_margModPost.txt",sep="")))
+}
+
+# internal function
+# Function to evaluate pYGivenZW for Bernoulli outcome - required for the Laplace approximation
+.pYGivenZW_Bernoulli<-function(thetaBeta,zAlloc,nClusters,hyperParams,
+		yMat,wMat,nSubjects,nFixedEffects,nTableNames,constants){
+	dimThetaBeta<-length(thetaBeta)
+	theta<-head(thetaBeta,nClusters)
+	if (nFixedEffects>0){
+		beta<-tail(thetaBeta,-nClusters)
+		betaW<-as.matrix(wMat)%*%beta
+	} else {
+		beta<-0
+		hyperParams$dofBeta<-0
+		hyperParams$sigmaBeta<-0
+		betaW<-0
+	}
+	nTableNames<-as.integer(nTableNames)
+	maxNTableNames<-max(nTableNames)
+	out<-.Call('pYGivenZW',beta,theta,zAlloc,hyperParams$sigmaBeta,
+		hyperParams$sigmaTheta,hyperParams$dofTheta,hyperParams$dofBeta,nSubjects,
+		yMat,betaW,nFixedEffects,nTableNames,constants,
+		maxNTableNames,PACKAGE = 'PReMiuM')
+	return(out)
+}
+
+# internal function
+# Function to evaluate the gradient of pYGivenZW for Bernoulli outcome - required for the Laplace approximation
+.pYGivenZW_Bernoulli_gradient<-function(thetaBeta,zAlloc,nClusters,hyperParams,
+		yMat,wMat,nSubjects,nFixedEffects,nTableNames,constants){
+	dimThetaBeta<-length(thetaBeta)
+	theta<-head(thetaBeta,nClusters)
+	nTableNames<-as.integer(nTableNames)
+	maxNTableNames<-max(nTableNames)
+	if (nFixedEffects>0){
+		beta<-tail(thetaBeta,-nClusters)
+		betaW<-as.matrix(wMat)%*%beta
+		yPred<-.Call('GradpYGivenZW',beta,theta,zAlloc,nSubjects,
+			betaW,yMat,nFixedEffects,nTableNames,
+			maxNTableNames,PACKAGE = 'PReMiuM')
+		wPred<- as.matrix(wMat)*yPred
+	} else {
+		beta<-0
+		betaW<-0
+		yPred<-.Call('GradpYGivenZW',beta,theta,zAlloc,nSubjects,
+			betaW,yMat,nFixedEffects,nTableNames,
+			maxNTableNames,PACKAGE = 'PReMiuM')
+	}
+	gr.theta<-rep(0,nClusters)
+	for (k in 1:nClusters){
+		gr.theta[k]<-sum(yPred[zAlloc==nTableNames[k]])
+	}
+	# contribution from the derivative of theta
+	numeratorTheta<-(hyperParams$dofTheta+1)*theta
+	paramsTheta<-hyperParams$dofTheta*hyperParams$sigmaTheta^2
+	gr.theta<-gr.theta-numeratorTheta/(paramsTheta+theta^2)
+	out<- -c(gr.theta)/nSubjects
+	if (nFixedEffects>0){
+	# contribution from the derivative of beta		
+		gr.beta<-rep(0,nFixedEffects)
+		gr.beta<-gr.beta+apply(wPred,2,sum)
+		numeratorBeta<-(hyperParams$dofBeta+1)*beta
+		paramsBeta<-hyperParams$dofBeta*hyperParams$sigmaBeta^2
+		gr.beta<-gr.beta-numeratorBeta/(paramsBeta+beta^2)
+		out<- c(out,-gr.beta/nSubjects)	
+	}
+	return(out)
+}
+
+# internal function
+# Function to evaluate the Hessian matrix of pYGivenZW for Bernoulli outcome - required for the Laplace approximation
+.pYGivenZW_Bernoulli_hessianMat<-function(thetaBeta,zAlloc,nClusters,hyperParams,
+		wMat,nSubjects,nFixedEffects,nSweeps,nTableNames){
+	dimThetaBeta<-length(thetaBeta)
+	theta<-head(thetaBeta,nClusters)
+	if (nFixedEffects>0){
+		wMat<-as.matrix(wMat)
+		beta<-tail(thetaBeta,-nClusters)
+		betaW<-wMat%*%beta
+	} else {
+		beta<-0
+		betaW<-0
+	}
+	hes.mat<-matrix(0,ncol=dimThetaBeta,nrow=dimThetaBeta)
+	exp.predictor<-rep(0,nSubjects)
+	denomPred<-rep(0,nSubjects)
+	predictor<-rep(0,nSubjects)
+	thetaTmp<-rep(0,length=max(as.integer(nTableNames)))
+	k<-1
+	for (i in as.integer(nTableNames)+1) {
+		thetaTmp[i]<-theta[k]	
+		k<-k+1
+	}
+	for (i in 1:nSubjects){
+		predictor[i]<-thetaTmp[zAlloc[i]+1]
+	}
+	if (nFixedEffects>0){
+		exp.predictor<-exp(predictor+as.vector(betaW))
+	} else {
+		exp.predictor<-exp(predictor)
+	}
+	denomPred<-exp.predictor/(exp.predictor+1)^2
+	# second derivatives
+	# wrt theta_i, theta_j is = 0
+	# wrt theta_i, theta_i is
+	paramsTheta<-hyperParams$dofTheta*hyperParams$sigmaTheta^2
+	for (k in 1:nClusters){
+		diag(hes.mat)[k]<-sum(denomPred[zAlloc==nTableNames[k]]) + (hyperParams$dofTheta+1)*
+			(paramsTheta - theta[k]^2)/
+			(paramsTheta + theta[k]^2)^2
+     
+	}
+	if (nFixedEffects>0){
+		# wrt beta_i, theta_j is
+		for (k in 1:nFixedEffects){
+			for (j in 1:nClusters){
+				indexJ<-zAlloc==nTableNames[j]
+				hes.mat[j,(nClusters+k)]<-hes.mat[(nClusters+k),j]<-
+					sum(wMat[indexJ,k]*denomPred[indexJ])
+			}
+		}
+		# wrt beta_i, beta_j is
+		if (nFixedEffects>1){
+			for (k in 1:(nFixedEffects-1)){
+				for (j in (k+1):nFixedEffects){
+					hes.mat[(nClusters+k),(nClusters+j)]<-hes.mat[(nClusters+j),(nClusters+k)]<-
+						sum((wMat[,k]*wMat[,j])*denomPred)
+				}
+			}
+		}
+		# wrt beta_i, beta_i is
+		betaSq<-beta*beta
+		paramsBeta<-hyperParams$dofBeta*hyperParams$sigmaBeta^2
+		diag(hes.mat)[(nClusters+1):(dimThetaBeta)]<- 
+			apply(wMat^2 * denomPred,2,sum)+(hyperParams$dofBeta+1)*
+			(paramsBeta - betaSq)/
+			(paramsBeta + betaSq)^2
+	}
+	return(hes.mat/nSubjects) 
+}	
+
+
+# internal function
+# marginal model posterior for one iteration
+.pZpXpY<-function(zAlloc,runInfoObj,par=NULL,clusterSizes,nClusters,alpha){
+
+	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
+
+	# marginal likelihood is p(Z|alpha,X,Y)
+	
+	# p(Z|alpha,X,Y) is prop to p(X|Z)p(Y|Z,W)p(Z|alpha)
+	# we are going to call the three quantities pX, pY and pZ
+	
+	nTableNames<-names(clusterSizes)
+	
+	# set initial parameters at 0 if a better starting point is not provided	
+	if (is.null(par)) par<-c(rep(0,nClusters),rep(0,nFixedEffects))
+
+	# number of elements in following clusters
+	nPlus<-head(c(rev(cumsum(rev(clusterSizes[-1]))),0),-1)	
+
+	# computation of pX+pZ
+	pZpX<-.Call('pZpX',nClusters,nCategories,hyperParams$aPhi,clusterSizes,nCovariates, zAlloc, as.vector(as.matrix(xMat)), as.integer(nTableNames), alpha, nPlus, PACKAGE = 'PReMiuM')
+
+	# computation of pY
+	if (includeResponse==T){
+		# constants of pY
+		constants<-nClusters*(0.5*(hyperParams$dofTheta+1)*log(hyperParams$dofTheta)-
+			lgamma(0.5*(hyperParams$dofTheta+1))+0.5*log(hyperParams$dofTheta*pi)+lgamma(hyperParams$dofTheta*0.5))
+		if (nFixedEffects>0) constants<-constants+nFixedEffects*(0.5*(hyperParams$dofBeta+1)*log(hyperParams$dofBeta)-
+			lgamma(0.5*(hyperParams$dofBeta+1))+0.5*log(hyperParams$dofBeta*pi)+lgamma(hyperParams$dofBeta*0.5))
+		# computation of min for Laplace approximation		
+		laplaceOut <- optim(par = par, # initial parameters
+			fn = .pYGivenZW_Bernoulli, # function to minimise over
+			control=list(fnscale=1), # need to minimise 
+			method="L-BFGS-B", # fastest method according to tests
+			gr=.pYGivenZW_Bernoulli_gradient, # gradient
+			hessian=FALSE, # we don't require the approximate computation of the hessian matrix, it's computed separately and exactly
+			# other parameters necessary for fn above
+			nClusters=nClusters, 
+			zAlloc=zAlloc,hyperParams=hyperParams,
+			yMat=yMat,wMat=wMat,nSubjects=nSubjects,
+			nFixedEffects=nFixedEffects,nTableNames=nTableNames,constants=constants)
+		laplaceMode <- laplaceOut$value 
+		# computation of the hessian matrix		
+		laplaceHessian <- .pYGivenZW_Bernoulli_hessianMat(laplaceOut$par,zAlloc=zAlloc,nClusters=nClusters,hyperParams=hyperParams,
+			wMat=wMat,nSubjects=nSubjects,
+			nFixedEffects=nFixedEffects,
+			nSweeps=nSweeps,nTableNames=nTableNames)
+		pY <- -nSubjects * laplaceMode + 0.5*log(det(laplaceHessian)) -
+			(nClusters+nFixedEffects)*0.5*log(nSubjects)+(nClusters+nFixedEffects)*0.5*log(2*pi)
+		margModPost <- pY+pZpX  
+		output<-list(margModPost=margModPost,laplacePar=laplaceOut$par[(nClusters+1):(nClusters+nFixedEffects)],pY=pY)
+	} else {
+		margModPost <- pZpX  
+		output<-list(margModPost=margModPost)
+	}
+	return(output)
+  
+}
 
 

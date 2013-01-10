@@ -1,0 +1,18 @@
+\name{margModelPosterior}
+\alias{margModelPosterior}
+\title{Marginal Model Posterior}
+\description{Compute the marginal model posterior.}
+\usage{
+margModelPosterior(runInfoObj)
+}
+\arguments{
+\item{runInfoObj}{boh.}
+}
+\value{
+It returns a number of files in the output directory as well as a list with the following elements.
+}
+\author{Silvia Liverani}
+\examples{
+}
+\keyword{margModelPosterior}
+

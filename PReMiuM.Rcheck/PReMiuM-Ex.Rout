@@ -49,7 +49,7 @@ Loading required package: clue
 +     nBurn=1000, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1355918994
+Random number seed: 1357829824
 Sweep: 1
 Sweep: 500
 Sweep: 1000
@@ -62,7 +62,7 @@ Stage 1:1000 samples out of 1000
 Stage 2:1 samples out of 1000
 Stage 2:1000 samples out of 1000
 > clusObj<-calcOptimalClustering(dissimObj)
-Max no of possible clusters: 18 
+Max no of possible clusters: 19 
 Trying 2 clusters
 Trying 3 clusters
 Trying 4 clusters
@@ -80,46 +80,11 @@ Trying 15 clusters
 Trying 16 clusters
 Trying 17 clusters
 Trying 18 clusters
+Trying 19 clusters
 > riskProfileObj<-calcAvgRiskAndProfile(clusObj)
 Processing sweep 1 of  1000 
 Processing sweep 1000 of  1000 
 > clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
-> 
-> # example with Bernoulli outcome and Mixed covariates
-> inputs <- generateSampleDataFile(clusSummaryBernoulliMixed())
-> runInfoObj<-profRegr(yModel=inputs$yModel, 
-+     xModel=inputs$xModel, nSweeps=1000, 
-+     nBurn=1000, data=inputs$inputData, output="output", 
-+     discreteCovs = inputs$discreteCovs,
-+     continuousCovs = inputs$continuousCovs, nClusInit=10)
-Random number seed: 1355919030
-Sweep: 1
-Sweep: 500
-Sweep: 1000
-Sweep: 1500
-Sweep: 2000
-> 
-> dissimObj<-calcDissimilarityMatrix(runInfoObj)
-Stage 1:1 samples out of 1000
-Stage 1:1000 samples out of 1000
-Stage 2:1 samples out of 1000
-Stage 2:1000 samples out of 1000
-> clusObj<-calcOptimalClustering(dissimObj)
-Max no of possible clusters: 9 
-Trying 2 clusters
-Trying 3 clusters
-Trying 4 clusters
-Trying 5 clusters
-Trying 6 clusters
-Trying 7 clusters
-Trying 8 clusters
-Trying 9 clusters
-> riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-Processing sweep 1 of  1000 
-Processing sweep 1000 of  1000 
-> clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
-+     whichCovariates=c(1,2,4,5))
-> 
 > 
 > 
 > 
@@ -142,187 +107,14 @@ Processing sweep 1000 of  1000
 > runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, nSweeps=100, 
 +     nBurn=100, data=inputs$inputData, output="output", 
 +     covNames=inputs$covNames)
-Random number seed: 1355919047
+Random number seed: 1357829849
 Sweep: 1
 > 
 > dissimObj<-calcDissimilarityMatrix(runInfoObj)
 Stage 1:1 samples out of 100
 Stage 2:1 samples out of 100
 > clusObj<-calcOptimalClustering(dissimObj)
-Max no of possible clusters: 54 
-Trying 2 clusters
-Trying 3 clusters
-Trying 4 clusters
-Trying 5 clusters
-Trying 6 clusters
-Trying 7 clusters
-Trying 8 clusters
-Trying 9 clusters
-Trying 10 clusters
-Trying 11 clusters
-Trying 12 clusters
-Trying 13 clusters
-Trying 14 clusters
-Trying 15 clusters
-Trying 16 clusters
-Trying 17 clusters
-Trying 18 clusters
-Trying 19 clusters
-Trying 20 clusters
-Trying 21 clusters
-Trying 22 clusters
-Trying 23 clusters
-Trying 24 clusters
-Trying 25 clusters
-Trying 26 clusters
-Trying 27 clusters
-Trying 28 clusters
-Trying 29 clusters
-Trying 30 clusters
-Trying 31 clusters
-Trying 32 clusters
-Trying 33 clusters
-Trying 34 clusters
-Trying 35 clusters
-Trying 36 clusters
-Trying 37 clusters
-Trying 38 clusters
-Trying 39 clusters
-Trying 40 clusters
-Trying 41 clusters
-Trying 42 clusters
-Trying 43 clusters
-Trying 44 clusters
-Trying 45 clusters
-Trying 46 clusters
-Trying 47 clusters
-Trying 48 clusters
-Trying 49 clusters
-Trying 50 clusters
-Trying 51 clusters
-Trying 52 clusters
-Trying 53 clusters
-Trying 54 clusters
-> riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-Processing sweep 1 of  100 
-> clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
-+     whichCovariates=c(1,2))
-> 
-> 
-> 
-> cleanEx()
-> nameEx("calcDissimilarityMatrix")
-> ### * calcDissimilarityMatrix
-> 
-> flush(stderr()); flush(stdout())
-> 
-> ### Name: calcDissimilarityMatrix
-> ### Title: Calculates the dissimilarity matrix
-> ### Aliases: calcDissimilarityMatrix
-> 
-> ### ** Examples
-> 
-> generateDataList <- clusSummaryBernoulliDiscrete()
-> inputs <- generateSampleDataFile(generateDataList)
-> runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
-+     nSweeps=100, nBurn=100, data=inputs$inputData, output="output", 
-+     covNames=inputs$covNames)
-Random number seed: 1355919118
-Sweep: 1
-> 
-> dissimObj<-calcDissimilarityMatrix(runInfoObj)
-Stage 1:1 samples out of 100
-Stage 2:1 samples out of 100
-> clusObj<-calcOptimalClustering(dissimObj)
-Max no of possible clusters: 56 
-Trying 2 clusters
-Trying 3 clusters
-Trying 4 clusters
-Trying 5 clusters
-Trying 6 clusters
-Trying 7 clusters
-Trying 8 clusters
-Trying 9 clusters
-Trying 10 clusters
-Trying 11 clusters
-Trying 12 clusters
-Trying 13 clusters
-Trying 14 clusters
-Trying 15 clusters
-Trying 16 clusters
-Trying 17 clusters
-Trying 18 clusters
-Trying 19 clusters
-Trying 20 clusters
-Trying 21 clusters
-Trying 22 clusters
-Trying 23 clusters
-Trying 24 clusters
-Trying 25 clusters
-Trying 26 clusters
-Trying 27 clusters
-Trying 28 clusters
-Trying 29 clusters
-Trying 30 clusters
-Trying 31 clusters
-Trying 32 clusters
-Trying 33 clusters
-Trying 34 clusters
-Trying 35 clusters
-Trying 36 clusters
-Trying 37 clusters
-Trying 38 clusters
-Trying 39 clusters
-Trying 40 clusters
-Trying 41 clusters
-Trying 42 clusters
-Trying 43 clusters
-Trying 44 clusters
-Trying 45 clusters
-Trying 46 clusters
-Trying 47 clusters
-Trying 48 clusters
-Trying 49 clusters
-Trying 50 clusters
-Trying 51 clusters
-Trying 52 clusters
-Trying 53 clusters
-Trying 54 clusters
-Trying 55 clusters
-Trying 56 clusters
-> riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-Processing sweep 1 of  100 
-> clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
-+     whichCovariates=c(1,2))
-> 
-> 
-> 
-> 
-> cleanEx()
-> nameEx("calcOptimalClustering")
-> ### * calcOptimalClustering
-> 
-> flush(stderr()); flush(stdout())
-> 
-> ### Name: calcOptimalClustering
-> ### Title: Calculation of the optimal clustering
-> ### Aliases: calcOptimalClustering
-> 
-> ### ** Examples
-> 
-> generateDataList <- clusSummaryBernoulliDiscrete()
-> inputs <- generateSampleDataFile(generateDataList)
-> runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
-+     nSweeps=100, nBurn=100, data=inputs$inputData, output="output", 
-+     covNames=inputs$covNames)
-Random number seed: 1355919261
-Sweep: 1
-> 
-> dissimObj<-calcDissimilarityMatrix(runInfoObj)
-Stage 1:1 samples out of 100
-Stage 2:1 samples out of 100
-> clusObj<-calcOptimalClustering(dissimObj)
-Max no of possible clusters: 64 
+Max no of possible clusters: 63 
 Trying 2 clusters
 Trying 3 clusters
 Trying 4 clusters
@@ -385,7 +177,176 @@ Trying 60 clusters
 Trying 61 clusters
 Trying 62 clusters
 Trying 63 clusters
-Trying 64 clusters
+> riskProfileObj<-calcAvgRiskAndProfile(clusObj)
+Processing sweep 1 of  100 
+> clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
++     whichCovariates=c(1,2))
+> 
+> 
+> 
+> cleanEx()
+> nameEx("calcDissimilarityMatrix")
+> ### * calcDissimilarityMatrix
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: calcDissimilarityMatrix
+> ### Title: Calculates the dissimilarity matrix
+> ### Aliases: calcDissimilarityMatrix
+> 
+> ### ** Examples
+> 
+> generateDataList <- clusSummaryBernoulliDiscrete()
+> inputs <- generateSampleDataFile(generateDataList)
+> runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
++     nSweeps=100, nBurn=100, data=inputs$inputData, output="output", 
++     covNames=inputs$covNames)
+Random number seed: 1357829915
+Sweep: 1
+> 
+> dissimObj<-calcDissimilarityMatrix(runInfoObj)
+Stage 1:1 samples out of 100
+Stage 2:1 samples out of 100
+> clusObj<-calcOptimalClustering(dissimObj)
+Max no of possible clusters: 53 
+Trying 2 clusters
+Trying 3 clusters
+Trying 4 clusters
+Trying 5 clusters
+Trying 6 clusters
+Trying 7 clusters
+Trying 8 clusters
+Trying 9 clusters
+Trying 10 clusters
+Trying 11 clusters
+Trying 12 clusters
+Trying 13 clusters
+Trying 14 clusters
+Trying 15 clusters
+Trying 16 clusters
+Trying 17 clusters
+Trying 18 clusters
+Trying 19 clusters
+Trying 20 clusters
+Trying 21 clusters
+Trying 22 clusters
+Trying 23 clusters
+Trying 24 clusters
+Trying 25 clusters
+Trying 26 clusters
+Trying 27 clusters
+Trying 28 clusters
+Trying 29 clusters
+Trying 30 clusters
+Trying 31 clusters
+Trying 32 clusters
+Trying 33 clusters
+Trying 34 clusters
+Trying 35 clusters
+Trying 36 clusters
+Trying 37 clusters
+Trying 38 clusters
+Trying 39 clusters
+Trying 40 clusters
+Trying 41 clusters
+Trying 42 clusters
+Trying 43 clusters
+Trying 44 clusters
+Trying 45 clusters
+Trying 46 clusters
+Trying 47 clusters
+Trying 48 clusters
+Trying 49 clusters
+Trying 50 clusters
+Trying 51 clusters
+Trying 52 clusters
+Trying 53 clusters
+> riskProfileObj<-calcAvgRiskAndProfile(clusObj)
+Processing sweep 1 of  100 
+> clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
++     whichCovariates=c(1,2))
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("calcOptimalClustering")
+> ### * calcOptimalClustering
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: calcOptimalClustering
+> ### Title: Calculation of the optimal clustering
+> ### Aliases: calcOptimalClustering
+> 
+> ### ** Examples
+> 
+> generateDataList <- clusSummaryBernoulliDiscrete()
+> inputs <- generateSampleDataFile(generateDataList)
+> runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
++     nSweeps=100, nBurn=100, data=inputs$inputData, output="output", 
++     covNames=inputs$covNames)
+Random number seed: 1357829983
+Sweep: 1
+> 
+> dissimObj<-calcDissimilarityMatrix(runInfoObj)
+Stage 1:1 samples out of 100
+Stage 2:1 samples out of 100
+> clusObj<-calcOptimalClustering(dissimObj)
+Max no of possible clusters: 54 
+Trying 2 clusters
+Trying 3 clusters
+Trying 4 clusters
+Trying 5 clusters
+Trying 6 clusters
+Trying 7 clusters
+Trying 8 clusters
+Trying 9 clusters
+Trying 10 clusters
+Trying 11 clusters
+Trying 12 clusters
+Trying 13 clusters
+Trying 14 clusters
+Trying 15 clusters
+Trying 16 clusters
+Trying 17 clusters
+Trying 18 clusters
+Trying 19 clusters
+Trying 20 clusters
+Trying 21 clusters
+Trying 22 clusters
+Trying 23 clusters
+Trying 24 clusters
+Trying 25 clusters
+Trying 26 clusters
+Trying 27 clusters
+Trying 28 clusters
+Trying 29 clusters
+Trying 30 clusters
+Trying 31 clusters
+Trying 32 clusters
+Trying 33 clusters
+Trying 34 clusters
+Trying 35 clusters
+Trying 36 clusters
+Trying 37 clusters
+Trying 38 clusters
+Trying 39 clusters
+Trying 40 clusters
+Trying 41 clusters
+Trying 42 clusters
+Trying 43 clusters
+Trying 44 clusters
+Trying 45 clusters
+Trying 46 clusters
+Trying 47 clusters
+Trying 48 clusters
+Trying 49 clusters
+Trying 50 clusters
+Trying 51 clusters
+Trying 52 clusters
+Trying 53 clusters
+Trying 54 clusters
 > 
 > 
 > 
@@ -413,7 +374,7 @@ Trying 64 clusters
 > runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
 +     nSweeps=100, nBurn=1000, data=inputs$inputData, output="output", 
 +     covNames=inputs$covNames,predict=preds)
-Random number seed: 1355919398
+Random number seed: 1357830032
 Sweep: 1
 Sweep: 500
 Sweep: 1000
@@ -423,7 +384,7 @@ Sweep: 1000
 Stage 1:1 samples out of 100
 Stage 2:1 samples out of 100
 > clusObj <- calcOptimalClustering(dissimObj)
-Max no of possible clusters: 27 
+Max no of possible clusters: 20 
 Trying 2 clusters
 Trying 3 clusters
 Trying 4 clusters
@@ -443,13 +404,6 @@ Trying 17 clusters
 Trying 18 clusters
 Trying 19 clusters
 Trying 20 clusters
-Trying 21 clusters
-Trying 22 clusters
-Trying 23 clusters
-Trying 24 clusters
-Trying 25 clusters
-Trying 26 clusters
-Trying 27 clusters
 > riskProfileObj <- calcAvgRiskAndProfile(clusObj)
 Processing sweep 1 of  100 
 > clusterOrderObj <- plotRiskProfile(riskProfileObj,"summary.png",
@@ -634,19 +588,22 @@ $clusterData[[5]]$covariateProbs[[5]]
 > 
 > ### ** Examples
 > 
+> 
+> # simulate a dataset
 > generateDataList <- clusSummaryBernoulliDiscrete()
 > inputs <- generateSampleDataFile(generateDataList)
-> runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+> 
+> # do clustering a first time
+> runInfoObjA<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
 +     nSweeps=100, nBurn=100, data=inputs$inputData, output="output", 
 +     covNames=inputs$covNames)
-Random number seed: 1355919425
+Random number seed: 1357830047
 Sweep: 1
-> 
-> dissimObj<-calcDissimilarityMatrix(runInfoObj)
+> dissimObjA<-calcDissimilarityMatrix(runInfoObjA)
 Stage 1:1 samples out of 100
 Stage 2:1 samples out of 100
-> clusObj<-calcOptimalClustering(dissimObj)
-Max no of possible clusters: 34 
+> clusObjA<-calcOptimalClustering(dissimObjA)
+Max no of possible clusters: 53 
 Trying 2 clusters
 Trying 3 clusters
 Trying 4 clusters
@@ -680,11 +637,98 @@ Trying 31 clusters
 Trying 32 clusters
 Trying 33 clusters
 Trying 34 clusters
-> riskProfileObj<-calcAvgRiskAndProfile(clusObj)
+Trying 35 clusters
+Trying 36 clusters
+Trying 37 clusters
+Trying 38 clusters
+Trying 39 clusters
+Trying 40 clusters
+Trying 41 clusters
+Trying 42 clusters
+Trying 43 clusters
+Trying 44 clusters
+Trying 45 clusters
+Trying 46 clusters
+Trying 47 clusters
+Trying 48 clusters
+Trying 49 clusters
+Trying 50 clusters
+Trying 51 clusters
+Trying 52 clusters
+Trying 53 clusters
+> riskProfileObjA<-calcAvgRiskAndProfile(clusObjA)
 Processing sweep 1 of  100 
-> clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
-+     whichCovariates=c(1,2))
 > 
+> # do clustering a second time
+> runInfoObjB<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
++     nSweeps=100, nBurn=100, data=inputs$inputData, output="output", 
++     covNames=inputs$covNames)
+Random number seed: 1357830083
+Sweep: 1
+> dissimObjB<-calcDissimilarityMatrix(runInfoObjB)
+Stage 1:1 samples out of 100
+Stage 2:1 samples out of 100
+> clusObjB<-calcOptimalClustering(dissimObjB)
+Max no of possible clusters: 40 
+Trying 2 clusters
+Trying 3 clusters
+Trying 4 clusters
+Trying 5 clusters
+Trying 6 clusters
+Trying 7 clusters
+Trying 8 clusters
+Trying 9 clusters
+Trying 10 clusters
+Trying 11 clusters
+Trying 12 clusters
+Trying 13 clusters
+Trying 14 clusters
+Trying 15 clusters
+Trying 16 clusters
+Trying 17 clusters
+Trying 18 clusters
+Trying 19 clusters
+Trying 20 clusters
+Trying 21 clusters
+Trying 22 clusters
+Trying 23 clusters
+Trying 24 clusters
+Trying 25 clusters
+Trying 26 clusters
+Trying 27 clusters
+Trying 28 clusters
+Trying 29 clusters
+Trying 30 clusters
+Trying 31 clusters
+Trying 32 clusters
+Trying 33 clusters
+Trying 34 clusters
+Trying 35 clusters
+Trying 36 clusters
+Trying 37 clusters
+Trying 38 clusters
+Trying 39 clusters
+Trying 40 clusters
+> riskProfileObjB<-calcAvgRiskAndProfile(clusObjB)
+Processing sweep 1 of  100 
+> 
+> # compare clustering
+> compareClustering(riskProfileObjA,riskProfileObjB)
+$dOpt
+[1] 0.06528328
+
+$dOptClusA
+[1] 0.05982403 0.02711475 0.05900000 0.01705025 0.12797436 0.17757895
+
+$dOptClusB
+[1] 0.03319444 0.04572308 0.10869792 0.14621918 0.02751220 0.10040336
+
+$dRaw
+[1] 0.04201864
+
+$dRisk
+[1] 0.07056329
+
 > 
 > 
 > 
@@ -708,7 +752,7 @@ Processing sweep 1 of  100
 > profRegr(yModel=inputs$yModel, xModel=inputs$xModel, nSweeps=100, 
 +     nBurn=100, data=inputs$inputData, output="output", 
 +     covNames=inputs$covNames)
-Random number seed: 1355919451
+Random number seed: 1357830134
 Sweep: 1
 $directoryPath
 [1] "."
@@ -2813,78 +2857,31 @@ NULL
 > 
 > 
 > cleanEx()
-> nameEx("plotClustering")
-> ### * plotClustering
+> nameEx("margModelPosterior")
+> ### * margModelPosterior
 > 
 > flush(stderr()); flush(stdout())
 > 
-> ### Name: plotClustering
-> ### Title: Plot the clustering using principal components
-> ### Aliases: plotClustering
-> ### Keywords: plots
+> ### Name: margModelPosterior
+> ### Title: Marginal Model Posterior
+> ### Aliases: margModelPosterior
+> ### Keywords: margModelPosterior
 > 
 > ### ** Examples
 > 
+> inputs <- generateSampleDataFile(clusSummaryBernoulliDiscrete())
 > 
-> generateDataList <- clusSummaryBernoulliDiscrete()
-> inputs <- generateSampleDataFile(generateDataList)
-> runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, nSweeps=100, 
-+     nBurn=100, data=inputs$inputData, output="output", 
-+     covNames=inputs$covNames)
-Random number seed: 1355919454
+> runInfoObj<-profRegr(yModel=inputs$yModel, 
++          xModel=inputs$xModel, nSweeps=10, 
++          nBurn=10, data=inputs$inputData, output="output", 
++          covNames = inputs$covNames, 
++          fixedEffectsNames = inputs$fixedEffectNames,seed=12567)
+Random number seed: 12567
 Sweep: 1
 > 
-> dissimObj<-calcDissimilarityMatrix(runInfoObj)
-Stage 1:1 samples out of 100
-Stage 2:1 samples out of 100
-> clusObj<-calcOptimalClustering(dissimObj)
-Max no of possible clusters: 43 
-Trying 2 clusters
-Trying 3 clusters
-Trying 4 clusters
-Trying 5 clusters
-Trying 6 clusters
-Trying 7 clusters
-Trying 8 clusters
-Trying 9 clusters
-Trying 10 clusters
-Trying 11 clusters
-Trying 12 clusters
-Trying 13 clusters
-Trying 14 clusters
-Trying 15 clusters
-Trying 16 clusters
-Trying 17 clusters
-Trying 18 clusters
-Trying 19 clusters
-Trying 20 clusters
-Trying 21 clusters
-Trying 22 clusters
-Trying 23 clusters
-Trying 24 clusters
-Trying 25 clusters
-Trying 26 clusters
-Trying 27 clusters
-Trying 28 clusters
-Trying 29 clusters
-Trying 30 clusters
-Trying 31 clusters
-Trying 32 clusters
-Trying 33 clusters
-Trying 34 clusters
-Trying 35 clusters
-Trying 36 clusters
-Trying 37 clusters
-Trying 38 clusters
-Trying 39 clusters
-Trying 40 clusters
-Trying 41 clusters
-Trying 42 clusters
-Trying 43 clusters
-> riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-Processing sweep 1 of  100 
-> clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
-+     whichCovariates=c(1,2))
+> margModelPosterior(runInfoObj)
+[1] 1
+[1] -4172.276
 > 
 > 
 > 
@@ -2898,7 +2895,7 @@ Processing sweep 1 of  100
 > ### Name: plotRiskProfile
 > ### Title: Plot the Risk Profiles
 > ### Aliases: plotRiskProfile
-> ### Keywords: plot
+> ### Keywords: plots
 > 
 > ### ** Examples
 > 
@@ -2957,14 +2954,14 @@ Processing sweep 1 of  100
 +     nSweeps=100, nBurn=100, data=inputData, output="output", 
 +     covNames=c("Var1","Var2","Var3","Var4","Var5"),
 +     fixedEffectsNames=c("fe1","fe2"))
-Random number seed: 1355919513
+Random number seed: 1357830139
 Sweep: 1
 > 
 > dissimObj<-calcDissimilarityMatrix(runInfoObj)
 Stage 1:1 samples out of 100
 Stage 2:1 samples out of 100
 > clusObj<-calcOptimalClustering(dissimObj)
-Max no of possible clusters: 19 
+Max no of possible clusters: 18 
 Trying 2 clusters
 Trying 3 clusters
 Trying 4 clusters
@@ -2982,7 +2979,6 @@ Trying 15 clusters
 Trying 16 clusters
 Trying 17 clusters
 Trying 18 clusters
-Trying 19 clusters
 > riskProfileObj<-calcAvgRiskAndProfile(clusObj)
 Processing sweep 1 of  100 
 > clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
@@ -3010,7 +3006,7 @@ Processing sweep 1 of  100
 +     nBurn=1000, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1355919517
+Random number seed: 1357830142
 Sweep: 1
 Sweep: 500
 Sweep: 1000
@@ -3054,7 +3050,7 @@ Processing sweep 1000 of  1000
 +     nBurn=1000, data=inputs$inputData, output="output", 
 +     discreteCovs = inputs$discreteCovs,
 +     continuousCovs = inputs$continuousCovs, nClusInit=10)
-Random number seed: 1355919557
+Random number seed: 1357830169
 Sweep: 1
 Sweep: 500
 Sweep: 1000
@@ -3084,10 +3080,39 @@ Processing sweep 1000 of  1000
 > 
 > 
 > 
+> cleanEx()
+> nameEx("summariseVarSelectRho")
+> ### * summariseVarSelectRho
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: summariseVarSelectRho
+> ### Title: summariseVarSelectRho
+> ### Aliases: summariseVarSelectRho
+> ### Keywords: variableSelection
+> 
+> ### ** Examples
+> 
+> 
+> inputs <- generateSampleDataFile(clusSummaryVarSelectBernoulliDiscrete())
+> 
+> runInfoObj<-profRegr(yModel=inputs$yModel, 
++     xModel=inputs$xModel, nSweeps=100, 
++     nBurn=1000, data=inputs$inputData, output="output", 
++     covNames = inputs$covNames, varSelect="Continuous")
+Random number seed: 1357830182
+Sweep: 1
+Sweep: 500
+Sweep: 1000
+> 
+> rho<-summariseVarSelectRho(runInfoObj)
+> 
+> 
+> 
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  580.064 0.972 583.639 0 0 
+Time elapsed:  362.418 0.804 365.071 0 0 
 > grDevices::dev.off()
 null device 
           1 
