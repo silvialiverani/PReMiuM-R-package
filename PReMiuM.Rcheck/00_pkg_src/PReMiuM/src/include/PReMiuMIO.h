@@ -107,7 +107,7 @@ pReMiuMOptions processCommandLine(string inputStr){
 			cout << "--extraYVar" << endl << "\tIf included extra Gaussian variance is included in the" << endl << "\tresponse model (not included)." << endl;
 			cout << "--varSelect=<string>" << endl << "\tThe type of variable selection to be used 'None'," << endl << "\t'BinaryCluster' or 'Continuous' (None)" << endl;
 			cout << "--entropy" << endl << "\tIf included then we compute allocation entropy (not included)" << endl;
-			exit(0);
+		//	exit(0);
 		}else{
 			while(currArg < argc){
 				inString.assign(inputStrings[currArg]);
@@ -233,7 +233,7 @@ pReMiuMOptions processCommandLine(string inputStr){
 		cout << "Please use:" << endl;
 		cout << "\t profileRegression --help" << endl;
 		cout << "to get help on correct usage." << endl;
-		exit(-1);
+	//	exit(-1);
 	}
 
 	return options;
@@ -247,13 +247,13 @@ void importPReMiuMData(const string& fitFilename,const string& predictFilename,p
 	inputFile.open(fitFilename.c_str());
 	if(!inputFile.is_open()){
 		cout << "Input file not found" << endl;
-		exit(-1);
+	//	exit(-1);
 	}
 	if(predictFilename.compare("")!=0){
 		predictFile.open(predictFilename.c_str());
 		if(!predictFile.is_open()){
 			cout << "Prediction covariate file not found" << endl;
-			exit(-1);
+	//		exit(-1);
 		}
 	}
 	unsigned int& nSubjects=dataset.nSubjects();
@@ -500,7 +500,7 @@ void importPReMiuMData(const string& fitFilename,const string& predictFilename,p
 		cout << "Please use:" << endl;
 		cout << "\t profileRegression --help" << endl;
 		cout << "to get help on correct usage." << endl;
-		exit(-1);
+	//	exit(-1);
 	}
 
 }
@@ -512,7 +512,7 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 	inputFile.open(filename.c_str());
 	if(!inputFile.is_open()){
 		cout << "Parameter file not found" << endl;
-		exit(-1);
+	//	exit(-1);
 	}
 
 	string inString;
@@ -544,11 +544,14 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 			while(tmpStr.find(" ")!=string::npos){
 				pos = tmpStr.find(" ");
 				if(pos==(tmpStr.size()-1)){
+					string elem = tmpStr.substr(0,pos);
+					aVec.push_back((double)atof(elem.c_str()));
+					tmpStr = tmpStr.substr(pos+1,tmpStr.size());
 					break;
 				}
-				string elem = tmpStr.substr(0,pos-1);
+				string elem = tmpStr.substr(0,pos);
 				aVec.push_back((double)atof(elem.c_str()));
-				tmpStr = tmpStr.substr(pos+1,tmpStr.size()-pos-1);
+				tmpStr = tmpStr.substr(pos+1,tmpStr.size());
 			}
 			hyperParams.aPhi(aVec);
 		}else if(inString.find("mu0")==0){
@@ -558,11 +561,14 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 			while(tmpStr.find(" ")!=string::npos){
 				pos = tmpStr.find(" ");
 				if(pos==(tmpStr.size()-1)){
+					string elem = tmpStr.substr(0,pos);
+					muVec.push_back((double)atof(elem.c_str()));
+					tmpStr = tmpStr.substr(pos+1,tmpStr.size());
 					break;
 				}
-				string elem = tmpStr.substr(0,pos-1);
+				string elem = tmpStr.substr(0,pos);
 				muVec.push_back((double)atof(elem.c_str()));
-				tmpStr = tmpStr.substr(pos+1,tmpStr.size()-pos-1);
+				tmpStr = tmpStr.substr(pos+1,tmpStr.size());
 			}
 			VectorXd mu0=VectorXd::Zero(muVec.size());
 			for(unsigned int j=0;j<muVec.size();j++){
@@ -576,9 +582,12 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 			while(tmpStr.find(" ")!=string::npos){
 				pos = tmpStr.find(" ");
 				if(pos==(tmpStr.size()-1)){
+					string elem = tmpStr.substr(0,pos);
+					TauVec.push_back((double)atof(elem.c_str()));
+					tmpStr = tmpStr.substr(pos+1,tmpStr.size());
 					break;
 				}
-				string elem = tmpStr.substr(0,pos-1);
+				string elem = tmpStr.substr(0,pos);
 				TauVec.push_back((double)atof(elem.c_str()));
 				tmpStr = tmpStr.substr(pos+1,tmpStr.size()-pos-1);
 			}
@@ -597,9 +606,12 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 			while(tmpStr.find(" ")!=string::npos){
 				pos = tmpStr.find(" ");
 				if(pos==(tmpStr.size()-1)){
+					string elem = tmpStr.substr(0,pos);
+					RVec.push_back((double)atof(elem.c_str()));
+					tmpStr = tmpStr.substr(pos+1,tmpStr.size());
 					break;
 				}
-				string elem = tmpStr.substr(0,pos-1);
+				string elem = tmpStr.substr(0,pos);
 				RVec.push_back((double)atof(elem.c_str()));
 				tmpStr = tmpStr.substr(pos+1,tmpStr.size()-pos-1);
 			}
@@ -1770,7 +1782,7 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 					*(outFiles[omegaInd]) << endl;
 					*(outFiles[rhoInd]) << endl;
 				}
-				if(sweep==0){
+				if(sweep!=0){ // this was "==0", it might be worth double checking 
 					if(covariateType.compare("Discrete")==0){
 						for(unsigned int p=0;p<maxNCategories;p++){
 							if(p<nCategories[j]){

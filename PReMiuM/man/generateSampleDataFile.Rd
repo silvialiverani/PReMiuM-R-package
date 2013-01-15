@@ -1,7 +1,7 @@
 \name{generateSampleDataFile}
 \alias{generateSampleDataFile}
 \title{Generate sample data files for profile regression}
-\description{.}
+\description{Generation of random sample datasets for profile regression.}
 \usage{
 generateSampleDataFile(clusterSummary)
 }
@@ -17,7 +17,18 @@ The output of this function is a list with the following elements
 \item{fixedEffectNames}{The names of the fixed effects.}
 
 }
-\author{David Hastie and Silvia Liverani}
+\section{Authors}{
+David Hastie, Department of Epidemiology and Biostatistics, Imperial College London, UK
+
+Silvia Liverani, Department of Epidemiology and Biostatistics, Imperial College London and MRC Biostatistics Unit, Cambridge, UK
+
+Maintainer: Silvia Liverani <liveranis@gmail.com>
+}
+\references{
+
+Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for Bayesian profile regression. \emph{Submitted}.
+
+}
 \examples{
 # generation of data for clustering
 

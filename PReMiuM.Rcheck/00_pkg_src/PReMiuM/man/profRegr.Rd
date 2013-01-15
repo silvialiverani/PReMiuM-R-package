@@ -18,8 +18,23 @@ profRegr(covNames, fixedEffectsNames, outcome="outcome",
 \item{outcomeT}{A string of column of the data argument that contains the offset (for Poisson outcome) or the number of trials (for Binomial outcome).}
 \item{data}{A data frame which has as columns the outcome, the covariates, the fixed effects if any and the offset (for Poisson outcome) or the number of trials (for Binomial outcome). The outcome cannot have missing values - you could consider predicting the value of the outcome for those subjects for which it has not been observed.}
 \item{output}{Path to folder to save all output files. The covariates can have missing values, which must be coded as 'NA'. There cannot be missing values in the fixed effects - if there are, use an imputation method before using profile regression.}
-\item{hyper}{Path to file with hyperparameters specifications. This is optional: default values are provided for all hyperparameters.}
-\item{predict}{Data frame containing the predictive scenarios. See ?calcPredictions for more details. This is only required if predictions are requested.}
+\item{hyper}{Object of type setHyperparams with hyperparameters specifications. This is optional, default values are provided for all hyperparameters. See ?setHyperparams for details.}
+\item{predict}{Data frame containing the predictive scenarios. This is only required if predictions are requested. 
+
+At each iteration the predictive subjects are assigned to one of the current
+clusters according to their covariate profiles (but ignoring missing values), or
+their Rao Blackwellised estimate of theta is recorded (a weighted average of all
+theta, weighted by the probability of allocation into each cluster.
+
+The predictive subjects have no impact on the likelihood and so do not determine
+the clustering or parameters at each iteration. The predictive allocations are
+then recorded as extra entries in each row of the output_z.txt file. This can
+then be processed in the post processing to create a dissimilarity matrix with
+the fitting subjects. The post procesing function calcPredictions will create
+predicted response values for these subjects.
+
+See ?calcPredictions for more details and examples.
+}
 \item{nSweeps}{Number of iterations of the MCMC after the burn-in period. By default this is 1000.}
 \item{nBurn}{Number of initial iterations of the MCMC to be discarded. By default this is 1000.}
 \item{reportBurnIn}{If TRUE then the burn in iterations are reported in the output files, if set to FALSE they are not. It is set to FALSE by default.}
@@ -40,7 +55,10 @@ profRegr(covNames, fixedEffectsNames, outcome="outcome",
 \item{continuousCovs}{The names of the discrete covariates among the covariate names, if xModel="Mixed". This and continuousCovs must be defined if xModel="Mixed", while covNames is ignored.}
 }
 \value{
-It returns a number of files in the output directory as well as a list with the following elements.
+Once the C++ has completed the output from fitting the regression is stored in a number of text files in the directory specified. Files are produced
+containing the MCMC traces for all of the values of interest, along with a log file and files for monitoring the acceptance rates of the adaptive Metropolis Hastings moves.
+
+It returns a number of files in the output directory as well as a list with the following elements. This an object of type runInfoObj.
 \item{directoryPath}{String. Directory path of the output files.}
 \item{fileStem}{String. The }
 \item{inputFileName}{String. Location and file name of input dataset as created by this function for the C++ routines}
@@ -64,7 +82,18 @@ It returns a number of files in the output directory as well as a list with the 
 \item{yMat}{A matrix of the outcome data, including the offset if the outcome is Poisson and the number of trials if the outcome is Binomial.}
 \item{wMat}{A matrix of the fixed effect data.}
 }
-\author{David Hastie and Silvia Liverani}
+\section{Authors}{
+David Hastie, Department of Epidemiology and Biostatistics, Imperial College London, UK
+
+Silvia Liverani, Department of Epidemiology and Biostatistics, Imperial College London and MRC Biostatistics Unit, Cambridge, UK
+
+Maintainer: Silvia Liverani <liveranis@gmail.com>
+}
+\references{
+
+Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for Bayesian profile regression. \emph{Submitted}.
+
+}
 \examples{
 # example for Poisson outcome and Discrete covariates
 inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())

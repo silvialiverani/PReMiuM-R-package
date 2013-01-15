@@ -6,28 +6,74 @@
 Dirichlet Process Bayesian Clustering
 }
 \description{
-Dirichlet Process Bayesian Clustering and functions for the post-processing of its output. 
+Dirichlet process Bayesian clustering and functions for the post-processing of its output. 
+}
+\section{Details}{
+  \pkg{PReMiuM} provides the following:
+  \itemize{
+* Implements an infinite Dirichlet process model
+* Can do dependent or independent slice sampling (Kalli et al., 2011) 
+     or truncated Dirichlet process model (Ishwaran and James, 2001)
+* Handles categorical or Normal covariates, or a mixture of them
+* Handles Bernoulli, Binomial, Categorical, Poisson or Normal responses
+* Handles inclusion of fixed effects in the response model
+* Handles Extra Variation in the response (for Bernoulli, Binomial and Poisson response only)
+* Handles variable selection (tested in Discrete covariate case only)
+* Includes label switching moves for better mixing
+* Allows user to exclude the response from the model
+* Allows user to compute the entropy of the allocation
+* Allows user to run with a fixed alpha or update alpha (default)
+* Allows users to run predictive scenarios (at C++ run time)
+* Basic or Rao-Blackwellised predictions can be produced
+* Handling of missing data
+* C++ for model fitting
+* Uses Eigen Linear Algebra Library and Boost C++
+* Completely self contained (all library code in included in distribution)
+* Adaptive MCMC where appropriate
+* R package for generating simulation data and post processing
+* R plotting functions allow user choice of what to order clusters by
+
+
 }
 \details{
 \tabular{ll}{
 Package: \tab PReMiuM\cr
 Type: \tab Package\cr
-Version: \tab 3.0.1\cr
-Date: \tab 2012-12-19\cr
-License: \tab What license is it under?\cr
+Version: \tab 3.0.4\cr
+Date: \tab 2013-01-10\cr
+License: \tab GPL3\cr
 LazyLoad: \tab yes\cr
 }
-~~ An overview of how to use the package, including the most important ~~
-~~ functions ~~
+
+Program to implement Dirichlet Process Bayesian Clustering as described in
+Liverani et al. 2013. Previously this project was called profile regression.
+
 }
-\author{
-David Hastie and Silvia Liverani
+\section{Authors}{
+David Hastie, Department of Epidemiology and Biostatistics, Imperial College London, UK
+
+Silvia Liverani, Department of Epidemiology and Biostatistics, Imperial College London and MRC Biostatistics Unit, Cambridge, UK
 
 Maintainer: Silvia Liverani <liveranis@gmail.com>
 }
-\references{
-Hastie et al (2012) blah blah
+\section{Acknowledgements}{
+Silvia Liverani thanks The Leverhulme Trust for financial support. 
 }
+\references{
+Molitor J, Papathomas M, Jerrett M and Richardson S. (2010) Bayesian Profile Regression with an Application to the National Survey of Children's Health, Biostatistics 11: 484-498.
+
+Papathomas M, Molitor J, Richardson S. et al (2011) Examining the joint effect of multiple risk factors using exposure risk profiles: lung cancer in non smokers. Environmental Health Perspectives 119: 84-91.
+
+Hastie, D. I., Liverani, S., Richardson, S. and Stucker I. (2013) A semi-parametric approach to estimate risk functions associated with multi-dimensional exposure profiles: application to smoking and lung cancer. \emph{Submitted}.
+
+Molitor, J., Brown, I. J., Papathomas, M., Molitor, N., Liverani, S., Chan, Q., Richardson, S., Van Horn, L., Daviglus, M. L., Stamler, J. and Elliott, P. (2013) Blood pressure differences associated with DASH-like lower sodium compared with typical American higher sodium nutrient profile: INTERMAP USA. \emph{Submitted}.
+
+Hastie, D. I., Liverani, S. and Richardson, S. (2013) Sampling from Dirichlet process mixture models with unknown concentration parameter. \emph{Submitted}.
+
+Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for Bayesian profile regression. \emph{Submitted}.
+
+}
+
 \examples{
 
 # example for Poisson outcome and Discrete covariates
@@ -42,20 +88,5 @@ dissimObj<-calcDissimilarityMatrix(runInfoObj)
 clusObj<-calcOptimalClustering(dissimObj)
 riskProfileObj<-calcAvgRiskAndProfile(clusObj)
 clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
-
-# example with Bernoulli outcome and Mixed covariates
-inputs <- generateSampleDataFile(clusSummaryBernoulliMixed())
-runInfoObj<-profRegr(yModel=inputs$yModel, 
-    xModel=inputs$xModel, nSweeps=1000, 
-    nBurn=1000, data=inputs$inputData, output="output", 
-    discreteCovs = inputs$discreteCovs,
-    continuousCovs = inputs$continuousCovs, nClusInit=10)
-
-dissimObj<-calcDissimilarityMatrix(runInfoObj)
-clusObj<-calcOptimalClustering(dissimObj)
-riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
-    whichCovariates=c(1,2,4,5))
-
 
 }

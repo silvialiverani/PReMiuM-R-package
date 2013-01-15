@@ -1,8 +1,8 @@
 Package: PReMiuM
 Type: Package
 Title: Post processing for C++ PReMiuM
-Version: 3.0.4
-Date: 2012-19-12
+Version: 3.0.5
+Date: 2013-15-01
 Author: David I. Hastie <david.hastie@rsimony.com> and Silvia Liverani <liveranis@gmail.com>
 Maintainer: Silvia Liverani <liveranis@gmail.com>
 Description: Dirichlet process Bayesian Clustering, also known as profile regression.

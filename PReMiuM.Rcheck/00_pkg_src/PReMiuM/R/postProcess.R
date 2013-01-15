@@ -196,10 +196,82 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 
 	inputString<-paste("PReMiuM --input=",fileName," --output=",output," --xModel=",xModel," --yModel=",yModel," --varSelect=",varSelectType,sep="")
 
+	# create hyperparameters file
+	if (!missing(hyper)) {
+		hyperFile <-paste(output,"_hyper.txt",sep="")
+		if (file.exists(hyperFile)) file.remove(hyperFile)
+		if (!is.null(hyper$shapeAlpha)){
+			write(paste("shapeAlpha=",hyper$shapeAlpha,sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$rateAlpha)){
+			write(paste("rateAlpha=",hyper$rateAlpha,sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$useReciprocalNCatsPhi)){
+			write(paste("useReciprocalNCatsPhi=",hyper$useReciprocalNCatsPhi,sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$aPhi)){
+			write(paste("aPhi=",paste(hyper$aPhi,collapse=" ")," ",sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$mu0)){
+			write(paste("mu0=",paste(hyper$mu0,collapse=" ")," ",sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$Tau0)){
+			write(paste("Tau0=",paste(t(hyper$Tau0),collapse=" ")," ",sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$R0)){
+			write(paste("R0=",paste(t(hyper$R0),collapse=" ")," ",sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$kapp0)){
+			write(paste("kapp0=",hyper$kapp0,sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$muTheta)){
+			write(paste("muTheta=",hyper$muTheta,sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$sigmaTheta)){
+			write(paste("sigmaTheta=",hyper$sigmaTheta,sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$dofTheta)){
+			write(paste("dofTheta=",hyper$dofTheta,sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$muBeta)){
+			write(paste("muBeta=",hyper$muBeta,sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$sigmaBeta)){
+			write(paste("sigmaBeta=",hyper$sigmaBeta,sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$dofBeta)){
+			write(paste("dofBeta=",hyper$dofBeta,sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$shapeTauEpsilon)){
+			write(paste("shapeTauEpsilon=",hyper$shapeTauEpsilon,sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$rateTauEpsilon)){
+			write(paste("rateTauEpsilon=",hyper$rateTauEpsilon,sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$aRho)){
+			write(paste("aRho=",hyper$aRho,sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$bRho)){
+			write(paste("bRho=",hyper$bRho,sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$shapeSigmaSqY)){
+			write(paste("shapeSigmaSqY=",hyper$shapeSigmaSqY,sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$scaleSigmaSqY)){
+			write(paste("scaleSigmaSqY=",hyper$scaleSigmaSqY,sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$rSlice)){
+			write(paste("rSlice=",hyper$rSlice,sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$truncationEps)){
+			write(paste("truncationEps=",hyper$truncationEps,sep=""),hyperFile,append=T)
+		}
+	}
+
 	if (reportBurnIn) inputString<-paste(inputString," --reportBurnIn",sep="")
 	if (!missing(alpha)) inputString<-paste(inputString," --alpha=",alpha,sep="")
 	if (!missing(sampler)) inputString<-paste(inputString," --sampler=",sampler,sep="")
-	if (!missing(hyper)) inputString<-paste(inputString," --hyper=",hyper,sep="")
+	if (!missing(hyper)) inputString<-paste(inputString," --hyper=",hyperFile,sep="")
 	if (!missing(predict)) inputString<-paste(inputString," --predict=",paste(output,"_predict.txt",sep=""),sep="")
 	if (!missing(nSweeps)) inputString<-paste(inputString," --nSweeps=",nSweeps,sep="")
 	if (!missing(nBurn)) inputString<-paste(inputString," --nBurn=",nBurn,sep="")
@@ -1651,41 +1723,7 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 	
 	return(output)
 }
-	
-# Compute Ratio of variances (for extra variation case)
-computeRatioOfVariance<-function(runInfoObj){
-	
-	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
-	# Construct the number of clusters file name
-	nClustersFileName <- file.path(directoryPath,paste(fileStem,'_nClusters.txt',sep=''))
-	# Construct the allocation file name
-	zFileName <- file.path(directoryPath,paste(fileStem,'_z.txt',sep=''))
-	# Construct the allocation file name
-	thetaFileName <- file.path(directoryPath,paste(fileStem,'_theta.txt',sep=''))
-	# Construct the allocation file name
-	epsilonFileName <- file.path(directoryPath,paste(fileStem,'_epsilon.txt',sep=''))
-	
-	# Restrict to sweeps after burn in
-	firstLine<-ifelse(reportBurnIn,nBurn/nFilter+2,1)
-	lastLine<-(nSweeps+ifelse(reportBurnIn,nBurn+1,0))/nFilter
-	
-	ratioOfVariance<-rep(0,length(lastLine-firstLine+1))
-	for(sweep in firstLine:lastLine){
-		currMaxNClusters<-scan(nClustersFileName,what=integer(),skip=sweep-1,n=1,quiet=T)
-		zCurr<-1+scan(zFileName,what=integer(),skip=sweep-1,n=nSubjects+nPredictSubjects,quiet=T)
-		zCurr<-zCurr[1:nSubjects]
-		thetaCurr<-scan(thetaFileName,what=double(),skip=sweep-1,n=currMaxNClusters,quiet=T)
-		thetaCurr<-thetaCurr[zCurr]
-		vTheta<-var(thetaCurr)
-		epsilonCurr<-scan(epsilonFileName,what=double(),skip=sweep-1,n=nSubjects,quiet=T)
-		vEpsilon<-var(epsilonCurr)
-		ratioOfVariance[sweep-firstLine+1]<-vTheta/(vTheta+vEpsilon)
-		
-	}
-	return(ratioOfVariance)
-	
-}
-	
+
 # Show the continuous hyperparameter for variable selection
 summariseVarSelectRho<-function(runInfoObj){
 	
@@ -1707,98 +1745,6 @@ summariseVarSelectRho<-function(runInfoObj){
 	rhoUpperCI<-apply(rhoMat,2,quantile,0.95)
 
 	return(list("rho"=rhoMat,"rhoMean"=rhoMean,"rhoMedian"=rhoMedian,"rhoLowerCI"=rhoLowerCI,"rhoUpperCI"=rhoUpperCI))
-	
-}
-	
-	
-# For a particular clustering, show the cluster values of a separate variable
-computeAssociatedVariable<-function(subjectValues,clusObj,clusterPlotOrder,latexFile=NULL){
-	
-	for (i in 1:length(clusObj)) assign(names(clusObj)[i],clusObj[[i]])
-	outData<-data.frame('cluster'=rep(0,nClusters),'Mean'=rep(NA,nClusters),
-		'SD'=rep(NA,nClusters),'Q1'=rep(NA,nClusters),
-		'Med'=rep(NA,nClusters),'Q3'=rep(NA,nClusters))
-	for(c in 1:nClusters){
-		relData<-na.omit(subjectValues[clustering==clusterPlotOrder[c]])
-		tmpDF<-data.frame('cluster'=i,'Mean'=mean(relData),
-			'SD'=sd(relData),'Q1'=quantile(relData,0.25),
-			'Med'=quantile(relData,0.5),'Q3'=quantile(relData,0.75))
-		outData[i,]<-tmpDF
-	  
-	}
-	rownames(outData)<-seq(1,nClusters,1)
-	  
-	if(!is.null(latexFile)){
-		outStr<-c()
-		for(c in 1:nClusters){
-			tmpStr<-paste(format(round(outData[c,],4),nsmall=4),collapse=" & ")
-			if(c<nClusters){
-				tmpStr<-paste(tmpStr,"\\\\",sep="")
-			}
-			outStr<-c(outStr,tmpStr)
-		}
-		write(outStr,file=latexFile,append=F)
-	}
-	return(outData)
-}
-	
-compareClustering<-function(riskProfileObjA,riskProfileObjB,clusterOrder=NULL){
-	
-	clusterObjA<-riskProfileObjA$riskProfClusObj
-	clusterObjB<-riskProfileObjB$riskProfClusObj
-	disSimMatA<-clusterObjA$clusObjDisSimMat
-	disSimMatB<-clusterObjB$clusObjDisSimMat
-	runInfoObjA<-clusterObjA$clusObjRunInfoObj
-	runInfoObjB<-clusterObjB$clusObjRunInfoObj
-	riskMeansA<-apply(riskProfileObjA$risk,2,mean)
-	riskMeansB<-apply(riskProfileObjB$risk,2,mean)
-	nSubjects<-runInfoObjA$nSubjects
-	if(runInfoObjB$nSubjects!=nSubjects){
-		stop("Number of subjects not the same in comparison")
-	}
-	
-	optSimObjA<-matrix(0,nSubjects,nSubjects)
-	optSimObjB<-matrix(0,nSubjects,nSubjects)
-	rawSimObjA<-matrix(0,nSubjects,nSubjects)
-	rawSimObjB<-matrix(0,nSubjects,nSubjects)
-	r<-1
-	dOpt<-0
-	dRaw<-0
-	dRisk<-0
-	dOptClusA<-rep(0,clusterObjA$nClusters)
-	dOptClusB<-rep(0,clusterObjB$nClusters)
-	for(i in 1:nSubjects){
-		if(i<(nSubjects-1)){
-			for(j in (i+1):nSubjects){
-				optSimObjA[i,j]<-ifelse(clusterObjA$clustering[i]==clusterObjA$clustering[j],1,0)
-				optSimObjB[i,j]<-ifelse(clusterObjB$clustering[i]==clusterObjB$clustering[j],1,0)
-				rawSimObjA[i,j]<-1-disSimMatA[r]
-				rawSimObjB[i,j]<-1-disSimMatB[r]
-				r<-r+1
-				if(optSimObjA[i,j]!=optSimObjB[i,j]){
-					dOpt<-dOpt+1
-					dOptClusA[clusterObjA$clustering[i]]<-dOptClusA[clusterObjA$clustering[i]]+1
-					dOptClusB[clusterObjB$clustering[i]]<-dOptClusB[clusterObjB$clustering[i]]+1
-					dOptClusA[clusterObjA$clustering[j]]<-dOptClusA[clusterObjA$clustering[j]]+1
-					dOptClusB[clusterObjB$clustering[j]]<-dOptClusB[clusterObjB$clustering[j]]+1
-				}
-				dRaw<-dRaw+abs(rawSimObjA[i,j]-rawSimObjB[i,j])
-			}
-		}
-		dRisk<-dRisk+abs(riskMeansA[clusterObjA$clustering[i]]-riskMeansB[clusterObjB$clustering[i]])
-	}
-	
-	dOpt<-2*dOpt/(nSubjects*(nSubjects-1))
-	dOptClusA<-dOptClusA/(nSubjects*clusterObjA$clusterSizes)
-	dOptClusB<-dOptClusB/(nSubjects*clusterObjB$clusterSizes)
-	if(!is.null(clusterOrder)){
-		dOptClusA<-dOptClusA[clusterOrder]
-		dOptClusB<-dOptClusB[clusterOrder]
-	}
-	dRaw<-2*dRaw/(nSubjects*(nSubjects-1))
-	dRisk<-dRisk/nSubjects
-	
-	return(list('dOpt'=dOpt,'dOptClusA'=dOptClusA,'dOptClusB'=dOptClusB,'dRaw'=dRaw,'dRisk'=dRisk))
 	
 }
 	
@@ -1902,8 +1848,6 @@ margModelPosterior<-function(runInfoObj){
 	# initialise output vectors
 	margModPost<-rep(0,length=nSweeps/nFilter)
 
-	print(1)
-	
 	# read first allocation iteration after burnin
 	skipLines<-ifelse(reportBurnIn,nBurn/nFilter+1,0)
 	lastLine<-(nSweeps+ifelse(reportBurnIn,nBurn+1,0))/nFilter	
@@ -1944,8 +1888,8 @@ margModelPosterior<-function(runInfoObj){
 	}	
 
 	close(zFileName)
-	print(margModPost[iter])
-	write.table(margModPost,file.path(directoryPath,paste(fileStem,"_margModPost.txt",sep="")))
+	write.table(margModPost,file.path(directoryPath,paste(fileStem,"_margModPost.txt",sep="")), col.names = FALSE,row.names = FALSE)
+	return(mean(margModPost))
 }
 
 # internal function
@@ -2147,4 +2091,76 @@ margModelPosterior<-function(runInfoObj){
   
 }
 
-
+setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,useReciprocalNCatsPhi=NULL,aPhi=NULL,mu0=NULL,Tau0=NULL,R0=NULL,
+	kapp0=NULL,muTheta=NULL,sigmaTheta=NULL,dofTheta=NULL,muBeta=NULL,sigmaBeta=NULL,dofBeta=NULL,
+	shapeTauEpsilon=NULL,rateTauEpsilon=NULL,aRho=NULL,bRho=NULL,shapeSigmaSqY=NULL,scaleSigmaSqY=NULL,
+	rSlice=NULL,truncationEps=NULL){
+	out<-list()
+	if (!is.null(shapeAlpha)){
+		out$shapeAlpha<-shapeAlpha
+	}
+	if (!is.null(rateAlpha)){
+		out$rateAlpha<-rateAlpha
+	}
+	if (!is.null(useReciprocalNCatsPhi)){
+		out$useReciprocalNCatsPhi<-useReciprocalNCatsPhi
+	}
+	if (!is.null(aPhi)){
+		out$aPhi<-aPhi
+	}
+	if (!is.null(mu0)){
+		out$mu0<-mu0
+	}
+	if (!is.null(Tau0)){
+		out$Tau0<-Tau0
+	}
+	if (!is.null(R0)){
+		out$R0<-R0
+	}
+	if (!is.null(kapp0)){
+		out$kapp0<-kapp0
+	}
+	if (!is.null(muTheta)){
+		out$muTheta<-muTheta
+	}
+	if (!is.null(sigmaTheta)){
+		out$sigmaTheta<-sigmaTheta
+	}
+	if (!is.null(dofTheta)){
+		out$dofTheta<-dofTheta
+	}
+	if (!is.null(muBeta)){
+		out$muBeta<-muBeta
+	}
+	if (!is.null(sigmaBeta)){
+		out$sigmaBeta<-sigmaBeta
+	}
+	if (!is.null(dofBeta)){
+		out$dofBeta<-dofBeta
+	}
+	if (!is.null(shapeTauEpsilon)){
+		out$shapeTauEpsilon<-shapeTauEpsilon
+	}
+	if (!is.null(rateTauEpsilon)){
+		out$rateTauEpsilon<-rateTauEpsilon
+	}
+	if (!is.null(aRho)){
+		out$aRho<-aRho
+	}
+	if (!is.null(bRho)){
+		out$bRho<-bRho
+	}
+	if (!is.null(shapeSigmaSqY)){
+		out$shapeSigmaSqY<-shapeSigmaSqY
+	}
+	if (!is.null(scaleSigmaSqY)){
+		out$scaleSigmaSqY<-scaleSigmaSqY
+	}
+	if (!is.null(rSlice)){
+		out$rSlice<-rSlice
+	}
+	if (!is.null(truncationEps)){
+		out$truncationEps<-truncationEps
+	}
+	return(out)
+}

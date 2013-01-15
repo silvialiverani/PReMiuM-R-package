@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.11.5)  10 JAN 2013 15:03
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.11.5)  15 JAN 2013 15:04
 entering extended mode
  %&-line parsing enabled.
 **\catcode126=12 \def\normaltilde{~}\catcode126=13 \let~\normaltilde  \input ./
@@ -693,85 +693,79 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [2]
-(/usr/share/texmf-texlive/tex/latex/base/utf8.def
-File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 )
-(/usr/share/texmf-texlive/tex/latex/base/utf8.def
-File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [3]
-(/usr/share/texmf-texlive/tex/latex/base/utf8.def
-File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [4] [5]
-(/usr/share/texmf-texlive/tex/latex/base/utf8.def
-File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [6]
-Overfull \hbox (143.95511pt too wide) in paragraph at lines 275--278
-[]\T1/ptm/m/n/10 >calcPredictions(riskProfileObj, pre-dic-tRe-spon-se-File-Name
-='../data/input/example_Poisson_Normal_predictW.txt',
- []
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 59.
 
-
-Overfull \hbox (151.17508pt too wide) in paragraph at lines 285--288
-[]\T1/ptm/m/n/10 >calcPredictions(riskProfileObj, pre-dic-tRe-spon-se-File-Name
-='../data/input/example_Poisson_Normal_predictYW.txt',
- []
-
-[7] (/usr/share/texmf-texlive/tex/latex/base/utf8.def
-File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-)
+(/usr/share/texmf-texlive/tex/latex/psnfss/ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+) [2] [3]
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [8] [9]
+) [4]
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-)
-Overfull \hbox (4.78088pt too wide) in paragraph at lines 446--446
- []\T1/fi4/m/n/10 computeAssociatedVariable(subjectValues,clusObj,clusterPlotOr
-der,latexFile=NULL)[] 
- []
-
+) [5] [6]
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [10]
+) [7]
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [11]
+) [8] [9] [10]
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-)
+) [11] [12]
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [12]
+) [13]
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [13] [14]
+) [14]
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [15] [16]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 767--768
+) [15]
+(/usr/share/texmf-texlive/tex/latex/base/utf8.def
+File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
+) [16] [17]
+(/usr/share/texmf-texlive/tex/latex/base/utf8.def
+File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
+) [18]
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 850--851
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
  []
 
-
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 768--769
-[]\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
-names, if xModel="Mixed".
- []
-
-[17] (/usr/share/texmf-texlive/tex/latex/base/utf8.def
-File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [18] (./Rd2.ind
 [19]
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 851--852
+[]\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
+names, if xModel="Mixed".
+ []
+
+[20] (/usr/share/texmf-texlive/tex/latex/base/utf8.def
+File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
+) [21] [22]
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 977--978
+[]\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
+ xi_c = (1-rSlice)*rSlice^c
+ []
+
+
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 977--978
+\T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
+. sam-pler=SliceIndependent,
+ []
+
+[23] (/usr/share/texmf-texlive/tex/latex/base/utf8.def
+File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
+) [24] (./Rd2.ind
+[25]
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 3.
 
 
 LaTeX Font Warning: Font shape `T1/fi4/m/it' undefined
-(Font)              using `T1/fi4/m/n' instead on input line 22.
+(Font)              using `T1/fi4/m/n' instead on input line 31.
 
-[20
+[26
 
 ]) (./Rd2.aux)
 
@@ -779,13 +773,13 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 5708 strings out of 495061
- 80834 string characters out of 1182621
+ 5733 strings out of 495061
+ 80891 string characters out of 1182621
  145699 words of memory out of 3000000
- 8585 multiletter control sequences out of 15000+50000
- 40684 words of font info for 49 fonts, out of 3000000 for 9000
+ 8602 multiletter control sequences out of 15000+50000
+ 40998 words of font info for 50 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 47i,6n,34p,443b,568s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 47i,6n,34p,622b,568s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}{/usr/share/texmf-texli
 ve/fonts/enc/dvips/inconsolata/fi4-ec.enc}</usr/share/texmf-texlive/fonts/type1
 /public/inconsolata/Inconsolata.pfb></usr/share/texmf-texlive/fonts/type1/publi
@@ -794,9 +788,9 @@ r8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmb8a.pfb></usr/share/
 texmf-texlive/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-texlive/fonts/
 type1/urw/times/utmr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr
 i8a.pfb>
-Output written on Rd2.pdf (20 pages, 147425 bytes).
+Output written on Rd2.pdf (26 pages, 164545 bytes).
 PDF statistics:
- 375 PDF objects out of 1000 (max. 8388607)
- 150 named destinations out of 1000 (max. 500000)
- 129 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 400 PDF objects out of 1000 (max. 8388607)
+ 158 named destinations out of 1000 (max. 500000)
+ 113 words of extra memory for PDF output out of 10000 (max. 10000000)
 

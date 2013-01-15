@@ -1,4 +1,4 @@
-Date and time: 2013-01-10 15:0302
+Date and time: 2013-01-15 15:0350
 
 Data file path: output_input.txt
 
@@ -6,26 +6,26 @@ Output file path: output
 
 Predict file path: No predictions run.
 
-Seed: 1357830182
+Seed: 1358262230
 
 Number of sweeps: 100
 Burn in sweeps: 1000
 Output filter: 1
 Proposal Type: gibbsForVActive, Acceptance Rate: 1
-Proposal Type: updateForPhiActive, Acceptance Rate: 0.836472
-Proposal Type: metropolisHastingsForThetaActive, Acceptance Rate: 0.405682
-Proposal Type: metropolisHastingsForLabels, Acceptance Rate: 0.787273
+Proposal Type: updateForPhiActive, Acceptance Rate: 0.940012
+Proposal Type: metropolisHastingsForThetaActive, Acceptance Rate: 0.425411
+Proposal Type: metropolisHastingsForLabels, Acceptance Rate: 0.876364
 Proposal Type: gibbsForU, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.428182
+Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.402727
 Proposal Type: gibbsForVInActive, Acceptance Rate: 1
 Proposal Type: gibbsForPhiInActive, Acceptance Rate: 1
 Proposal Type: gibbsForThetaInActive, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForRhoOmega, Acceptance Rate: 0.1506
+Proposal Type: metropolisHastingsForRhoOmega, Acceptance Rate: 0.1457
 Proposal Type: gibbsForZ, Acceptance Rate: 1
 Number of subjects: 1000
 Number of prediction subjects: 0
 Sampler type: SliceDependent
-Number of initial clusters: 54 (Random, Unif[5,15])
+Number of initial clusters: 60 (Random, Unif[5,15])
 Covariates: 
 	Variable1 (categorical)
 	Variable2 (categorical)
@@ -56,4 +56,4 @@ dofTheta: 7
 aRho: 0.5
 bRho: 0.5
 
-1100 sweeps done in 6 seconds
+1100 sweeps done in 11 seconds

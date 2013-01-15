@@ -15,7 +15,18 @@ summariseVarSelectRho(runInfoObj)
 \item{rhoLowerCI}{Vector with the column lower confidence intervals of the matrix rho above. Each value corresponds to the lower confidence interval of the posterior distribution of rho for each covariate.}
 \item{rhoUpperCI}{Vector with the column upper confidence intervals of the matrix rho above. Each value corresponds to the upper confidence interval of the posterior distribution of rho for each covariate.}
 }
-\author{David Hastie and Silvia Liverani}
+\section{Authors}{
+David Hastie, Department of Epidemiology and Biostatistics, Imperial College London, UK
+
+Silvia Liverani, Department of Epidemiology and Biostatistics, Imperial College London and MRC Biostatistics Unit, Cambridge, UK
+
+Maintainer: Silvia Liverani <liveranis@gmail.com>
+}
+\references{
+
+Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for Bayesian profile regression. \emph{Submitted}.
+
+}
 \examples{
 
 inputs <- generateSampleDataFile(clusSummaryVarSelectBernoulliDiscrete())

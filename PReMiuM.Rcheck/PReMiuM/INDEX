@@ -5,13 +5,7 @@ calcDissimilarityMatrix
 calcOptimalClustering   Calculation of the optimal clustering
 calcPredictions         Calculates the predictions
 clusSummaryBernoulliDiscrete
-                        Definition of characteristics of sample
-                        datasets for profile regression
-compareClustering       Function to compare different partitions
-computeAssociatedVariable
-                        computeAssociatedVariable
-computeRatioOfVariance
-                        computeRatioOfVariance
+                        Sample datasets for profile regression
 generateSampleDataFile
                         Generate sample data files for profile
                         regression
@@ -19,4 +13,6 @@ is.wholenumber          Function to check if a number is a whole number
 margModelPosterior      Marginal Model Posterior
 plotRiskProfile         Plot the Risk Profiles
 profRegr                Profile Regression
+setHyperparams          Definition of characteristics of sample
+                        datasets for profile regression
 summariseVarSelectRho   summariseVarSelectRho

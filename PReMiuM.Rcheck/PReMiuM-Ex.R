@@ -42,6 +42,7 @@ flush(stderr()); flush(stdout())
 ### Name: calcAvgRiskAndProfile
 ### Title: Calculation of the average risks and profiles
 ### Aliases: calcAvgRiskAndProfile
+### Keywords: postprocessing
 
 ### ** Examples
 
@@ -55,8 +56,6 @@ runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, nSweeps=100,
 dissimObj<-calcDissimilarityMatrix(runInfoObj)
 clusObj<-calcOptimalClustering(dissimObj)
 riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
-    whichCovariates=c(1,2))
 
 
 
@@ -69,6 +68,7 @@ flush(stderr()); flush(stdout())
 ### Name: calcDissimilarityMatrix
 ### Title: Calculates the dissimilarity matrix
 ### Aliases: calcDissimilarityMatrix
+### Keywords: postprocessing
 
 ### ** Examples
 
@@ -96,6 +96,7 @@ flush(stderr()); flush(stdout())
 ### Name: calcOptimalClustering
 ### Title: Calculation of the optimal clustering
 ### Aliases: calcOptimalClustering
+### Keywords: postprocessing
 
 ### ** Examples
 
@@ -120,6 +121,7 @@ flush(stderr()); flush(stdout())
 ### Name: calcPredictions
 ### Title: Calculates the predictions
 ### Aliases: calcPredictions
+### Keywords: predictions
 
 ### ** Examples
 
@@ -130,7 +132,7 @@ preds<-data.frame(matrix(c(0, 0, 1, 0, 0,
 0, 0, 1, NA, 0),ncol=5,byrow=TRUE))
 colnames(preds)<-names(inputs$inputData)[2:(inputs$nCovariates+1)]
      
-# run profiel regression
+# run profile regression
 runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
     nSweeps=100, nBurn=1000, data=inputs$inputData, output="output", 
     covNames=inputs$covNames,predict=preds)
@@ -143,6 +145,60 @@ clusterOrderObj <- plotRiskProfile(riskProfileObj,"summary.png",
     whichCovariates=c(1,2))
 output_predictions <- calcPredictions(riskProfileObj,fullSweepPredictions=TRUE)
 
+# example where the fixed effects can be provided for prediction 
+# but the observed response is missing 
+# (there are 2 fixed effects in this example). 
+# in this example we also use the Rao Blackwellised predictions
+
+inputs <- generateSampleDataFile(clusSummaryPoissonNormal())
+
+# prediction profiles
+predsPoisson<- data.frame(matrix(c(7, 2.27, -0.66, 1.07, 9, 
+     -0.01, -0.18, 0.91, 12, -0.09, -1.76, 1.04, 16, 1.55, 1.20, 0.89,
+     10, -1.35, 0.79, 0.95),ncol=5,byrow=TRUE))
+colnames(predsPoisson)<-names(inputs$inputData)[2:(inputs$nCovariates+1)]
+
+# run profile regression
+runInfoObj<-profRegr(yModel=inputs$yModel, 
+         xModel=inputs$xModel, nSweeps=100, 
+         nBurn=100, data=inputs$inputData, output="output", 
+         covNames = inputs$covNames, outcomeT="outcomeT",
+         fixedEffectsNames = inputs$fixedEffectNames,predict=predsPoisson)
+
+# postprocessing
+dissimObj<-calcDissimilarityMatrix(runInfoObj)
+clusObj<-calcOptimalClustering(dissimObj)
+riskProfileObj<-calcAvgRiskAndProfile(clusObj)
+output_predictions <- calcPredictions(riskProfileObj,fullSweepPredictions=TRUE)
+
+
+# example where both the observed response and fixed effects are present 
+#(there are no fixed effects in this example, but 
+# these would just be added as columns between the first and last columns). 
+
+inputs <- generateSampleDataFile(clusSummaryPoissonNormal())
+
+# prediction profiles
+predsPoisson<- data.frame(matrix(c(NA, 2.27, -0.66, 1.07, NA, 
+     -0.01, -0.18, 0.91, NA, -0.09, -1.76, 1.04, NA, 1.55, 1.20, 0.89,
+     NA, -1.35, 0.79, 0.95),ncol=5,byrow=TRUE))
+colnames(predsPoisson)<-names(inputs$inputData)[2:(inputs$nCovariates+1)]
+
+# run profile regression
+runInfoObj<-profRegr(yModel=inputs$yModel, 
+         xModel=inputs$xModel, nSweeps=100, 
+         nBurn=100, data=inputs$inputData, output="output", 
+         covNames = inputs$covNames, outcomeT="outcomeT",
+         fixedEffectsNames = inputs$fixedEffectNames,predict=predsPoisson)
+
+# postprocessing
+dissimObj<-calcDissimilarityMatrix(runInfoObj)
+clusObj<-calcOptimalClustering(dissimObj)
+riskProfileObj<-calcAvgRiskAndProfile(clusObj)
+output_predictions <- calcPredictions(riskProfileObj,fullSweepPredictions=TRUE)
+
+
+
 
 
 cleanEx()
@@ -152,8 +208,7 @@ nameEx("clusSummaryBernoulliDiscrete")
 flush(stderr()); flush(stdout())
 
 ### Name: clusSummaryBernoulliDiscrete
-### Title: Definition of characteristics of sample datasets for profile
-###   regression
+### Title: Sample datasets for profile regression
 ### Aliases: clusSummaryBernoulliDiscrete clusSummaryBinomialNormal
 ###   clusSummaryCategoricalDiscrete clusSummaryNormalDiscrete
 ###   clusSummaryNormalNormal clusSummaryPoissonDiscrete
@@ -166,44 +221,6 @@ flush(stderr()); flush(stdout())
 
 clusSummaryBernoulliDiscrete()
 
-
-
-
-cleanEx()
-nameEx("compareClustering")
-### * compareClustering
-
-flush(stderr()); flush(stdout())
-
-### Name: compareClustering
-### Title: Function to compare different partitions
-### Aliases: compareClustering
-
-### ** Examples
-
-
-# simulate a dataset
-generateDataList <- clusSummaryBernoulliDiscrete()
-inputs <- generateSampleDataFile(generateDataList)
-
-# do clustering a first time
-runInfoObjA<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
-    nSweeps=100, nBurn=100, data=inputs$inputData, output="output", 
-    covNames=inputs$covNames)
-dissimObjA<-calcDissimilarityMatrix(runInfoObjA)
-clusObjA<-calcOptimalClustering(dissimObjA)
-riskProfileObjA<-calcAvgRiskAndProfile(clusObjA)
-
-# do clustering a second time
-runInfoObjB<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
-    nSweeps=100, nBurn=100, data=inputs$inputData, output="output", 
-    covNames=inputs$covNames)
-dissimObjB<-calcDissimilarityMatrix(runInfoObjB)
-clusObjB<-calcOptimalClustering(dissimObjB)
-riskProfileObjB<-calcAvgRiskAndProfile(clusObjB)
-
-# compare clustering
-compareClustering(riskProfileObjA,riskProfileObjB)
 
 
 
@@ -284,71 +301,22 @@ flush(stderr()); flush(stdout())
 ### Name: plotRiskProfile
 ### Title: Plot the Risk Profiles
 ### Aliases: plotRiskProfile
-### Keywords: plots
+### Keywords: plots postprocessing
 
 ### ** Examples
 
-# generation of data for clustering
-## generation of fixed effects
-fe1<-rnorm(200,0,1)
-fe2<-runif(200,0,1)
-## generation of the outcome 
-beta<-c(2,3)
-W <- cbind(fe1,fe2) 
-theta<- c(-7,0,3)
-clusterIndex<-c(rep(1,80),rep(2,60),rep(3,60))
-mu<-theta[clusterIndex]+W
-p<-1/(1+exp(-mu))
-outcome<-vector()
-for (i in 1:200){
-    if(runif(1)<p[i]){
-        outcome[i]<-1
-    }else{
-        outcome[i]<-0
-    }
-}
-## generation of the covariates
-covariateProbs<-list(list(c(0.8,0.1,0.1),
-    c(0.8,0.1,0.1),
-    c(0.8,0.1,0.1),
-    c(0.8,0.1,0.1),
-    c(0.8,0.1,0.1)),
-    list(c(0.1,0.8,0.1),
-    c(0.1,0.8,0.1),
-    c(0.1,0.8,0.1),
-    c(0.1,0.8,0.1),
-    c(0.8,0.1,0.1)),
-    list(c(0.8,0.1,0.1),
-    c(0.1,0.1,0.8),
-    c(0.1,0.1,0.8),
-    c(0.1,0.1,0.8),
-    c(0.1,0.1,0.8)))
-X<-data.frame(Var1=rep(NA,200),Var2=rep(NA,200),
-    Var3=rep(NA,200),Var4=rep(NA,200),Var5=rep(NA,200))
-for (i in 1:200){
-    for (j in 1:5){
-        u<-runif(1)
-        for(kk in 1:3){
-            if(u<cumsum(covariateProbs[[clusterIndex[i]]][[j]])[kk]){
-                X[i,j]<-kk-1
-                break
-            }
-        }
-    }	
-}
-
-inputData<-data.frame(cbind(outcome,X,fe1,fe2))
-
-runInfoObj<-profRegr(yModel="Bernoulli", xModel="Discrete", 
-    nSweeps=100, nBurn=100, data=inputData, output="output", 
-    covNames=c("Var1","Var2","Var3","Var4","Var5"),
-    fixedEffectsNames=c("fe1","fe2"))
+# example for Poisson outcome and Discrete covariates
+inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
+runInfoObj<-profRegr(yModel=inputs$yModel, 
+    xModel=inputs$xModel, nSweeps=1000, 
+    nBurn=1000, data=inputs$inputData, output="output", 
+    covNames = inputs$covNames, outcomeT = inputs$outcomeT,
+    fixedEffectsNames = inputs$fixedEffectNames)
 
 dissimObj<-calcDissimilarityMatrix(runInfoObj)
 clusObj<-calcOptimalClustering(dissimObj)
 riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
-    whichCovariates=c(1,2))
+clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
 
 
 
@@ -391,6 +359,34 @@ clusObj<-calcOptimalClustering(dissimObj)
 riskProfileObj<-calcAvgRiskAndProfile(clusObj)
 clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
     whichCovariates=c(1,2,4,5))
+
+
+
+
+cleanEx()
+nameEx("setHyperparams")
+### * setHyperparams
+
+flush(stderr()); flush(stdout())
+
+### Name: setHyperparams
+### Title: Definition of characteristics of sample datasets for profile
+###   regression
+### Aliases: setHyperparams
+### Keywords: hyperparameters
+
+### ** Examples
+
+
+hyp <- setHyperparams(shapeAlpha=3,rateAlpha=2,mu0=c(30,13),R0=3.2*diag(2))
+
+inputs <- generateSampleDataFile(clusSummaryPoissonNormal())
+runInfoObj<-profRegr(yModel=inputs$yModel, 
+    xModel=inputs$xModel, nSweeps=2, 
+    nBurn=2, data=inputs$inputData, output="output", 
+    covNames = inputs$covNames, outcomeT = inputs$outcomeT,
+    fixedEffectsNames = inputs$fixedEffectNames,
+    hyper=hyp)
 
 
 

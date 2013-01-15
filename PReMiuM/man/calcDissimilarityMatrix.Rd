@@ -15,7 +15,18 @@ Need to write this
 \item{disSimMatPred}{The dissimilarity matrix, again in vector format as above, for the predicted subjects.}
 \item{lsOptSweep}{The optimal partition among those explored by the MCMC, as defined by the least squares method. See Dahl (2006).}
 }
-\author{David Hastie and Silvia Liverani}
+\section{Authors}{
+David Hastie, Department of Epidemiology and Biostatistics, Imperial College London, UK
+
+Silvia Liverani, Department of Epidemiology and Biostatistics, Imperial College London and MRC Biostatistics Unit, Cambridge, UK
+
+Maintainer: Silvia Liverani <liveranis@gmail.com>
+}
+\references{
+
+Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for Bayesian profile regression. \emph{Submitted}.
+
+}
 \examples{
 generateDataList <- clusSummaryBernoulliDiscrete()
 inputs <- generateSampleDataFile(generateDataList)
@@ -30,4 +41,4 @@ clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
     whichCovariates=c(1,2))
 
 }
-
+\keyword{postprocessing}

@@ -6,12 +6,21 @@
 margModelPosterior(runInfoObj)
 }
 \arguments{
-\item{runInfoObj}{boh.}
+\item{runInfoObj}{An object of type runInfoObj.}
 }
 \value{
-It returns a number of files in the output directory as well as a list with the following elements.
+It returns a file in the output folder, with name ending in "_margModPost.txt", that contains the marginal model posterior. It also returns the mean of the values of the marginal model posterior as they appear in the file ending in "_margModPost.txt" in the output folder.
 }
-\author{Silvia Liverani}
+\section{Authors}{
+Silvia Liverani, Department of Epidemiology and Biostatistics, Imperial College London and MRC Biostatistics Unit, Cambridge, UK
+
+Maintainer: Silvia Liverani <liveranis@gmail.com>
+}
+\references{
+
+Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for Bayesian profile regression. \emph{Submitted}.
+
+}
 \examples{
 inputs <- generateSampleDataFile(clusSummaryBernoulliDiscrete())
 

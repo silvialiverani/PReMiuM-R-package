@@ -4,12 +4,16 @@
 * using session charset: UTF-8
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘PReMiuM’ version ‘3.0.4’
+* this is package ‘PReMiuM’ version ‘3.0.5’
+* checking CRAN incoming feasibility ... NOTE
+Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
+New submission
 * checking package namespace information ... OK
 * checking package dependencies ... OK
 * checking if this is a source package ... OK
 * checking if there is a namespace ... OK
 * checking for executable files ... OK
+* checking for hidden files and directories ... OK
 * checking whether package ‘PReMiuM’ can be installed ... OK
 * checking installed package size ... NOTE
   installed size is 11.3Mb
@@ -135,25 +139,6 @@ calcPredictions: no visible binding for global variable ‘directoryPath’
 calcPredictions: no visible binding for global variable ‘fileStem’
 calcPredictions: no visible binding for global variable ‘nCategoriesY’
 calcPredictions: no visible binding for global variable ‘nSubjects’
-computeAssociatedVariable: no visible binding for global variable
-  ‘nClusters’
-computeAssociatedVariable: no visible binding for global variable
-  ‘clustering’
-computeRatioOfVariance: no visible binding for global variable
-  ‘directoryPath’
-computeRatioOfVariance: no visible binding for global variable
-  ‘fileStem’
-computeRatioOfVariance: no visible binding for global variable
-  ‘reportBurnIn’
-computeRatioOfVariance: no visible binding for global variable ‘nBurn’
-computeRatioOfVariance: no visible binding for global variable
-  ‘nFilter’
-computeRatioOfVariance: no visible binding for global variable
-  ‘nSweeps’
-computeRatioOfVariance: no visible binding for global variable
-  ‘nSubjects’
-computeRatioOfVariance: no visible binding for global variable
-  ‘nPredictSubjects’
 margModelPosterior: no visible binding for global variable ‘xModel’
 margModelPosterior: no visible binding for global variable ‘yModel’
 margModelPosterior: no visible binding for global variable ‘varSelect’
@@ -227,8 +212,6 @@ summariseVarSelectRho: no visible binding for global variable ‘nSweeps’
 File ‘/home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/PReMiuM/libs/PReMiuM.so’:
   Found ‘_ZSt4cout’, possibly from ‘std::cout’ (C++)
     Objects: ‘PReMiuM.o’, ‘postProcess.o’
-  Found ‘exit’, possibly from ‘exit’ (C)
-    Object: ‘PReMiuM.o’
 
 Compiled code should not call functions which might terminate R nor
 write to stdout/stderr instead of to the console.
@@ -236,7 +219,7 @@ write to stdout/stderr instead of to the console.
 See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
 * checking examples ... OK
 * checking PDF version of manual ... OK
-NOTE: There were 3 notes.
+NOTE: There were 4 notes.
 See
   ‘/home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/00check.log’
 for details.
