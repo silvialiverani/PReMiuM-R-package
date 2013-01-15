@@ -18,7 +18,7 @@ profRegr(covNames, fixedEffectsNames, outcome="outcome",
 \item{outcomeT}{A string of column of the data argument that contains the offset (for Poisson outcome) or the number of trials (for Binomial outcome).}
 \item{data}{A data frame which has as columns the outcome, the covariates, the fixed effects if any and the offset (for Poisson outcome) or the number of trials (for Binomial outcome). The outcome cannot have missing values - you could consider predicting the value of the outcome for those subjects for which it has not been observed.}
 \item{output}{Path to folder to save all output files. The covariates can have missing values, which must be coded as 'NA'. There cannot be missing values in the fixed effects - if there are, use an imputation method before using profile regression.}
-\item{hyper}{Path to file with hyperparameters specifications. This is optional, default values are provided for all hyperparameters.}
+\item{hyper}{Object of type setHyperparams with hyperparameters specifications. This is optional, default values are provided for all hyperparameters. See ?setHyperparams for details.}
 \item{predict}{Data frame containing the predictive scenarios. This is only required if predictions are requested. 
 
 At each iteration the predictive subjects are assigned to one of the current
@@ -86,6 +86,8 @@ It returns a number of files in the output directory as well as a list with the 
 David Hastie, Department of Epidemiology and Biostatistics, Imperial College London, UK
 
 Silvia Liverani, Department of Epidemiology and Biostatistics, Imperial College London and MRC Biostatistics Unit, Cambridge, UK
+
+and a contribution for mixed covariates from Lamiae Azizi, MRC Biostatistics Unit, Cambridge, UK
 
 Maintainer: Silvia Liverani <liveranis@gmail.com>
 }
