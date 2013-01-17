@@ -3,7 +3,7 @@ Type: Package
 Title: Post processing for C++ PReMiuM
 Version: 3.0.5
 Date: 2013-15-01
-Author: David I. Hastie <david.hastie@rsimony.com> and Silvia Liverani <liveranis@gmail.com>, with a contribution by Lamiae Azizi
+Author: David I. Hastie <david.hastie@rsimony.com>, Silvia Liverani <liveranis@gmail.com> and Sylvia Richardson <sylvia.richardson@mrc-bsu.cam.ac.uk>, with a contribution by Lamiae Azizi
 Maintainer: Silvia Liverani <liveranis@gmail.com>
 Description: Dirichlet process Bayesian Clustering, also known as profile regression.
 License: GPL (>= 3)
