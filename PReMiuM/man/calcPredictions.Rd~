@@ -130,4 +130,4 @@ output_predictions <- calcPredictions(riskProfileObj,fullSweepPredictions=TRUE)
 
 
 }
-
+\keyword{predictions}

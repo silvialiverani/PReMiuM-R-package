@@ -11,29 +11,28 @@ Dirichlet process Bayesian clustering and functions for the post-processing of i
 \section{Details}{
   \pkg{PReMiuM} provides the following:
   \itemize{
-* Implements an infinite Dirichlet process model
-* Can do dependent or independent slice sampling (Kalli et al., 2011) 
+\item Implements an infinite Dirichlet process model
+\item Can do dependent or independent slice sampling (Kalli et al., 2011) 
      or truncated Dirichlet process model (Ishwaran and James, 2001)
-* Handles categorical or Normal covariates, or a mixture of them
-* Handles Bernoulli, Binomial, Categorical, Poisson or Normal responses
-* Handles inclusion of fixed effects in the response model
-* Handles Extra Variation in the response (for Bernoulli, Binomial and Poisson response only)
-* Handles variable selection (tested in Discrete covariate case only)
-* Includes label switching moves for better mixing
-* Allows user to exclude the response from the model
-* Allows user to compute the entropy of the allocation
-* Allows user to run with a fixed alpha or update alpha (default)
-* Allows users to run predictive scenarios (at C++ run time)
-* Basic or Rao-Blackwellised predictions can be produced
-* Handling of missing data
-* C++ for model fitting
-* Uses Eigen Linear Algebra Library and Boost C++
-* Completely self contained (all library code in included in distribution)
-* Adaptive MCMC where appropriate
-* R package for generating simulation data and post processing
-* R plotting functions allow user choice of what to order clusters by
-
-
+\item Handles categorical or Normal covariates, or a mixture of them
+\item Handles Bernoulli, Binomial, Categorical, Poisson or Normal responses
+\item Handles inclusion of fixed effects in the response model
+\item Handles Extra Variation in the response (for Bernoulli, Binomial and Poisson response only)
+\item Handles variable selection (tested in Discrete covariate case only)
+\item Includes label switching moves for better mixing
+\item Allows user to exclude the response from the model
+\item Allows user to compute the entropy of the allocation
+\item Allows user to run with a fixed alpha or update alpha (default)
+\item Allows users to run predictive scenarios (at C++ run time)
+\item Basic or Rao-Blackwellised predictions can be produced
+\item Handling of missing data
+\item C++ for model fitting
+\item Uses Eigen Linear Algebra Library and Boost C++
+\item Completely self contained (all library code in included in distribution)
+\item Adaptive MCMC where appropriate
+\item R package for generating simulation data and post processing
+\item R plotting functions allow user choice of what to order clusters by
+}
 }
 \details{
 \tabular{ll}{

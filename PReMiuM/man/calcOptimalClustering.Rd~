@@ -43,4 +43,4 @@ dissimObj<-calcDissimilarityMatrix(runInfoObj)
 clusObj<-calcOptimalClustering(dissimObj)
 
 }
-
+\keyword{postprocessing}

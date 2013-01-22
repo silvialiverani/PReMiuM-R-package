@@ -1235,7 +1235,7 @@ void metropolisHastingsForLabels(mcmcChain<pReMiuMParams>& chain,
 								*(currentParams.logPsi(c1)-currentParams.logPsi(c2));
 
 	if(unifRand(rndGenerator)<exp(logAcceptRatio)){
-		//nAccept++;
+	//	nAccept++;
 		// Switch the labels
 		currentParams.switchLabels(c1,c2,covariateType,varSelectType);
 	}
@@ -1249,7 +1249,7 @@ void metropolisHastingsForLabels(mcmcChain<pReMiuMParams>& chain,
 							- (double)currentParams.workNXInCluster(c1+1)*log(1-currentParams.v(c1));
 
 	if(unifRand(rndGenerator)<exp(logAcceptRatio)){
-		//nAccept++;
+	//	nAccept++;
 		// Switch the labels
 		currentParams.switchLabels(c1,c1+1,covariateType,varSelectType);
 
@@ -1329,7 +1329,6 @@ void metropolisHastingsForLabels(mcmcChain<pReMiuMParams>& chain,
 	}
 
 }
-
 
 // Gibbs move for updating the auxiliary variables u
 // This is the second part of block 1. The first part used the marginal

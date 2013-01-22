@@ -57,3 +57,4 @@ riskProfileObj<-calcAvgRiskAndProfile(clusObj)
 clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
 }
 \keyword{plots}
+\keyword{postprocessing}

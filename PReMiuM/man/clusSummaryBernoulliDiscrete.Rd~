@@ -23,20 +23,19 @@ clusSummaryBernoulliMixed()
 }
 \section{Details}{
 
-The following functions generate datasets 
-clusSummaryBernoulliDiscrete generates a dataset with Bernoulli outcome and discrete covariates.}
+clusSummaryBernoulliDiscrete generates a dataset with Bernoulli outcome and discrete covariates.
 
-clusSummaryBinomialNormal generates a dataset with Binomial outcome and discrete covariates.}
+clusSummaryBinomialNormal generates a dataset with Binomial outcome and discrete covariates.
 
-clusSummaryCategoricalDiscrete generates a dataset with categorical outcome and discrete covariates.}
+clusSummaryCategoricalDiscrete generates a dataset with categorical outcome and discrete covariates.
 
-clusSummaryNormalDiscrete generates a dataset with Normal outcome and discrete covariates.}
+clusSummaryNormalDiscrete generates a dataset with Normal outcome and discrete covariates.
 
-clusSummaryNormalNormal generates a dataset with Normal outcome and Normal covariates.}
+clusSummaryNormalNormal generates a dataset with Normal outcome and Normal covariates.
 
-clusSummaryPoissonDiscrete generates a dataset with Poisson outcome and discrete covariates.}
+clusSummaryPoissonDiscrete generates a dataset with Poisson outcome and discrete covariates.
 
-clusSummaryPoissonNormal generates a dataset with Poisson outcome and Normal covariates.}
+clusSummaryPoissonNormal generates a dataset with Poisson outcome and Normal covariates.
 
 clusSummaryVarSelectBernoulliDiscrete generates a dataset with Bernoulli outcome and discrete covariates, suitable for variable selection as some covariates are not driving the clustering.
 

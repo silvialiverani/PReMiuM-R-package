@@ -1,7 +1,7 @@
 \name{generateSampleDataFile}
 \alias{generateSampleDataFile}
 \title{Generate sample data files for profile regression}
-\description{.}
+\description{Generation of random sample datasets for profile regression.}
 \usage{
 generateSampleDataFile(clusterSummary)
 }

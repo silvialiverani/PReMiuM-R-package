@@ -69,7 +69,7 @@ Molitor, J., Brown, I. J., Papathomas, M., Molitor, N., Liverani, S., Chan, Q., 
 
 Hastie, D. I., Liverani, S. and Richardson, S. (2013) Sampling from Dirichlet process mixture models with unknown concentration parameter. \emph{Submitted}.
 
-Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for Bayesian profile regression. \emph{Submitted}.
+Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for Profile Regression Mixture Models using Dirichlet Processes. \emph{Submitted}.
 
 }
 

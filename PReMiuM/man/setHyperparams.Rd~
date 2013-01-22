@@ -70,4 +70,4 @@ runInfoObj<-profRegr(yModel=inputs$yModel,
     hyper=hyp)
 
 }
-
+\keyword{hyperparameters}
