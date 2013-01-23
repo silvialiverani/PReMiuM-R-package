@@ -1,19 +1,15 @@
-* using log directory ‘/home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
+* using log directory ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
 * using R version 2.15.2 (2012-10-26)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘PReMiuM’ version ‘3.0.5’
-* checking CRAN incoming feasibility ... NOTE
-Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
-New submission
+* this is package ‘PReMiuM’ version ‘3.0.7’
 * checking package namespace information ... OK
 * checking package dependencies ... OK
 * checking if this is a source package ... OK
 * checking if there is a namespace ... OK
 * checking for executable files ... OK
-* checking for hidden files and directories ... OK
 * checking whether package ‘PReMiuM’ can be installed ... OK
 * checking installed package size ... NOTE
   installed size is 11.3Mb
@@ -209,7 +205,7 @@ summariseVarSelectRho: no visible binding for global variable ‘nSweeps’
 * checking for portable compilation flags in Makevars ... OK
 * checking for portable use of $(BLAS_LIBS) and $(LAPACK_LIBS) ... OK
 * checking compiled code ... NOTE
-File ‘/home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/PReMiuM/libs/PReMiuM.so’:
+File ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/PReMiuM/libs/PReMiuM.so’:
   Found ‘_ZSt4cout’, possibly from ‘std::cout’ (C++)
     Objects: ‘PReMiuM.o’, ‘postProcess.o’
 
@@ -219,7 +215,7 @@ write to stdout/stderr instead of to the console.
 See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
 * checking examples ... OK
 * checking PDF version of manual ... OK
-NOTE: There were 4 notes.
+NOTE: There were 3 notes.
 See
-  ‘/home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/00check.log’
+  ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/00check.log’
 for details.

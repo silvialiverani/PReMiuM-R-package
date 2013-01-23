@@ -31,14 +31,10 @@ Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for 
 generateDataList <- clusSummaryBernoulliDiscrete()
 inputs <- generateSampleDataFile(generateDataList)
 runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
-    nSweeps=100, nBurn=100, data=inputs$inputData, output="output", 
-    covNames=inputs$covNames)
+    nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
+    covNames=inputs$covNames,nClusInit=15)
 
 dissimObj<-calcDissimilarityMatrix(runInfoObj)
-clusObj<-calcOptimalClustering(dissimObj)
-riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
-    whichCovariates=c(1,2))
 
 }
 \keyword{postprocessing}

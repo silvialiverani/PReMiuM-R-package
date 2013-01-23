@@ -20,8 +20,8 @@ flush(stderr()); flush(stdout())
 # example for Poisson outcome and Discrete covariates
 inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
 runInfoObj<-profRegr(yModel=inputs$yModel, 
-    xModel=inputs$xModel, nSweeps=1000, 
-    nBurn=1000, data=inputs$inputData, output="output", 
+    xModel=inputs$xModel, nSweeps=10, nClusInit=20,
+    nBurn=20, data=inputs$inputData, output="output", 
     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
     fixedEffectsNames = inputs$fixedEffectNames)
 
@@ -49,8 +49,8 @@ flush(stderr()); flush(stdout())
 
 generateDataList <- clusSummaryBernoulliDiscrete()
 inputs <- generateSampleDataFile(generateDataList)
-runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, nSweeps=100, 
-    nBurn=100, data=inputs$inputData, output="output", 
+runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, nSweeps=10, 
+    nBurn=20, data=inputs$inputData, output="output", nClusInit=15,
     covNames=inputs$covNames)
 
 dissimObj<-calcDissimilarityMatrix(runInfoObj)
@@ -75,14 +75,10 @@ flush(stderr()); flush(stdout())
 generateDataList <- clusSummaryBernoulliDiscrete()
 inputs <- generateSampleDataFile(generateDataList)
 runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
-    nSweeps=100, nBurn=100, data=inputs$inputData, output="output", 
-    covNames=inputs$covNames)
+    nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
+    covNames=inputs$covNames,nClusInit=15)
 
 dissimObj<-calcDissimilarityMatrix(runInfoObj)
-clusObj<-calcOptimalClustering(dissimObj)
-riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
-    whichCovariates=c(1,2))
 
 
 
@@ -103,8 +99,8 @@ flush(stderr()); flush(stdout())
 generateDataList <- clusSummaryBernoulliDiscrete()
 inputs <- generateSampleDataFile(generateDataList)
 runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
-    nSweeps=100, nBurn=100, data=inputs$inputData, output="output", 
-    covNames=inputs$covNames)
+    nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
+    covNames=inputs$covNames, nClusInit=15)
 
 dissimObj<-calcDissimilarityMatrix(runInfoObj)
 clusObj<-calcOptimalClustering(dissimObj)
@@ -186,10 +182,11 @@ colnames(predsPoisson)<-names(inputs$inputData)[2:(inputs$nCovariates+1)]
 
 # run profile regression
 runInfoObj<-profRegr(yModel=inputs$yModel, 
-         xModel=inputs$xModel, nSweeps=100, 
-         nBurn=100, data=inputs$inputData, output="output", 
+         xModel=inputs$xModel, nSweeps=10, 
+         nBurn=20, data=inputs$inputData, output="output", 
          covNames = inputs$covNames, outcomeT="outcomeT",
-         fixedEffectsNames = inputs$fixedEffectNames,predict=predsPoisson)
+         fixedEffectsNames = inputs$fixedEffectNames,
+         nClusInit=15, predict=predsPoisson)
 
 # postprocessing
 dissimObj<-calcDissimilarityMatrix(runInfoObj)
@@ -241,10 +238,6 @@ flush(stderr()); flush(stdout())
 
 generateDataList <- clusSummaryBernoulliDiscrete()
 inputs <- generateSampleDataFile(generateDataList)
-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, nSweeps=100, 
-    nBurn=100, data=inputs$inputData, output="output", 
-    covNames=inputs$covNames)
-
 
 
 
@@ -282,10 +275,10 @@ flush(stderr()); flush(stdout())
 inputs <- generateSampleDataFile(clusSummaryBernoulliDiscrete())
 
 runInfoObj<-profRegr(yModel=inputs$yModel, 
-         xModel=inputs$xModel, nSweeps=10, 
+         xModel=inputs$xModel, nSweeps=5, 
          nBurn=10, data=inputs$inputData, output="output", 
-         covNames = inputs$covNames, 
-         fixedEffectsNames = inputs$fixedEffectNames,seed=12567)
+         covNames = inputs$covNames, nClusInit=15,
+         fixedEffectsNames = inputs$fixedEffectNames)
 
 margModelPosterior(runInfoObj)
 
@@ -308,8 +301,8 @@ flush(stderr()); flush(stdout())
 # example for Poisson outcome and Discrete covariates
 inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
 runInfoObj<-profRegr(yModel=inputs$yModel, 
-    xModel=inputs$xModel, nSweeps=1000, 
-    nBurn=1000, data=inputs$inputData, output="output", 
+    xModel=inputs$xModel, nSweeps=10, nClusInit=15,
+    nBurn=20, data=inputs$inputData, output="output", 
     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
     fixedEffectsNames = inputs$fixedEffectNames)
 
@@ -336,29 +329,19 @@ flush(stderr()); flush(stdout())
 # example for Poisson outcome and Discrete covariates
 inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
 runInfoObj<-profRegr(yModel=inputs$yModel, 
-    xModel=inputs$xModel, nSweeps=1000, 
-    nBurn=1000, data=inputs$inputData, output="output", 
+    xModel=inputs$xModel, nSweeps=10, nClusInit=20,
+    nBurn=20, data=inputs$inputData, output="output", 
     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
     fixedEffectsNames = inputs$fixedEffectNames)
 
-dissimObj<-calcDissimilarityMatrix(runInfoObj)
-clusObj<-calcOptimalClustering(dissimObj)
-riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
 
 # example with Bernoulli outcome and Mixed covariates
 inputs <- generateSampleDataFile(clusSummaryBernoulliMixed())
 runInfoObj<-profRegr(yModel=inputs$yModel, 
-    xModel=inputs$xModel, nSweeps=1000, 
-    nBurn=1000, data=inputs$inputData, output="output", 
+    xModel=inputs$xModel, nSweeps=10, nClusInit=15,
+    nBurn=20, data=inputs$inputData, output="output", 
     discreteCovs = inputs$discreteCovs,
-    continuousCovs = inputs$continuousCovs, nClusInit=10)
-
-dissimObj<-calcDissimilarityMatrix(runInfoObj)
-clusObj<-calcOptimalClustering(dissimObj)
-riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
-    whichCovariates=c(1,2,4,5))
+    continuousCovs = inputs$continuousCovs)
 
 
 
@@ -382,7 +365,7 @@ hyp <- setHyperparams(shapeAlpha=3,rateAlpha=2,mu0=c(30,13),R0=3.2*diag(2))
 
 inputs <- generateSampleDataFile(clusSummaryPoissonNormal())
 runInfoObj<-profRegr(yModel=inputs$yModel, 
-    xModel=inputs$xModel, nSweeps=2, 
+    xModel=inputs$xModel, nSweeps=2, nClusInit=15,
     nBurn=2, data=inputs$inputData, output="output", 
     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
     fixedEffectsNames = inputs$fixedEffectNames,
@@ -408,8 +391,8 @@ flush(stderr()); flush(stdout())
 inputs <- generateSampleDataFile(clusSummaryVarSelectBernoulliDiscrete())
 
 runInfoObj<-profRegr(yModel=inputs$yModel, 
-    xModel=inputs$xModel, nSweeps=100, 
-    nBurn=1000, data=inputs$inputData, output="output", 
+    xModel=inputs$xModel, nSweeps=10, nClusInit=15, 
+    nBurn=20, data=inputs$inputData, output="output", 
     covNames = inputs$covNames, varSelect="Continuous")
 
 rho<-summariseVarSelectRho(runInfoObj)

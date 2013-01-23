@@ -117,10 +117,11 @@ colnames(predsPoisson)<-names(inputs$inputData)[2:(inputs$nCovariates+1)]
 
 # run profile regression
 runInfoObj<-profRegr(yModel=inputs$yModel, 
-         xModel=inputs$xModel, nSweeps=100, 
-         nBurn=100, data=inputs$inputData, output="output", 
+         xModel=inputs$xModel, nSweeps=10, 
+         nBurn=20, data=inputs$inputData, output="output", 
          covNames = inputs$covNames, outcomeT="outcomeT",
-         fixedEffectsNames = inputs$fixedEffectNames,predict=predsPoisson)
+         fixedEffectsNames = inputs$fixedEffectNames,
+         nClusInit=15, predict=predsPoisson)
 
 # postprocessing
 dissimObj<-calcDissimilarityMatrix(runInfoObj)

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.11.5)  15 JAN 2013 15:04
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.6.5)  23 JAN 2013 09:29
 entering extended mode
  %&-line parsing enabled.
 **\catcode126=12 \def\normaltilde{~}\catcode126=13 \let~\normaltilde  \input ./
@@ -22,7 +22,7 @@ File: bk10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
-(/usr/share/texmf/tex/latex/R/tex/latex/Rd.sty
+(/usr/share/R/share/texmf/tex/latex/Rd.sty
 Package: Rd 
 
 (/usr/share/texmf-texlive/tex/latex/base/ifthen.sty
@@ -156,7 +156,7 @@ Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 (/usr/share/texmf-texlive/tex/latex/graphics/color.sty
 Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
 
-(/usr/share/texlive-base/color.cfg
+(/etc/texmf/tex/latex/config/color.cfg
 File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
 Package color Info: Driver file: pdftex.def on input line 130.
@@ -204,14 +204,8 @@ Package etexcmds Info: Could not find \expanded.
 (etexcmds)             that some package has redefined \expanded.
 (etexcmds)             In the latter case, load this package earlier.
 )
-(/usr/share/texmf-texlive/doc/latex/listings-ext/hyperref.cfg
-File: hyperref.cfg 2009/08/23 v1.0 hyperref configuration of listings-ext
-Package hyperref Info: Option `colorlinks' set `true' on input line 24.
-Package hyperref Info: Option `plainpages' set `false' on input line 24.
-Package hyperref Info: Option `hyperindex' set `true' on input line 24.
-Package hyperref Info: Option `bookmarks' set `true' on input line 24.
-Package hyperref Info: Option `bookmarksopen' set `true' on input line 24.
-Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 24.
+(/usr/share/texmf-texlive/tex/latex/latexconfig/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
 (/usr/share/texmf-texlive/tex/latex/oberdiek/kvoptions.sty
 Package: kvoptions 2009/08/13 v3.4 Keyval support for LaTeX options (HO)
@@ -224,16 +218,12 @@ Package hyperref Info: Hyper figures OFF on input line 2975.
 Package hyperref Info: Link nesting OFF on input line 2980.
 Package hyperref Info: Hyper index ON on input line 2983.
 Package hyperref Info: Plain pages OFF on input line 2990.
-Package hyperref Info: Backreferencing ON on input line 2993.
+Package hyperref Info: Backreferencing OFF on input line 2995.
 
 Implicit mode ON; LaTeX internals redefined
 Package hyperref Info: Bookmarks ON on input line 3191.
-(/usr/share/texmf-texlive/tex/latex/hyperref/backref.sty
-Package: backref 2006/09/05 v1.28 Bibliographical back referencing
-)
 LaTeX Info: Redefining \href on input line 3409.
 LaTeX Info: Redefining \url on input line 3428.
-
 (/usr/share/texmf-texlive/tex/generic/oberdiek/bitset.sty
 Package: bitset 2007/09/28 v1.0 Data type bit set (HO)
 
@@ -266,8 +256,8 @@ Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package hyperref Info: Hyper figures OFF on input line 4377.
 Package hyperref Info: Link nesting OFF on input line 4382.
 Package hyperref Info: Hyper index ON on input line 4385.
-Package hyperref Info: backreferencing ON on input line 4390.
-Package hyperref Info: Link coloring ON on input line 4395.
+Package hyperref Info: backreferencing OFF on input line 4392.
+Package hyperref Info: Link coloring OFF on input line 4397.
 Package hyperref Info: Link coloring with OCG OFF on input line 4402.
 Package hyperref Info: PDF/A mode OFF on input line 4407.
 
@@ -278,12 +268,7 @@ Package: atbegshi 2008/07/31 v1.9 At begin shipout hook (HO)
 \c@Item=\count98
 \c@Hfootnote=\count99
 )
-
-Package hyperref Warning: Wrong driver `hdvips.def';
-(hyperref)                pdfTeX is running in PDF mode.
-(hyperref)                Forcing driver `hpdftex.def'.
-
-*hyperref using driver hpdftex*
+*hyperref using default driver hpdftex*
 (/usr/share/texmf-texlive/tex/latex/hyperref/hpdftex.def
 File: hpdftex.def 2009/10/09 v6.79a Hyperref driver for pdfTeX
 \Fld@listcount=\count100
@@ -725,39 +710,39 @@ File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 ) [15]
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [16] [17]
+) [16]
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [18]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 850--851
+) [17] [18]
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 843--844
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
  []
 
-[19]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 851--852
+
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 844--845
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
  []
 
-[20] (/usr/share/texmf-texlive/tex/latex/base/utf8.def
+[19] [20] (/usr/share/texmf-texlive/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [21] [22]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 977--978
+) [21]
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 962--963
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
  []
 
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 977--978
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 962--963
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
  []
 
-[23] (/usr/share/texmf-texlive/tex/latex/base/utf8.def
+[22] (/usr/share/texmf-texlive/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [24] (./Rd2.ind
-[25]
+) [23] (./Rd2.ind
+[24]
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 3.
 
@@ -765,7 +750,7 @@ LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 LaTeX Font Warning: Font shape `T1/fi4/m/it' undefined
 (Font)              using `T1/fi4/m/n' instead on input line 31.
 
-[26
+[25
 
 ]) (./Rd2.aux)
 
@@ -773,10 +758,10 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 5733 strings out of 495061
- 80891 string characters out of 1182621
- 145699 words of memory out of 3000000
- 8602 multiletter control sequences out of 15000+50000
+ 5665 strings out of 495061
+ 79914 string characters out of 1182622
+ 142860 words of memory out of 3000000
+ 8539 multiletter control sequences out of 15000+50000
  40998 words of font info for 50 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  47i,6n,34p,622b,568s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -788,9 +773,9 @@ r8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmb8a.pfb></usr/share/
 texmf-texlive/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-texlive/fonts/
 type1/urw/times/utmr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr
 i8a.pfb>
-Output written on Rd2.pdf (26 pages, 164545 bytes).
+Output written on Rd2.pdf (25 pages, 163790 bytes).
 PDF statistics:
- 400 PDF objects out of 1000 (max. 8388607)
- 158 named destinations out of 1000 (max. 500000)
+ 396 PDF objects out of 1000 (max. 8388607)
+ 157 named destinations out of 1000 (max. 500000)
  113 words of extra memory for PDF output out of 10000 (max. 10000000)
 

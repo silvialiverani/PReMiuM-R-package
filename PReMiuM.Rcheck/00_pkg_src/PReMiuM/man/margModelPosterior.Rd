@@ -18,17 +18,17 @@ Maintainer: Silvia Liverani <liveranis@gmail.com>
 }
 \references{
 
-Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for Bayesian profile regression. \emph{Submitted}.
+Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for Profile Regression Mixture Models using Dirichlet Processes. \emph{Submitted}.
 
 }
 \examples{
 inputs <- generateSampleDataFile(clusSummaryBernoulliDiscrete())
 
 runInfoObj<-profRegr(yModel=inputs$yModel, 
-         xModel=inputs$xModel, nSweeps=10, 
+         xModel=inputs$xModel, nSweeps=5, 
          nBurn=10, data=inputs$inputData, output="output", 
-         covNames = inputs$covNames, 
-         fixedEffectsNames = inputs$fixedEffectNames,seed=12567)
+         covNames = inputs$covNames, nClusInit=15,
+         fixedEffectsNames = inputs$fixedEffectNames)
 
 margModelPosterior(runInfoObj)
 

@@ -34,10 +34,6 @@ Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for 
 
 generateDataList <- clusSummaryBernoulliDiscrete()
 inputs <- generateSampleDataFile(generateDataList)
-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, nSweeps=100, 
-    nBurn=100, data=inputs$inputData, output="output", 
-    covNames=inputs$covNames)
-
 
 }
 \keyword{simulation}

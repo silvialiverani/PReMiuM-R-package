@@ -87,40 +87,32 @@ David Hastie, Department of Epidemiology and Biostatistics, Imperial College Lon
 
 Silvia Liverani, Department of Epidemiology and Biostatistics, Imperial College London and MRC Biostatistics Unit, Cambridge, UK
 
+and a contribution for mixed covariates by Lamiae Azizi, MRC Biostatistics Unit, Cambridge, UK
+
 Maintainer: Silvia Liverani <liveranis@gmail.com>
 }
 \references{
 
-Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for Bayesian profile regression. \emph{Submitted}.
+Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for Profile Regression Mixture Models using Dirichlet Processes. \emph{Submitted}.
 
 }
 \examples{
 # example for Poisson outcome and Discrete covariates
 inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
 runInfoObj<-profRegr(yModel=inputs$yModel, 
-    xModel=inputs$xModel, nSweeps=1000, 
-    nBurn=1000, data=inputs$inputData, output="output", 
+    xModel=inputs$xModel, nSweeps=10, nClusInit=20,
+    nBurn=20, data=inputs$inputData, output="output", 
     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
     fixedEffectsNames = inputs$fixedEffectNames)
 
-dissimObj<-calcDissimilarityMatrix(runInfoObj)
-clusObj<-calcOptimalClustering(dissimObj)
-riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
 
 # example with Bernoulli outcome and Mixed covariates
 inputs <- generateSampleDataFile(clusSummaryBernoulliMixed())
 runInfoObj<-profRegr(yModel=inputs$yModel, 
-    xModel=inputs$xModel, nSweeps=1000, 
-    nBurn=1000, data=inputs$inputData, output="output", 
+    xModel=inputs$xModel, nSweeps=10, nClusInit=15,
+    nBurn=20, data=inputs$inputData, output="output", 
     discreteCovs = inputs$discreteCovs,
-    continuousCovs = inputs$continuousCovs, nClusInit=10)
-
-dissimObj<-calcDissimilarityMatrix(runInfoObj)
-clusObj<-calcOptimalClustering(dissimObj)
-riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png",
-    whichCovariates=c(1,2,4,5))
+    continuousCovs = inputs$continuousCovs)
 
 }
 \keyword{profileRegression}

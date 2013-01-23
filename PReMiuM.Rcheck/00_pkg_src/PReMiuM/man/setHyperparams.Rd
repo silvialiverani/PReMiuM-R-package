@@ -54,7 +54,7 @@ Maintainer: Silvia Liverani <liveranis@gmail.com>
 }
 \references{
 
-Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for Bayesian profile regression. \emph{Submitted}.
+Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for Profile Regression Mixture Models using Dirichlet Processes. \emph{Submitted}.
 
 }
 \examples{
@@ -63,7 +63,7 @@ hyp <- setHyperparams(shapeAlpha=3,rateAlpha=2,mu0=c(30,13),R0=3.2*diag(2))
 
 inputs <- generateSampleDataFile(clusSummaryPoissonNormal())
 runInfoObj<-profRegr(yModel=inputs$yModel, 
-    xModel=inputs$xModel, nSweeps=2, 
+    xModel=inputs$xModel, nSweeps=2, nClusInit=15,
     nBurn=2, data=inputs$inputData, output="output", 
     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
     fixedEffectsNames = inputs$fixedEffectNames,
