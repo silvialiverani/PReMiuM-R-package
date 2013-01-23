@@ -13,4 +13,4 @@ Depends: R (>= 2.15.2), Rcpp (>= 0.9.15), cluster (>= 1.14.3), ggplot2
 LinkingTo: Rcpp
 SystemRequirements: GNU make
 Packaged: 2013-01-23 09:24:38 UTC; root
-Built: R 2.15.2; x86_64-pc-linux-gnu; 2013-01-23 09:25:45 UTC; unix
+Built: R 2.15.2; x86_64-pc-linux-gnu; 2013-01-23 15:17:44 UTC; unix

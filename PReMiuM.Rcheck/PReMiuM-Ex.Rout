@@ -49,14 +49,14 @@ Loading required package: clue
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1358933198
+Random number seed: 1358954358
 Sweep: 1
 > 
 > dissimObj<-calcDissimilarityMatrix(runInfoObj)
 Stage 1:1 samples out of 10
 Stage 2:1 samples out of 10
 > clusObj<-calcOptimalClustering(dissimObj)
-Max no of possible clusters: 31 
+Max no of possible clusters: 30 
 Trying 2 clusters
 Trying 3 clusters
 Trying 4 clusters
@@ -86,7 +86,6 @@ Trying 27 clusters
 Trying 28 clusters
 Trying 29 clusters
 Trying 30 clusters
-Trying 31 clusters
 > riskProfileObj<-calcAvgRiskAndProfile(clusObj)
 Processing sweep 1 of  10 
 > clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
@@ -113,14 +112,14 @@ Processing sweep 1 of  10
 > runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, nSweeps=10, 
 +     nBurn=20, data=inputs$inputData, output="output", nClusInit=15,
 +     covNames=inputs$covNames)
-Random number seed: 1358933233
+Random number seed: 1358954425
 Sweep: 1
 > 
 > dissimObj<-calcDissimilarityMatrix(runInfoObj)
 Stage 1:1 samples out of 10
 Stage 2:1 samples out of 10
 > clusObj<-calcOptimalClustering(dissimObj)
-Max no of possible clusters: 25 
+Max no of possible clusters: 28 
 Trying 2 clusters
 Trying 3 clusters
 Trying 4 clusters
@@ -145,6 +144,9 @@ Trying 22 clusters
 Trying 23 clusters
 Trying 24 clusters
 Trying 25 clusters
+Trying 26 clusters
+Trying 27 clusters
+Trying 28 clusters
 > riskProfileObj<-calcAvgRiskAndProfile(clusObj)
 Processing sweep 1 of  10 
 > 
@@ -168,7 +170,7 @@ Processing sweep 1 of  10
 > runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
 +     nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
 +     covNames=inputs$covNames,nClusInit=15)
-Random number seed: 1358933245
+Random number seed: 1358954463
 Sweep: 1
 > 
 > dissimObj<-calcDissimilarityMatrix(runInfoObj)
@@ -196,7 +198,7 @@ Stage 2:1 samples out of 10
 > runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
 +     nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
 +     covNames=inputs$covNames, nClusInit=15)
-Random number seed: 1358933245
+Random number seed: 1358954464
 Sweep: 1
 > 
 > dissimObj<-calcDissimilarityMatrix(runInfoObj)
@@ -263,7 +265,7 @@ Trying 32 clusters
 > runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
 +     nSweeps=100, nBurn=1000, data=inputs$inputData, output="output", 
 +     covNames=inputs$covNames,predict=preds)
-Random number seed: 1358933276
+Random number seed: 1358954501
 Sweep: 1
 Sweep: 500
 Sweep: 1000
@@ -273,7 +275,7 @@ Sweep: 1000
 Stage 1:1 samples out of 100
 Stage 2:1 samples out of 100
 > clusObj <- calcOptimalClustering(dissimObj)
-Max no of possible clusters: 18 
+Max no of possible clusters: 17 
 Trying 2 clusters
 Trying 3 clusters
 Trying 4 clusters
@@ -290,7 +292,6 @@ Trying 14 clusters
 Trying 15 clusters
 Trying 16 clusters
 Trying 17 clusters
-Trying 18 clusters
 > riskProfileObj <- calcAvgRiskAndProfile(clusObj)
 Processing sweep 1 of  100 
 > clusterOrderObj <- plotRiskProfile(riskProfileObj,"summary.png",
@@ -317,7 +318,7 @@ Processing sweep 1 of  100
 +          nBurn=100, data=inputs$inputData, output="output", 
 +          covNames = inputs$covNames, outcomeT="outcomeT",
 +          fixedEffectsNames = inputs$fixedEffectNames,predict=predsPoisson)
-Random number seed: 1358933292
+Random number seed: 1358954519
 Sweep: 1
 > 
 > # postprocessing
@@ -325,7 +326,7 @@ Sweep: 1
 Stage 1:1 samples out of 100
 Stage 2:1 samples out of 100
 > clusObj<-calcOptimalClustering(dissimObj)
-Max no of possible clusters: 14 
+Max no of possible clusters: 15 
 Trying 2 clusters
 Trying 3 clusters
 Trying 4 clusters
@@ -339,6 +340,7 @@ Trying 11 clusters
 Trying 12 clusters
 Trying 13 clusters
 Trying 14 clusters
+Trying 15 clusters
 > riskProfileObj<-calcAvgRiskAndProfile(clusObj)
 Processing sweep 1 of  100 
 > output_predictions <- calcPredictions(riskProfileObj,fullSweepPredictions=TRUE)
@@ -365,7 +367,7 @@ Processing sweep 1 of  100
 +          covNames = inputs$covNames, outcomeT="outcomeT",
 +          fixedEffectsNames = inputs$fixedEffectNames,
 +          nClusInit=15, predict=predsPoisson)
-Random number seed: 1358933307
+Random number seed: 1358954534
 Sweep: 1
 > 
 > # postprocessing
@@ -373,7 +375,7 @@ Sweep: 1
 Stage 1:1 samples out of 10
 Stage 2:1 samples out of 10
 > clusObj<-calcOptimalClustering(dissimObj)
-Max no of possible clusters: 15 
+Max no of possible clusters: 14 
 Trying 2 clusters
 Trying 3 clusters
 Trying 4 clusters
@@ -387,7 +389,6 @@ Trying 11 clusters
 Trying 12 clusters
 Trying 13 clusters
 Trying 14 clusters
-Trying 15 clusters
 > riskProfileObj<-calcAvgRiskAndProfile(clusObj)
 Processing sweep 1 of  10 
 > output_predictions <- calcPredictions(riskProfileObj,fullSweepPredictions=TRUE)
@@ -620,11 +621,11 @@ $clusterData[[5]]$covariateProbs[[5]]
 +          nBurn=10, data=inputs$inputData, output="output", 
 +          covNames = inputs$covNames, nClusInit=15,
 +          fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1358933321
+Random number seed: 1358954543
 Sweep: 1
 > 
 > margModelPosterior(runInfoObj)
-[1] -3989.759
+[1] -4008.866
 > 
 > 
 > 
@@ -649,7 +650,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1358933323
+Random number seed: 1358954544
 Sweep: 1
 > 
 > dissimObj<-calcDissimilarityMatrix(runInfoObj)
@@ -708,7 +709,7 @@ Processing sweep 1 of  10
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1358933350
+Random number seed: 1358954567
 Sweep: 1
 > 
 > 
@@ -719,7 +720,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     discreteCovs = inputs$discreteCovs,
 +     continuousCovs = inputs$continuousCovs)
-Random number seed: 1358933351
+Random number seed: 1358954567
 Sweep: 1
 > 
 > 
@@ -749,7 +750,7 @@ Sweep: 1
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames,
 +     hyper=hyp)
-Random number seed: 1358933351
+Random number seed: 1358954568
 Sweep: 1
 > 
 > 
@@ -775,7 +776,7 @@ Sweep: 1
 +     xModel=inputs$xModel, nSweeps=10, nClusInit=15, 
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, varSelect="Continuous")
-Random number seed: 1358933351
+Random number seed: 1358954568
 Sweep: 1
 > 
 > rho<-summariseVarSelectRho(runInfoObj)
@@ -785,7 +786,7 @@ Sweep: 1
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  152.529 1.08 154.243 0 0 
+Time elapsed:  206.188 1.504 212.291 0 0 
 > grDevices::dev.off()
 null device 
           1 

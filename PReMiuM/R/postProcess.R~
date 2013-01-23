@@ -1548,10 +1548,8 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 	for (i in 1:length(clusObjRunInfoObj)) assign(names(clusObjRunInfoObj)[i],clusObjRunInfoObj[[i]])
 	
 	if(yModel=="Poisson"||yModel=="Normal"){
-		if (fullSweepLogOR==T){
-			fullSweepLogOR=F
-			cat("Log odds ratio does not make sense for Poisson or Normal response\n")
-		}
+		fullSweepLogOR=F
+		cat("Log odds ratio does not make sense for Poisson or Normal response\n")
 	}
 	
 	firstLine<-ifelse(reportBurnIn,nBurn/nFilter+2,1)

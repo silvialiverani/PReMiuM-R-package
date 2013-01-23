@@ -1,7 +1,7 @@
 Package: PReMiuM
 Type: Package
 Title: Post processing for C++ PReMiuM
-Version: 3.0.7
+Version: 3.0.8
 Date: 2013-15-01
 Author: David I. Hastie <david.hastie@rsimony.com>, Silvia Liverani <liveranis@gmail.com> and Sylvia Richardson <sylvia.richardson@mrc-bsu.cam.ac.uk>, with a contribution by Lamiae Azizi
 Maintainer: Silvia Liverani <liveranis@gmail.com>
