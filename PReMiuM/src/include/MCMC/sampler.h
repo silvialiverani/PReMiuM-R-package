@@ -1,4 +1,4 @@
-/// \file sampler.h
+// \file sampler.h
 /// \author David Hastie
 /// \date 30 Sep 2010
 /// \brief Header file defining classes for Markov chain Monte Carlo sampler.
@@ -40,6 +40,8 @@
 #include<fstream>
 #include<sstream>
 
+#include<Rcpp.h>
+
 // Custom includes
 #include<Math/random.h>
 #include<MCMC/model.h>
@@ -48,9 +50,8 @@
 
 using std::string;
 using std::vector;
-using std::endl;
-using std::cout;
 using std::ostringstream;
+using std::endl;
 
 /// \class mcmcSampler sampler.h "MCMC/sampler.h"
 /// \brief Class to implement an MCMC sampler
@@ -236,7 +237,7 @@ template<class modelParamType,class optionType,class propParamType,class dataTyp
 			}else{
 				_seed = seedValue;
 			}
-			cout << "Random number seed: " << _seed << endl;
+			Rprintf("Random number seed: %i\n",_seed);
 			_rndGenerator.seed(_seed);
 		}
 
@@ -527,7 +528,7 @@ void mcmcSampler<modelParamType,optionType,propParamType,dataType>::run(){
 	writeOutput(0);
 	for(unsigned int sweep=1; sweep<=_nBurn+_nSweeps; sweep++){
 		if(sweep==1||sweep%_nProgress==0){
-			cout << "Sweep: " << sweep << endl;
+			Rprintf("Sweep: %i\n",sweep);
 		}
 		// Update the missing data (this will only do anything if the
 		// _model.hasMissingData flag is true)

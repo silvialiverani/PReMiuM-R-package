@@ -39,8 +39,6 @@
 
 using std::vector;
 using std::string;
-using std::cout;
-using std::endl;
 
 /// \class mcmcModel model.h "MCMC/model.h"
 /// \brief Template class for Markov chain Monte Carlo models

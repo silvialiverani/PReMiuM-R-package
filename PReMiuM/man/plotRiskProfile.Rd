@@ -43,6 +43,7 @@ Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for 
 
 }
 \examples{
+\dontrun{
 # example for Poisson outcome and Discrete covariates
 inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
 runInfoObj<-profRegr(yModel=inputs$yModel, 
@@ -55,6 +56,7 @@ dissimObj<-calcDissimilarityMatrix(runInfoObj)
 clusObj<-calcOptimalClustering(dissimObj)
 riskProfileObj<-calcAvgRiskAndProfile(clusObj)
 clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
+}
 }
 \keyword{plots}
 \keyword{postprocessing}

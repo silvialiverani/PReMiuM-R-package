@@ -56,6 +56,7 @@ Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for 
 
 }
 \examples{
+\dontrun{
 inputs <- generateSampleDataFile(clusSummaryBernoulliDiscrete())
      
 # prediction profiles
@@ -129,6 +130,6 @@ clusObj<-calcOptimalClustering(dissimObj)
 riskProfileObj<-calcAvgRiskAndProfile(clusObj)
 output_predictions <- calcPredictions(riskProfileObj,fullSweepPredictions=TRUE)
 
-
+}
 }
 \keyword{predictions}

@@ -49,9 +49,9 @@
 
 #include "include/postProcess.h"
 
+#include<Rcpp.h>
+
 using std::vector;
-using std::cout;
-using std::endl;
 using std::ostringstream;
 using std::time;
 using std::string;

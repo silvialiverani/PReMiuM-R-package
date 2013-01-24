@@ -46,6 +46,8 @@
 #include<Eigen/Cholesky>
 #include<Eigen/LU>
 
+#include<Rcpp.h>
+
 // Custom includes
 #include<MCMC/chain.h>
 #include<MCMC/model.h>
@@ -57,12 +59,10 @@
 using namespace Eigen;
 
 using std::vector;
-using std::cout;
-using std::endl;
 using std::ostringstream;
 using std::istringstream;
 using std::string;
-
+using std::endl;
 
 // Process the command line run time options
 pReMiuMOptions processCommandLine(string inputStr){
@@ -84,30 +84,28 @@ pReMiuMOptions processCommandLine(string inputStr){
 		string inString = inputStrings[currArg];
 		if(inString.compare("--help")==0){
 			// Output help if requested
-			cout << endl << "### PReMiuMpp Help Page. ###" << endl;
-			cout << endl;
-			cout << "Possible arguments (defaults in parentheses):" << endl << endl;
-			cout << "--help" << endl << "\tShow this help page" << endl;
-			cout << "--input=<string>"<< endl << "\tThe full file path to the input data (./input.txt)" << endl;
-			cout << "--output=<string>" << endl << "\tThe file stem (including full file path) where the data" << endl << "\tshould be written (./output)" << endl;
-			cout << "--hyper=<string>" << endl << "\tThe full file path to the file containing hyper" << endl << "\t parameters. (Hyper parameter file not used)" << endl;
-			cout << "--predict=<string>" << endl << "\tThe full file path to the file containing prediction" << endl << "\t covariates. (Prediction file not used)" << endl;
-			cout << "--nSweeps=<unsigned int>" << endl << "\tThe number of sweeps (after burn in) to run the" << endl << "\t sampler for (10000)" << endl;
-			cout << "--nBurn=<unsigned int>" << endl << "\tThe number of sweeps in the burn in period (1000)" << endl;
-			cout << "--reportBurnIn=<bool>" << endl << "\tIt enables reporting in the output files of the burn-in period (true)." << endl;
-			cout << "--nProgress=<unsigned int>" << endl << "\tThe number of sweeps at which to print a" << endl << "progress update (500)" << endl;
-			cout << "--nFilter=<unsigned int>" << endl << "\tThe frequency (in sweeps) with which to write" << endl << "\tthe output to file (1)" << endl;
-			cout << "--nClusInit=<unsigned int>" << endl << "\tThe number of clusters individuals should be" << endl << "\tinitially randomly assigned to (Unif[50,60])" << endl;
-			cout << "--seed=<unsigned int>" << endl << "\tThe value for the seed for the random number" << endl << "\tgenerator (current time)" << endl;
-			cout << "--yModel=<string>" << endl << "\tThe model type for the outcome variable. Options are" << endl << "\tcurrently 'Bernoulli','Poisson','Binomial', 'Categorical' and 'Normal' (Bernoulli)" << endl;
-			cout << "--xModel=<string>" << endl << "\tThe model type for the covariates. Options are" << endl << "\tcurrently 'Discrete', 'Normal' and 'Mixed' (Discrete)" << endl;
-			cout << "--sampler=<string>" << endl << "\tThe sampler type to be used. Options are" << endl << "\tcurrently 'SliceDependent', 'SliceIndependent' and 'Truncated' (SliceDependent)" << endl;
-			cout << "--alpha=<double>" << endl << "\tThe value to be used if alpha is to remain fixed." << endl << "\tIf a negative value is used then alpha is updated (-1)" << endl;
-			cout << "--excludeY" << endl << "\tIf included only the covariate data X is modelled (not included)" << endl;
-			cout << "--extraYVar" << endl << "\tIf included extra Gaussian variance is included in the" << endl << "\tresponse model (not included)." << endl;
-			cout << "--varSelect=<string>" << endl << "\tThe type of variable selection to be used 'None'," << endl << "\t'BinaryCluster' or 'Continuous' (None)" << endl;
-			cout << "--entropy" << endl << "\tIf included then we compute allocation entropy (not included)" << endl;
-		//	exit(0);
+			Rprintf("\n\n ### PReMiuMpp Help Page. ### \n\n");
+			Rprintf("Possible arguments (defaults in parentheses):\n\n");
+			Rprintf("--help\n\tShow this help page\n");
+			Rprintf("--input=<string>\n\tThe full file path to the input data (./input.txt)\n");
+			Rprintf("--output=<string>\n\tThe file stem (including full file path) where the data\n\tshould be written (./output)\n");
+			Rprintf("--hyper=<string>\n\tThe full file path to the file containing hyper\n\t parameters. (Hyper parameter file not used)\n");
+			Rprintf("--predict=<string>\n\tThe full file path to the file containing prediction\n\t covariates. (Prediction file not used)\n");
+			Rprintf("--nSweeps=<unsigned int>\n\tThe number of sweeps (after burn in) to run the\n\t sampler for (10000)\n");
+			Rprintf("--nBurn=<unsigned int>\n\tThe number of sweeps in the burn in period (1000)\n");
+			Rprintf("--reportBurnIn=<bool>\n\tIt enables reporting in the output files of the burn-in period (true).\n");
+			Rprintf("--nProgress=<unsigned int>\n\tThe number of sweeps at which to print a\nprogress update (500)\n");
+			Rprintf("--nFilter=<unsigned int>\n\tThe frequency (in sweeps) with which to write\n\tthe output to file (1)\n");
+			Rprintf("--nClusInit=<unsigned int>\n\tThe number of clusters individuals should be\n\tinitially randomly assigned to (Unif[50,60])\n");
+			Rprintf("--seed=<unsigned int>\n\tThe value for the seed for the random number\n\tgenerator (current time)\n");
+			Rprintf("--yModel=<string>\n\tThe model type for the outcome variable. Options are\n\tcurrently 'Bernoulli','Poisson','Binomial', 'Categorical' and 'Normal' (Bernoulli)\n");
+			Rprintf("--xModel=<string>\n\tThe model type for the covariates. Options are\n\tcurrently 'Discrete', 'Normal' and 'Mixed' (Discrete)\n");
+			Rprintf("--sampler=<string>\n\tThe sampler type to be used. Options are\n\tcurrently 'SliceDependent', 'SliceIndependent' and 'Truncated' (SliceDependent)\n");
+			Rprintf("--alpha=<double>\n\tThe value to be used if alpha is to remain fixed.\n\tIf a negative value is used then alpha is updated (-1)\n");
+			Rprintf("--excludeY\n\tIf included only the covariate data X is modelled (not included)\n");
+			Rprintf("--extraYVar\n\tIf included extra Gaussian variance is included in the\n\tresponse model (not included).\n");
+			Rprintf("--varSelect=<string>\n\tThe type of variable selection to be used 'None',\n\t'BinaryCluster' or 'Continuous' (None)\n");
+			Rprintf("--entropy\n\tIf included then we compute allocation entropy (not included)\n");
 		}else{
 			while(currArg < argc){
 				inString.assign(inputStrings[currArg]);
@@ -171,7 +169,7 @@ pReMiuMOptions processCommandLine(string inputStr){
 					}
 					options.outcomeType(outcomeType);
 					if(outcomeType.compare("Normal")==0&&options.responseExtraVar()){
-						cout << "Response extra variation not permitted with Normal response" << endl;
+						Rprintf("Response extra variation not permitted with Normal response\n");			
 						options.responseExtraVar(false);
 					}
 				}else if(inString.find("--xModel")!=string::npos){
@@ -204,7 +202,7 @@ pReMiuMOptions processCommandLine(string inputStr){
 					if(options.outcomeType().compare("Normal")!=0){
 						options.responseExtraVar(true);
 					}else{
-						cout << "Response extra variation not permitted with Normal response" << endl;
+						Rprintf("Response extra variation not permitted with Normal response\n");
 					}
 				}else if(inString.find("--varSelect")!=string::npos){
 					size_t pos = inString.find("=")+1;
@@ -219,7 +217,7 @@ pReMiuMOptions processCommandLine(string inputStr){
 				}else if(inString.find("--entropy")!=string::npos){
 					options.computeEntropy(true);
 				}else{
-					cout << "Unknown command line option." << endl;
+					Rprintf("Unknown command line option.\n");
 					wasError=true;
 					break;
 				}
@@ -230,9 +228,9 @@ pReMiuMOptions processCommandLine(string inputStr){
 
 	// Return if there was an error
 	if(wasError){
-		cout << "Please use:" << endl;
-		cout << "\t profileRegression --help" << endl;
-		cout << "to get help on correct usage." << endl;
+		Rprintf("Please use:\n");
+		Rprintf("\t profileRegression --help\n");
+		Rprintf("to get help on correct usage.\n");
 	//	exit(-1);
 	}
 
@@ -246,13 +244,13 @@ void importPReMiuMData(const string& fitFilename,const string& predictFilename,p
 	ifstream inputFile,predictFile;
 	inputFile.open(fitFilename.c_str());
 	if(!inputFile.is_open()){
-		cout << "Input file not found" << endl;
+		Rprintf("Input file not found\n");
 	//	exit(-1);
 	}
 	if(predictFilename.compare("")!=0){
 		predictFile.open(predictFilename.c_str());
 		if(!predictFile.is_open()){
-			cout << "Prediction covariate file not found" << endl;
+			Rprintf("Prediction covariate file not found\n");
 	//		exit(-1);
 		}
 	}
@@ -289,12 +287,12 @@ void importPReMiuMData(const string& fitFilename,const string& predictFilename,p
 		inputFile >> nDiscreteCovs;
 		inputFile >> nContinuousCovs;
 		if(nDiscreteCovs+nContinuousCovs!=nCovariates){
-				cout << "Illegal number of covariates, discrete covariates or continuous covariates" <<endl;
+				Rprintf("Illegal number of covariates, discrete covariates or continuous covariates\n");
 				// Illegal number of covariates, discrete covariates or continuous covariates
 				wasError=true;
 		}
 		if(nDiscreteCovs==0 || nContinuousCovs==0){
-				cout << "If xModel=Mixed a positive number of discrete and continuous covariates must be provided " <<endl;
+				Rprintf("If xModel=Mixed a positive number of discrete and continuous covariates must be provided\n");
 				// Illegal number of discrete covariates or continuous covariates
 				wasError=true;
 		}
@@ -497,9 +495,9 @@ void importPReMiuMData(const string& fitFilename,const string& predictFilename,p
 
 	// Return if there was an error
 	if(wasError){
-		cout << "Please use:" << endl;
-		cout << "\t profileRegression --help" << endl;
-		cout << "to get help on correct usage." << endl;
+		Rprintf("Please use:\n");
+		Rprintf("\t profileRegression --help\n");
+		Rprintf("to get help on correct usage.\n");
 	//	exit(-1);
 	}
 
@@ -511,7 +509,7 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 	ifstream inputFile;
 	inputFile.open(filename.c_str());
 	if(!inputFile.is_open()){
-		cout << "Parameter file not found" << endl;
+		Rprintf("Parameter file not found\n");
 	//	exit(-1);
 	}
 

@@ -9,7 +9,7 @@ yphenation, loaded.
 (/usr/share/texmf-texlive/tex/latex/base/book.cls
 Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texmf-texlive/tex/latex/base/bk10.clo))
-(/usr/share/R/share/texmf/tex/latex/Rd.sty
+(/usr/share/texmf/tex/latex/R/tex/latex/Rd.sty
 (/usr/share/texmf-texlive/tex/latex/base/ifthen.sty)
 (/usr/share/texmf-texlive/tex/latex/tools/longtable.sty)
 (/usr/share/texmf-texlive/tex/latex/tools/bm.sty)
@@ -24,7 +24,7 @@ Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texmf-texlive/tex/latex/base/ts1enc.def))
 (/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty))
 (/usr/share/texmf-texlive/tex/latex/graphics/color.sty
-(/etc/texmf/tex/latex/config/color.cfg)
+(/usr/share/texlive-base/color.cfg)
 (/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def))
 (/usr/share/texmf-texlive/tex/latex/hyperref/hyperref.sty
 (/usr/share/texmf-texlive/tex/generic/oberdiek/ifpdf.sty)
@@ -35,10 +35,11 @@ Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texmf-texlive/tex/latex/hyperref/pd1enc.def)
 (/usr/share/texmf-texlive/tex/generic/oberdiek/etexcmds.sty
 (/usr/share/texmf-texlive/tex/generic/oberdiek/infwarerr.sty))
-(/usr/share/texmf-texlive/tex/latex/latexconfig/hyperref.cfg)
+(/usr/share/texmf-texlive/doc/latex/listings-ext/hyperref.cfg)
 (/usr/share/texmf-texlive/tex/latex/oberdiek/kvoptions.sty
 (/usr/share/texmf-texlive/tex/generic/oberdiek/kvsetkeys.sty))
 Implicit mode ON; LaTeX internals redefined
+(/usr/share/texmf-texlive/tex/latex/hyperref/backref.sty)
 (/usr/share/texmf-texlive/tex/generic/oberdiek/bitset.sty
 (/usr/share/texmf-texlive/tex/generic/oberdiek/intcalc.sty)
 (/usr/share/texmf-texlive/tex/generic/oberdiek/bigintcalc.sty
@@ -46,7 +47,12 @@ Implicit mode ON; LaTeX internals redefined
 (/usr/share/texmf-texlive/tex/generic/oberdiek/ifluatex.sty)
 (/usr/share/texmf-texlive/tex/generic/oberdiek/ltxcmds.sty))))
 (/usr/share/texmf-texlive/tex/generic/oberdiek/atbegshi.sty))
-*hyperref using default driver hpdftex*
+
+Package hyperref Warning: Wrong driver `hdvips.def';
+(hyperref)                pdfTeX is running in PDF mode.
+(hyperref)                Forcing driver `hpdftex.def'.
+
+*hyperref using driver hpdftex*
 (/usr/share/texmf-texlive/tex/latex/hyperref/hpdftex.def)
 
 Package hyperref Warning: Option `hyperindex' has already been used,
@@ -78,8 +84,8 @@ No file Rd2.aux.
 pdftex/updmap/pdftex.map}] (/usr/share/texmf-texlive/tex/latex/psnfss/ts1ptm.fd
 ) [2] (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [3] [4]
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [5]
-(/usr/share/texmf-texlive/tex/latex/base/utf8.def) [6]
-(/usr/share/texmf-texlive/tex/latex/base/utf8.def) [7] [8] [9]
+(/usr/share/texmf-texlive/tex/latex/base/utf8.def) [6] [7]
+(/usr/share/texmf-texlive/tex/latex/base/utf8.def) [8] [9]
 Underfull \vbox (badness 10000) has occurred while \output is active [10]
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [11]
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [12]
@@ -87,19 +93,19 @@ Underfull \vbox (badness 10000) has occurred while \output is active [10]
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [14]
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [15] [16]
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [17] [18]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 843--844
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 853--854
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 844--845
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 854--855
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 [19] [20] (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [21]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 962--963
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 972--973
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 962--963
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 972--973
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
 [22] (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [23]
@@ -112,7 +118,7 @@ ta.pfb></usr/share/texmf-texlive/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/shar
 e/texmf-texlive/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/font
 s/type1/urw/times/utmr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/ut
 mr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (24 pages, 140953 bytes).
+Output written on Rd2.pdf (24 pages, 141229 bytes).
 Transcript written on Rd2.log.
 This is makeindex, version 2.15 [TeX Live 2009] (kpathsea + Thai support).
 Scanning input file Rd2.idx....done (34 entries accepted, 0 rejected).
@@ -129,7 +135,7 @@ yphenation, loaded.
 (/usr/share/texmf-texlive/tex/latex/base/book.cls
 Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texmf-texlive/tex/latex/base/bk10.clo))
-(/usr/share/R/share/texmf/tex/latex/Rd.sty
+(/usr/share/texmf/tex/latex/R/tex/latex/Rd.sty
 (/usr/share/texmf-texlive/tex/latex/base/ifthen.sty)
 (/usr/share/texmf-texlive/tex/latex/tools/longtable.sty)
 (/usr/share/texmf-texlive/tex/latex/tools/bm.sty)
@@ -144,7 +150,7 @@ Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texmf-texlive/tex/latex/base/ts1enc.def))
 (/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty))
 (/usr/share/texmf-texlive/tex/latex/graphics/color.sty
-(/etc/texmf/tex/latex/config/color.cfg)
+(/usr/share/texlive-base/color.cfg)
 (/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def))
 (/usr/share/texmf-texlive/tex/latex/hyperref/hyperref.sty
 (/usr/share/texmf-texlive/tex/generic/oberdiek/ifpdf.sty)
@@ -155,10 +161,11 @@ Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texmf-texlive/tex/latex/hyperref/pd1enc.def)
 (/usr/share/texmf-texlive/tex/generic/oberdiek/etexcmds.sty
 (/usr/share/texmf-texlive/tex/generic/oberdiek/infwarerr.sty))
-(/usr/share/texmf-texlive/tex/latex/latexconfig/hyperref.cfg)
+(/usr/share/texmf-texlive/doc/latex/listings-ext/hyperref.cfg)
 (/usr/share/texmf-texlive/tex/latex/oberdiek/kvoptions.sty
 (/usr/share/texmf-texlive/tex/generic/oberdiek/kvsetkeys.sty))
 Implicit mode ON; LaTeX internals redefined
+(/usr/share/texmf-texlive/tex/latex/hyperref/backref.sty)
 (/usr/share/texmf-texlive/tex/generic/oberdiek/bitset.sty
 (/usr/share/texmf-texlive/tex/generic/oberdiek/intcalc.sty)
 (/usr/share/texmf-texlive/tex/generic/oberdiek/bigintcalc.sty
@@ -166,7 +173,12 @@ Implicit mode ON; LaTeX internals redefined
 (/usr/share/texmf-texlive/tex/generic/oberdiek/ifluatex.sty)
 (/usr/share/texmf-texlive/tex/generic/oberdiek/ltxcmds.sty))))
 (/usr/share/texmf-texlive/tex/generic/oberdiek/atbegshi.sty))
-*hyperref using default driver hpdftex*
+
+Package hyperref Warning: Wrong driver `hdvips.def';
+(hyperref)                pdfTeX is running in PDF mode.
+(hyperref)                Forcing driver `hpdftex.def'.
+
+*hyperref using driver hpdftex*
 (/usr/share/texmf-texlive/tex/latex/hyperref/hpdftex.def)
 
 Package hyperref Warning: Option `hyperindex' has already been used,
@@ -205,28 +217,28 @@ pdftex/updmap/pdftex.map}] (/usr/share/texmf-texlive/tex/latex/psnfss/ts1ptm.fd
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [15]
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [16]
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [17] [18]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 843--844
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 853--854
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 844--845
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 854--855
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
-[19] [20] (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [21]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 962--963
+[19] [20] (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [21] [22]
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 972--973
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 962--963
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 972--973
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
-[22] (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [23] (./Rd2.ind
-[24]
+(/usr/share/texmf-texlive/tex/latex/base/utf8.def) [23] [24] (./Rd2.ind
+[25]
 
 LaTeX Font Warning: Font shape `T1/fi4/m/it' undefined
 (Font)              using `T1/fi4/m/n' instead on input line 31.
 
-[25]) (./Rd2.aux)
+[26]) (./Rd2.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -239,7 +251,7 @@ r/share/texmf-texlive/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-tex
 live/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw
 /times/utmr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb></
 usr/share/texmf-texlive/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (25 pages, 163078 bytes).
+Output written on Rd2.pdf (26 pages, 164027 bytes).
 Transcript written on Rd2.log.
 This is makeindex, version 2.15 [TeX Live 2009] (kpathsea + Thai support).
 Scanning input file Rd2.idx....done (34 entries accepted, 0 rejected).
@@ -256,7 +268,7 @@ yphenation, loaded.
 (/usr/share/texmf-texlive/tex/latex/base/book.cls
 Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texmf-texlive/tex/latex/base/bk10.clo))
-(/usr/share/R/share/texmf/tex/latex/Rd.sty
+(/usr/share/texmf/tex/latex/R/tex/latex/Rd.sty
 (/usr/share/texmf-texlive/tex/latex/base/ifthen.sty)
 (/usr/share/texmf-texlive/tex/latex/tools/longtable.sty)
 (/usr/share/texmf-texlive/tex/latex/tools/bm.sty)
@@ -271,7 +283,7 @@ Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texmf-texlive/tex/latex/base/ts1enc.def))
 (/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty))
 (/usr/share/texmf-texlive/tex/latex/graphics/color.sty
-(/etc/texmf/tex/latex/config/color.cfg)
+(/usr/share/texlive-base/color.cfg)
 (/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def))
 (/usr/share/texmf-texlive/tex/latex/hyperref/hyperref.sty
 (/usr/share/texmf-texlive/tex/generic/oberdiek/ifpdf.sty)
@@ -282,10 +294,11 @@ Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texmf-texlive/tex/latex/hyperref/pd1enc.def)
 (/usr/share/texmf-texlive/tex/generic/oberdiek/etexcmds.sty
 (/usr/share/texmf-texlive/tex/generic/oberdiek/infwarerr.sty))
-(/usr/share/texmf-texlive/tex/latex/latexconfig/hyperref.cfg)
+(/usr/share/texmf-texlive/doc/latex/listings-ext/hyperref.cfg)
 (/usr/share/texmf-texlive/tex/latex/oberdiek/kvoptions.sty
 (/usr/share/texmf-texlive/tex/generic/oberdiek/kvsetkeys.sty))
 Implicit mode ON; LaTeX internals redefined
+(/usr/share/texmf-texlive/tex/latex/hyperref/backref.sty)
 (/usr/share/texmf-texlive/tex/generic/oberdiek/bitset.sty
 (/usr/share/texmf-texlive/tex/generic/oberdiek/intcalc.sty)
 (/usr/share/texmf-texlive/tex/generic/oberdiek/bigintcalc.sty
@@ -293,7 +306,12 @@ Implicit mode ON; LaTeX internals redefined
 (/usr/share/texmf-texlive/tex/generic/oberdiek/ifluatex.sty)
 (/usr/share/texmf-texlive/tex/generic/oberdiek/ltxcmds.sty))))
 (/usr/share/texmf-texlive/tex/generic/oberdiek/atbegshi.sty))
-*hyperref using default driver hpdftex*
+
+Package hyperref Warning: Wrong driver `hdvips.def';
+(hyperref)                pdfTeX is running in PDF mode.
+(hyperref)                Forcing driver `hpdftex.def'.
+
+*hyperref using driver hpdftex*
 (/usr/share/texmf-texlive/tex/latex/hyperref/hpdftex.def)
 
 Package hyperref Warning: Option `hyperindex' has already been used,
@@ -333,28 +351,28 @@ mf/fonts/map/pdftex/updmap/pdftex.map}])
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [15]
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [16]
 (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [17] [18]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 843--844
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 853--854
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 844--845
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 854--855
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
-[19] [20] (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [21]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 962--963
+[19] [20] (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [21] [22]
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 972--973
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 962--963
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 972--973
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
-[22] (/usr/share/texmf-texlive/tex/latex/base/utf8.def) [23] (./Rd2.ind
-[24]
+(/usr/share/texmf-texlive/tex/latex/base/utf8.def) [23] [24] (./Rd2.ind
+[25]
 
 LaTeX Font Warning: Font shape `T1/fi4/m/it' undefined
 (Font)              using `T1/fi4/m/n' instead on input line 31.
 
-[25]) (./Rd2.aux)
+[26]) (./Rd2.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -367,8 +385,8 @@ r/share/texmf-texlive/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-tex
 live/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw
 /times/utmr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb></
 usr/share/texmf-texlive/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (25 pages, 163790 bytes).
+Output written on Rd2.pdf (26 pages, 164777 bytes).
 Transcript written on Rd2.log.
 Saving output to 'PReMiuM-manual.pdf' ...
 Done
-You may want to clean up by 'rm -rf /tmp/Rtmp0MwXJs/Rd2pdf130a2adf8ae5'
+You may want to clean up by 'rm -rf /tmp/Rtmp4DwMGU/Rd2pdf532214b84c51'

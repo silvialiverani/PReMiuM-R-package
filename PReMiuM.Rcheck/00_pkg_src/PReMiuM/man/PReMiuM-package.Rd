@@ -38,8 +38,8 @@ Dirichlet process Bayesian clustering and functions for the post-processing of i
 \tabular{ll}{
 Package: \tab PReMiuM\cr
 Type: \tab Package\cr
-Version: \tab 3.0.4\cr
-Date: \tab 2013-01-10\cr
+Version: \tab 3.0.9\cr
+Date: \tab 2013-01-24\cr
 License: \tab GPL3\cr
 LazyLoad: \tab yes\cr
 }
@@ -74,7 +74,7 @@ Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for 
 }
 
 \examples{
-
+\dontrun{
 # example for Poisson outcome and Discrete covariates
 inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
 runInfoObj<-profRegr(yModel=inputs$yModel, 
@@ -87,5 +87,5 @@ dissimObj<-calcDissimilarityMatrix(runInfoObj)
 clusObj<-calcOptimalClustering(dissimObj)
 riskProfileObj<-calcAvgRiskAndProfile(clusObj)
 clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
-
+}
 }

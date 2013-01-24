@@ -41,55 +41,20 @@ Loading required package: clue
 > 
 > ### ** Examples
 > 
-> 
-> # example for Poisson outcome and Discrete covariates
-> inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
-> runInfoObj<-profRegr(yModel=inputs$yModel, 
-+     xModel=inputs$xModel, nSweeps=10, nClusInit=20,
-+     nBurn=20, data=inputs$inputData, output="output", 
-+     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
-+     fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1358954358
-Sweep: 1
-> 
-> dissimObj<-calcDissimilarityMatrix(runInfoObj)
-Stage 1:1 samples out of 10
-Stage 2:1 samples out of 10
-> clusObj<-calcOptimalClustering(dissimObj)
-Max no of possible clusters: 30 
-Trying 2 clusters
-Trying 3 clusters
-Trying 4 clusters
-Trying 5 clusters
-Trying 6 clusters
-Trying 7 clusters
-Trying 8 clusters
-Trying 9 clusters
-Trying 10 clusters
-Trying 11 clusters
-Trying 12 clusters
-Trying 13 clusters
-Trying 14 clusters
-Trying 15 clusters
-Trying 16 clusters
-Trying 17 clusters
-Trying 18 clusters
-Trying 19 clusters
-Trying 20 clusters
-Trying 21 clusters
-Trying 22 clusters
-Trying 23 clusters
-Trying 24 clusters
-Trying 25 clusters
-Trying 26 clusters
-Trying 27 clusters
-Trying 28 clusters
-Trying 29 clusters
-Trying 30 clusters
-> riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-Processing sweep 1 of  10 
-> clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
-> 
+> ## Not run: 
+> ##D # example for Poisson outcome and Discrete covariates
+> ##D inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
+> ##D runInfoObj<-profRegr(yModel=inputs$yModel, 
+> ##D     xModel=inputs$xModel, nSweeps=10, nClusInit=20,
+> ##D     nBurn=20, data=inputs$inputData, output="output", 
+> ##D     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
+> ##D     fixedEffectsNames = inputs$fixedEffectNames)
+> ##D 
+> ##D dissimObj<-calcDissimilarityMatrix(runInfoObj)
+> ##D clusObj<-calcOptimalClustering(dissimObj)
+> ##D riskProfileObj<-calcAvgRiskAndProfile(clusObj)
+> ##D clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
+> ## End(Not run)
 > 
 > 
 > 
@@ -106,49 +71,17 @@ Processing sweep 1 of  10
 > 
 > ### ** Examples
 > 
-> 
-> generateDataList <- clusSummaryBernoulliDiscrete()
-> inputs <- generateSampleDataFile(generateDataList)
-> runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, nSweeps=10, 
-+     nBurn=20, data=inputs$inputData, output="output", nClusInit=15,
-+     covNames=inputs$covNames)
-Random number seed: 1358954425
-Sweep: 1
-> 
-> dissimObj<-calcDissimilarityMatrix(runInfoObj)
-Stage 1:1 samples out of 10
-Stage 2:1 samples out of 10
-> clusObj<-calcOptimalClustering(dissimObj)
-Max no of possible clusters: 28 
-Trying 2 clusters
-Trying 3 clusters
-Trying 4 clusters
-Trying 5 clusters
-Trying 6 clusters
-Trying 7 clusters
-Trying 8 clusters
-Trying 9 clusters
-Trying 10 clusters
-Trying 11 clusters
-Trying 12 clusters
-Trying 13 clusters
-Trying 14 clusters
-Trying 15 clusters
-Trying 16 clusters
-Trying 17 clusters
-Trying 18 clusters
-Trying 19 clusters
-Trying 20 clusters
-Trying 21 clusters
-Trying 22 clusters
-Trying 23 clusters
-Trying 24 clusters
-Trying 25 clusters
-Trying 26 clusters
-Trying 27 clusters
-Trying 28 clusters
-> riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-Processing sweep 1 of  10 
+> ## Not run: 
+> ##D generateDataList <- clusSummaryBernoulliDiscrete()
+> ##D inputs <- generateSampleDataFile(generateDataList)
+> ##D runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, nSweeps=10, 
+> ##D     nBurn=20, data=inputs$inputData, output="output", nClusInit=15,
+> ##D     covNames=inputs$covNames)
+> ##D 
+> ##D dissimObj<-calcDissimilarityMatrix(runInfoObj)
+> ##D clusObj<-calcOptimalClustering(dissimObj)
+> ##D riskProfileObj<-calcAvgRiskAndProfile(clusObj)
+> ## End(Not run)
 > 
 > 
 > 
@@ -170,7 +103,7 @@ Processing sweep 1 of  10
 > runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
 +     nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
 +     covNames=inputs$covNames,nClusInit=15)
-Random number seed: 1358954463
+Random number seed: 1359050337
 Sweep: 1
 > 
 > dissimObj<-calcDissimilarityMatrix(runInfoObj)
@@ -193,51 +126,16 @@ Stage 2:1 samples out of 10
 > 
 > ### ** Examples
 > 
-> generateDataList <- clusSummaryBernoulliDiscrete()
-> inputs <- generateSampleDataFile(generateDataList)
-> runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
-+     nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
-+     covNames=inputs$covNames, nClusInit=15)
-Random number seed: 1358954464
-Sweep: 1
-> 
-> dissimObj<-calcDissimilarityMatrix(runInfoObj)
-Stage 1:1 samples out of 10
-Stage 2:1 samples out of 10
-> clusObj<-calcOptimalClustering(dissimObj)
-Max no of possible clusters: 32 
-Trying 2 clusters
-Trying 3 clusters
-Trying 4 clusters
-Trying 5 clusters
-Trying 6 clusters
-Trying 7 clusters
-Trying 8 clusters
-Trying 9 clusters
-Trying 10 clusters
-Trying 11 clusters
-Trying 12 clusters
-Trying 13 clusters
-Trying 14 clusters
-Trying 15 clusters
-Trying 16 clusters
-Trying 17 clusters
-Trying 18 clusters
-Trying 19 clusters
-Trying 20 clusters
-Trying 21 clusters
-Trying 22 clusters
-Trying 23 clusters
-Trying 24 clusters
-Trying 25 clusters
-Trying 26 clusters
-Trying 27 clusters
-Trying 28 clusters
-Trying 29 clusters
-Trying 30 clusters
-Trying 31 clusters
-Trying 32 clusters
-> 
+> ## Not run: 
+> ##D generateDataList <- clusSummaryBernoulliDiscrete()
+> ##D inputs <- generateSampleDataFile(generateDataList)
+> ##D runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+> ##D     nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
+> ##D     covNames=inputs$covNames, nClusInit=15)
+> ##D 
+> ##D dissimObj<-calcDissimilarityMatrix(runInfoObj)
+> ##D clusObj<-calcOptimalClustering(dissimObj)
+> ## End(Not run)
 > 
 > 
 > 
@@ -254,148 +152,81 @@ Trying 32 clusters
 > 
 > ### ** Examples
 > 
-> inputs <- generateSampleDataFile(clusSummaryBernoulliDiscrete())
->      
-> # prediction profiles
-> preds<-data.frame(matrix(c(0, 0, 1, 0, 0,
-+ 0, 0, 1, NA, 0),ncol=5,byrow=TRUE))
-> colnames(preds)<-names(inputs$inputData)[2:(inputs$nCovariates+1)]
->      
-> # run profile regression
-> runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
-+     nSweeps=100, nBurn=1000, data=inputs$inputData, output="output", 
-+     covNames=inputs$covNames,predict=preds)
-Random number seed: 1358954501
-Sweep: 1
-Sweep: 500
-Sweep: 1000
->      
-> # postprocessing
-> dissimObj <- calcDissimilarityMatrix(runInfoObj)
-Stage 1:1 samples out of 100
-Stage 2:1 samples out of 100
-> clusObj <- calcOptimalClustering(dissimObj)
-Max no of possible clusters: 17 
-Trying 2 clusters
-Trying 3 clusters
-Trying 4 clusters
-Trying 5 clusters
-Trying 6 clusters
-Trying 7 clusters
-Trying 8 clusters
-Trying 9 clusters
-Trying 10 clusters
-Trying 11 clusters
-Trying 12 clusters
-Trying 13 clusters
-Trying 14 clusters
-Trying 15 clusters
-Trying 16 clusters
-Trying 17 clusters
-> riskProfileObj <- calcAvgRiskAndProfile(clusObj)
-Processing sweep 1 of  100 
-> clusterOrderObj <- plotRiskProfile(riskProfileObj,"summary.png",
-+     whichCovariates=c(1,2))
-> output_predictions <- calcPredictions(riskProfileObj,fullSweepPredictions=TRUE)
-Processing sweep 1 of  100 
-> 
-> # example where the fixed effects can be provided for prediction 
-> # but the observed response is missing 
-> # (there are 2 fixed effects in this example). 
-> # in this example we also use the Rao Blackwellised predictions
-> 
-> inputs <- generateSampleDataFile(clusSummaryPoissonNormal())
-> 
-> # prediction profiles
-> predsPoisson<- data.frame(matrix(c(7, 2.27, -0.66, 1.07, 9, 
-+      -0.01, -0.18, 0.91, 12, -0.09, -1.76, 1.04, 16, 1.55, 1.20, 0.89,
-+      10, -1.35, 0.79, 0.95),ncol=5,byrow=TRUE))
-> colnames(predsPoisson)<-names(inputs$inputData)[2:(inputs$nCovariates+1)]
-> 
-> # run profile regression
-> runInfoObj<-profRegr(yModel=inputs$yModel, 
-+          xModel=inputs$xModel, nSweeps=100, 
-+          nBurn=100, data=inputs$inputData, output="output", 
-+          covNames = inputs$covNames, outcomeT="outcomeT",
-+          fixedEffectsNames = inputs$fixedEffectNames,predict=predsPoisson)
-Random number seed: 1358954519
-Sweep: 1
-> 
-> # postprocessing
-> dissimObj<-calcDissimilarityMatrix(runInfoObj)
-Stage 1:1 samples out of 100
-Stage 2:1 samples out of 100
-> clusObj<-calcOptimalClustering(dissimObj)
-Max no of possible clusters: 15 
-Trying 2 clusters
-Trying 3 clusters
-Trying 4 clusters
-Trying 5 clusters
-Trying 6 clusters
-Trying 7 clusters
-Trying 8 clusters
-Trying 9 clusters
-Trying 10 clusters
-Trying 11 clusters
-Trying 12 clusters
-Trying 13 clusters
-Trying 14 clusters
-Trying 15 clusters
-> riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-Processing sweep 1 of  100 
-> output_predictions <- calcPredictions(riskProfileObj,fullSweepPredictions=TRUE)
-Log odds ratio does not make sense for Poisson or Normal response
-Processing sweep 1 of  100 
-> 
-> 
-> # example where both the observed response and fixed effects are present 
-> #(there are no fixed effects in this example, but 
-> # these would just be added as columns between the first and last columns). 
-> 
-> inputs <- generateSampleDataFile(clusSummaryPoissonNormal())
-> 
-> # prediction profiles
-> predsPoisson<- data.frame(matrix(c(NA, 2.27, -0.66, 1.07, NA, 
-+      -0.01, -0.18, 0.91, NA, -0.09, -1.76, 1.04, NA, 1.55, 1.20, 0.89,
-+      NA, -1.35, 0.79, 0.95),ncol=5,byrow=TRUE))
-> colnames(predsPoisson)<-names(inputs$inputData)[2:(inputs$nCovariates+1)]
-> 
-> # run profile regression
-> runInfoObj<-profRegr(yModel=inputs$yModel, 
-+          xModel=inputs$xModel, nSweeps=10, 
-+          nBurn=20, data=inputs$inputData, output="output", 
-+          covNames = inputs$covNames, outcomeT="outcomeT",
-+          fixedEffectsNames = inputs$fixedEffectNames,
-+          nClusInit=15, predict=predsPoisson)
-Random number seed: 1358954534
-Sweep: 1
-> 
-> # postprocessing
-> dissimObj<-calcDissimilarityMatrix(runInfoObj)
-Stage 1:1 samples out of 10
-Stage 2:1 samples out of 10
-> clusObj<-calcOptimalClustering(dissimObj)
-Max no of possible clusters: 14 
-Trying 2 clusters
-Trying 3 clusters
-Trying 4 clusters
-Trying 5 clusters
-Trying 6 clusters
-Trying 7 clusters
-Trying 8 clusters
-Trying 9 clusters
-Trying 10 clusters
-Trying 11 clusters
-Trying 12 clusters
-Trying 13 clusters
-Trying 14 clusters
-> riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-Processing sweep 1 of  10 
-> output_predictions <- calcPredictions(riskProfileObj,fullSweepPredictions=TRUE)
-Log odds ratio does not make sense for Poisson or Normal response
-Processing sweep 1 of  10 
-> 
-> 
+> ## Not run: 
+> ##D inputs <- generateSampleDataFile(clusSummaryBernoulliDiscrete())
+> ##D      
+> ##D # prediction profiles
+> ##D preds<-data.frame(matrix(c(0, 0, 1, 0, 0,
+> ##D 0, 0, 1, NA, 0),ncol=5,byrow=TRUE))
+> ##D colnames(preds)<-names(inputs$inputData)[2:(inputs$nCovariates+1)]
+> ##D      
+> ##D # run profile regression
+> ##D runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+> ##D     nSweeps=100, nBurn=1000, data=inputs$inputData, output="output", 
+> ##D     covNames=inputs$covNames,predict=preds)
+> ##D      
+> ##D # postprocessing
+> ##D dissimObj <- calcDissimilarityMatrix(runInfoObj)
+> ##D clusObj <- calcOptimalClustering(dissimObj)
+> ##D riskProfileObj <- calcAvgRiskAndProfile(clusObj)
+> ##D clusterOrderObj <- plotRiskProfile(riskProfileObj,"summary.png",
+> ##D     whichCovariates=c(1,2))
+> ##D output_predictions <- calcPredictions(riskProfileObj,fullSweepPredictions=TRUE)
+> ##D 
+> ##D # example where the fixed effects can be provided for prediction 
+> ##D # but the observed response is missing 
+> ##D # (there are 2 fixed effects in this example). 
+> ##D # in this example we also use the Rao Blackwellised predictions
+> ##D 
+> ##D inputs <- generateSampleDataFile(clusSummaryPoissonNormal())
+> ##D 
+> ##D # prediction profiles
+> ##D predsPoisson<- data.frame(matrix(c(7, 2.27, -0.66, 1.07, 9, 
+> ##D      -0.01, -0.18, 0.91, 12, -0.09, -1.76, 1.04, 16, 1.55, 1.20, 0.89,
+> ##D      10, -1.35, 0.79, 0.95),ncol=5,byrow=TRUE))
+> ##D colnames(predsPoisson)<-names(inputs$inputData)[2:(inputs$nCovariates+1)]
+> ##D 
+> ##D # run profile regression
+> ##D runInfoObj<-profRegr(yModel=inputs$yModel, 
+> ##D          xModel=inputs$xModel, nSweeps=100, 
+> ##D          nBurn=100, data=inputs$inputData, output="output", 
+> ##D          covNames = inputs$covNames, outcomeT="outcomeT",
+> ##D          fixedEffectsNames = inputs$fixedEffectNames,predict=predsPoisson)
+> ##D 
+> ##D # postprocessing
+> ##D dissimObj<-calcDissimilarityMatrix(runInfoObj)
+> ##D clusObj<-calcOptimalClustering(dissimObj)
+> ##D riskProfileObj<-calcAvgRiskAndProfile(clusObj)
+> ##D output_predictions <- calcPredictions(riskProfileObj,fullSweepPredictions=TRUE)
+> ##D 
+> ##D 
+> ##D # example where both the observed response and fixed effects are present 
+> ##D #(there are no fixed effects in this example, but 
+> ##D # these would just be added as columns between the first and last columns). 
+> ##D 
+> ##D inputs <- generateSampleDataFile(clusSummaryPoissonNormal())
+> ##D 
+> ##D # prediction profiles
+> ##D predsPoisson<- data.frame(matrix(c(NA, 2.27, -0.66, 1.07, NA, 
+> ##D      -0.01, -0.18, 0.91, NA, -0.09, -1.76, 1.04, NA, 1.55, 1.20, 0.89,
+> ##D      NA, -1.35, 0.79, 0.95),ncol=5,byrow=TRUE))
+> ##D colnames(predsPoisson)<-names(inputs$inputData)[2:(inputs$nCovariates+1)]
+> ##D 
+> ##D # run profile regression
+> ##D runInfoObj<-profRegr(yModel=inputs$yModel, 
+> ##D          xModel=inputs$xModel, nSweeps=10, 
+> ##D          nBurn=20, data=inputs$inputData, output="output", 
+> ##D          covNames = inputs$covNames, outcomeT="outcomeT",
+> ##D          fixedEffectsNames = inputs$fixedEffectNames,
+> ##D          nClusInit=15, predict=predsPoisson)
+> ##D 
+> ##D # postprocessing
+> ##D dissimObj<-calcDissimilarityMatrix(runInfoObj)
+> ##D clusObj<-calcOptimalClustering(dissimObj)
+> ##D riskProfileObj<-calcAvgRiskAndProfile(clusObj)
+> ##D output_predictions <- calcPredictions(riskProfileObj,fullSweepPredictions=TRUE)
+> ##D 
+> ## End(Not run)
 > 
 > 
 > 
@@ -621,11 +452,11 @@ $clusterData[[5]]$covariateProbs[[5]]
 +          nBurn=10, data=inputs$inputData, output="output", 
 +          covNames = inputs$covNames, nClusInit=15,
 +          fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1358954543
+Random number seed: 1359050338
 Sweep: 1
 > 
 > margModelPosterior(runInfoObj)
-[1] -4008.866
+[1] -4017.434
 > 
 > 
 > 
@@ -643,49 +474,20 @@ Sweep: 1
 > 
 > ### ** Examples
 > 
-> # example for Poisson outcome and Discrete covariates
-> inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
-> runInfoObj<-profRegr(yModel=inputs$yModel, 
-+     xModel=inputs$xModel, nSweeps=10, nClusInit=15,
-+     nBurn=20, data=inputs$inputData, output="output", 
-+     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
-+     fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1358954544
-Sweep: 1
-> 
-> dissimObj<-calcDissimilarityMatrix(runInfoObj)
-Stage 1:1 samples out of 10
-Stage 2:1 samples out of 10
-> clusObj<-calcOptimalClustering(dissimObj)
-Max no of possible clusters: 26 
-Trying 2 clusters
-Trying 3 clusters
-Trying 4 clusters
-Trying 5 clusters
-Trying 6 clusters
-Trying 7 clusters
-Trying 8 clusters
-Trying 9 clusters
-Trying 10 clusters
-Trying 11 clusters
-Trying 12 clusters
-Trying 13 clusters
-Trying 14 clusters
-Trying 15 clusters
-Trying 16 clusters
-Trying 17 clusters
-Trying 18 clusters
-Trying 19 clusters
-Trying 20 clusters
-Trying 21 clusters
-Trying 22 clusters
-Trying 23 clusters
-Trying 24 clusters
-Trying 25 clusters
-Trying 26 clusters
-> riskProfileObj<-calcAvgRiskAndProfile(clusObj)
-Processing sweep 1 of  10 
-> clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
+> ## Not run: 
+> ##D # example for Poisson outcome and Discrete covariates
+> ##D inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
+> ##D runInfoObj<-profRegr(yModel=inputs$yModel, 
+> ##D     xModel=inputs$xModel, nSweeps=10, nClusInit=15,
+> ##D     nBurn=20, data=inputs$inputData, output="output", 
+> ##D     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
+> ##D     fixedEffectsNames = inputs$fixedEffectNames)
+> ##D 
+> ##D dissimObj<-calcDissimilarityMatrix(runInfoObj)
+> ##D clusObj<-calcOptimalClustering(dissimObj)
+> ##D riskProfileObj<-calcAvgRiskAndProfile(clusObj)
+> ##D clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
+> ## End(Not run)
 > 
 > 
 > 
@@ -709,7 +511,7 @@ Processing sweep 1 of  10
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1358954567
+Random number seed: 1359050339
 Sweep: 1
 > 
 > 
@@ -720,7 +522,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     discreteCovs = inputs$discreteCovs,
 +     continuousCovs = inputs$continuousCovs)
-Random number seed: 1358954567
+Random number seed: 1359050339
 Sweep: 1
 > 
 > 
@@ -750,7 +552,7 @@ Sweep: 1
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames,
 +     hyper=hyp)
-Random number seed: 1358954568
+Random number seed: 1359050340
 Sweep: 1
 > 
 > 
@@ -776,7 +578,7 @@ Sweep: 1
 +     xModel=inputs$xModel, nSweeps=10, nClusInit=15, 
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, varSelect="Continuous")
-Random number seed: 1358954568
+Random number seed: 1359050340
 Sweep: 1
 > 
 > rho<-summariseVarSelectRho(runInfoObj)
@@ -786,7 +588,7 @@ Sweep: 1
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  206.188 1.504 212.291 0 0 
+Time elapsed:  2.844 0.152 3.266 0 0 
 > grDevices::dev.off()
 null device 
           1 

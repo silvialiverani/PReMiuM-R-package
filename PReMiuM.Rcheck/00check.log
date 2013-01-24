@@ -1,10 +1,10 @@
-* using log directory ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
+* using log directory ‘/home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
 * using R version 2.15.2 (2012-10-26)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘PReMiuM’ version ‘3.0.7’
+* this is package ‘PReMiuM’ version ‘3.0.9’
 * checking CRAN incoming feasibility ... NOTE
 Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
 New submission
@@ -18,7 +18,7 @@ New submission
 * checking installed package size ... NOTE
   installed size is 11.3Mb
   sub-directories of 1Mb or more:
-    libs  11.2Mb
+    libs  11.1Mb
 * checking package directory ... OK
 * checking for portable file names ... OK
 * checking for sufficient/correct file permissions ... OK
@@ -39,163 +39,7 @@ New submission
 * checking S3 generic/method consistency ... OK
 * checking replacement functions ... OK
 * checking foreign function calls ... OK
-* checking R code for possible problems ... NOTE
-.pZpXpY: no visible binding for global variable ‘nFixedEffects’
-.pZpXpY: no visible binding for global variable ‘nCategories’
-.pZpXpY: no visible binding for global variable ‘hyperParams’
-.pZpXpY: no visible binding for global variable ‘nCovariates’
-.pZpXpY: no visible binding for global variable ‘xMat’
-.pZpXpY: no visible binding for global variable ‘includeResponse’
-.pZpXpY: no visible binding for global variable ‘yMat’
-.pZpXpY: no visible binding for global variable ‘wMat’
-.pZpXpY: no visible binding for global variable ‘nSubjects’
-.pZpXpY: no visible binding for global variable ‘nSweeps’
-calcAvgRiskAndProfile: no visible binding for global variable
-  ‘clusObjRunInfoObj’
-calcAvgRiskAndProfile: no visible binding for global variable
-  ‘directoryPath’
-calcAvgRiskAndProfile: no visible binding for global variable
-  ‘fileStem’
-calcAvgRiskAndProfile: no visible binding for global variable ‘xModel’
-calcAvgRiskAndProfile: no visible binding for global variable
-  ‘nCategories’
-calcAvgRiskAndProfile: no visible binding for global variable
-  ‘varSelect’
-calcAvgRiskAndProfile: no visible binding for global variable
-  ‘varSelectType’
-calcAvgRiskAndProfile: no visible binding for global variable
-  ‘includeResponse’
-calcAvgRiskAndProfile: no visible binding for global variable
-  ‘nFixedEffects’
-calcAvgRiskAndProfile: no visible binding for global variable
-  ‘reportBurnIn’
-calcAvgRiskAndProfile: no visible binding for global variable ‘nBurn’
-calcAvgRiskAndProfile: no visible binding for global variable ‘nFilter’
-calcAvgRiskAndProfile: no visible binding for global variable ‘nSweeps’
-calcAvgRiskAndProfile: no visible binding for global variable
-  ‘nClusters’
-calcAvgRiskAndProfile: no visible binding for global variable
-  ‘clustering’
-calcAvgRiskAndProfile: no visible binding for global variable
-  ‘nCategoriesY’
-calcAvgRiskAndProfile: no visible binding for global variable
-  ‘nCovariates’
-calcAvgRiskAndProfile: no visible binding for global variable
-  ‘nDiscreteCovs’
-calcAvgRiskAndProfile: no visible binding for global variable
-  ‘nContinuousCovs’
-calcAvgRiskAndProfile: no visible binding for global variable
-  ‘nSubjects’
-calcAvgRiskAndProfile: no visible binding for global variable
-  ‘nPredictSubjects’
-calcAvgRiskAndProfile: no visible binding for global variable ‘yModel’
-calcAvgRiskAndProfile: no visible binding for global variable ‘wMat’
-calcAvgRiskAndProfile: no visible binding for global variable ‘yMat’
-calcDissimilarityMatrix: no visible binding for global variable
-  ‘directoryPath’
-calcDissimilarityMatrix: no visible binding for global variable
-  ‘fileStem’
-calcDissimilarityMatrix: no visible binding for global variable
-  ‘reportBurnIn’
-calcDissimilarityMatrix: no visible binding for global variable ‘nBurn’
-calcDissimilarityMatrix: no visible binding for global variable
-  ‘nSweeps’
-calcDissimilarityMatrix: no visible binding for global variable
-  ‘nFilter’
-calcDissimilarityMatrix: no visible binding for global variable
-  ‘nSubjects’
-calcDissimilarityMatrix: no visible binding for global variable
-  ‘nPredictSubjects’
-calcOptimalClustering: no visible binding for global variable
-  ‘disSimRunInfoObj’
-calcOptimalClustering: no visible binding for global variable
-  ‘directoryPath’
-calcOptimalClustering: no visible binding for global variable
-  ‘fileStem’
-calcOptimalClustering: no visible binding for global variable
-  ‘lsOptSweep’
-calcOptimalClustering: no visible binding for global variable
-  ‘nSubjects’
-calcOptimalClustering: no visible binding for global variable
-  ‘nPredictSubjects’
-calcOptimalClustering: no visible binding for global variable
-  ‘reportBurnIn’
-calcOptimalClustering: no visible binding for global variable ‘nBurn’
-calcOptimalClustering: no visible binding for global variable ‘nFilter’
-calcOptimalClustering: no visible binding for global variable ‘nSweeps’
-calcPredictions: no visible binding for global variable
-  ‘riskProfClusObj’
-calcPredictions: no visible binding for global variable
-  ‘clusObjRunInfoObj’
-calcPredictions: no visible binding for global variable ‘yModel’
-calcPredictions: no visible binding for global variable ‘reportBurnIn’
-calcPredictions: no visible binding for global variable ‘nBurn’
-calcPredictions: no visible binding for global variable ‘nFilter’
-calcPredictions: no visible binding for global variable ‘nSweeps’
-calcPredictions: no visible binding for global variable
-  ‘nPredictSubjects’
-calcPredictions: no visible binding for global variable ‘nFixedEffects’
-calcPredictions: no visible binding for global variable ‘directoryPath’
-calcPredictions: no visible binding for global variable ‘fileStem’
-calcPredictions: no visible binding for global variable ‘nCategoriesY’
-calcPredictions: no visible binding for global variable ‘nSubjects’
-margModelPosterior: no visible binding for global variable ‘xModel’
-margModelPosterior: no visible binding for global variable ‘yModel’
-margModelPosterior: no visible binding for global variable ‘varSelect’
-margModelPosterior: no visible binding for global variable ‘nSubjects’
-margModelPosterior: no visible binding for global variable ‘xMat’
-margModelPosterior: no visible binding for global variable
-  ‘directoryPath’
-margModelPosterior: no visible binding for global variable ‘fileStem’
-margModelPosterior: no visible binding for global variable
-  ‘includeResponse’
-margModelPosterior: no visible binding for global variable
-  ‘nFixedEffects’
-margModelPosterior: no visible binding for global variable
-  ‘reportBurnIn’
-margModelPosterior: no visible binding for global variable ‘nBurn’
-margModelPosterior: no visible binding for global variable ‘nFilter’
-margModelPosterior: no visible binding for global variable ‘nSweeps’
-plotRiskProfile: no visible binding for global variable
-  ‘riskProfClusObj’
-plotRiskProfile: no visible binding for global variable
-  ‘clusObjRunInfoObj’
-plotRiskProfile: no visible binding for global variable
-  ‘includeResponse’
-plotRiskProfile: no visible binding for global variable ‘yModel’
-plotRiskProfile: no visible binding for global variable ‘profileStar’
-plotRiskProfile: no visible binding for global variable ‘xModel’
-plotRiskProfile: no visible binding for global variable ‘whicCov’
-plotRiskProfile: no visible binding for global variable ‘nCategoriesY’
-plotRiskProfile: no visible binding for global variable ‘cluster’
-plotRiskProfile: no visible binding for global variable ‘prob’
-plotRiskProfile: no visible binding for global variable ‘meanProb’
-plotRiskProfile: no visible binding for global variable ‘fillColor’
-plotRiskProfile: no visible binding for global variable ‘lowerProb’
-plotRiskProfile: no visible binding for global variable ‘upperProb’
-plotRiskProfile: no visible binding for global variable ‘meanRisk’
-plotRiskProfile: no visible binding for global variable ‘lowerRisk’
-plotRiskProfile: no visible binding for global variable ‘upperRisk’
-plotRiskProfile: no visible binding for global variable ‘clusterSize’
-plotRiskProfile: no visible binding for global variable ‘mu’
-plotRiskProfile: no visible binding for global variable ‘meanMu’
-plotRiskProfile: no visible binding for global variable ‘lowerMu’
-plotRiskProfile: no visible binding for global variable ‘upperMu’
-plotRiskProfile: no visible binding for global variable ‘sigma’
-plotRiskProfile: no visible binding for global variable ‘meanSigma’
-plotRiskProfile: no visible binding for global variable ‘lowerSigma’
-plotRiskProfile: no visible binding for global variable ‘upperSigma’
-summariseVarSelectRho: no visible binding for global variable
-  ‘directoryPath’
-summariseVarSelectRho: no visible binding for global variable
-  ‘fileStem’
-summariseVarSelectRho: no visible binding for global variable
-  ‘nCovariates’
-summariseVarSelectRho: no visible binding for global variable
-  ‘reportBurnIn’
-summariseVarSelectRho: no visible binding for global variable ‘nBurn’
-summariseVarSelectRho: no visible binding for global variable ‘nFilter’
-summariseVarSelectRho: no visible binding for global variable ‘nSweeps’
+* checking R code for possible problems ... OK
 * checking Rd files ... OK
 * checking Rd metadata ... OK
 * checking Rd cross-references ... OK
@@ -208,18 +52,10 @@ summariseVarSelectRho: no visible binding for global variable ‘nSweeps’
 * checking line endings in Makefiles ... OK
 * checking for portable compilation flags in Makevars ... OK
 * checking for portable use of $(BLAS_LIBS) and $(LAPACK_LIBS) ... OK
-* checking compiled code ... NOTE
-File ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/PReMiuM/libs/PReMiuM.so’:
-  Found ‘_ZSt4cout’, possibly from ‘std::cout’ (C++)
-    Objects: ‘PReMiuM.o’, ‘postProcess.o’
-
-Compiled code should not call functions which might terminate R nor
-write to stdout/stderr instead of to the console.
-
-See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
+* checking compiled code ... OK
 * checking examples ... OK
 * checking PDF version of manual ... OK
-NOTE: There were 4 notes.
+NOTE: There were 2 notes.
 See
-  ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/00check.log’
+  ‘/home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/00check.log’
 for details.

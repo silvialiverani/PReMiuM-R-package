@@ -361,6 +361,16 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 # matrix
 calcDissimilarityMatrix<-function(runInfoObj){
 
+	directoryPath=NULL
+	fileStem=NULL
+	reportBurnIn=NULL
+	nSweeps=NULL
+	nFilter=NULL
+	nSubjects=NULL
+	nPredictSubjects=NULL
+	nBurn=NULL
+
+
    for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 
    fileName <- file.path(directoryPath,paste(fileStem,'_z.txt',sep=''))
@@ -391,6 +401,18 @@ calcDissimilarityMatrix<-function(runInfoObj){
 # run partitioning around medoids clustering
 calcOptimalClustering<-function(disSimObj,maxNClusters=NULL,useLS=F){
    
+	disSimRunInfoObj=NULL
+	directoryPath=NULL
+	fileStem=NULL
+	lsOptSweep=NULL
+	nSubjects=NULL
+	nPredictSubjects=NULL
+	reportBurnIn=NULL
+	nBurn=NULL
+	nFilter=NULL
+	nSweeps=NULL
+
+
    for (i in 1:length(disSimObj)) assign(names(disSimObj)[i],disSimObj[[i]])
    for (i in 1:length(disSimRunInfoObj)) assign(names(disSimRunInfoObj)[i],disSimRunInfoObj[[i]])
 
@@ -511,6 +533,32 @@ calcOptimalClustering<-function(disSimObj,maxNClusters=NULL,useLS=F){
 # Function to take the optimal clustering and computing the risk and probability
 # profile
 calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
+
+	clusObjRunInfoObj=NULL
+	directoryPath=NULL
+	fileStem=NULL
+	xModel=NULL
+	nCategories=NULL
+	varSelect=NULL
+	varSelectType=NULL
+	includeResponse=NULL
+	nFixedEffects=NULL
+	reportBurnIn=NULL
+	nBurn=NULL
+	nFilter=NULL
+	nSweeps=NULL
+	nClusters=NULL
+	clustering=NULL
+	nCategoriesY=NULL
+	nCovariates=NULL
+	nDiscreteCovs=NULL
+	nContinuousCovs=NULL
+	nSubjects=NULL
+	nPredictSubjects=NULL
+	yModel=NULL
+	wMat=NULL
+	yMat=NULL
+
 
 	for (i in 1:length(clusObj)) assign(names(clusObj)[i],clusObj[[i]])
 	for (i in 1:length(clusObjRunInfoObj)) assign(names(clusObjRunInfoObj)[i],clusObjRunInfoObj[[i]])
@@ -926,6 +974,34 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 
 # Plot output values
 plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,whichClusters=NULL,whichCovariates=NULL,useProfileStar=F){
+
+	riskProfClusObj=NULL
+	clusObjRunInfoObj=NULL
+	includeResponse=NULL
+	yModel=NULL
+	profileStar=NULL
+	xModel=NULL
+	whicCov=NULL
+	nCategoriesY=NULL
+	cluster=NULL
+	prob=NULL
+	meanProb=NULL
+	fillColor=NULL
+	lowerProb=NULL
+	upperProb=NULL
+	meanRisk=NULL
+	lowerRisk=NULL
+	upperRisk=NULL
+	clusterSize=NULL
+	mu=NULL
+	meanMu=NULL
+	lowerMu=NULL
+	upperMu=NULL
+	sigma=NULL
+	meanSigma=NULL
+	lowerSigma=NULL
+	upperSigma=NULL
+
 
 	for (i in 1:length(riskProfObj)) assign(names(riskProfObj)[i],riskProfObj[[i]])
 	for (i in 1:length(riskProfClusObj)) assign(names(riskProfClusObj)[i],riskProfClusObj[[i]])
@@ -1542,14 +1618,31 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 
 # Calculate predictions, and if possible assess predictive performance
 calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwell=F, fullSweepPredictions=F,fullSweepLogOR=F){
+
+	riskProfClusObj=NULL
+	clusObjRunInfoObj=NULL
+	yModel=NULL
+	reportBurnIn=NULL
+	nBurn=NULL
+	nFilter=NULL
+	nSweeps=NULL
+	nPredictSubjects=NULL
+	nFixedEffects=NULL
+	directoryPath=NULL
+	fileStem=NULL
+	nCategoriesY=NULL
+	nSubjects=NULL
+
 	
 	for (i in 1:length(riskProfObj)) assign(names(riskProfObj)[i],riskProfObj[[i]])
 	for (i in 1:length(riskProfClusObj)) assign(names(riskProfClusObj)[i],riskProfClusObj[[i]])
 	for (i in 1:length(clusObjRunInfoObj)) assign(names(clusObjRunInfoObj)[i],clusObjRunInfoObj[[i]])
 	
 	if(yModel=="Poisson"||yModel=="Normal"){
-		fullSweepLogOR=F
-		cat("Log odds ratio does not make sense for Poisson or Normal response\n")
+		if (fullSweepLogOR==T){
+			fullSweepLogOR=F
+			cat("Log odds ratio does not make sense for Poisson or Normal response\n")
+		}
 	}
 	
 	firstLine<-ifelse(reportBurnIn,nBurn/nFilter+2,1)
@@ -1727,6 +1820,14 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 # Show the continuous hyperparameter for variable selection
 summariseVarSelectRho<-function(runInfoObj){
 	
+	directoryPath=NULL
+	fileStem=NULL
+	nCovariates=NULL
+	reportBurnIn=NULL
+	nBurn=NULL
+	nFilter=NULL
+	nSweeps=NULL
+
 	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 
 	# Rho file name
@@ -1751,6 +1852,21 @@ summariseVarSelectRho<-function(runInfoObj){
 
 # Function to compute the marginal model posterior (only for discrete covariates and Bernoulli outcome)
 margModelPosterior<-function(runInfoObj){
+
+	xModel=NULL
+	yModel=NULL
+	varSelect=NULL
+	nSubjects=NULL
+	xMat=NULL
+	directoryPath=NULL
+	fileStem=NULL
+	includeResponse=NULL
+	nFixedEffects=NULL
+	reportBurnIn=NULL
+	nBurn=NULL
+	nFilter=NULL
+	nSweeps=NULL
+
 
 	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 
@@ -2035,6 +2151,17 @@ margModelPosterior<-function(runInfoObj){
 # internal function
 # marginal model posterior for one iteration
 .pZpXpY<-function(zAlloc,runInfoObj,par=NULL,clusterSizes,nClusters,alpha){
+
+	nSweeps=NULL
+	nFixedEffects=NULL
+	nCategories=NULL
+	hyperParams=NULL
+	nCovariates=NULL
+	xMat=NULL
+	includeResponse=NULL
+	yMat=NULL
+	wMat=NULL
+	nSubjects=NULL
 
 	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 

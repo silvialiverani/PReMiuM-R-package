@@ -39,7 +39,6 @@
 #include<MCMC/state.h>
 
 using std::vector;
-using std::cout;
 using std::ostream;
 
 /// \class mcmcChain chain.h "MCMC/chain.h"

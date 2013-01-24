@@ -35,7 +35,7 @@ Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for 
 
 }
 \examples{
-
+\dontrun{
 generateDataList <- clusSummaryBernoulliDiscrete()
 inputs <- generateSampleDataFile(generateDataList)
 runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, nSweeps=10, 
@@ -45,5 +45,6 @@ runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, nSweeps=10,
 dissimObj<-calcDissimilarityMatrix(runInfoObj)
 clusObj<-calcOptimalClustering(dissimObj)
 riskProfileObj<-calcAvgRiskAndProfile(clusObj)
+}
 }
 \keyword{postprocessing}

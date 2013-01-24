@@ -8,6 +8,7 @@
 #include <stdexcept>
 
 #include "include/postProcess.h"
+#include <Rcpp.h>
 
 using std::string;
 using std::ifstream;
@@ -48,7 +49,7 @@ SEXP calcDisSimMat(SEXP fileName, SEXP nSweeps, SEXP nBurn, SEXP nFilter,SEXP nS
     		}
      	}else{
     		if((1+k-firstLine)==1||(1+k-firstLine)%1000==0){
-				std::cout << "Stage 1:" << 1+k-firstLine << " samples out of " << 1+nLines-firstLine << std::endl;
+				Rprintf("Stage 1:%i samples out of %i\n",1+k-firstLine,1+nLines-firstLine);
 			}
 			for(int i=0;i<nSj+nPSj;i++){
     			// Fill up the cluster data for this sweep
@@ -94,7 +95,7 @@ SEXP calcDisSimMat(SEXP fileName, SEXP nSweeps, SEXP nBurn, SEXP nFilter,SEXP nS
         	}
         }else{
         	if((1+k-firstLine)==1||(1+k-firstLine)%1000==0){
-        		std::cout << "Stage 2:" << 1+k-firstLine << " samples out of " << 1+nLines-firstLine << std::endl;
+			Rprintf("Stage 2:%i samples out of %i\n",1+k-firstLine,1+nLines-firstLine);
     		}
         	for(int i=0;i<nSj+nPSj;i++){
         		// Fill up the cluster data for this sweep
