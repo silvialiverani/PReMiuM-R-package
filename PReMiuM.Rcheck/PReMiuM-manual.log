@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.1.23)  24 JAN 2013 18:11
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.1.23)  29 JAN 2013 17:06
 entering extended mode
  %&-line parsing enabled.
 **\catcode126=12 \def\normaltilde{~}\catcode126=13 \let~\normaltilde  \input ./
@@ -788,7 +788,7 @@ r8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmb8a.pfb></usr/share/
 texmf-texlive/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-texlive/fonts/
 type1/urw/times/utmr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr
 i8a.pfb>
-Output written on Rd2.pdf (26 pages, 164777 bytes).
+Output written on Rd2.pdf (26 pages, 164784 bytes).
 PDF statistics:
  400 PDF objects out of 1000 (max. 8388607)
  158 named destinations out of 1000 (max. 500000)
