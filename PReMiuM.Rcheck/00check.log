@@ -1,13 +1,13 @@
-* using log directory ‘/home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
+* using log directory ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
 * using R version 2.15.2 (2012-10-26)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘PReMiuM’ version ‘3.0.11’
+* this is package ‘PReMiuM’ version ‘3.0.12’
 * checking CRAN incoming feasibility ... NOTE
 Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
-New submission
+Days since last update: 0
 * checking package namespace information ... OK
 * checking package dependencies ... OK
 * checking if this is a source package ... OK
@@ -57,5 +57,5 @@ New submission
 * checking PDF version of manual ... OK
 NOTE: There were 2 notes.
 See
-  ‘/home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/00check.log’
+  ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/00check.log’
 for details.
