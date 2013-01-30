@@ -1,7 +1,7 @@
 * installing *source* package ‘PReMiuM’ ...
 ** libs
-g++ -I/usr/share/R/include -DNDEBUG -I./include -I./lib/include   -I"/home/silvia/R/x86_64-pc-linux-gnu-library/2.15/Rcpp/include"   -fpic  -O3 -pipe  -g  -c PReMiuM.cpp -o PReMiuM.o
-g++ -I/usr/share/R/include -DNDEBUG -I./include -I./lib/include   -I"/home/silvia/R/x86_64-pc-linux-gnu-library/2.15/Rcpp/include"   -fpic  -O3 -pipe  -g  -c postProcess.cpp -o postProcess.o
+g++ -I/usr/share/R/include -DNDEBUG -I./include -I./lib/include   -I"/home/silvia/R/x86_64-pc-linux-gnu-library/2.15/Rcpp/include" -I"/home/silvia/R/x86_64-pc-linux-gnu-library/2.15/RcppEigen/include"   -fpic  -O3 -pipe  -g  -c PReMiuM.cpp -o PReMiuM.o
+g++ -I/usr/share/R/include -DNDEBUG -I./include -I./lib/include   -I"/home/silvia/R/x86_64-pc-linux-gnu-library/2.15/Rcpp/include" -I"/home/silvia/R/x86_64-pc-linux-gnu-library/2.15/RcppEigen/include"   -fpic  -O3 -pipe  -g  -c postProcess.cpp -o postProcess.o
 g++ -shared -o PReMiuM.so PReMiuM.o postProcess.o -L/home/silvia/R/x86_64-pc-linux-gnu-library/2.15/Rcpp/lib -lRcpp -Wl,-rpath,/home/silvia/R/x86_64-pc-linux-gnu-library/2.15/Rcpp/lib -L/usr/lib/R/lib -lR
 installing to /home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/PReMiuM/libs
 ** R
