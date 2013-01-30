@@ -4,10 +4,10 @@
 * using session charset: UTF-8
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘PReMiuM’ version ‘3.0.12’
+* this is package ‘PReMiuM’ version ‘3.0.13’
 * checking CRAN incoming feasibility ... NOTE
 Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
-Days since last update: 0
+Days since last update: 1
 * checking package namespace information ... OK
 * checking package dependencies ... OK
 * checking if this is a source package ... OK
