@@ -1,0 +1,2 @@
+useDynLib(PReMiuMBoost)
+exportPattern("^[[:alpha:]]+")
