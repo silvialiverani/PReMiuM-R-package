@@ -1,2 +1,0 @@
-useDynLib(PReMiuMBoost)
-exportPattern("^[[:alpha:]]+")
