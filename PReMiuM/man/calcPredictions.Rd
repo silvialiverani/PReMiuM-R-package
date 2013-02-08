@@ -8,7 +8,7 @@ calcPredictions(riskProfObj, predictResponseFileName=NULL,
 }
 \arguments{
 \item{riskProfObj}{Object of type riskProfObj.}
-\item{predictResponseFileName}{The file which contains the predictive scenarios, as it is produced by the code and stored.}
+\item{predictResponseFileName}{The file which contains the predictive scenarios, as it is produced by the code and stored. This does not require to be defined if it is the same produced by profRegr and stored with the output.}
 \item{doRaoBlackwell}{By default this is set to FALSE. If it is set to TRUE then Rao-Blackwell predictions are computed.}
 \item{fullSweepPredictions}{By default this is set to FALSE. If it is set to TRUE then a prediction is computed for each sweep.}
 \item{fullSweepLogOR}{By default this is set to FALSE. If it is set to TRUE then a prediction log OR is computed for each sweep.}
@@ -37,6 +37,7 @@ The output is a list with the following elements.
 
 \item{bias}{The bias of the predicted values with respect to the observed outcome. If the response is not provided, this is set to NA.}
 \item{rmse}{The root mean square error of the predicted values with respect to the observed outcome. If the response is not provided, this is set to NA.}
+\item{mae}{The mean absolute error of the predicted values with respect to the observed outcome. If the response is not provided, this is set to NA.}
 \item{observedY}{The values of the outcome provided by the user. This is in the case that predictions are run as a validation tool. If the response is not provided, this is set to NA.}
 \item{predictedY}{This matrix has as many rows as predictions requested by the user. It is the mean of the predicted values over all the sweeps that have been run after the burn-in period.}
 \item{doRaoBlackwell}{This is set to TRUE if it has done Rao-Blackwell predictions, and FALSE otherwise.}

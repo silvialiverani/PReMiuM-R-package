@@ -1658,6 +1658,8 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 	responseProvided<-F
 	extraInfoProvided<-F
 	fixedEffectsProvided<-F
+	# should check what is computed if predictResponseFileName is not provided by the following line
+	predictResponseFileName = file.path(directoryPath,paste(fileStem,'_predict.txt',sep=''))
 	if(!is.null(predictResponseFileName)){
 		predictResponseData<-scan(predictResponseFileName,quiet=T)
 		predictResponseMat<-matrix(predictResponseData[2:length(predictResponseData)],
@@ -1795,12 +1797,15 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 		bias<-apply(predictedY,2,mean)-predictYMat[,1]
 		rmse<-sqrt(mean(bias^2))
 		bias<-mean(bias)
+		mae<-mean(abs(bias))
 		output<-list("bias"=bias,"rmse"=rmse,
 			"observedY"=predictYMat[,1],
 			"predictedY"=apply(predictedY,c(2,3),mean),
-			"doRaoBlackwell"=doRaoBlackwell)
+			"doRaoBlackwell"=doRaoBlackwell,
+			"mae"=mae)
 	}else{
-		output<-list("bias"=NA,"rmse"=NA,"observedY"=NA,"predictedY"=apply(predictedY,c(2,3),mean,2),"doRaoBlackwell"=doRaoBlackwell)
+		output<-list("bias"=NA,"rmse"=NA,"observedY"=NA,"predictedY"=apply(predictedY,c(2,3),mean,2),"doRaoBlackwell"=doRaoBlackwell,
+			"mae"=NA)
 	}
 	if(fullSweepPredictions){
 		output$predictedYPerSweep<-predictedY
