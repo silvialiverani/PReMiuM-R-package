@@ -2519,6 +2519,7 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 		vector<double> expectedTheta(nCategoriesY);
 		double entropyVal=0.0;
 		vector<double> cumPzGivenXy(maxNClusters);
+//if (i>nSubjects) Rprintf("new\n");
 		for(unsigned int c=0;c<maxNClusters;c++){
 			pzGivenXy[c]/=sumVal;
 			if(computeEntropy){
@@ -2530,6 +2531,7 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 			if(c==0){
 				cumPzGivenXy[c]=pzGivenXy[c];
 			}else{
+//if (i>nSubjects) Rprintf("%f\n",pzGivenXy[c]);
 				cumPzGivenXy[c]=cumPzGivenXy[c-1]+pzGivenXy[c];
 			}
 			if(includeResponse&&i>=nSubjects){
@@ -2550,6 +2552,7 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 			zi = 0;
 			for(unsigned int c=0;c<maxNClusters;c++){
 				if(rnd[i]<cumPzGivenXy[c]){
+//Rprintf("%f\n",cumPzGivenXy[c]);
 					zi=c;
 					break;
 				}

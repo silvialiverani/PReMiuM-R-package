@@ -183,9 +183,24 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 				predict[k,missingX]<- rep(-999,nMissingX)
 			}
 		}		
-		write(t(as.matrix(predict)), paste(output,"_predict.txt",sep=""),append=T,ncolumns=dim(predict)[2])
+		write(t(as.matrix(predict[,c(covNames)])), paste(output,"_predict.txt",sep=""),append=T,ncolumns=length(covNames))
+		if (length(intersect(outcome,names(predict)))>0) {
+			if (length(intersect(fixedEffectsNames,names(predict)))==length(fixedEffectsNames)) {
+				write(nPreds, paste(output,"_predictFull.txt",sep=""),ncolumns=1)
+				write(t(as.matrix(predict[,c(outcome,fixedEffectsNames)])), paste(output,"_predictFull.txt",sep=""),append=T,ncolumns=(1+length(fixedEffectsNames)))
+				fullPredictFile<-TRUE
+			} else {
+				write(nPreds, paste(output,"_predictFull.txt",sep=""),ncolumns=1)
+				predictFixedEffectsNA<-cbind(as.matrix(predict[,c(outcome)]),matrix(-999,ncol=nFixedEffects,nrow=nPreds))
+				write(t(predictFixedEffectsNA), paste(output,"_predictFull.txt",sep=""),append=T,ncolumns=(1+length(fixedEffectsNames)))
+				fullPredictFile<-TRUE
+			}
+		} else {
+			fullPredictFile<-FALSE
+		}
 	} else {
 		nPreds<-0
+		fullPredictFile<-FALSE
 	}
 
 	write(t(dataMatrix), fileName,append=T,ncolumns=dim(dataMatrix)[2])
@@ -338,6 +353,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		"nFilter"=nFilter,
 		"nSubjects"=nSubjects,
 		"nPredictSubjects"=nPreds,
+		"fullPredictFile"=fullPredictFile,
 		"covNames"=covNames,
 		"discreteCovs"=ifelse(xModel=="Mixed",discreteCovs,NA),
 		"continuousCovs"=ifelse(xModel=="Mixed",continuousCovs,NA),
@@ -1656,10 +1672,11 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 	
 	# Get the response and fixed effects data if available
 	responseProvided<-F
-	extraInfoProvided<-F
+	extraInfoProvided<-F # extra info is denominator for binomial and poisson
 	fixedEffectsProvided<-F
-	# should check what is computed if predictResponseFileName is not provided by the following line
-	predictResponseFileName = file.path(directoryPath,paste(fileStem,'_predict.txt',sep=''))
+	if (is.null(predictResponseFileName)&&fullPredictFile==TRUE){
+		predictResponseFileName = file.path(directoryPath,paste(fileStem,'_predictFull.txt',sep=''))
+	}
 	if(!is.null(predictResponseFileName)){
 		predictResponseData<-scan(predictResponseFileName,quiet=T)
 		predictResponseMat<-matrix(predictResponseData[2:length(predictResponseData)],
@@ -1794,17 +1811,17 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 	}
 
 	if(responseProvided){
-		bias<-apply(predictedY,2,mean)-predictYMat[,1]
+		bias<-apply(predictedY,2,median)-predictYMat[,1]
 		rmse<-sqrt(mean(bias^2))
-		bias<-mean(bias)
 		mae<-mean(abs(bias))
+		bias<-mean(bias)
 		output<-list("bias"=bias,"rmse"=rmse,
 			"observedY"=predictYMat[,1],
-			"predictedY"=apply(predictedY,c(2,3),mean),
+			"predictedY"=apply(predictedY,c(2,3),median),
 			"doRaoBlackwell"=doRaoBlackwell,
 			"mae"=mae)
 	}else{
-		output<-list("bias"=NA,"rmse"=NA,"observedY"=NA,"predictedY"=apply(predictedY,c(2,3),mean,2),"doRaoBlackwell"=doRaoBlackwell,
+		output<-list("bias"=NA,"rmse"=NA,"observedY"=NA,"predictedY"=apply(predictedY,c(2,3),median),"doRaoBlackwell"=doRaoBlackwell,
 			"mae"=NA)
 	}
 	if(fullSweepPredictions){
@@ -1818,7 +1835,9 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 		}
 		output$logORPerSweep<-logORPerSweep
 	}
-	
+	if(fixedEffectsProvided){
+		close(betaFile)
+	}
 	return(output)
 }
 
