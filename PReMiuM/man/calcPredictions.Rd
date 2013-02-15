@@ -8,7 +8,7 @@ calcPredictions(riskProfObj, predictResponseFileName=NULL,
 }
 \arguments{
 \item{riskProfObj}{Object of type riskProfObj.}
-\item{predictResponseFileName}{The file which contains the predictive scenarios, as it is produced by the code and stored. This does not require to be defined if it is the same produced by profRegr and stored with the output.}
+\item{predictResponseFileName}{If this function is run after the function profRegr, and outcome (and possibly fixed effects) are known for the predicted profiles, then there is no need to set this, as the function profRegr will have produced a file ending in "_predictFull.txt". This file allows the computation of measures of fit for cross-validation. If the file has not been produced automatically, it can be produced manually and it can be provided here. We discourage this and we provide no documentation for doing so.}
 \item{doRaoBlackwell}{By default this is set to FALSE. If it is set to TRUE then Rao-Blackwell predictions are computed.}
 \item{fullSweepPredictions}{By default this is set to FALSE. If it is set to TRUE then a prediction is computed for each sweep.}
 \item{fullSweepLogOR}{By default this is set to FALSE. If it is set to TRUE then a prediction log OR is computed for each sweep.}

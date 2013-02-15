@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2013.1.30)  7 FEB 2013 20:37
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2013.1.30)  15 FEB 2013 14:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -719,9 +719,12 @@ File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 ) [8] [9] [10]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [11]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [11] [12]
+) [12]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 ) [13]
@@ -736,35 +739,35 @@ File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 ) [16] [17]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [18]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 855--856
-[]\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
-names, if xModel="Mixed".
- []
-
-[19]
+) [18] [19]
 Overfull \hbox (19.17761pt too wide) in paragraph at lines 856--857
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
  []
 
-[20] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 857--858
+[]\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
+names, if xModel="Mixed".
+ []
+
+[20] [21] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [21] [22]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 974--975
+) [22]
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 976--977
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
  []
 
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 974--975
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 976--977
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
  []
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+[23] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [23] [24] (./Rd2.ind
+) [24] (./Rd2.ind
 [25]
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 3.
@@ -776,11 +779,11 @@ LaTeX Font Warning: Font shape `T1/fi4/m/it' undefined
 [26
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1071.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1071.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1073.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1073.
  (./Rd2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1071.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1071.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1073.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1073.
 
 Package rerunfilecheck Info: File `Rd2.out' has not changed.
 (rerunfilecheck)             Checksum: 60C97588BB6D11737748DAB035A934E8;935.
@@ -788,16 +791,16 @@ Package rerunfilecheck Info: File `Rd2.out' has not changed.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1071.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1073.
  ) 
 Here is how much of TeX's memory you used:
  6385 strings out of 495059
  91492 string characters out of 3182030
- 166786 words of memory out of 3000000
+ 167786 words of memory out of 3000000
  9290 multiletter control sequences out of 15000+200000
  40998 words of font info for 50 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
- 38i,6n,34p,622b,588s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 38i,6n,34p,636b,588s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/share/texliv
 e/texmf-dist/fonts/enc/dvips/inconsolata/fi4-ec.enc}</usr/share/texlive/texmf-d
 ist/fonts/type1/public/inconsolata/Inconsolata.pfb></usr/share/texlive/texmf-di
@@ -806,7 +809,7 @@ ts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw
 /times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.p
 fb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/
 texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (26 pages, 126939 bytes).
+Output written on Rd2.pdf (26 pages, 127653 bytes).
 PDF statistics:
  408 PDF objects out of 1000 (max. 8388607)
  369 compressed objects within 4 object streams

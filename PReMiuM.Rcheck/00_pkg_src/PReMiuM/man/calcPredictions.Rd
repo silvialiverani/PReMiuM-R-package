@@ -8,7 +8,7 @@ calcPredictions(riskProfObj, predictResponseFileName=NULL,
 }
 \arguments{
 \item{riskProfObj}{Object of type riskProfObj.}
-\item{predictResponseFileName}{The file which contains the predictive scenarios, as it is produced by the code and stored.}
+\item{predictResponseFileName}{If this function is run after the function profRegr, and outcome (and possibly fixed effects) are known for the predicted profiles, then there is no need to set this, as the function profRegr will have produced a file ending in "_predictFull.txt". This file allows the computation of measures of fit for cross-validation. If the file has not been produced automatically, it can be produced manually and it can be provided here. We discourage this and we provide no documentation for doing so.}
 \item{doRaoBlackwell}{By default this is set to FALSE. If it is set to TRUE then Rao-Blackwell predictions are computed.}
 \item{fullSweepPredictions}{By default this is set to FALSE. If it is set to TRUE then a prediction is computed for each sweep.}
 \item{fullSweepLogOR}{By default this is set to FALSE. If it is set to TRUE then a prediction log OR is computed for each sweep.}
@@ -37,6 +37,7 @@ The output is a list with the following elements.
 
 \item{bias}{The bias of the predicted values with respect to the observed outcome. If the response is not provided, this is set to NA.}
 \item{rmse}{The root mean square error of the predicted values with respect to the observed outcome. If the response is not provided, this is set to NA.}
+\item{mae}{The mean absolute error of the predicted values with respect to the observed outcome. If the response is not provided, this is set to NA.}
 \item{observedY}{The values of the outcome provided by the user. This is in the case that predictions are run as a validation tool. If the response is not provided, this is set to NA.}
 \item{predictedY}{This matrix has as many rows as predictions requested by the user. It is the mean of the predicted values over all the sweeps that have been run after the burn-in period.}
 \item{doRaoBlackwell}{This is set to TRUE if it has done Rao-Blackwell predictions, and FALSE otherwise.}

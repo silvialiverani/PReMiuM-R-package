@@ -1643,6 +1643,7 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 	nFilter=NULL
 	nSweeps=NULL
 	nPredictSubjects=NULL
+	fullPredictFile=NULL
 	nFixedEffects=NULL
 	directoryPath=NULL
 	fileStem=NULL

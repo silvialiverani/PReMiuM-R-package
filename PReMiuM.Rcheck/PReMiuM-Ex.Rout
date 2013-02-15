@@ -30,13 +30,6 @@ Loading required package: clue
 Loading required package: RcppEigen
 Loading required package: Matrix
 Loading required package: lattice
-
-Attaching package: ‘Matrix’
-
-The following object(s) are masked from ‘package:stats’:
-
-    toeplitz
-
 > 
 > assign(".oldSearch", search(), pos = 'CheckExEnv')
 > cleanEx()
@@ -113,7 +106,7 @@ The following object(s) are masked from ‘package:stats’:
 > runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
 +     nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
 +     covNames=inputs$covNames,nClusInit=15)
-Random number seed: 1360269441
+Random number seed: 1360938595
 Sweep: 1
 > 
 > dissimObj<-calcDissimilarityMatrix(runInfoObj)
@@ -462,11 +455,11 @@ $clusterData[[5]]$covariateProbs[[5]]
 +          nBurn=10, data=inputs$inputData, output="output", 
 +          covNames = inputs$covNames, nClusInit=15,
 +          fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1360269441
+Random number seed: 1360938596
 Sweep: 1
 > 
 > margModelPosterior(runInfoObj)
-[1] -3961.214
+[1] -3896.364
 > 
 > 
 > 
@@ -521,7 +514,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1360269443
+Random number seed: 1360938597
 Sweep: 1
 > 
 > 
@@ -532,7 +525,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     discreteCovs = inputs$discreteCovs,
 +     continuousCovs = inputs$continuousCovs)
-Random number seed: 1360269444
+Random number seed: 1360938598
 Sweep: 1
 > 
 > 
@@ -562,7 +555,7 @@ Sweep: 1
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames,
 +     hyper=hyp)
-Random number seed: 1360269444
+Random number seed: 1360938598
 Sweep: 1
 > 
 > 
@@ -588,7 +581,7 @@ Sweep: 1
 +     xModel=inputs$xModel, nSweeps=10, nClusInit=15, 
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, varSelect="Continuous")
-Random number seed: 1360269445
+Random number seed: 1360938598
 Sweep: 1
 > 
 > rho<-summariseVarSelectRho(runInfoObj)
@@ -598,7 +591,7 @@ Sweep: 1
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  6.808 0.332 7.192 0 0 
+Time elapsed:  5.152 0.228 5.41 0 0 
 > grDevices::dev.off()
 null device 
           1 

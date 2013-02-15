@@ -2250,8 +2250,8 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 					}
 				}
 			}
-
 		}
+
 		// For the predictive subjects we do not count missing data
 		for(unsigned int i=nSubjects;i<nSubjects+nPredictSubjects;i++){
 			logPXiGivenZi[i].resize(maxNClusters,0);
@@ -2574,6 +2574,7 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 			}
 		}
 	}
+
 	currentParams.workNXInCluster(nMembers);
 	currentParams.workMaxZi(maxZ);
 

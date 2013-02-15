@@ -68,7 +68,6 @@ It returns a number of files in the output directory as well as a list with the 
 \item{nFilter}{Integer. The frequency (in sweeps) with which to write the output to file. The default value is 1.}
 \item{nSubjects}{Integer. The number of subjects.}
 \item{nPredictSubjects}{Integer. The number of subjects for which to run predictions.}
-\item{fullPredictFile}{Logical. It is FALSE by default. It is equal to TRUE if the outcome or the outcome and the fixed effects were included in the dataframe provided in the input predict. If TRUE, the function will have a produced a file ending in "_predictFull.txt" which contains the values of the outcome and fixed effects for the computation of measures of fit in the function calcPredictions.}
 \item{covNames}{A vector of strings with the names of the covariates.}
 \item{xModel}{String. The model type for the covariates.}
 \item{includeResponse}{Logical. If FALSE only the covariate data X is modelled.}
