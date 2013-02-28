@@ -8,7 +8,7 @@ calcOptimalClustering(disSimObj, maxNClusters=NULL, useLS=F)
 \arguments{
 \item{disSimObj}{A dissimilarity matrix (in vector format, as the output of the function calcDissimilarityMatrix(), and as described in ?calcDissimilarityMatrix) or a list of dissimilarity matrix, to combine the output of several runs of the MCMC.}
 \item{maxNClusters}{Set the maximum number of clusters allowed. This is set to the maximum number explored.}
-\item{useLS}{This is set to FALSE by default. If it is set to TRUE then the least-squares method is used for the calculation of the optimal clustering, as described in Molitor et al (2010).}
+\item{useLS}{This is set to FALSE by default. If it is set to TRUE then the least-squares method is used for the calculation of the optimal clustering, as described in Molitor et al (2010). Note that this is set to TRUE by default if disSimObj$onlyLS is set to TRUE.}
 }
 \value{
 the output is a list with the following elements. This is an object of type clusObj.

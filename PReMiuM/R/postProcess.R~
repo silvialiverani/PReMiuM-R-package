@@ -416,7 +416,6 @@ calcDissimilarityMatrix<-function(runInfoObj,onlyLS=FALSE){
 		disSimObj<-list('disSimRunInfoObj'=runInfoObj,'disSimMat'=disSimMat,
 			'disSimMatPred'=disSimMatPred,'lsOptSweep'=lsOptSweep,'onlyLS'=onlyLS)              
 	}
-
 	return(disSimObj)
 }
 

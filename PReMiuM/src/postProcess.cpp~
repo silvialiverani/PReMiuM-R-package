@@ -121,6 +121,9 @@ SEXP calcDisSimMat(SEXP fileName, SEXP nSweeps, SEXP nBurn, SEXP nFilter,SEXP nS
     }
 
     zFile.close();
+std::cout<<oLS<<std::endl;
+std::cout<<disSimMat[0]<<std::endl;
+
 	if (oLS){
 		return Rcpp::List::create(Rcpp::Named("lsOptSweep")=minIndex);
 	} else {

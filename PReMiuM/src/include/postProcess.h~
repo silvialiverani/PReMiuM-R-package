@@ -10,7 +10,7 @@ double Gamma(double);
 //RcppExport SEXP profRegr(SEXP input, SEXP output, SEXP hyper, SEXP predict, SEXP nSweeps, SEXP nBurn, SEXP nProgress, SEXP nFilter, SEXP nClusInit, 	SEXP seed, SEXP yModel, SEXP xModel, SEXP sampler, SEXP alpha, SEXP excludeY, SEXP extraYVar, SEXP varSelect, SEXP entropy);
 RcppExport SEXP profRegr(SEXP inputString);
 
-RcppExport SEXP calcDisSimMat(SEXP fileName, SEXP nSweeps, SEXP nBurn, SEXP nFilter,SEXP nSubjects,SEXP nPredictSubjects, SEXP onlyLS);
+RcppExport SEXP calcDisSimMat(SEXP fileName, SEXP nSweeps, SEXP nBurn, SEXP nFilter,SEXP nSubjects,SEXP nPredictSubjects);
 
 RcppExport SEXP pYGivenZW(SEXP betaIn,SEXP thetaIn,SEXP zAlloc,SEXP sigmaBeta,
 		SEXP sigmaTheta, SEXP dofTheta, SEXP dofBeta, SEXP nSubjects,
