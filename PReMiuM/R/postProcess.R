@@ -434,7 +434,7 @@ calcOptimalClustering<-function(disSimObj,maxNClusters=NULL,useLS=F){
 	nBurn=NULL
 	nFilter=NULL
 	nSweeps=NULL
-
+	onlyLS=NULL
 
    for (i in 1:length(disSimObj)) assign(names(disSimObj)[i],disSimObj[[i]])
    for (i in 1:length(disSimRunInfoObj)) assign(names(disSimRunInfoObj)[i],disSimRunInfoObj[[i]])

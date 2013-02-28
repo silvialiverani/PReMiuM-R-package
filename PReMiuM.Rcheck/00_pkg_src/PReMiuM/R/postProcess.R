@@ -375,7 +375,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 
 # Function to take the output from the C++ run and return an average dissimilarity
 # matrix
-calcDissimilarityMatrix<-function(runInfoObj){
+calcDissimilarityMatrix<-function(runInfoObj,onlyLS=FALSE){
 
 	directoryPath=NULL
 	fileStem=NULL
@@ -385,7 +385,6 @@ calcDissimilarityMatrix<-function(runInfoObj){
 	nSubjects=NULL
 	nPredictSubjects=NULL
 	nBurn=NULL
-
 
    for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 
@@ -399,18 +398,26 @@ calcDissimilarityMatrix<-function(runInfoObj){
 
    # Call the C++ to compute the dissimilarity matrix
    disSimList<-.Call('calcDisSimMat',fileName,nSweeps,recordedNBurn,nFilter,nSubjects,
-                       nPredictSubjects, PACKAGE = 'PReMiuM')
+                       nPredictSubjects, onlyLS, PACKAGE = 'PReMiuM')
 
-   disSimMat<-disSimList$disSimMat
-   lsOptSweep<-disSimList$lsOptSweep
-   disSimMatPred<-NULL              
-   if(nPredictSubjects>0){
-      disSimMatPred<-disSimMat[(1+(nSubjects*(nSubjects-1)/2)):length(disSimMat)]
-      disSimMat<-disSimMat[1:(nSubjects*(nSubjects-1)/2)]
-   }   
-   disSimObj<-list('disSimRunInfoObj'=runInfoObj,'disSimMat'=disSimMat,
-                     'disSimMatPred'=disSimMatPred,'lsOptSweep'=lsOptSweep)              
-   return(disSimObj)
+	if (onlyLS){
+		lsOptSweep<-disSimList$lsOptSweep
+		disSimMatPred<-NULL              
+		disSimObj<-list('disSimRunInfoObj'=runInfoObj,'disSimMat'=NA,
+			'disSimMatPred'=NA,'lsOptSweep'=lsOptSweep,'onlyLS'=onlyLS)              
+	} else {
+		disSimMat<-disSimList$disSimMat
+		lsOptSweep<-disSimList$lsOptSweep
+		disSimMatPred<-NULL              
+		if(nPredictSubjects>0){
+			disSimMatPred<-disSimMat[(1+(nSubjects*(nSubjects-1)/2)):length(disSimMat)]
+			disSimMat<-disSimMat[1:(nSubjects*(nSubjects-1)/2)]
+		}   
+		disSimObj<-list('disSimRunInfoObj'=runInfoObj,'disSimMat'=disSimMat,
+			'disSimMatPred'=disSimMatPred,'lsOptSweep'=lsOptSweep,'onlyLS'=onlyLS)              
+	}
+
+	return(disSimObj)
 }
 
 # Given a dissimilarity matrix (or list of dissimilarity matrices)
@@ -427,10 +434,12 @@ calcOptimalClustering<-function(disSimObj,maxNClusters=NULL,useLS=F){
 	nBurn=NULL
 	nFilter=NULL
 	nSweeps=NULL
-
+	onlyLS=NULL
 
    for (i in 1:length(disSimObj)) assign(names(disSimObj)[i],disSimObj[[i]])
    for (i in 1:length(disSimRunInfoObj)) assign(names(disSimRunInfoObj)[i],disSimRunInfoObj[[i]])
+
+	if (onlyLS==TRUE) useLS <- TRUE
 
    if(useLS){
       # maniupulation for least squares method, but computation has been done in previous function

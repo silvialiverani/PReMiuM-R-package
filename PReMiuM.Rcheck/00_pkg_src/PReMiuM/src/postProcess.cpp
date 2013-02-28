@@ -14,8 +14,8 @@ using std::string;
 using std::ifstream;
 using std::vector;
 
-SEXP calcDisSimMat(SEXP fileName, SEXP nSweeps, SEXP nBurn, SEXP nFilter,SEXP nSubjects,SEXP nPredictSubjects){
-    
+SEXP calcDisSimMat(SEXP fileName, SEXP nSweeps, SEXP nBurn, SEXP nFilter,SEXP nSubjects,SEXP nPredictSubjects,SEXP onlyLS){
+
     string fName = Rcpp::as<string>(fileName);
 
     int nS = Rcpp::as<int>(nSweeps);
@@ -23,6 +23,8 @@ SEXP calcDisSimMat(SEXP fileName, SEXP nSweeps, SEXP nBurn, SEXP nFilter,SEXP nS
     int nF = Rcpp::as<int>(nFilter);
     unsigned long int nSj = Rcpp::as<int>(nSubjects);
     int nPSj = Rcpp::as<int>(nPredictSubjects);
+
+    bool oLS = Rcpp::as<bool>(onlyLS);
 
     // Calculate how many samples we will have
     int nLines = 1 + (nS+nB)/nF;
@@ -38,12 +40,13 @@ SEXP calcDisSimMat(SEXP fileName, SEXP nSweeps, SEXP nBurn, SEXP nFilter,SEXP nS
     // The denominator for the contributions
     double denom = 1+(double)nLines-(double)firstLine;
 
+
     // A temporary vector for storing the cluster from each sweep
     vector<int> clusterData(nSj+nPSj);
-    for(int k=1;k<=nLines;k++){
+    for(unsigned long int k=1;k<=nLines;k++){
     	if(k<firstLine){
         	// Ignore the burn in
-    		for(int i=0;i<nSj+nPSj;i++){
+    		for(unsigned long int i=0;i<nSj+nPSj;i++){
     			int tmp=0;
     			zFile >> tmp;
     		}
@@ -51,34 +54,31 @@ SEXP calcDisSimMat(SEXP fileName, SEXP nSweeps, SEXP nBurn, SEXP nFilter,SEXP nS
     		if((1+k-firstLine)==1||(1+k-firstLine)%1000==0){
 				Rprintf("Stage 1:%i samples out of %i\n",1+k-firstLine,1+nLines-firstLine);
 			}
-			for(int i=0;i<nSj+nPSj;i++){
+			for(unsigned long int i=0;i<nSj+nPSj;i++){
     			// Fill up the cluster data for this sweep
     			zFile >> clusterData[i];
     		}
-
-
     		// Now we need to populate the dissimilarity matrix
-    		int r=0;
-			for(int i=0;i<nSj-1;i++){
-    			for(int ii=i+1;ii<nSj;ii++){
+    		unsigned long int r=0;
+		for(unsigned long int i=0;i<nSj-1;i++){
+    			for(unsigned long int ii=i+1;ii<nSj;ii++){
     				if(clusterData[i]==clusterData[ii]){
         				disSimMat[r]-=1.0/denom;
         			}
     				r++;
     			}
     		}
-
-			for(int i=0;i<nPSj;i++){
-				for(int ii=0;ii<nSj;ii++){
-					if(clusterData[nSj+i]==clusterData[ii]){
-						disSimMat[r]-=1.0/denom;
-					}
-					r++;
+		for(unsigned long int i=0;i<nPSj;i++){
+			for(unsigned long int ii=0;ii<nSj;ii++){
+				if(clusterData[nSj+i]==clusterData[ii]){
+					disSimMat[r]-=1.0/denom;
 				}
+				r++;
 			}
+		}
     	}
     }
-	
+
     // Computing the optimal partition for least squares method 
     // Could make these steps optional as only relevant for R option useLS=T
     // Cheaper (for large datasets) to re-read everything in again, instead
@@ -86,10 +86,10 @@ SEXP calcDisSimMat(SEXP fileName, SEXP nSweeps, SEXP nBurn, SEXP nFilter,SEXP nS
     zFile.seekg(0,std::ios::beg);
     int minIndex=0;
     double currMinSum=nSj*(nSj-1)/2.0;
-    for(int k=1;k<=nLines;k++){
+    for(unsigned long int k=1;k<=nLines;k++){
     	if(k<firstLine){
     		// Ignore the burn in
-    		for(int i=0;i<nSj+nPSj;i++){
+    		for(unsigned long int i=0;i<nSj+nPSj;i++){
     			int tmp=0;
     			zFile >> tmp;
         	}
@@ -97,15 +97,14 @@ SEXP calcDisSimMat(SEXP fileName, SEXP nSweeps, SEXP nBurn, SEXP nFilter,SEXP nS
         	if((1+k-firstLine)==1||(1+k-firstLine)%1000==0){
 			Rprintf("Stage 2:%i samples out of %i\n",1+k-firstLine,1+nLines-firstLine);
     		}
-        	for(int i=0;i<nSj+nPSj;i++){
+        	for(unsigned long int i=0;i<nSj+nPSj;i++){
         		// Fill up the cluster data for this sweep
         		zFile >> clusterData[i];
         	}
-
         	double tmpSum=0.0;
-    		int r=0;
-			for(int i=0;i<nSj-1;i++){
-    			for(int ii=i+1;ii<nSj;ii++){
+    		unsigned long int r=0;
+			for(unsigned long int i=0;i<nSj-1;i++){
+    			for(unsigned long int ii=i+1;ii<nSj;ii++){
     				if(clusterData[i]==clusterData[ii]){
         				tmpSum+=pow(disSimMat[r],2.0);
         			}else{
@@ -122,9 +121,12 @@ SEXP calcDisSimMat(SEXP fileName, SEXP nSweeps, SEXP nBurn, SEXP nFilter,SEXP nS
     }
 
     zFile.close();
-
-    return Rcpp::List::create(Rcpp::Named("lsOptSweep")=minIndex,
-    						  Rcpp::Named("disSimMat")=Rcpp::wrap<vector<double> >(disSimMat));
+	if (oLS){
+		return Rcpp::List::create(Rcpp::Named("lsOptSweep")=minIndex);
+	} else {
+		return Rcpp::List::create(Rcpp::Named("lsOptSweep")=minIndex,
+			Rcpp::Named("disSimMat")=Rcpp::wrap<vector<double> >(disSimMat));	
+	}
 }
 
 SEXP pYGivenZW(SEXP betaIn,SEXP thetaIn,SEXP zAlloc,SEXP sigmaBeta,

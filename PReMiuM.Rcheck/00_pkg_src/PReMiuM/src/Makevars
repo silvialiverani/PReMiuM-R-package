@@ -1,7 +1,9 @@
 ## Use the R_HOME indirection to support installations of multiple R version
 PKG_LIBS = $(shell $(R_HOME)/bin/Rscript -e "Rcpp:::LdFlags()" )
 
-PKG_CPPFLAGS=-I./include
+PKG_CPPFLAGS=-I./include 
+
+##CXXFLAGS=-g -O2
 
 ## As an alternative, one can also add this code in a file 'configure'
 ##
