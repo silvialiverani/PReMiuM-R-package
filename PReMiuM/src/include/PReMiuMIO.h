@@ -228,9 +228,11 @@ pReMiuMOptions processCommandLine(string inputStr){
 
 	// Return if there was an error
 	if(wasError){
-		Rprintf("Please use:\n");
-		Rprintf("\t profileRegression --help\n");
-		Rprintf("to get help on correct usage.\n");
+		Rprintf("There is a mistake in the arguments provided in profRegr.\n");
+		Rprintf("The code will be run with default values.\n");
+	//	Rprintf("Please use:\n");
+	//	Rprintf("\t profileRegression --help\n");
+	//	Rprintf("to get help on correct usage.\n");
 	//	exit(-1);
 	}
 
