@@ -10,11 +10,12 @@ citEntry(entry="Manual",
                              as.person("Sylvia Richardson")),
          year = year,
          note = vers,
+	 url      = "http://uk.arxiv.org/abs/1303.2836",
 
          textVersion =
          paste("Silvia Liverani, David I. Hastie, Sylvia Richardson (",
                year,
                "). PReMiuM: An R package for Profile Regression Mixture Models using Dirichlet Processes. ",
-               vers, ".", sep=""))
+               vers, ". Available at ",url, sep=""))
 
 

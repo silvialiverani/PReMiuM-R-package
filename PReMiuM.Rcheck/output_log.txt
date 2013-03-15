@@ -1,4 +1,4 @@
-Date and time: 2013-03-06 09:4306
+Date and time: 2013-03-15 15:2554
 
 Data file path: output_input.txt
 
@@ -6,21 +6,21 @@ Output file path: output
 
 Predict file path: No predictions run.
 
-Seed: 1362562986
+Seed: 1363361154
 
 Number of sweeps: 10
 Burn in sweeps: 20
 Output filter: 1
 Proposal Type: gibbsForVActive, Acceptance Rate: 1
-Proposal Type: updateForPhiActive, Acceptance Rate: 0.868021
-Proposal Type: metropolisHastingsForThetaActive, Acceptance Rate: 0.469965
-Proposal Type: metropolisHastingsForLabels, Acceptance Rate: 0.8
+Proposal Type: updateForPhiActive, Acceptance Rate: 0.833442
+Proposal Type: metropolisHastingsForThetaActive, Acceptance Rate: 0.480519
+Proposal Type: metropolisHastingsForLabels, Acceptance Rate: 0.933333
 Proposal Type: gibbsForU, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.5
+Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.433333
 Proposal Type: gibbsForVInActive, Acceptance Rate: 1
 Proposal Type: gibbsForPhiInActive, Acceptance Rate: 1
 Proposal Type: gibbsForThetaInActive, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForRhoOmega, Acceptance Rate: 0.153571
+Proposal Type: metropolisHastingsForRhoOmega, Acceptance Rate: 0.114286
 Proposal Type: gibbsForZ, Acceptance Rate: 1
 Number of subjects: 1000
 Number of prediction subjects: 0
@@ -56,4 +56,4 @@ dofTheta: 7
 aRho: 0.5
 bRho: 0.5
 
-30 sweeps done in 0 seconds
+30 sweeps done in 1 seconds

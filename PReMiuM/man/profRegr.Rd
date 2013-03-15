@@ -48,7 +48,8 @@ See ?calcPredictions for more details and examples.
 \item{alpha}{The value to be used if alpha is to remain fixed. If a negative value is used then alpha is updated. The default value is -1.}
 \item{excludeY}{If included only the covariate data X is modelled. By default this is not included.}
 \item{extraYVar}{If included extra Gaussian variance is included in the response model. By default the extra Gaussian variance is not included.}
-\item{varSelectType}{The type of variable selection to be used "None", "BinaryCluster" or "Continuous".  The default value is "None".}
+\item{varSelectType}{The type of variable selection to be used "None", "BinaryCluster" or "Continuous".  The "BinaryCluster" variable selection is the implementation of the novel variable selection formulation proposed by Papathomas, Molitor, Hoggart, Hastie, Richardson (2012) "Exploring data from genetic association studies using
+Bayesian variable selection and the Dirichlet process: application to searching for gene x gene patterns" in Genetic Epidemiology. The "Continuous" variable selection is based on the method proposed by Chung and Dunson (2009) "Nonparametric Bayes conditional distribution modelling with variable selection" in the Journal of the American Statistical Association. Both types of variable selection can be used with discrete, continuous or mixed covariates. The default value is "None".}
 \item{entropy}{If included then we compute allocation entropy. By default the allocation entropy is not included.}
 \item{run}{Logical. If TRUE then the MCMC is run. Set run=FALSE if the MCMC has been run already and it is only required to collect information about the run.}
 \item{discreteCovs}{The names of the discrete covariates among the covariate names, if xModel="Mixed". This and continuousCovs must be defined if xModel="Mixed", while covNames is ignored.}
@@ -94,7 +95,7 @@ Maintainer: Silvia Liverani <liveranis@gmail.com>
 }
 \references{
 
-Liverani, S., Hastie, D. I., Papathomas, M. and Richardson, S. (2013) PReMiuM: An R package for Profile Regression Mixture Models using Dirichlet Processes. \emph{Submitted}.
+Liverani, S., Hastie, D. I., Papathomas, M. and Richardson, S. (2013) PReMiuM: An R package for Profile Regression Mixture Models using Dirichlet Processes. \emph{Submitted}. Avalable at http://uk.arxiv.org/abs/1303.2836
 
 }
 \examples{
