@@ -13,7 +13,7 @@ profRegr(covNames, fixedEffectsNames, outcome="outcome",
 }
 \arguments{
 \item{covNames}{A vector of strings of the covariate names as by the column names in the data argument.}
-\item{fixedEffectsNames}{A vector of strings of the fixed effect names as by the column names in the data argument.}
+\item{fixedEffectsNames}{A vector of strings of the fixed effect names as by the column names in the data argument. Each fixed effect must be of class 'numeric'. If a fixed effect is of class 'character', an error message will appear and the fixed effect will need to be recoded as numeric.}
 \item{outcome}{A string of column of the data argument that contains the outcome. The outcome cannot have missing values - you could consider predicting the value of the outcome for those subjects for which it has not been observed.}
 \item{outcomeT}{A string of column of the data argument that contains the offset (for Poisson outcome) or the number of trials (for Binomial outcome).}
 \item{data}{A data frame which has as columns the outcome, the covariates, the fixed effects if any and the offset (for Poisson outcome) or the number of trials (for Binomial outcome). The outcome cannot have missing values - you could consider predicting the value of the outcome for those subjects for which it has not been observed.}

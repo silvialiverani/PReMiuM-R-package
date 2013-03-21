@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2013.1.30)  21 MAR 2013 18:48
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2013.1.30)  21 MAR 2013 19:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -756,7 +756,7 @@ names, if xModel="Mixed".
 
 [21] [22] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [23]
+) [23] [24]
 Overfull \hbox (3.52693pt too wide) in paragraph at lines 1017--1018
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
@@ -768,10 +768,10 @@ Overfull \hbox (24.30757pt too wide) in paragraph at lines 1017--1018
 . sam-pler=SliceIndependent,
  []
 
-[24] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [25] (./Rd2.ind
-[26]
+) [25] [26] (./Rd2.ind
+[27]
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 3.
 
@@ -779,7 +779,7 @@ LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 LaTeX Font Warning: Font shape `T1/fi4/m/it' undefined
 (Font)              using `T1/fi4/m/n' instead on input line 31.
 
-[27
+[28
 
 ])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1114.
@@ -797,8 +797,8 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1114.
  ) 
 Here is how much of TeX's memory you used:
- 6397 strings out of 495059
- 91768 string characters out of 3182030
+ 6398 strings out of 495059
+ 91775 string characters out of 3182030
  167786 words of memory out of 3000000
  9291 multiletter control sequences out of 15000+200000
  40998 words of font info for 50 fonts, out of 3000000 for 9000
@@ -812,10 +812,10 @@ ts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw
 /times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.p
 fb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/
 texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (27 pages, 131053 bytes).
+Output written on Rd2.pdf (28 pages, 131839 bytes).
 PDF statistics:
- 426 PDF objects out of 1000 (max. 8388607)
- 386 compressed objects within 4 object streams
- 168 named destinations out of 1000 (max. 500000)
+ 431 PDF objects out of 1000 (max. 8388607)
+ 390 compressed objects within 4 object streams
+ 169 named destinations out of 1000 (max. 500000)
  121 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -124,7 +124,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 			dataMatrix[missingX,(k+1)]<- rep(-999,nMissingX)
 		}
 	}
-
+print("ok")
 	# fixed effects
 	if (!missing(fixedEffectsNames)) {
 		nFixedEffects<-length(fixedEffectsNames)
@@ -137,6 +137,10 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		fixedEffects<-data[,FEIndeces]
 		if (sum(is.na(fixedEffects))>0) stop("ERROR: fixed effects cannot have missing values. Use an imputation method before using profRegr().")
 		dataMatrix<-cbind(dataMatrix,fixedEffects)
+		for (i in dim(fixedEffects)[2]){
+print(class(fixedEffects[,i]))
+			if (class(fixedEffects[,i])=="character") stop("ERROR: fixed effects must be of class numeric. See help pages.") 
+		}
 	} else {
 		nFixedEffects<-0
 	}
@@ -2330,6 +2334,16 @@ setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,useReciprocalNCatsPhi=NU
 	
 # Compute Ratio of variances (for extra variation case)
 computeRatioOfVariance<-function(runInfoObj){
+
+	directoryPath=NULL
+	extraYVar=NULL
+	fileStem=NULL
+	reportBurnIn=NULL
+	nSweeps=NULL
+	nFilter=NULL
+	nSubjects=NULL
+	nPredictSubjects=NULL
+	nBurn=NULL
 	
 	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 

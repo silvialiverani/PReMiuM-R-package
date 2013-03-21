@@ -5,11 +5,15 @@
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
 * this is package ‘PReMiuM’ version ‘3.0.17’
+* checking CRAN incoming feasibility ... NOTE
+Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
+Days since last update: 6
 * checking package namespace information ... OK
 * checking package dependencies ... OK
 * checking if this is a source package ... OK
 * checking if there is a namespace ... OK
 * checking for executable files ... OK
+* checking for hidden files and directories ... OK
 * checking whether package ‘PReMiuM’ can be installed ... OK
 * checking installed package size ... NOTE
   installed size is 11.2Mb
@@ -51,7 +55,7 @@
 * checking compiled code ... OK
 * checking examples ... OK
 * checking PDF version of manual ... OK
-NOTE: There was 1 note.
+NOTE: There were 2 notes.
 See
   ‘/home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/00check.log’
 for details.
