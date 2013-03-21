@@ -8,7 +8,7 @@ profRegr(covNames, fixedEffectsNames, outcome="outcome",
         nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, 
         nClusInit, seed, yModel="Bernoulli", xModel="Discrete", 
         sampler="SliceDependent", alpha=-1, excludeY, 
-        extraYVar, varSelectType="None", entropy,reportBurnIn=FALSE,
+        extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE,
         run=TRUE, discreteCovs, continuousCovs)
 }
 \arguments{
@@ -80,6 +80,7 @@ It returns a number of files in the output directory as well as a list with the 
 \item{nFixedEffects}{Integer. The number of fixed effects.}
 \item{nCategoriesY}{Integer. The number of categories of the outcome, if yModel = "Categorical". It is 1 otherwise.}
 \item{nCategories}{Vector of integers. The number of categories of each covariate, if xModel = "Discrete". It is 1 otherwise.}
+\item{extraYVar}{TRUE if extra Gaussian variance is included in the response model.}
 \item{xMat}{A matrix of the covariate data.}
 \item{yMat}{A matrix of the outcome data, including the offset if the outcome is Poisson and the number of trials if the outcome is Binomial.}
 \item{wMat}{A matrix of the fixed effect data.}

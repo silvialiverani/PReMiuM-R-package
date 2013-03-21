@@ -136,5 +136,38 @@ computeAssociatedVariable<-function(subjectValues,clusObj,clusterPlotOrder,latex
 	return(outData)
 }
 
-
+	
+# Compute Ratio of variances (for extra variation case)
+computeRatioOfVariance<-function(runInfoObj){
+	
+	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
+	# Construct the number of clusters file name
+	nClustersFileName <- file.path(directoryPath,paste(fileStem,'_nClusters.txt',sep=''))
+	# Construct the allocation file name
+	zFileName <- file.path(directoryPath,paste(fileStem,'_z.txt',sep=''))
+	# Construct the allocation file name
+	thetaFileName <- file.path(directoryPath,paste(fileStem,'_theta.txt',sep=''))
+	# Construct the allocation file name
+	epsilonFileName <- file.path(directoryPath,paste(fileStem,'_epsilon.txt',sep=''))
+	
+	# Restrict to sweeps after burn in
+	firstLine<-ifelse(reportBurnIn,nBurn/nFilter+2,1)
+	lastLine<-(nSweeps+ifelse(reportBurnIn,nBurn+1,0))/nFilter
+	
+	ratioOfVariance<-rep(0,length(lastLine-firstLine+1))
+	for(sweep in firstLine:lastLine){
+		currMaxNClusters<-scan(nClustersFileName,what=integer(),skip=sweep-1,n=1,quiet=T)
+		zCurr<-1+scan(zFileName,what=integer(),skip=sweep-1,n=nSubjects+nPredictSubjects,quiet=T)
+		zCurr<-zCurr[1:nSubjects]
+		thetaCurr<-scan(thetaFileName,what=double(),skip=sweep-1,n=currMaxNClusters,quiet=T)
+		thetaCurr<-thetaCurr[zCurr]
+		vTheta<-var(thetaCurr)
+		epsilonCurr<-scan(epsilonFileName,what=double(),skip=sweep-1,n=nSubjects,quiet=T)
+		vEpsilon<-var(epsilonCurr)
+		ratioOfVariance[sweep-firstLine+1]<-vTheta/(vTheta+vEpsilon)
+		
+	}
+	return(ratioOfVariance)
+	
+}
 	

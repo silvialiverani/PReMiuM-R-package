@@ -23,7 +23,7 @@
 
 is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
 
-profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY, extraYVar, varSelectType="None", entropy,reportBurnIn=FALSE, run=TRUE, discreteCovs, continuousCovs){
+profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY, extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE, run=TRUE, discreteCovs, continuousCovs){
 
 	# suppress scientific notation
 	options(scipen=999)
@@ -295,7 +295,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	if (!missing(nClusInit)) inputString<-paste(inputString," --nClusInit=",nClusInit,sep="")
 	if (!missing(seed)) inputString<-paste(inputString," --seed=",seed,sep="")
 	if (!missing(excludeY)) inputString<-paste(inputString," --excludeY",sep="")
-	if (!missing(extraYVar)) inputString<-paste(inputString," --extraYVar",sep="")
+	if (extraYVar) inputString<-paste(inputString," --extraYVar",sep="")
 	if (!missing(entropy)) inputString<-paste(inputString," --entropy",sep="")
 
 	if (run) .Call('profRegr', inputString, PACKAGE = 'PReMiuM')
@@ -368,6 +368,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		"nFixedEffects"=nFixedEffects,
 		"nCategoriesY"=yLevels,
 		"nCategories"=xLevels,
+		"extraYVar"=extraYVar,
 		"xMat"=xMat,"yMat"=yMat,"wMat"=wMat))
 }
 
@@ -2324,4 +2325,52 @@ setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,useReciprocalNCatsPhi=NU
 		out$truncationEps<-truncationEps
 	}
 	return(out)
+}
+
+	
+# Compute Ratio of variances (for extra variation case)
+computeRatioOfVariance<-function(runInfoObj){
+
+	directoryPath=NULL
+	extraYVar=NULL
+	fileStem=NULL
+	reportBurnIn=NULL
+	nSweeps=NULL
+	nFilter=NULL
+	nSubjects=NULL
+	nPredictSubjects=NULL
+	nBurn=NULL
+	
+	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
+
+	if (extraYVar==FALSE) stop("The ratio of variances can only be computed when extra variation in the response is included in the model.")
+
+	# Construct the number of clusters file name
+	nClustersFileName <- file.path(directoryPath,paste(fileStem,'_nClusters.txt',sep=''))
+	# Construct the allocation file name
+	zFileName <- file.path(directoryPath,paste(fileStem,'_z.txt',sep=''))
+	# Construct the allocation file name
+	thetaFileName <- file.path(directoryPath,paste(fileStem,'_theta.txt',sep=''))
+	# Construct the allocation file name
+	epsilonFileName <- file.path(directoryPath,paste(fileStem,'_epsilon.txt',sep=''))
+	
+	# Restrict to sweeps after burn in
+	firstLine<-ifelse(reportBurnIn,nBurn/nFilter+2,1)
+	lastLine<-(nSweeps+ifelse(reportBurnIn,nBurn+1,0))/nFilter
+	
+	ratioOfVariance<-rep(0,length(lastLine-firstLine+1))
+	for(sweep in firstLine:lastLine){
+		currMaxNClusters<-scan(nClustersFileName,what=integer(),skip=sweep-1,n=1,quiet=T)
+		zCurr<-1+scan(zFileName,what=integer(),skip=sweep-1,n=nSubjects+nPredictSubjects,quiet=T)
+		zCurr<-zCurr[1:nSubjects]
+		thetaCurr<-scan(thetaFileName,what=double(),skip=sweep-1,n=currMaxNClusters,quiet=T)
+		thetaCurr<-thetaCurr[zCurr]
+		vTheta<-var(thetaCurr)
+		epsilonCurr<-scan(epsilonFileName,what=double(),skip=sweep-1,n=nSubjects,quiet=T)
+		vEpsilon<-var(epsilonCurr)
+		ratioOfVariance[sweep-firstLine+1]<-vTheta/(vTheta+vEpsilon)
+		
+	}
+	return(ratioOfVariance)
+	
 }

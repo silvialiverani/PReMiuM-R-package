@@ -6,6 +6,8 @@ calcOptimalClustering   Calculation of the optimal clustering
 calcPredictions         Calculates the predictions
 clusSummaryBernoulliDiscrete
                         Sample datasets for profile regression
+computeRatioOfVariance
+                        computeRatioOfVariance
 generateSampleDataFile
                         Generate sample data files for profile
                         regression

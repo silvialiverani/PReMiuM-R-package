@@ -2330,16 +2330,6 @@ setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,useReciprocalNCatsPhi=NU
 	
 # Compute Ratio of variances (for extra variation case)
 computeRatioOfVariance<-function(runInfoObj){
-
-	directoryPath=NULL
-	extraYVar=NULL
-	fileStem=NULL
-	reportBurnIn=NULL
-	nSweeps=NULL
-	nFilter=NULL
-	nSubjects=NULL
-	nPredictSubjects=NULL
-	nBurn=NULL
 	
 	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 
