@@ -1237,7 +1237,7 @@ void metropolisHastingsForLabels(mcmcChain<pReMiuMParams>& chain,
 	if(unifRand(rndGenerator)<exp(logAcceptRatio)){
 //		nAccept++;
 		// Switch the labels
-		currentParams.switchLabels(c1,c2,covariateType,varSelectType);
+//		currentParams.switchLabels(c1,c2,covariateType,varSelectType);
 	}
 
 	// Move 2 - swap labels of 2 randomly selected neighbouring clusters,

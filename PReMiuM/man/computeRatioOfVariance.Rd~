@@ -10,7 +10,7 @@ This function can only be used when the extra variation is included in the respo
 \item{runInfoObj}{Object of type runInfoObj}
 }
 \value{
-For each sweep this function outputs the ratio between the variance of the thetas' and the sum of the variances of the theta's and the extra variation epsilon as described in Liverani et al. (2013). 
+For each sweep this function outputs the ratio between the variance of the thetas' and the sum of the variances of the thetas' and the extra variation epsilon as described in Liverani et al. (2013). 
 }
 \section{Authors}{
 David Hastie, Department of Epidemiology and Biostatistics, Imperial College London, UK
