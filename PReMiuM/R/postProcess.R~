@@ -124,7 +124,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 			dataMatrix[missingX,(k+1)]<- rep(-999,nMissingX)
 		}
 	}
-print("ok")
+
 	# fixed effects
 	if (!missing(fixedEffectsNames)) {
 		nFixedEffects<-length(fixedEffectsNames)
@@ -138,7 +138,6 @@ print("ok")
 		if (sum(is.na(fixedEffects))>0) stop("ERROR: fixed effects cannot have missing values. Use an imputation method before using profRegr().")
 		dataMatrix<-cbind(dataMatrix,fixedEffects)
 		for (i in dim(fixedEffects)[2]){
-print(class(fixedEffects[,i]))
 			if (class(fixedEffects[,i])=="character") stop("ERROR: fixed effects must be of class numeric. See help pages.") 
 		}
 	} else {
@@ -1412,8 +1411,8 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			muLower<-apply(muMat,2,quantile,0.05)
 			muUpper<-apply(muMat,2,quantile,0.95)
 			# The next line is to avoid outliers spoiling plot scales
-			plotMax<-2*max(muUpper)-muMean
-			plotMin<-2*min(muLower)-muMean
+			plotMax<-max(apply(muMat,2,quantile,0.80))
+			plotMin<-min(apply(muMat,2,quantile,0.20))
 			
 			# Get the plot colors
 			muColor<-ifelse(muLower>rep(muMean,nClusters),"high",
@@ -1428,6 +1427,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 					"upperMu"=rep(muUpper[c],nPoints),
 					"fillColor"=rep(muColor[c],nPoints)))
 			}
+
 			rownames(profileDF)<-seq(1,nrow(profileDF),1)
 			
 			plotObj<-ggplot(profileDF)
@@ -1460,7 +1460,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			sigmaLower<-apply(sigmaMat,2,quantile,0.05)
 			sigmaUpper<-apply(sigmaMat,2,quantile,0.95)
 			# The next line is to avoid outliers spoiling plot scales
-			plotMax<-2*max(sigmaUpper)-sigmaMean
+			plotMax<-max(apply(sigmaMat,2,quantile,0.80))
 	
 			# Get the plot colors
 			sigmaColor<-ifelse(sigmaLower>rep(sigmaMean,nClusters),"high",
@@ -1476,6 +1476,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 					"fillColor"=rep(sigmaColor[c],nPoints)))
 			}
 			rownames(profileDF)<-seq(1,nrow(profileDF),1)
+
 			plotObj<-ggplot(profileDF)
 			plotObj<-plotObj+geom_hline(aes(x=as.factor(cluster),y=sigma,yintercept=meanSigma))
 			plotObj<-plotObj+geom_boxplot(aes(x=as.factor(cluster),y=sigma,fill=as.factor(fillColor)),outlier.size=0.5)

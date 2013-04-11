@@ -1198,7 +1198,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 		riskLower<-apply(risk,2,quantile,0.05)
 		riskUpper<-apply(risk,2,quantile,0.95)
 		# The next line is to avoid outliers spoiling plot scales
-		plotMax<-2*max(riskUpper)-riskMean
+		plotMax<-max(riskUpper)
 		
 		# Get the plot colors
 		riskColor<-ifelse(riskLower>rep(riskMean,nClusters),"high",
@@ -1411,8 +1411,8 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			muLower<-apply(muMat,2,quantile,0.05)
 			muUpper<-apply(muMat,2,quantile,0.95)
 			# The next line is to avoid outliers spoiling plot scales
-			plotMax<-2*max(muUpper)-muMean
-			plotMin<-2*min(muLower)-muMean
+			plotMax<-max(muUpper)
+			plotMin<-min(muLower)
 			
 			# Get the plot colors
 			muColor<-ifelse(muLower>rep(muMean,nClusters),"high",
@@ -1427,6 +1427,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 					"upperMu"=rep(muUpper[c],nPoints),
 					"fillColor"=rep(muColor[c],nPoints)))
 			}
+
 			rownames(profileDF)<-seq(1,nrow(profileDF),1)
 			
 			plotObj<-ggplot(profileDF)
@@ -1459,7 +1460,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			sigmaLower<-apply(sigmaMat,2,quantile,0.05)
 			sigmaUpper<-apply(sigmaMat,2,quantile,0.95)
 			# The next line is to avoid outliers spoiling plot scales
-			plotMax<-2*max(sigmaUpper)-sigmaMean
+			plotMax<-max(sigmaUpper)
 	
 			# Get the plot colors
 			sigmaColor<-ifelse(sigmaLower>rep(sigmaMean,nClusters),"high",
@@ -1475,6 +1476,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 					"fillColor"=rep(sigmaColor[c],nPoints)))
 			}
 			rownames(profileDF)<-seq(1,nrow(profileDF),1)
+
 			plotObj<-ggplot(profileDF)
 			plotObj<-plotObj+geom_hline(aes(x=as.factor(cluster),y=sigma,yintercept=meanSigma))
 			plotObj<-plotObj+geom_boxplot(aes(x=as.factor(cluster),y=sigma,fill=as.factor(fillColor)),outlier.size=0.5)
@@ -1553,8 +1555,8 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			muLower<-apply(muMat,2,quantile,0.05)
 			muUpper<-apply(muMat,2,quantile,0.95)
 			# The next line is to avoid outliers spoiling plot scales
-			plotMax<-2*max(muUpper)-muMean
-			plotMin<-2*min(muLower)-muMean
+			plotMax<-max(muUpper)
+			plotMin<-min(muLower)
 			
 			# Get the plot colors
 			muColor<-ifelse(muLower>rep(muMean,nClusters),"high",
@@ -1601,7 +1603,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			sigmaLower<-apply(sigmaMat,2,quantile,0.05)
 			sigmaUpper<-apply(sigmaMat,2,quantile,0.95)
 			# The next line is to avoid outliers spoiling plot scales
-			plotMax<-2*max(sigmaUpper)-sigmaMean
+			plotMax<-max(sigmaUpper)
 	
 			# Get the plot colors
 			sigmaColor<-ifelse(sigmaLower>rep(sigmaMean,nClusters),"high",
