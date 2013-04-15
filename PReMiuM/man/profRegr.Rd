@@ -66,7 +66,8 @@ It returns a number of files in the output directory as well as a list with the 
 \item{nSweeps}{Integer. The number of sweeps of the MCMC after the burn-in.}
 \item{nBurn}{Integer. The number of iterations in the burn-in period of the MCMC.}
 \item{reportBurnIn}{Logical. Whether the output of the burn-in report should be included.}
-\item{nFilter}{Integer. The frequency (in sweeps) with which to write the output to file. The default value is 1.}
+\item{nFilter}{Integer. The frequency (in sweeps) with which to write the output to file.}
+\item{nProgress}{The number of sweeps at which to print a progress update.}
 \item{nSubjects}{Integer. The number of subjects.}
 \item{nPredictSubjects}{Integer. The number of subjects for which to run predictions.}
 \item{fullPredictFile}{Logical. It is FALSE by default. It is equal to TRUE if the outcome or the outcome and the fixed effects were included in the dataframe provided in the input predict. If TRUE, the function will have a produced a file ending in "_predictFull.txt" which contains the values of the outcome and fixed effects for the computation of measures of fit in the function calcPredictions.}

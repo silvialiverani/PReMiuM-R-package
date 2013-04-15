@@ -47,7 +47,7 @@ See ?calcPredictions for more details and examples.
 \item{sampler}{The sampler type to be used. Options are "SliceDependent", "SliceIndependent" and "Truncated".  The default value is "SliceDependent".}
 \item{alpha}{The value to be used if alpha is to remain fixed. If a negative value is used then alpha is updated. The default value is -1.}
 \item{excludeY}{If included only the covariate data X is modelled. By default this is not included.}
-\item{extraYVar}{If included extra Gaussian variance is included in the response model. By default the extra Gaussian variance is not included.}
+\item{extraYVar}{If set equal to TRUE extra Gaussian variance is included in the response model. By default the extra Gaussian variance is not included, so extraYVar=FALSE.}
 \item{varSelectType}{The type of variable selection to be used "None", "BinaryCluster" or "Continuous".  The "BinaryCluster" variable selection is the implementation of the novel variable selection formulation proposed by Papathomas, Molitor, Hoggart, Hastie, Richardson (2012) "Exploring data from genetic association studies using
 Bayesian variable selection and the Dirichlet process: application to searching for gene x gene patterns" in Genetic Epidemiology. The "Continuous" variable selection is based on the method proposed by Chung and Dunson (2009) "Nonparametric Bayes conditional distribution modelling with variable selection" in the Journal of the American Statistical Association. Both types of variable selection can be used with discrete, continuous or mixed covariates. The default value is "None".}
 \item{entropy}{If included then we compute allocation entropy. By default the allocation entropy is not included.}
