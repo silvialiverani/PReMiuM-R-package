@@ -1212,7 +1212,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 				"lowerRisk"=c(),"upperRisk"=c(),"fillColor"=c())
 		}
 	}else{
-		riskColor<-ifelse(empiricals>rep(meanEmpirical,nClusters),"high",
+		riskColor<-ifelse(empiricals>rep(meanEmpirical,length(empiricals)),"high",
 		ifelse(empiricals<rep(meanEmpirical,nClusters),"low","avg"))
 	}
 
@@ -1271,8 +1271,8 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 				probUpper<-apply(probMat,2,quantile,0.95)
 		
 				# Get the plot colors
-				probColor<-ifelse(probLower>rep(probMean,nClusters),"high",
-				ifelse(probUpper<rep(probMean,nClusters),"low","avg"))
+				probColor<-ifelse(probLower>rep(probMean,length(probLower)),"high",
+				ifelse(probUpper<rep(probMean,length(probUpper)),"low","avg"))
 
 				for(c in whichClusters){
 					riskDF<-rbind(riskDF,data.frame("prob"=probMat[,c],"cluster"=rep(c,nPoints),
@@ -1366,8 +1366,8 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 				probUpper<-apply(probMat,2,quantile,0.95)
 		
 				# Get the plot colors
-				probColor<-ifelse(probLower>rep(probMean,nClusters),"high",
-				ifelse(probUpper<rep(probMean,nClusters),"low","avg"))
+				probColor<-ifelse(probLower>rep(probMean,length(probLower)),"high",
+				ifelse(probUpper<rep(probMean,length(probUpper)),"low","avg"))
 			
 	
 				for(c in whichClusters){
@@ -1414,10 +1414,10 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			# The next line is to avoid outliers spoiling plot scales
 			plotMax<-max(muUpper)
 			plotMin<-min(muLower)
-			
+	
 			# Get the plot colors
-			muColor<-ifelse(muLower>rep(muMean,nClusters),"high",
-			ifelse(muUpper<rep(muMean,nClusters),"low","avg"))
+			muColor<-ifelse(muLower>rep(muMean,length(muLower)),"high",
+			ifelse(muUpper<rep(muMean,length(muUpper)),"low","avg"))
 			for(c in whichClusters){
 				plotMu<-muMat[,c]
 				plotMu<-plotMu[plotMu<plotMax&plotMu>plotMin]
@@ -1464,8 +1464,8 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			plotMax<-max(sigmaUpper)
 	
 			# Get the plot colors
-			sigmaColor<-ifelse(sigmaLower>rep(sigmaMean,nClusters),"high",
-			ifelse(sigmaUpper<rep(sigmaMean,nClusters),"low","avg"))
+			sigmaColor<-ifelse(sigmaLower>rep(sigmaMean,length(sigmaLower)),"high",
+			ifelse(sigmaUpper<rep(sigmaMean,length(sigmaUpper)),"low","avg"))
 			for(c in whichClusters){
 				plotSigma<-sigmaMat[,c]
 				plotSigma<-plotSigma[plotSigma<plotMax]
@@ -1510,8 +1510,8 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 				probUpper<-apply(probMat,2,quantile,0.95)
 		
 				# Get the plot colors
-				probColor<-ifelse(probLower>rep(probMean,nClusters),"high",
-				ifelse(probUpper<rep(probMean,nClusters),"low","avg"))
+				probColor<-ifelse(probLower>rep(probMean,length(probLower)),"high",
+				ifelse(probUpper<rep(probMean,length(probUpper)),"low","avg"))
 			
 	
 				for(c in whichClusters){
@@ -1560,8 +1560,8 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			plotMin<-min(muLower)
 			
 			# Get the plot colors
-			muColor<-ifelse(muLower>rep(muMean,nClusters),"high",
-			ifelse(muUpper<rep(muMean,nClusters),"low","avg"))
+			muColor<-ifelse(muLower>rep(muMean,length(muLower)),"high",
+			ifelse(muUpper<rep(muMean,length(muUpper)),"low","avg"))
 			for(c in whichClusters){
 				plotMu<-muMat[,c]
 				plotMu<-plotMu[plotMu<plotMax&plotMu>plotMin]
@@ -1607,8 +1607,8 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			plotMax<-max(sigmaUpper)
 	
 			# Get the plot colors
-			sigmaColor<-ifelse(sigmaLower>rep(sigmaMean,nClusters),"high",
-			ifelse(sigmaUpper<rep(sigmaMean,nClusters),"low","avg"))
+			sigmaColor<-ifelse(sigmaLower>rep(sigmaMean,length(sigmaLower)),"high",
+			ifelse(sigmaUpper<rep(sigmaMean,length(sigmaUpper)),"low","avg"))
 			for(c in whichClusters){
 				plotSigma<-sigmaMat[,c]
 				plotSigma<-plotSigma[plotSigma<plotMax]
