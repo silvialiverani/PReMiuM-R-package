@@ -2011,9 +2011,6 @@ margModelPosterior<-function(runInfoObj){
 	zAllocCurrent<-scan(zFileName,what=integer(),skip=skipLines,nlines=1,quiet=T)
 	zAllocCurrent<-zAllocCurrent[1:nSubjects]
 
-print(lastLine)
-print(firstLine)
-
 	# initialise output vectors
 	margModPost<-rep(0,length=(lastLine-firstLine+1))
 

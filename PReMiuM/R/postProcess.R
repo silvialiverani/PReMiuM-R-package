@@ -2011,9 +2011,6 @@ margModelPosterior<-function(runInfoObj){
 	zAllocCurrent<-scan(zFileName,what=integer(),skip=skipLines,nlines=1,quiet=T)
 	zAllocCurrent<-zAllocCurrent[1:nSubjects]
 
-print(lastLine)
-print(firstLine)
-
 	# initialise output vectors
 	margModPost<-rep(0,length=(lastLine-firstLine+1))
 
@@ -2029,7 +2026,7 @@ print(firstLine)
 	output<-.pZpXpY(zAlloc=zAllocCurrent, par=parFirstIter, clusterSizes=clusterSizes, nClusters=nClusters, runInfoObj=runInfoObj, alpha=alpha)
 	margModPost[1]<-output$margModPost
 	for (iter in (firstLine+1):lastLine){
-		if (iter%%nProgress==0) print(iter-firstLine)
+		if (iter%%nProgress==0) print(iter)
 		# identify allocations for this sweep
 		zAllocCurrent<-scan(zFileName,what=integer(),nlines=1,quiet=T)
 		zAllocCurrent<-zAllocCurrent[1:nSubjects]
