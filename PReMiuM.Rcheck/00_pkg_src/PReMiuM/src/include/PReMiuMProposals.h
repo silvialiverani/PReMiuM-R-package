@@ -1223,7 +1223,7 @@ void metropolisHastingsForLabels(mcmcChain<pReMiuMParams>& chain,
 	}
 
 	// Select two non-empty clusters at random
-	//nTry++;
+//	nTry++;
 	unsigned int i1=(unsigned int)nNotEmpty*unifRand(rndGenerator);
 	unsigned int c1=nonEmptyIndices[i1];
 	nonEmptyIndices.erase(nonEmptyIndices.begin()+i1);
@@ -1235,21 +1235,21 @@ void metropolisHastingsForLabels(mcmcChain<pReMiuMParams>& chain,
 								*(currentParams.logPsi(c1)-currentParams.logPsi(c2));
 
 	if(unifRand(rndGenerator)<exp(logAcceptRatio)){
-	//	nAccept++;
+//		nAccept++;
 		// Switch the labels
 		currentParams.switchLabels(c1,c2,covariateType,varSelectType);
 	}
 
 	// Move 2 - swap labels of 2 randomly selected neighbouring clusters,
 	//			also swapping the v at the same time
-	//nTry++;
+	nTry++;
 	c1=(unsigned int)maxZ*unifRand(rndGenerator);
 
 	logAcceptRatio=(double)currentParams.workNXInCluster(c1)*log(1-currentParams.v(c1+1))
 							- (double)currentParams.workNXInCluster(c1+1)*log(1-currentParams.v(c1));
 
 	if(unifRand(rndGenerator)<exp(logAcceptRatio)){
-	//	nAccept++;
+		nAccept++;
 		// Switch the labels
 		currentParams.switchLabels(c1,c1+1,covariateType,varSelectType);
 
@@ -1276,7 +1276,7 @@ void metropolisHastingsForLabels(mcmcChain<pReMiuMParams>& chain,
 
 	// Move 3
 
-	nTry++;
+//	nTry++;
 	c1=(unsigned int)maxZ*unifRand(rndGenerator);
 	// Compute the acceptance ratio
 	unsigned int sumNAfterC1Plus1=0;
@@ -1297,7 +1297,7 @@ void metropolisHastingsForLabels(mcmcChain<pReMiuMParams>& chain,
 	logAcceptRatio+=(double)(currentParams.workNXInCluster(c1))*log(const2);
 
 	if(unifRand(rndGenerator)<exp(logAcceptRatio)){
-		nAccept++;
+//		nAccept++;
 		currentParams.switchLabels(c1,c1+1,covariateType,varSelectType);
 		double currPsiC1 = exp(currentParams.logPsi(c1));
 		double currPsiC1Plus1 = exp(currentParams.logPsi(c1+1));

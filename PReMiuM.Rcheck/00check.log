@@ -1,13 +1,12 @@
-* using log directory ‘/home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
-* using R version 2.15.3 (2013-03-01)
+* using log directory ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
+* using R version 2.15.2 (2012-10-26)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
 * this is package ‘PReMiuM’ version ‘3.0.17’
-* checking CRAN incoming feasibility ... NOTE
+* checking CRAN incoming feasibility ... OK
 Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
-Days since last update: 6
 * checking package namespace information ... OK
 * checking package dependencies ... OK
 * checking if this is a source package ... OK
@@ -16,9 +15,9 @@ Days since last update: 6
 * checking for hidden files and directories ... OK
 * checking whether package ‘PReMiuM’ can be installed ... OK
 * checking installed package size ... NOTE
-  installed size is 11.2Mb
+  installed size is 11.6Mb
   sub-directories of 1Mb or more:
-    libs  11.0Mb
+    libs  11.4Mb
 * checking package directory ... OK
 * checking for portable file names ... OK
 * checking for sufficient/correct file permissions ... OK
@@ -55,7 +54,7 @@ Days since last update: 6
 * checking compiled code ... OK
 * checking examples ... OK
 * checking PDF version of manual ... OK
-NOTE: There were 2 notes.
+NOTE: There was 1 note.
 See
-  ‘/home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/00check.log’
+  ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/00check.log’
 for details.

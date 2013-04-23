@@ -354,6 +354,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		"nBurn"=nBurn,
 		"reportBurnIn"=reportBurnIn,
 		"nFilter"=nFilter,
+		"nProgress"=nProgress,
 		"nSubjects"=nSubjects,
 		"nPredictSubjects"=nPreds,
 		"fullPredictFile"=fullPredictFile,
@@ -1198,7 +1199,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 		riskLower<-apply(risk,2,quantile,0.05)
 		riskUpper<-apply(risk,2,quantile,0.95)
 		# The next line is to avoid outliers spoiling plot scales
-		plotMax<-2*max(riskUpper)-riskMean
+		plotMax<-max(riskUpper)
 		
 		# Get the plot colors
 		riskColor<-ifelse(riskLower>rep(riskMean,nClusters),"high",
@@ -1211,7 +1212,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 				"lowerRisk"=c(),"upperRisk"=c(),"fillColor"=c())
 		}
 	}else{
-		riskColor<-ifelse(empiricals>rep(meanEmpirical,nClusters),"high",
+		riskColor<-ifelse(empiricals>rep(meanEmpirical,length(empiricals)),"high",
 		ifelse(empiricals<rep(meanEmpirical,nClusters),"low","avg"))
 	}
 
@@ -1270,8 +1271,8 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 				probUpper<-apply(probMat,2,quantile,0.95)
 		
 				# Get the plot colors
-				probColor<-ifelse(probLower>rep(probMean,nClusters),"high",
-				ifelse(probUpper<rep(probMean,nClusters),"low","avg"))
+				probColor<-ifelse(probLower>rep(probMean,length(probLower)),"high",
+				ifelse(probUpper<rep(probMean,length(probUpper)),"low","avg"))
 
 				for(c in whichClusters){
 					riskDF<-rbind(riskDF,data.frame("prob"=probMat[,c],"cluster"=rep(c,nPoints),
@@ -1365,8 +1366,8 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 				probUpper<-apply(probMat,2,quantile,0.95)
 		
 				# Get the plot colors
-				probColor<-ifelse(probLower>rep(probMean,nClusters),"high",
-				ifelse(probUpper<rep(probMean,nClusters),"low","avg"))
+				probColor<-ifelse(probLower>rep(probMean,length(probLower)),"high",
+				ifelse(probUpper<rep(probMean,length(probUpper)),"low","avg"))
 			
 	
 				for(c in whichClusters){
@@ -1411,12 +1412,12 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			muLower<-apply(muMat,2,quantile,0.05)
 			muUpper<-apply(muMat,2,quantile,0.95)
 			# The next line is to avoid outliers spoiling plot scales
-			plotMax<-2*max(muUpper)-muMean
-			plotMin<-2*min(muLower)-muMean
-			
+			plotMax<-max(muUpper)
+			plotMin<-min(muLower)
+	
 			# Get the plot colors
-			muColor<-ifelse(muLower>rep(muMean,nClusters),"high",
-			ifelse(muUpper<rep(muMean,nClusters),"low","avg"))
+			muColor<-ifelse(muLower>rep(muMean,length(muLower)),"high",
+			ifelse(muUpper<rep(muMean,length(muUpper)),"low","avg"))
 			for(c in whichClusters){
 				plotMu<-muMat[,c]
 				plotMu<-plotMu[plotMu<plotMax&plotMu>plotMin]
@@ -1427,6 +1428,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 					"upperMu"=rep(muUpper[c],nPoints),
 					"fillColor"=rep(muColor[c],nPoints)))
 			}
+
 			rownames(profileDF)<-seq(1,nrow(profileDF),1)
 			
 			plotObj<-ggplot(profileDF)
@@ -1459,11 +1461,11 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			sigmaLower<-apply(sigmaMat,2,quantile,0.05)
 			sigmaUpper<-apply(sigmaMat,2,quantile,0.95)
 			# The next line is to avoid outliers spoiling plot scales
-			plotMax<-2*max(sigmaUpper)-sigmaMean
+			plotMax<-max(sigmaUpper)
 	
 			# Get the plot colors
-			sigmaColor<-ifelse(sigmaLower>rep(sigmaMean,nClusters),"high",
-			ifelse(sigmaUpper<rep(sigmaMean,nClusters),"low","avg"))
+			sigmaColor<-ifelse(sigmaLower>rep(sigmaMean,length(sigmaLower)),"high",
+			ifelse(sigmaUpper<rep(sigmaMean,length(sigmaUpper)),"low","avg"))
 			for(c in whichClusters){
 				plotSigma<-sigmaMat[,c]
 				plotSigma<-plotSigma[plotSigma<plotMax]
@@ -1475,6 +1477,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 					"fillColor"=rep(sigmaColor[c],nPoints)))
 			}
 			rownames(profileDF)<-seq(1,nrow(profileDF),1)
+
 			plotObj<-ggplot(profileDF)
 			plotObj<-plotObj+geom_hline(aes(x=as.factor(cluster),y=sigma,yintercept=meanSigma))
 			plotObj<-plotObj+geom_boxplot(aes(x=as.factor(cluster),y=sigma,fill=as.factor(fillColor)),outlier.size=0.5)
@@ -1507,8 +1510,8 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 				probUpper<-apply(probMat,2,quantile,0.95)
 		
 				# Get the plot colors
-				probColor<-ifelse(probLower>rep(probMean,nClusters),"high",
-				ifelse(probUpper<rep(probMean,nClusters),"low","avg"))
+				probColor<-ifelse(probLower>rep(probMean,length(probLower)),"high",
+				ifelse(probUpper<rep(probMean,length(probUpper)),"low","avg"))
 			
 	
 				for(c in whichClusters){
@@ -1553,12 +1556,12 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			muLower<-apply(muMat,2,quantile,0.05)
 			muUpper<-apply(muMat,2,quantile,0.95)
 			# The next line is to avoid outliers spoiling plot scales
-			plotMax<-2*max(muUpper)-muMean
-			plotMin<-2*min(muLower)-muMean
+			plotMax<-max(muUpper)
+			plotMin<-min(muLower)
 			
 			# Get the plot colors
-			muColor<-ifelse(muLower>rep(muMean,nClusters),"high",
-			ifelse(muUpper<rep(muMean,nClusters),"low","avg"))
+			muColor<-ifelse(muLower>rep(muMean,length(muLower)),"high",
+			ifelse(muUpper<rep(muMean,length(muUpper)),"low","avg"))
 			for(c in whichClusters){
 				plotMu<-muMat[,c]
 				plotMu<-plotMu[plotMu<plotMax&plotMu>plotMin]
@@ -1601,11 +1604,11 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			sigmaLower<-apply(sigmaMat,2,quantile,0.05)
 			sigmaUpper<-apply(sigmaMat,2,quantile,0.95)
 			# The next line is to avoid outliers spoiling plot scales
-			plotMax<-2*max(sigmaUpper)-sigmaMean
+			plotMax<-max(sigmaUpper)
 	
 			# Get the plot colors
-			sigmaColor<-ifelse(sigmaLower>rep(sigmaMean,nClusters),"high",
-			ifelse(sigmaUpper<rep(sigmaMean,nClusters),"low","avg"))
+			sigmaColor<-ifelse(sigmaLower>rep(sigmaMean,length(sigmaLower)),"high",
+			ifelse(sigmaUpper<rep(sigmaMean,length(sigmaUpper)),"low","avg"))
 			for(c in whichClusters){
 				plotSigma<-sigmaMat[,c]
 				plotSigma<-plotSigma[plotSigma<plotMax]
@@ -1904,6 +1907,7 @@ margModelPosterior<-function(runInfoObj){
 	nBurn=NULL
 	nFilter=NULL
 	nSweeps=NULL
+	nProgress=NULL
 
 
 	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
@@ -1971,14 +1975,15 @@ margModelPosterior<-function(runInfoObj){
 		alpha<-as.integer(alpha)
 	} else {
 		# if alpha wasn't fixed, take median value of chain
+		firstLine<-ifelse(reportBurnIn,nBurn/nFilter+2,1)
 		skipLines<-ifelse(reportBurnIn,nBurn/nFilter+1,0)
 		lastLine<-(nSweeps+ifelse(reportBurnIn,nBurn+1,0))/nFilter		
 		alphaFileName <- file(file.path(directoryPath,paste(fileStem,'_alpha.txt',sep='')))
 		open(alphaFileName)
 		alphaValues<-vector()
 		alphaValues[1]<-scan(alphaFileName,what=double(),skip=skipLines,nlines=1,quiet=T)
-		for (i in 2:lastLine){
-			alphaValues[i]<-scan(alphaFileName,what=double(),skip=0,nlines=1,quiet=T)
+		for (i in (firstLine+1):lastLine){
+			alphaValues[i-firstLine]<-scan(alphaFileName,what=double(),skip=0,nlines=1,quiet=T)
 		}
 		close(alphaFileName)
 		alpha<-median(alphaValues)
@@ -1999,14 +2004,15 @@ margModelPosterior<-function(runInfoObj){
 	zFileName <- file(file.path(directoryPath,paste(fileStem,'_z.txt',sep='')))
 	open(zFileName)
 	
-	# initialise output vectors
-	margModPost<-rep(0,length=nSweeps/nFilter)
-
 	# read first allocation iteration after burnin
+	firstLine<-ifelse(reportBurnIn,nBurn/nFilter+2,1)
 	skipLines<-ifelse(reportBurnIn,nBurn/nFilter+1,0)
 	lastLine<-(nSweeps+ifelse(reportBurnIn,nBurn+1,0))/nFilter	
 	zAllocCurrent<-scan(zFileName,what=integer(),skip=skipLines,nlines=1,quiet=T)
 	zAllocCurrent<-zAllocCurrent[1:nSubjects]
+
+	# initialise output vectors
+	margModPost<-rep(0,length=(lastLine-firstLine+1))
 
 	clusterSizes<-table(zAllocCurrent)
 	nClusters<-length(clusterSizes)
@@ -2019,8 +2025,8 @@ margModelPosterior<-function(runInfoObj){
 	# compute marginal model posterior
 	output<-.pZpXpY(zAlloc=zAllocCurrent, par=parFirstIter, clusterSizes=clusterSizes, nClusters=nClusters, runInfoObj=runInfoObj, alpha=alpha)
 	margModPost[1]<-output$margModPost
-	for (iter in 2:lastLine){
-		if (iter%%500==0) print(iter)
+	for (iter in (firstLine+1):lastLine){
+		if (iter%%nProgress==0) print(iter)
 		# identify allocations for this sweep
 		zAllocCurrent<-scan(zFileName,what=integer(),nlines=1,quiet=T)
 		zAllocCurrent<-zAllocCurrent[1:nSubjects]
@@ -2038,7 +2044,8 @@ margModelPosterior<-function(runInfoObj){
 		}
 
 		output<-.pZpXpY(zAlloc=zAllocCurrent,par=parTmp, clusterSizes=clusterSizes, nClusters=nClusters, runInfoObj = runInfoObj, alpha=alpha)
-		margModPost[iter]<-output$margModPost
+		margModPost[iter-firstLine+1]<-output$margModPost
+
 	}	
 
 	close(zFileName)
