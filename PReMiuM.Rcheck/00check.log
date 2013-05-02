@@ -1,10 +1,10 @@
 * using log directory ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
-* using R version 2.15.2 (2012-10-26)
+* using R version 3.0.0 (2013-04-03)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘PReMiuM’ version ‘3.0.17’
+* this is package ‘PReMiuM’ version ‘3.0.19’
 * checking CRAN incoming feasibility ... OK
 Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
 * checking package namespace information ... OK
@@ -13,14 +13,14 @@ Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
 * checking if there is a namespace ... OK
 * checking for executable files ... OK
 * checking for hidden files and directories ... OK
-* checking whether package ‘PReMiuM’ can be installed ... OK
-* checking installed package size ... NOTE
-  installed size is 11.6Mb
-  sub-directories of 1Mb or more:
-    libs  11.4Mb
-* checking package directory ... OK
 * checking for portable file names ... OK
 * checking for sufficient/correct file permissions ... OK
+* checking whether package ‘PReMiuM’ can be installed ... OK
+* checking installed package size ... NOTE
+  installed size is 11.2Mb
+  sub-directories of 1Mb or more:
+    libs  11.0Mb
+* checking package directory ... OK
 * checking DESCRIPTION meta-information ... OK
 * checking top-level files ... OK
 * checking for left-over files ... OK

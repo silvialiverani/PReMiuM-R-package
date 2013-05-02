@@ -1949,8 +1949,15 @@ string storeLogFileData(const pReMiuMOptions& options,
 			tmpStr << "aPhi[j]: 1/nCategories[j]" << endl;
 		}else{
 			tmpStr << "aPhi[j]: ";
-			for(unsigned int j=0;j<dataset.nCovariates();j++){
-				tmpStr << hyperParams.aPhi(j) << " ";
+			if(options.covariateType().compare("Discrete")==0){
+				for(unsigned int j=0;j<dataset.nCovariates();j++){
+					tmpStr << hyperParams.aPhi(j) << " ";
+				}
+			}
+			if(options.covariateType().compare("Mixed")==0){
+				for(unsigned int j=0;j<dataset.nDiscreteCovs();j++){
+					tmpStr << hyperParams.aPhi(j) << " ";
+				}
 			}
 			tmpStr << endl;
 		}

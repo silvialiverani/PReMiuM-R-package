@@ -1,8 +1,8 @@
 Package: PReMiuM
 Type: Package
 Title: Dirichlet Process Bayesian Clustering, Profile Regression
-Version: 3.0.18
-Date: 2013-23-04
+Version: 3.0.19
+Date: 2013-30-04
 Author: David I. Hastie <david.hastie@rsimony.com>, Silvia Liverani <liveranis@gmail.com> and Sylvia Richardson <sylvia.richardson@mrc-bsu.cam.ac.uk>, with a contribution by Lamiae Azizi
 Maintainer: Silvia Liverani <liveranis@gmail.com>
 Description: Dirichlet process Bayesian clustering, also known as profile regression.

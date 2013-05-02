@@ -1,7 +1,6 @@
 
-R version 2.15.2 (2012-10-26) -- "Trick or Treat"
-Copyright (C) 2012 The R Foundation for Statistical Computing
-ISBN 3-900051-07-0
+R version 3.0.0 (2013-04-03) -- "Masked Marvel"
+Copyright (C) 2013 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -31,7 +30,7 @@ Loading required package: RcppEigen
 Loading required package: Matrix
 Loading required package: lattice
 > 
-> assign(".oldSearch", search(), pos = 'CheckExEnv')
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
 > cleanEx()
 > nameEx("PReMiuM-package")
 > ### * PReMiuM-package
@@ -106,7 +105,7 @@ Loading required package: lattice
 > runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
 +     nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
 +     covNames=inputs$covNames,nClusInit=15)
-Random number seed: 1366650438
+Random number seed: 1367469962
 Sweep: 1
 > 
 > dissimObj<-calcDissimilarityMatrix(runInfoObj)
@@ -455,11 +454,11 @@ $clusterData[[5]]$covariateProbs[[5]]
 +          nBurn=10, data=inputs$inputData, output="output", 
 +          covNames = inputs$covNames, nClusInit=15,
 +          fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1366650439
+Random number seed: 1367469963
 Sweep: 1
 > 
 > margModelPosterior(runInfoObj)
-[1] -3922.561
+[1] -3997.149
 > 
 > 
 > 
@@ -514,7 +513,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1366650440
+Random number seed: 1367469964
 Sweep: 1
 > 
 > 
@@ -525,7 +524,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     discreteCovs = inputs$discreteCovs,
 +     continuousCovs = inputs$continuousCovs)
-Random number seed: 1366650440
+Random number seed: 1367469964
 Sweep: 1
 > 
 > 
@@ -555,7 +554,7 @@ Sweep: 1
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames,
 +     hyper=hyp)
-Random number seed: 1366650441
+Random number seed: 1367469965
 Sweep: 1
 > 
 > 
@@ -581,7 +580,7 @@ Sweep: 1
 +     xModel=inputs$xModel, nSweeps=10, nClusInit=15, 
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, varSelect="Continuous")
-Random number seed: 1366650441
+Random number seed: 1367469965
 Sweep: 1
 > 
 > rho<-summariseVarSelectRho(runInfoObj)
@@ -590,8 +589,8 @@ Sweep: 1
 > 
 > ### * <FOOTER>
 > ###
-> cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  5.236 0.3 5.567 0 0 
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  5.168 0.236 5.445 0 0 
 > grDevices::dev.off()
 null device 
           1 
