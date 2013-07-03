@@ -105,7 +105,7 @@ Loading required package: lattice
 > runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
 +     nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
 +     covNames=inputs$covNames,nClusInit=15)
-Random number seed: 1367469962
+Random number seed: 1367670284
 Sweep: 1
 > 
 > dissimObj<-calcDissimilarityMatrix(runInfoObj)
@@ -454,11 +454,11 @@ $clusterData[[5]]$covariateProbs[[5]]
 +          nBurn=10, data=inputs$inputData, output="output", 
 +          covNames = inputs$covNames, nClusInit=15,
 +          fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1367469963
+Random number seed: 1367670284
 Sweep: 1
 > 
 > margModelPosterior(runInfoObj)
-[1] -3997.149
+[1] -3963.048
 > 
 > 
 > 
@@ -513,7 +513,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1367469964
+Random number seed: 1367670285
 Sweep: 1
 > 
 > 
@@ -524,7 +524,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     discreteCovs = inputs$discreteCovs,
 +     continuousCovs = inputs$continuousCovs)
-Random number seed: 1367469964
+Random number seed: 1367670286
 Sweep: 1
 > 
 > 
@@ -554,7 +554,7 @@ Sweep: 1
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames,
 +     hyper=hyp)
-Random number seed: 1367469965
+Random number seed: 1367670286
 Sweep: 1
 > 
 > 
@@ -580,7 +580,7 @@ Sweep: 1
 +     xModel=inputs$xModel, nSweeps=10, nClusInit=15, 
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, varSelect="Continuous")
-Random number seed: 1367469965
+Random number seed: 1367670286
 Sweep: 1
 > 
 > rho<-summariseVarSelectRho(runInfoObj)
@@ -590,7 +590,7 @@ Sweep: 1
 > ### * <FOOTER>
 > ###
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  5.168 0.236 5.445 0 0 
+Time elapsed:  5.024 0.216 5.259 0 0 
 > grDevices::dev.off()
 null device 
           1 

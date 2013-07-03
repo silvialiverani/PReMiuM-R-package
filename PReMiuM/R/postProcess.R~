@@ -1913,7 +1913,7 @@ margModelPosterior<-function(runInfoObj){
 	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 
 	# this function only works for Bernoulli outcome and discrete covariates, so check that it is used correctly
-	if (includeResponse) {
+	if (includeresponse) {
 		if (xModel!="Discrete"||yModel!="Bernoulli") stop("ERROR: The computation of the marginal model posterior has only been implemented for Bernoulli outcome and discrete covariates.")
 	} else {
 		if (xModel!="Discrete") stop("ERROR: The computation of the marginal model posterior has only been implemented for Bernoulli outcome and discrete covariates.")
