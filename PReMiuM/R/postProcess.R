@@ -313,13 +313,6 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	}
 	
 	# other re-writes for function return
-	# include response
-	if (!missing(excludeY)) {
-		includeResponse <- FALSE
-		yModel <- NULL
-	} else {
-		includeResponse <- TRUE
-	}
 	# var select and var select type
 	if (varSelectType=="None") {
 		varSelect <- FALSE
@@ -333,7 +326,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	# outcome and fixed effect matrix
 	yMat <- NULL
 	wMat <- NULL
-	if(includeResponse){
+	# the code requires these matrices whether excludeY is TRUE or FALSE
+	#if(includeResponse){
 		yMat<-matrix(dataMatrix[,1],ncol=1)
 		if(yModel=='Poisson'){
 			offset<-dataMatrix[,ncol(dataMatrix)]
@@ -345,6 +339,13 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		if(nFixedEffects>0){
 			wMat<-dataMatrix[,(2+nCovariates):(1+nCovariates+nFixedEffects)]
 		}
+	#}
+	# include response
+	if (!missing(excludeY)) {
+		includeResponse <- FALSE
+		yModel <- NULL
+	} else {
+		includeResponse <- TRUE
 	}
 
 	return(list("directoryPath"=directoryPath,

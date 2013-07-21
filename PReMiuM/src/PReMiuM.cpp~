@@ -252,10 +252,10 @@ SEXP profRegr(SEXP inputString) {
 	/* ---------- Write the log file ------------- */
 	// The standard log file
 	pReMiuMSampler.writeLogFile();
-
+std::cout<<"ok"<<std::endl;
 	/* ---------- Initialise the chain ---- */
 	pReMiuMSampler.initialiseChain();
-
+std::cout<<"ok"<<std::endl;
 	pReMiuMHyperParams hyperParams = pReMiuMSampler.chain().currentState().parameters().hyperParams();
 	unsigned int nClusInit = pReMiuMSampler.chain().currentState().parameters().workNClusInit();
 	// The following is only used if the sampler type is truncated
