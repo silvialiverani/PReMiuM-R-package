@@ -326,6 +326,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	# outcome and fixed effect matrix
 	yMat <- NULL
 	wMat <- NULL
+	# the code requires these matrices whether excludeY is TRUE or FALSE
 	#if(includeResponse){
 		yMat<-matrix(dataMatrix[,1],ncol=1)
 		if(yModel=='Poisson'){
