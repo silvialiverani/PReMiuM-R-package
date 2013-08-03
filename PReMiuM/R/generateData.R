@@ -250,7 +250,7 @@ clusSummaryCategoricalDiscrete<-function(){list(
 		list('theta'=c(0,-2,-2),
 		'covariateProbs'=list(c(0.8,0.1,0.1),
 			c(0.1,0.1,0.8),
-			c(0.1,0.1,0.8),
+			c(0.1,0.6,0.3),
 			c(0.1,0.1,0.8),
 			c(0.1,0.1,0.8)))))
 }

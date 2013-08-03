@@ -23,7 +23,7 @@
 
 is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
 
-profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY, extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE, run=TRUE, discreteCovs, continuousCovs){
+profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY=FALSE, extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE, run=TRUE, discreteCovs, continuousCovs){
 
 	# suppress scientific notation
 	options(scipen=999)
@@ -36,6 +36,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	nCovariates<-length(covNames)
 	
 	if (!is.data.frame(data)) stop("Input data must be a data.frame with outcome, covariates and fixed effect names as column names.")
+
+	if (extraYVar==TRUE&(yModel=="Categorical"||yModel=="Normal")) stop("Option extraYVar is only available for Bernoulli, Binomial and Poisson response.")
 
 	# open file to write output
 	fileName<-paste(output,"_input.txt",sep="")
@@ -171,6 +173,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	if (nFixedEffects>0){
 		write(t(fixedEffectsNames), fileName,append=T,ncolumns=1)
 	}
+	if (yModel=="Categorical") write(yLevels,fileName,append=T,ncolumns=1) 
 	if (xModel=="Discrete"||xModel=="Mixed"){
 		write(xLevels,fileName,append=T,ncolumns=length(xLevels))
 	}
@@ -297,7 +300,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	if (!missing(nFilter)) inputString<-paste(inputString," --nFilter=",nFilter,sep="")
 	if (!missing(nClusInit)) inputString<-paste(inputString," --nClusInit=",nClusInit,sep="")
 	if (!missing(seed)) inputString<-paste(inputString," --seed=",seed,sep="")
-	if (!missing(excludeY)) inputString<-paste(inputString," --excludeY",sep="")
+	if (excludeY) inputString<-paste(inputString," --excludeY",sep="")
 	if (extraYVar) inputString<-paste(inputString," --extraYVar",sep="")
 	if (!missing(entropy)) inputString<-paste(inputString," --entropy",sep="")
 
@@ -341,7 +344,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		}
 	#}
 	# include response
-	if (!missing(excludeY)) {
+	if (excludeY) {
 		includeResponse <- FALSE
 		yModel <- NULL
 	} else {
@@ -688,6 +691,8 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 	if(includeResponse){
 		# Initialise the object for storing the risks
 		riskArray<-array(0,dim=c(nSamples,nClusters,nCategoriesY))
+#print(nSamples)
+#dim(riskArray)
 		thetaArray<-array(0,dim=c(nSamples,nClusters,nCategoriesY))
 		if(nFixedEffects>0){
 			betaArray<-array(0,dim=c(nSamples,nFixedEffects,nCategoriesY))
@@ -956,6 +961,8 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 				empiricals[c]<-mean(yMat[optAlloc[[c]],1]/yMat[optAlloc[[c]],2])
 			}else if(yModel=='Poisson'){
 				empiricals[c]<-mean(yMat[optAlloc[[c]],1]/yMat[optAlloc[[c]],2])
+			#}else if(yModel=='Categorical'){
+			# no empiricals for categorical outcome				
 			}
 		}
 	}
@@ -1332,21 +1339,23 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 	}
 	
 	# Create a bar chart of cluster empiricals
-	if(!is.null(yModel)){
-		plotObj<-ggplot(empiricalDF)
-		plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=empiricals,colour=as.factor(fillColor)),size=3)
-		plotObj<-plotObj+geom_hline(aes(x=as.factor(cluster),y=empiricals,yintercept=meanEmpirical))
-		plotObj<-plotObj+scale_colour_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
-			theme(legend.position="none")
-		plotObj<-plotObj+labs(title='Empirical Data',plot.title=element_text(size=10))
-		plotObj<-plotObj+theme(axis.title.x=element_text(size=10),axis.title.y=element_text(size=10,angle=90))
-		plotObj<-plotObj+
-			labs(y=ifelse(yModel=="Bernoulli","Proportion of cases",
-			ifelse(yModel=="Binomial","Avg Proportion of occurrence",
-			ifelse(yModel=="Poisson","Avg Count",
-			ifelse(yModel=="Categorical","Avg Proportion of occurrence","Avg Y")))),x="Cluster")
-		plotObj<-plotObj+theme(plot.margin=unit(c(0,0,0,0),'lines'))+theme(plot.margin=unit(c(0.15,0.5,0.5,1),'lines'))
-		print(plotObj,vp=viewport(layout.pos.row=1:3,layout.pos.col=1))
+	if((!is.null(yModel))){
+		if(yModel!="Categorical"){
+			plotObj<-ggplot(empiricalDF)
+			plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=empiricals,colour=as.factor(fillColor)),size=3)
+			plotObj<-plotObj+geom_hline(aes(x=as.factor(cluster),y=empiricals,yintercept=meanEmpirical))
+			plotObj<-plotObj+scale_colour_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
+				theme(legend.position="none")
+			plotObj<-plotObj+labs(title='Empirical Data',plot.title=element_text(size=10))
+			plotObj<-plotObj+theme(axis.title.x=element_text(size=10),axis.title.y=element_text(size=10,angle=90))
+			plotObj<-plotObj+
+				labs(y=ifelse(yModel=="Bernoulli","Proportion of cases",
+				ifelse(yModel=="Binomial","Avg Proportion of occurrence",
+				ifelse(yModel=="Poisson","Avg Count",
+				ifelse(yModel=="Categorical","Avg Proportion of occurrence","Avg Y")))),x="Cluster")
+			plotObj<-plotObj+theme(plot.margin=unit(c(0,0,0,0),'lines'))+theme(plot.margin=unit(c(0.15,0.5,0.5,1),'lines'))
+			print(plotObj,vp=viewport(layout.pos.row=1:3,layout.pos.col=1))
+		}
 	}
 	# Create a bar chart of cluster sizes
 	plotObj<-ggplot(sizeDF)

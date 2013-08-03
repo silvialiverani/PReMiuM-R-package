@@ -147,13 +147,6 @@ generateSampleDataFile<-function(clusterSummary){
 		}
 
 		mu<-theta
-#		if (outcomeType=='Categorical'){
-#			muTemp<-mu
-#			mu[1]<-0
-#print(muTemp)
-#print(nCategoriesY)
-#			mu[2:nCategoriesY]<-muTemp
-	#	}
 		if(nFixedEffects>0){
 			if (outcomeType=='Categorical'){			
 				for (kk in 2:nCategoriesY){
