@@ -691,8 +691,6 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 	if(includeResponse){
 		# Initialise the object for storing the risks
 		riskArray<-array(0,dim=c(nSamples,nClusters,nCategoriesY))
-#print(nSamples)
-#dim(riskArray)
 		thetaArray<-array(0,dim=c(nSamples,nClusters,nCategoriesY))
 		if(nFixedEffects>0){
 			betaArray<-array(0,dim=c(nSamples,nFixedEffects,nCategoriesY))
@@ -1907,7 +1905,7 @@ summariseVarSelectRho<-function(runInfoObj){
 	
 
 # Function to compute the marginal model posterior (only for discrete covariates and Bernoulli outcome)
-margModelPosterior<-function(runInfoObj){
+margModelPosterior<-function(runInfoObj,allocation){
 
 	xModel=NULL
 	yModel=NULL
@@ -2019,16 +2017,24 @@ margModelPosterior<-function(runInfoObj){
 
 	runInfoObj$hyperParams <- hyperParams
 
-	# open allocation file
-	zFileName <- file(file.path(directoryPath,paste(fileStem,'_z.txt',sep='')))
-	open(zFileName)
-	
 	# read first allocation iteration after burnin
 	firstLine<-ifelse(reportBurnIn,nBurn/nFilter+2,1)
 	skipLines<-ifelse(reportBurnIn,nBurn/nFilter+1,0)
 	lastLine<-(nSweeps+ifelse(reportBurnIn,nBurn+1,0))/nFilter	
-	zAllocCurrent<-scan(zFileName,what=integer(),skip=skipLines,nlines=1,quiet=T)
-	zAllocCurrent<-zAllocCurrent[1:nSubjects]
+
+	# open allocation file
+	if (missing(allocation)){
+		zFileName <- file(file.path(directoryPath,paste(fileStem,'_z.txt',sep='')))
+		open(zFileName)
+		zAllocCurrent<-scan(zFileName,what=integer(),skip=skipLines,nlines=1,quiet=T)
+		zAllocCurrent<-zAllocCurrent[1:nSubjects]
+	} else {
+		zAllocCurrent<-allocation[1:nSubjects]
+		firstLine<-0
+		skipLines<-0
+		lastLine<-0
+	}
+	
 
 	# initialise output vectors
 	margModPost<-rep(0,length=(lastLine-firstLine+1))
@@ -2044,30 +2050,34 @@ margModelPosterior<-function(runInfoObj){
 	# compute marginal model posterior
 	output<-.pZpXpY(zAlloc=zAllocCurrent, par=parFirstIter, clusterSizes=clusterSizes, nClusters=nClusters, runInfoObj=runInfoObj, alpha=alpha)
 	margModPost[1]<-output$margModPost
-	for (iter in (firstLine+1):lastLine){
-		if (iter%%nProgress==0) print(iter)
-		# identify allocations for this sweep
-		zAllocCurrent<-scan(zFileName,what=integer(),nlines=1,quiet=T)
-		zAllocCurrent<-zAllocCurrent[1:nSubjects]
-		# parameters
-		# number of elements in each cluster
-		clusterSizes<-table(zAllocCurrent)
-		# number of clusters
-		nClusters<-length(clusterSizes)
-		# computing the marginal likelihood
-		# version using the previous beta mode for next step	
-		if (nFixedEffects>0){
-			parTmp<-c(rep(0,nClusters),rep(0,nFixedEffects))
-		} else {
-			parTmp<-c(rep(0,nClusters))
-		}
+	if (missing(allocation)){
+		for (iter in (firstLine+1):lastLine){
+			if (iter%%nProgress==0) print(iter)
+			# identify allocations for this sweep
+			zAllocCurrent<-scan(zFileName,what=integer(),nlines=1,quiet=T)
+			zAllocCurrent<-zAllocCurrent[1:nSubjects]
+			# parameters
+			# number of elements in each cluster
+			clusterSizes<-table(zAllocCurrent)
+			# number of clusters
+			nClusters<-length(clusterSizes)
+			# computing the marginal likelihood
+			# version using the previous beta mode for next step	
+			if (nFixedEffects>0){
+				parTmp<-c(rep(0,nClusters),rep(0,nFixedEffects))
+			} else {
+				parTmp<-c(rep(0,nClusters))
+			}
+	
+			output<-.pZpXpY(zAlloc=zAllocCurrent,par=parTmp, clusterSizes=clusterSizes, nClusters=nClusters, runInfoObj = runInfoObj, alpha=alpha)
+			margModPost[iter-firstLine+1]<-output$margModPost
 
-		output<-.pZpXpY(zAlloc=zAllocCurrent,par=parTmp, clusterSizes=clusterSizes, nClusters=nClusters, runInfoObj = runInfoObj, alpha=alpha)
-		margModPost[iter-firstLine+1]<-output$margModPost
+		}	
+	}
+	if (missing(allocation)){
+		close(zFileName)
+	}
 
-	}	
-
-	close(zFileName)
 	write.table(margModPost,file.path(directoryPath,paste(fileStem,"_margModPost.txt",sep="")), col.names = FALSE,row.names = FALSE)
 	return(mean(margModPost))
 }
