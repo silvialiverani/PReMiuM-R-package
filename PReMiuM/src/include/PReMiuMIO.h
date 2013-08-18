@@ -700,7 +700,6 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 			hyperParams.truncationEps(truncationEps);
 		}
 	}
-
 }
 
 // Initialise the PReMiuM object (needed in this file as it calls
@@ -850,9 +849,9 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 		for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
 			int zi=params.z(i);
 			double ui=0.0;
-			if(samplerType.compare("SliceDependent")){
+			if(samplerType.compare("SliceDependent")==0){
 				ui = exp(params.logPsi(zi))*unifRand(rndGenerator);
-			}else if(samplerType.compare("SliceIndependent")){
+			}else if(samplerType.compare("SliceIndependent")==0){
 				ui = hyperParams.workXiSlice(zi)*unifRand(rndGenerator);
 			}
 			if(ui<minU){
@@ -874,6 +873,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 
 		maxNClusters = maxZ+1;
 		if(samplerType.compare("SliceIndependent")==0){
+
 			maxNClusters=2+(int)((log(params.workMinUi())-log(1.0-hyperParams.rSlice()))/log(hyperParams.rSlice()));
 		}
 
@@ -906,7 +906,6 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 		params.v(vNew);
 		params.logPsi(logPsiNew);
 	}
-
 	if(covariateType.compare("Discrete")==0){
 		// Sample logPhi
 		// Need to count the number of X[i][j]==p for each covariate and category of p
@@ -1292,7 +1291,6 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 		}
 
 	}
-
 }
 
 // Write the sampler output

@@ -303,7 +303,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	if (excludeY) inputString<-paste(inputString," --excludeY",sep="")
 	if (extraYVar) inputString<-paste(inputString," --extraYVar",sep="")
 	if (!missing(entropy)) inputString<-paste(inputString," --entropy",sep="")
-
+print(inputString)
 	if (run) .Call('profRegr', inputString, PACKAGE = 'PReMiuM')
 
 	# define directory path and fileStem
@@ -2077,7 +2077,7 @@ margModelPosterior<-function(runInfoObj,allocation){
 	if (missing(allocation)){
 		close(zFileName)
 	}
-print(margModPost)
+
 	write.table(margModPost,file.path(directoryPath,paste(fileStem,"_margModPost.txt",sep="")), col.names = FALSE,row.names = FALSE)
 	return(mean(margModPost))
 }

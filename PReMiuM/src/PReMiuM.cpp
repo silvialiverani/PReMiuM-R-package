@@ -65,6 +65,7 @@ SEXP profRegr(SEXP inputString) {
 	beginTime = time(NULL);
 	/* -----------Process the command line ---------*/
 	pReMiuMOptions options = processCommandLine(inputStr);
+
 	/* ---------- Set up the sampler object--------*/
 	// Initialise the sampler object
 	mcmcSampler<pReMiuMParams,pReMiuMOptions,
@@ -135,7 +136,6 @@ SEXP profRegr(SEXP inputString) {
 		pReMiuMSampler.addProposal("gibbsForTauActive",1.0,1,1,&gibbsForTauActive);
 
 	}
-
 
 	if(options.varSelectType().compare("None")!=0){
 		// Add the variable selection moves
@@ -241,7 +241,6 @@ SEXP profRegr(SEXP inputString) {
 		pReMiuMSampler.addProposal("gibbsForSigmaSqY",1.0,1,1,&gibbsForSigmaSqY);
 	}
 
-
 	// Gibbs update for the allocation parameters
 	pReMiuMSampler.addProposal("gibbsForZ",1.0,1,1,&gibbsForZ);
 
@@ -262,6 +261,7 @@ SEXP profRegr(SEXP inputString) {
 	unsigned int maxNClusters = pReMiuMSampler.chain().currentState().parameters().maxNClusters();
 	/* ---------- Run the sampler --------- */
 	// Note: in this function the output gets written
+
 	pReMiuMSampler.run();
 
 	/* -- End the clock time and write the full run details to log file --*/
