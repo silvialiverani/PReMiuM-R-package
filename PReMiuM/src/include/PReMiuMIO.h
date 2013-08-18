@@ -186,7 +186,7 @@ pReMiuMOptions processCommandLine(string inputStr){
 					string samplerType = inString.substr(pos,inString.size()-pos);
 					if(samplerType.compare("SliceDependent")!=0&&samplerType.compare("SliceIndependent")!=0
 							&&samplerType.compare("Truncated")!=0){
-						// Illegal covariate type entered
+						// Illegal sampler type entered
 						wasError=true;
 						break;
 					}
@@ -790,13 +790,14 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 	}
 	params.workNClusInit(nClusInit);
 	for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
-		int c=(int) nClusInit*unifRand(rndGenerator);
+		int c=(int) maxNClusters*unifRand(rndGenerator);
 		params.z(i,c,covariateType);
 		if(c>(int)maxZ){
 			maxZ=c;
 		}
 		if(i<nSubjects){
 			nXInCluster[c]++;
+
 		}
 	}
 	params.workNXInCluster(nXInCluster);

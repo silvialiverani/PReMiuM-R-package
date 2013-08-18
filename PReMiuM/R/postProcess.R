@@ -43,7 +43,13 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	fileName<-paste(output,"_input.txt",sep="")
 	# make big data matrix with outcome, covariates and fixed effects	
 	# outcome
-	dataMatrix<-data[,which(colnames(data)==outcome)]
+	# create outcome if excludeY=TRUE and outcome not provided
+	if (length(which(colnames(data)==outcome))<1&&excludeY==TRUE) {
+		dataMatrix<-rep(0,dim(data)[1])
+		yModel="Bernoulli" 
+	} else {
+		dataMatrix<-data[,which(colnames(data)==outcome)]
+	}
 
 	if (sum(is.na(dataMatrix))>0) stop("ERROR: the outcome cannot have missing values. Use the profiles with missing outcome for predictions.")
 
