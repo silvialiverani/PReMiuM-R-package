@@ -150,11 +150,8 @@ pReMiuMOptions processCommandLine(string inputStr){
 				}else if(inString.find("--nClusInit")!=string::npos){
 					size_t pos = inString.find("=")+1;
 					string tmpStr = inString.substr(pos,inString.size()-pos);
-std::cout<<"clus init "<<tmpStr<<std::endl;
 					unsigned int nClusInit = (unsigned int)atoi(tmpStr.c_str());
-std::cout<<"clus init "<<nClusInit<<std::endl;
 					options.nClusInit(nClusInit);
-std::cout<<"clus init "<<nClusInit<<std::endl;
 				}else if(inString.find("--seed")!=string::npos){
 					size_t pos = inString.find("=")+1;
 					string tmpStr = inString.substr(pos,inString.size()-pos);
