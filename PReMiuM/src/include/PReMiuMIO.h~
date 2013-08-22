@@ -794,9 +794,15 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 	unsigned int maxZ=0;
 
 	params.workNClusInit(nClusInit);
+std::cout<<"maxNC "<<maxNClusters<<std::endl;
+std::cout<<"nClus "<<nClusInit<<std::endl;
 	for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
+std::cout<<"maxNC0 "<<maxNClusters<<std::endl;
 		int c=(int) nClusInit*unifRand(rndGenerator);
+std::cout<<"maxNC1 "<<maxNClusters<<std::endl;
+std::cout<<"c "<<c<<std::endl;
 		params.z(i,c,covariateType);
+std::cout<<"maxNC "<<maxNClusters<<" "<<c<<std::endl;
 		if(c>(int)maxZ){
 			maxZ=c;
 		}
