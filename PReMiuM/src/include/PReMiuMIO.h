@@ -803,6 +803,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 
 		}
 	}
+
 	params.workNXInCluster(nXInCluster);
 	params.workMaxZi(maxZ);
 
@@ -826,6 +827,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 		params.logPsi(c,tmp+log(vVal));
 		tmp += log(1-vVal);
 	}
+std::cout<<"here1"<<std::endl;
 
 	if(samplerType.compare("Truncated")==0){
 		// Just sample the remaining V from the prior
@@ -910,6 +912,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 		params.v(vNew);
 		params.logPsi(logPsiNew);
 	}
+
 	if(covariateType.compare("Discrete")==0){
 		// Sample logPhi
 		// Need to count the number of X[i][j]==p for each covariate and category of p

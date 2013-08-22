@@ -150,11 +150,8 @@ pReMiuMOptions processCommandLine(string inputStr){
 				}else if(inString.find("--nClusInit")!=string::npos){
 					size_t pos = inString.find("=")+1;
 					string tmpStr = inString.substr(pos,inString.size()-pos);
-std::cout<<"clus init "<<tmpStr<<std::endl;
 					unsigned int nClusInit = (unsigned int)atoi(tmpStr.c_str());
-std::cout<<"clus init "<<nClusInit<<std::endl;
 					options.nClusInit(nClusInit);
-std::cout<<"clus init "<<nClusInit<<std::endl;
 				}else if(inString.find("--seed")!=string::npos){
 					size_t pos = inString.find("=")+1;
 					string tmpStr = inString.substr(pos,inString.size()-pos);
@@ -794,8 +791,11 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 	unsigned int maxZ=0;
 
 	params.workNClusInit(nClusInit);
+std::cout<<"here3"<<std::endl;
 	for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
 		int c=(int) nClusInit*unifRand(rndGenerator);
+std::cout<<nClusInit<<std::endl;
+std::cout<<"mc "<<maxNClusters<<std::endl;
 		params.z(i,c,covariateType);
 		if(c>(int)maxZ){
 			maxZ=c;
@@ -806,6 +806,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 
 		}
 	}
+std::cout<<"here3"<<std::endl;
 	params.workNXInCluster(nXInCluster);
 	params.workMaxZi(maxZ);
 
@@ -829,6 +830,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 		params.logPsi(c,tmp+log(vVal));
 		tmp += log(1-vVal);
 	}
+std::cout<<"here1"<<std::endl;
 
 	if(samplerType.compare("Truncated")==0){
 		// Just sample the remaining V from the prior
@@ -913,6 +915,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 		params.v(vNew);
 		params.logPsi(logPsiNew);
 	}
+
 	if(covariateType.compare("Discrete")==0){
 		// Sample logPhi
 		// Need to count the number of X[i][j]==p for each covariate and category of p
