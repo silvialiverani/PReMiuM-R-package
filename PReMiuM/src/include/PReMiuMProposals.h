@@ -1292,7 +1292,7 @@ void metropolisHastingsForLabels(mcmcChain<pReMiuMParams>& chain,
 	logAcceptRatio=(double)(currentParams.workNXInCluster(c1)+currentParams.workNXInCluster(c1+1))*
 					log(exp(currentParams.logPsi(c1))+exp(currentParams.logPsi(c1+1)));
 	logAcceptRatio-=(double)(currentParams.workNXInCluster(c1)+currentParams.workNXInCluster(c1+1))*
-					log(exp(currentParams.logPsi(c1))*const1+exp(currentParams.logPsi(c1+1))*const2);
+					log(exp(currentParams.logPsi(c1+1))*const1+exp(currentParams.logPsi(c1))*const2);
 	logAcceptRatio+=(double)(currentParams.workNXInCluster(c1+1))*log(const1);
 	logAcceptRatio+=(double)(currentParams.workNXInCluster(c1))*log(const2);
 
