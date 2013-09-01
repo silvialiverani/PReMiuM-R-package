@@ -275,7 +275,7 @@ SEXP profRegr(SEXP inputString) {
 	/* ---------- Clean Up ---------------- */
 	pReMiuMSampler.closeOutputFiles();
 
-	int err = 0;
+	//int err = 0;
 	return Rcpp::wrap(0);
 // alternative output
 //	return Rcpp::List::create(Rcpp::Named("yModel")=options.outcomeType());

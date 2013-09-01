@@ -258,7 +258,7 @@ SEXP profRegr(SEXP inputString) {
 
 	pReMiuMHyperParams hyperParams = pReMiuMSampler.chain().currentState().parameters().hyperParams();
 	unsigned int nClusInit = pReMiuMSampler.chain().currentState().parameters().workNClusInit();
-std::cout<<"main "<<nClusInit<<std::endl;
+
 	// The following is only used if the sampler type is truncated
 	unsigned int maxNClusters = pReMiuMSampler.chain().currentState().parameters().maxNClusters();
 	/* ---------- Run the sampler --------- */

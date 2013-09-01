@@ -234,11 +234,11 @@ SEXP GradpYGivenZW(SEXP betaIn,SEXP thetaIn,SEXP zAlloc, SEXP nSubjects,
 
 SEXP pZpX(SEXP nClusters, SEXP nCategories,SEXP aPhi, SEXP n,SEXP nCovariates,SEXP zAlloc, SEXP xMat, SEXP nNames,SEXP alpha){
 
-	unsigned int nC = Rcpp::as<int>(nClusters);
+	int nC = Rcpp::as<int>(nClusters);
 	Rcpp::NumericVector nCat(nCategories);
 	Rcpp::NumericVector nn(n);
 	Rcpp::NumericVector aP(aPhi);
-	unsigned int nCov = Rcpp::as<int>(nCovariates);
+	int nCov = Rcpp::as<int>(nCovariates);
 	Rcpp::NumericVector xM(xMat);
 	Rcpp::NumericVector z(zAlloc);
 	Rcpp::NumericVector names(nNames);
