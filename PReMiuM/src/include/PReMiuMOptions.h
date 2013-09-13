@@ -75,6 +75,7 @@ class pReMiuMOptions{
 			_outcomeType="Bernoulli";
 			_covariateType="Discrete";
 			_includeResponse = true;
+			_whichLabelSwitch = "123";
 			_responseExtraVar = false;
 			_doPrediction = false;
 			_varSelectType ="None";
@@ -221,6 +222,7 @@ class pReMiuMOptions{
 			_covariateType=covType;
 		}
 
+
 		/// \brief Return whether we are including response
 		bool includeResponse() const{
 			return _includeResponse;
@@ -229,6 +231,16 @@ class pReMiuMOptions{
 		/// \brief Set whether we are including the response
 		void includeResponse(const bool& incResp){
 			_includeResponse=incResp;
+		}
+
+		/// \brief Return which label switch moves are implemented
+		string whichLabelSwitch() const{
+			return _whichLabelSwitch;
+		}
+
+		/// \brief Set which label switch moves are implemented
+		void whichLabelSwitch(const string& ls){
+			_whichLabelSwitch=ls;
 		}
 
 		/// \brief Return the fixed value of alpha (negative value means not fixed)
@@ -304,6 +316,7 @@ class pReMiuMOptions{
 			_outcomeType=options.outcomeType();
 			_covariateType=options.covariateType();
 			_includeResponse=options.includeResponse();
+			_whichLabelSwitch=options.whichLabelSwitch();
 			_fixedAlpha=options.fixedAlpha();
 			_samplerType=options.samplerType();
 			_doPrediction=options.doPrediction();
@@ -343,6 +356,8 @@ class pReMiuMOptions{
 		string _covariateType;
 		// This notes whether we are including the response
 		bool _includeResponse;
+		// This notes which label switching moves are run
+		string _whichLabelSwitch;
 		// This has a fixed value of alpha (if negative we update alpha)
 		double _fixedAlpha;
 		// The method used by the sampler

@@ -155,7 +155,13 @@ SEXP profRegr(SEXP inputString) {
 	}
 
 	// The Metropolis Hastings update for labels
-	pReMiuMSampler.addProposal("metropolisHastingsForLabels",1.0,1,1,&metropolisHastingsForLabels);
+	if(options.whichLabelSwitch().compare("123")==0){
+		pReMiuMSampler.addProposal("metropolisHastingsForLabels123",1.0,1,1,&metropolisHastingsForLabels123);
+	} else if (options.whichLabelSwitch().compare("12")==0){
+		pReMiuMSampler.addProposal("metropolisHastingsForLabels12",1.0,1,1,&metropolisHastingsForLabels12);
+	} else if(options.whichLabelSwitch().compare("3")==0){
+		pReMiuMSampler.addProposal("metropolisHastingsForLabels3",1.0,1,1,&metropolisHastingsForLabels3);
+	}
 
 	// Gibbs for U
 	if(options.samplerType().compare("Truncated")!=0){

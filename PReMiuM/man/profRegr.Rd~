@@ -54,7 +54,7 @@ Bayesian variable selection and the Dirichlet process: application to searching 
 \item{run}{Logical. If TRUE then the MCMC is run. Set run=FALSE if the MCMC has been run already and it is only required to collect information about the run.}
 \item{discreteCovs}{The names of the discrete covariates among the covariate names, if xModel="Mixed". This and continuousCovs must be defined if xModel="Mixed", while covNames is ignored.}
 \item{continuousCovs}{The names of the discrete covariates among the covariate names, if xModel="Mixed". This and continuousCovs must be defined if xModel="Mixed", while covNames is ignored.}
-\item{whichLabelSwitch}{The label switching moves to run. The options available are moves 1, 2 and 3 ("123"), moves 1 and 2 ("12") and move 3 only ("3"). The moves are described in Hastie et al. (2013).}
+\item{whichLabelSwitch}{The label switching moves to run. The options available are moves 1, 2 and 3 ("A"), moves 1 and 2 ("B") and move 3 only ("C"). The moves are described in Hastie et al. (2013).}
 }
 \value{
 Once the C++ has completed the output from fitting the regression is stored in a number of text files in the directory specified. Files are produced

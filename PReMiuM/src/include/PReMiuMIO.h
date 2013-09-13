@@ -181,6 +181,15 @@ pReMiuMOptions processCommandLine(string inputStr){
 						break;
 					}
 					options.covariateType(covariateType);
+				}else if(inString.find("--whichLabelSwitch")!=string::npos){
+					size_t pos = inString.find("=")+1;
+					string whichLabelSwitch = inString.substr(pos,inString.size()-pos);
+					if(whichLabelSwitch.compare("123")!=0&&whichLabelSwitch.compare("12")!=0&&whichLabelSwitch.compare("3")!=0){
+						// Illegal covariate type entered
+						wasError=true;
+						break;
+					}
+					options.whichLabelSwitch(whichLabelSwitch);
 				}else if(inString.find("--sampler")!=string::npos){
 					size_t pos = inString.find("=")+1;
 					string samplerType = inString.substr(pos,inString.size()-pos);
@@ -756,7 +765,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 	// Fix the number of clusters if we are using the truncated sampler
 	if(samplerType.compare("Truncated")==0){
 		maxNClusters=20;
-		if((nClusInit)>maxNClusters){
+		if((nClusInit+10)>maxNClusters){
 			maxNClusters=nClusInit+10;
 		}
 		// Now compute the bound recommended in Ishwaran and James 2001

@@ -1190,7 +1190,7 @@ void metropolisHastingsForThetaActive(mcmcChain<pReMiuMParams>& chain,
 
 
 // Label switching moves (as recommended in Papaspiliopoulos and Roberts, 2008
-void metropolisHastingsForLabels(mcmcChain<pReMiuMParams>& chain,
+void metropolisHastingsForLabels123(mcmcChain<pReMiuMParams>& chain,
 				unsigned int& nTry,unsigned int& nAccept,
 				const mcmcModel<pReMiuMParams,pReMiuMOptions,pReMiuMData>& model,
 				pReMiuMPropParams& propParams,
@@ -1223,7 +1223,7 @@ void metropolisHastingsForLabels(mcmcChain<pReMiuMParams>& chain,
 	}
 
 	// Select two non-empty clusters at random
-//	nTry++;
+	nTry++;
 	unsigned int i1=(unsigned int)nNotEmpty*unifRand(rndGenerator);
 	unsigned int c1=nonEmptyIndices[i1];
 	nonEmptyIndices.erase(nonEmptyIndices.begin()+i1);
@@ -1235,21 +1235,22 @@ void metropolisHastingsForLabels(mcmcChain<pReMiuMParams>& chain,
 								*(currentParams.logPsi(c1)-currentParams.logPsi(c2));
 
 	if(unifRand(rndGenerator)<exp(logAcceptRatio)){
-//		nAccept++;
+		nAccept++;
 		// Switch the labels
 		currentParams.switchLabels(c1,c2,covariateType,varSelectType);
 	}
 
 	// Move 2 - swap labels of 2 randomly selected neighbouring clusters,
 	//			also swapping the v at the same time
-	nTry++;
+//	nTry++;
 	c1=(unsigned int)maxZ*unifRand(rndGenerator);
 
 	logAcceptRatio=(double)currentParams.workNXInCluster(c1)*log(1-currentParams.v(c1+1))
 							- (double)currentParams.workNXInCluster(c1+1)*log(1-currentParams.v(c1));
 
 	if(unifRand(rndGenerator)<exp(logAcceptRatio)){
-		nAccept++;
+//		nAccept++;
+
 		// Switch the labels
 		currentParams.switchLabels(c1,c1+1,covariateType,varSelectType);
 
@@ -1268,6 +1269,7 @@ void metropolisHastingsForLabels(mcmcChain<pReMiuMParams>& chain,
 			// Just check if the maximum Z has now changed to be one less
 			if(currentParams.workNXInCluster(c1+1)==0){
 				currentParams.workMaxZi(c1);
+				maxZ=c1;
 			}
 		}
 
@@ -1278,6 +1280,7 @@ void metropolisHastingsForLabels(mcmcChain<pReMiuMParams>& chain,
 
 //	nTry++;
 	c1=(unsigned int)maxZ*unifRand(rndGenerator);
+
 	// Compute the acceptance ratio
 	unsigned int sumNAfterC1Plus1=0;
 	for(unsigned int c=c1+2;c<=maxZ;c++){
@@ -1319,6 +1322,185 @@ void metropolisHastingsForLabels(mcmcChain<pReMiuMParams>& chain,
 		currentParams.logPsi(c1+1,log(propPsiC1Plus1));
 		currentParams.v(c1,propVC1);
 		currentParams.v(c1+1,propVC1Plus1);
+		if(c1==maxZ-1){
+			// Just check if the maximum Z has now changed to be one less
+			if(currentParams.workNXInCluster(c1+1)==0){
+				currentParams.workMaxZi(c1);
+			}
+		}
+	}
+}
+
+void metropolisHastingsForLabels12(mcmcChain<pReMiuMParams>& chain,
+				unsigned int& nTry,unsigned int& nAccept,
+				const mcmcModel<pReMiuMParams,pReMiuMOptions,pReMiuMData>& model,
+				pReMiuMPropParams& propParams,
+				baseGeneratorType& rndGenerator){
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+
+	unsigned int maxZ = currentParams.workMaxZi();
+	if(maxZ==0){
+		// If there is only one cluster with individuals in, don't do anything
+		return;
+	}
+	string varSelectType = model.options().varSelectType();
+	string covariateType = model.options().covariateType();
+
+	randomUniform unifRand(0,1);
+
+	// Move 1 - swap labels of 2 randomly selected non-empty clusters,
+	//          leaving psi_c^prop = psi_c for all c
+
+	// Compute how many non-empty clusters
+	unsigned int nNotEmpty=0;
+	vector<unsigned int> nonEmptyIndices;
+	for(unsigned int c=0;c<=maxZ;c++){
+		if(currentParams.workNXInCluster(c)>0){
+			nNotEmpty++;
+			nonEmptyIndices.push_back(c);
+		}
+	}
+
+	// Select two non-empty clusters at random
+	nTry++;
+	unsigned int i1=(unsigned int)nNotEmpty*unifRand(rndGenerator);
+	unsigned int c1=nonEmptyIndices[i1];
+	nonEmptyIndices.erase(nonEmptyIndices.begin()+i1);
+	unsigned int i2=(unsigned int)(nNotEmpty-1)*unifRand(rndGenerator);
+	unsigned int c2=nonEmptyIndices[i2];
+
+	// Check whether we accept the move
+	double logAcceptRatio = ((double)currentParams.workNXInCluster(c2)-(double)currentParams.workNXInCluster(c1))
+								*(currentParams.logPsi(c1)-currentParams.logPsi(c2));
+
+	if(unifRand(rndGenerator)<exp(logAcceptRatio)){
+		nAccept++;
+		// Switch the labels
+		currentParams.switchLabels(c1,c2,covariateType,varSelectType);
+	}
+
+	// Move 2 - swap labels of 2 randomly selected neighbouring clusters,
+	//			also swapping the v at the same time
+//	nTry++;
+	c1=(unsigned int)maxZ*unifRand(rndGenerator);
+
+	logAcceptRatio=(double)currentParams.workNXInCluster(c1)*log(1-currentParams.v(c1+1))
+							- (double)currentParams.workNXInCluster(c1+1)*log(1-currentParams.v(c1));
+
+	if(unifRand(rndGenerator)<exp(logAcceptRatio)){
+//		nAccept++;
+		// Switch the labels
+		currentParams.switchLabels(c1,c1+1,covariateType,varSelectType);
+
+		// Also switch the v's
+		double v1=currentParams.v(c1);
+		double v2=currentParams.v(c1+1);
+		double logPsi1=currentParams.logPsi(c1);
+		double logPsi2=currentParams.logPsi(c1+1);
+
+		currentParams.logPsi(c1,log(v2)+logPsi1-log(v1));
+		currentParams.logPsi(c1+1,log(v1)+log(1-v2)+logPsi2-log(v2)-log(1-v1));
+		currentParams.v(c1,v2);
+		currentParams.v(c1+1,v1);
+
+		if(c1==maxZ-1){
+			// Just check if the maximum Z has now changed to be one less
+			if(currentParams.workNXInCluster(c1+1)==0){
+				currentParams.workMaxZi(c1);
+			}
+		}
+
+
+	}
+
+}
+
+void metropolisHastingsForLabels3(mcmcChain<pReMiuMParams>& chain,
+				unsigned int& nTry,unsigned int& nAccept,
+				const mcmcModel<pReMiuMParams,pReMiuMOptions,pReMiuMData>& model,
+				pReMiuMPropParams& propParams,
+				baseGeneratorType& rndGenerator){
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+
+	unsigned int maxZ = currentParams.workMaxZi();
+	if(maxZ==0){
+		// If there is only one cluster with individuals in, don't do anything
+		return;
+	}
+	string varSelectType = model.options().varSelectType();
+	string covariateType = model.options().covariateType();
+
+	randomUniform unifRand(0,1);
+
+	// Move 3
+
+	// Compute how many non-empty clusters
+	unsigned int nNotEmpty=0;
+	vector<unsigned int> nonEmptyIndices;
+	for(unsigned int c=0;c<=maxZ;c++){
+		if(currentParams.workNXInCluster(c)>0){
+			nNotEmpty++;
+			nonEmptyIndices.push_back(c);
+		}
+	}
+
+	// Select two non-empty clusters at random
+	nTry++;
+	unsigned int i1=(unsigned int)nNotEmpty*unifRand(rndGenerator);
+	unsigned int c1=nonEmptyIndices[i1];
+	nonEmptyIndices.erase(nonEmptyIndices.begin()+i1);
+	unsigned int i2=(unsigned int)(nNotEmpty-1)*unifRand(rndGenerator);
+	unsigned int c2=nonEmptyIndices[i2];
+
+	// Check whether we accept the move
+	double logAcceptRatio=0;
+
+	c1=(unsigned int)maxZ*unifRand(rndGenerator);
+	// Compute the acceptance ratio
+	unsigned int sumNAfterC1Plus1=0;
+	for(unsigned int c=c1+2;c<=maxZ;c++){
+		sumNAfterC1Plus1+=currentParams.workNXInCluster(c);
+	}
+	double const1=0.0,const2=0.0;
+	double alpha=currentParams.alpha();
+	const1=(1.0+alpha+(double)currentParams.workNXInCluster(c1+1)+(double)sumNAfterC1Plus1)/
+			(alpha+(double)currentParams.workNXInCluster(c1+1)+(double)sumNAfterC1Plus1);
+	const2=(alpha+(double)currentParams.workNXInCluster(c1)+(double)sumNAfterC1Plus1)/
+			(1.0+alpha+(double)currentParams.workNXInCluster(c1)+(double)sumNAfterC1Plus1);
+	logAcceptRatio=(double)(currentParams.workNXInCluster(c1)+currentParams.workNXInCluster(c1+1))*
+					log(exp(currentParams.logPsi(c1))+exp(currentParams.logPsi(c1+1)));
+	logAcceptRatio-=(double)(currentParams.workNXInCluster(c1)+currentParams.workNXInCluster(c1+1))*
+					log(exp(currentParams.logPsi(c1+1))*const1+exp(currentParams.logPsi(c1))*const2);
+	logAcceptRatio+=(double)(currentParams.workNXInCluster(c1+1))*log(const1);
+	logAcceptRatio+=(double)(currentParams.workNXInCluster(c1))*log(const2);
+
+	if(unifRand(rndGenerator)<exp(logAcceptRatio)){
+		nAccept++;
+		currentParams.switchLabels(c1,c1+1,covariateType,varSelectType);
+		double currPsiC1 = exp(currentParams.logPsi(c1));
+		double currPsiC1Plus1 = exp(currentParams.logPsi(c1+1));
+		double sumCurrPsi = currPsiC1+currPsiC1Plus1;
+		double normConst = sumCurrPsi/(const1*currPsiC1Plus1+const2*currPsiC1);
+		double propPsiC1 = normConst*const1*currPsiC1Plus1;
+		double propPsiC1Plus1 = normConst*const2*currPsiC1;
+
+		double productPrev1MinusV = 1.0;
+		if(c1>0){
+			productPrev1MinusV = exp(currentParams.logPsi(c1-1))*(1-currentParams.v(c1-1))/
+							currentParams.v(c1-1);
+		}
+
+		double propVC1=propPsiC1/productPrev1MinusV;
+		double propVC1Plus1=propPsiC1Plus1/(productPrev1MinusV*(1-propVC1));
+
+		currentParams.logPsi(c1,log(propPsiC1));
+		currentParams.logPsi(c1+1,log(propPsiC1Plus1));
+		currentParams.v(c1,propVC1);
+		currentParams.v(c1+1,propVC1Plus1);
 
 		if(c1==maxZ-1){
 			// Just check if the maximum Z has now changed to be one less
@@ -1329,6 +1511,7 @@ void metropolisHastingsForLabels(mcmcChain<pReMiuMParams>& chain,
 	}
 
 }
+
 
 // Gibbs move for updating the auxiliary variables u
 // This is the second part of block 1. The first part used the marginal
@@ -1482,6 +1665,7 @@ void gibbsForVInActive(mcmcChain<pReMiuMParams>& chain,
 
 	unsigned int maxZ = currentParams.workMaxZi();
 	unsigned int maxNClusters = currentParams.maxNClusters();
+
 	double minUi = currentParams.workMinUi();
 
 	vector<double> vNew=currentParams.v();
@@ -1514,9 +1698,9 @@ void gibbsForVInActive(mcmcChain<pReMiuMParams>& chain,
 		for(unsigned int c=1;c<=maxZ;c++){
 			cumPsi[c]=cumPsi[c-1]+exp(currentParams.logPsi(c));
 		}
-
 		bool continueLoop=true;
 		unsigned int c=maxZ;
+
 		while(continueLoop){
 			if(samplerType.compare("SliceDependent")==0&&cumPsi[c]>1-minUi){
 				// We can stop
@@ -1545,7 +1729,6 @@ void gibbsForVInActive(mcmcChain<pReMiuMParams>& chain,
 
 	currentParams.v(vNew);
 	currentParams.logPsi(logPsiNew);
-
 
 }
 
