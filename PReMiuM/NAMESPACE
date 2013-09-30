@@ -1,2 +1,12 @@
 useDynLib(PReMiuM)
 exportPattern("^[[:alpha:]]+")
+
+
+importFrom(grid,grid.layout, grid.newpage, pushViewport, viewport, unit)
+
+import(cluster)
+import(Rcpp)
+import(ggplot2)
+import(RcppEigen)
+
+

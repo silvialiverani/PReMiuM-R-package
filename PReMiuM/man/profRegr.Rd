@@ -7,9 +7,9 @@ profRegr(covNames, fixedEffectsNames, outcome="outcome",
         outcomeT=NA, data, output="output", hyper, predict, 
         nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, 
         nClusInit, seed, yModel="Bernoulli", xModel="Discrete", 
-        sampler="SliceDependent", alpha=-1, excludeY, 
+        sampler="SliceDependent", alpha=-1, excludeY=FALSE, 
         extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE,
-        run=TRUE, discreteCovs, continuousCovs)
+        run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123")
 }
 \arguments{
 \item{covNames}{A vector of strings of the covariate names as by the column names in the data argument.}
