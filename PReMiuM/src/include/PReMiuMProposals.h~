@@ -1422,6 +1422,44 @@ void metropolisHastingsForLabels3(mcmcChain<pReMiuMParams>& chain,
 				const mcmcModel<pReMiuMParams,pReMiuMOptions,pReMiuMData>& model,
 				pReMiuMPropParams& propParams,
 				baseGeneratorType& rndGenerator){
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+
+	unsigned int maxZ = currentParams.workMaxZi();
+	if(maxZ==0){
+		// If there is only one cluster with individuals in, don't do anything
+		return;
+	}
+	string varSelectType = model.options().varSelectType();
+	string covariateType = model.options().covariateType();
+
+	randomUniform unifRand(0,1);
+
+	// Move 1 - swap labels of 2 randomly selected non-empty clusters,
+	//          leaving psi_c^prop = psi_c for all c
+
+	// Compute how many non-empty clusters
+	unsigned int nNotEmpty=0;
+	vector<unsigned int> nonEmptyIndices;
+	for(unsigned int c=0;c<=maxZ;c++){
+		if(currentParams.workNXInCluster(c)>0){
+			nNotEmpty++;
+			nonEmptyIndices.push_back(c);
+		}
+	}
+
+	// Select two non-empty clusters at random
+	nTry++;
+	unsigned int i1=(unsigned int)nNotEmpty*unifRand(rndGenerator);
+	unsigned int c1=nonEmptyIndices[i1];
+	nonEmptyIndices.erase(nonEmptyIndices.begin()+i1);
+	unsigned int i2=(unsigned int)(nNotEmpty-1)*unifRand(rndGenerator);
+	unsigned int c2=nonEmptyIndices[i2];
+
+	// Check whether we accept the move
+	double logAcceptRatio = ((double)currentParams.workNXInCluster(c2)-(double)currentParams.workNXInCluster(c1))
+								*(currentParams.logPsi(c1)-currentParams.logPsi(c2));
+	c1=(unsigned int)maxZ*unifRand(rndGenerator);
 
 	mcmcState<pReMiuMParams>& currentState = chain.currentState();
 	pReMiuMParams& currentParams = currentState.parameters();
