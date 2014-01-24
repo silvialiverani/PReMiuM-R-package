@@ -1,7 +1,11 @@
 ## Use the R_HOME indirection to support installations of multiple R version
 PKG_LIBS = $(shell $(R_HOME)/bin/Rscript -e "Rcpp:::LdFlags()" )
+#PKG_LIBS = $(shell $(R_HOME)/bin/Rscript -e "Rcpp:::LdFlags()" -fsanitize=undefined)
 
 PKG_CPPFLAGS=-I./include 
+
+CC = gcc-4.8 -std=gnu99 -fsanitize=undefined -fno-omit-frame-pointer -fcatch-undefined-behavior
+CXX = g++-4.8 -fsanitize=undefined -fno-omit-frame-pointer -fcatch-undefined-behavior
 
 ##CXXFLAGS=-g -O2
 

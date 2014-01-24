@@ -1895,7 +1895,7 @@ string storeLogFileData(const pReMiuMOptions& options,
 	}
 	tmpStr << "Number of initial clusters: " << nClusInit;
 	if(options.nClusInit()==0){
-		tmpStr << " (Random, Unif[5,15])" << endl;
+		tmpStr << " (Random, Unif[50,60])" << endl;
 	}else{
 		tmpStr << endl;
 	}

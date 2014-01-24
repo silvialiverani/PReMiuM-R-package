@@ -18,8 +18,8 @@ setHyperparams(shapeAlpha=NULL,rateAlpha=NULL,
 }
 \arguments{
 
-\item{shapeAlpha}{The shape parameter for Gamma prior on alpha (default=1.0)}
-\item{rateAlpha}{The inverse-scale (rate) parameter for the Gamma prior on alpha (default=0.5)}
+\item{shapeAlpha}{The shape parameter for Gamma prior on alpha (default=2)}
+\item{rateAlpha}{The inverse-scale (rate) parameter for the Gamma prior on alpha (default=1)}
 \item{useReciprocalNCatsPhi}{Boolean denoting whether the vector phi_j (for covariate j) have all elements equal (only used in the discrete covariate case, default=true)}
 \item{aPhi}{The vector of parameters for the Dirichlet prior on phi_j. Element j corresponds to covariate j which then has a prior Dirichlet(aPhi[j],aPhi[j],....,aPhi[j]). (Only used in discrete case if useReciprocalNCatsPhi is false, default=(1 1 1 ... 1))}
 \item{mu0}{The mean vector for mu_c in the Normal covariate case (only used in Normal covariate case, default=empirical covariate means)}

@@ -791,6 +791,7 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 				betaArray[sweep-firstLine+1,,]<-currBeta
 			}
 			# Calculate the average risk (over subjects) for each cluster
+
 			for(c in 1:nClusters){
 				currLambdaVector<-currTheta[currZ[optAlloc[[c]]],]
 				currLambda<-matrix(currLambdaVector,ncol=nCategoriesY)
@@ -1382,8 +1383,10 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 				nPoints<-nrow(probMat)
 				probMeans<-apply(probMat,2,mean)
 				probMean<-sum(probMeans*clusterSizes)/sum(clusterSizes)
+print("ok1")
 				probLower<-apply(probMat,2,quantile,0.05)
 				probUpper<-apply(probMat,2,quantile,0.95)
+print("ok2")
 		
 				# Get the plot colors
 				probColor<-ifelse(probLower>rep(probMean,length(probLower)),"high",
