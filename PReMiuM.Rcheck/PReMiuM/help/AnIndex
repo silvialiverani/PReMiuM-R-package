@@ -3,6 +3,7 @@ calcDissimilarityMatrix	calcDissimilarityMatrix
 calcOptimalClustering	calcOptimalClustering
 calcPredictions	calcPredictions
 clusSummaryBernoulliDiscrete	clusSummaryBernoulliDiscrete
+clusSummaryBernoulliDiscreteSmall	clusSummaryBernoulliDiscrete
 clusSummaryBernoulliMixed	clusSummaryBernoulliDiscrete
 clusSummaryBinomialNormal	clusSummaryBernoulliDiscrete
 clusSummaryCategoricalDiscrete	clusSummaryBernoulliDiscrete
@@ -13,6 +14,7 @@ clusSummaryPoissonNormal	clusSummaryBernoulliDiscrete
 clusSummaryVarSelectBernoulliDiscrete	clusSummaryBernoulliDiscrete
 computeRatioOfVariance	computeRatioOfVariance
 generateSampleDataFile	generateSampleDataFile
+heatDissMat	heatDissMat
 is.wholenumber	is.wholenumber
 margModelPosterior	margModelPosterior
 plotRiskProfile	plotRiskProfile
@@ -21,3 +23,4 @@ PReMiuMpackage	PReMiuM-package
 profRegr	profRegr
 setHyperparams	setHyperparams
 summariseVarSelectRho	summariseVarSelectRho
+vec2mat	vec2mat

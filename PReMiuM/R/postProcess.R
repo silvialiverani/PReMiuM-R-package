@@ -1383,10 +1383,8 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 				nPoints<-nrow(probMat)
 				probMeans<-apply(probMat,2,mean)
 				probMean<-sum(probMeans*clusterSizes)/sum(clusterSizes)
-print("ok1")
 				probLower<-apply(probMat,2,quantile,0.05)
 				probUpper<-apply(probMat,2,quantile,0.95)
-print("ok2")
 		
 				# Get the plot colors
 				probColor<-ifelse(probLower>rep(probMean,length(probLower)),"high",
@@ -2423,3 +2421,28 @@ computeRatioOfVariance<-function(runInfoObj){
 	return(ratioOfVariance)
 	
 }
+
+# Function to convert a vector to a symmetric matrix (upper triangle)
+vec2mat<-function (data = NA, nrow = 1) 
+{
+    nData <- length(data)
+
+    nElem <- round(nrow * (nrow + 1)/2)
+
+    result <- matrix(NA, nrow = nrow, ncol = nrow)
+
+    result[lower.tri(result, diag = FALSE)] <- data
+    result[upper.tri(result, diag = FALSE)] <- t(result)[upper.tri(result)]
+    diag(result)<-0
+
+    return(result)
+}
+
+# Function to plot a heatmap representing the dissimilarity matrix
+# Some re-ordering of the observations is happening automatically
+heatDissMat<-function(dissimObj,main=NULL,xlab=NULL,ylab=NULL)
+{
+	dissMat<-vec2mat(dissimObj$disSimMat,nrow=dissimObj$disSimRunInfoObj$nSubjects)
+	heatmap(dissMat, keep.dendro=FALSE,symm=TRUE, Rowv=NA, labRow=FALSE, labCol=FALSE, margins=c(0.5,0.5), main = main, xlab=xlab,ylab=ylab)
+}
+

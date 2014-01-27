@@ -1,5 +1,6 @@
 \name{clusSummaryBernoulliDiscrete}
 \alias{clusSummaryBernoulliDiscrete}
+\alias{clusSummaryBernoulliDiscreteSmall}
 \alias{clusSummaryBinomialNormal}
 \alias{clusSummaryCategoricalDiscrete}
 \alias{clusSummaryNormalDiscrete}
@@ -12,6 +13,7 @@
 \description{Definition of skeleton of sample datasets for profile regression.}
 \usage{
 clusSummaryBernoulliDiscrete()
+clusSummaryBernoulliDiscreteSmall()
 clusSummaryBinomialNormal()
 clusSummaryCategoricalDiscrete()
 clusSummaryNormalDiscrete()
@@ -24,6 +26,8 @@ clusSummaryBernoulliMixed()
 \section{Details}{
 
 clusSummaryBernoulliDiscrete generates a dataset with Bernoulli outcome and discrete covariates.
+
+clusSummaryBernoulliDiscreteSmall generates a dataset with Bernoulli outcome and discrete covariates (with smaller cluster sizes).
 
 clusSummaryBinomialNormal generates a dataset with Binomial outcome and discrete covariates.
 

@@ -209,11 +209,11 @@ flush(stderr()); flush(stdout())
 
 ### Name: clusSummaryBernoulliDiscrete
 ### Title: Sample datasets for profile regression
-### Aliases: clusSummaryBernoulliDiscrete clusSummaryBinomialNormal
-###   clusSummaryCategoricalDiscrete clusSummaryNormalDiscrete
-###   clusSummaryNormalNormal clusSummaryPoissonDiscrete
-###   clusSummaryPoissonNormal clusSummaryVarSelectBernoulliDiscrete
-###   clusSummaryBernoulliMixed
+### Aliases: clusSummaryBernoulliDiscrete clusSummaryBernoulliDiscreteSmall
+###   clusSummaryBinomialNormal clusSummaryCategoricalDiscrete
+###   clusSummaryNormalDiscrete clusSummaryNormalNormal
+###   clusSummaryPoissonDiscrete clusSummaryPoissonNormal
+###   clusSummaryVarSelectBernoulliDiscrete clusSummaryBernoulliMixed
 ### Keywords: simulation
 
 ### ** Examples
@@ -241,6 +241,37 @@ flush(stderr()); flush(stdout())
 
 generateDataList <- clusSummaryBernoulliDiscrete()
 inputs <- generateSampleDataFile(generateDataList)
+
+
+
+
+cleanEx()
+nameEx("heatDissMat")
+### * heatDissMat
+
+flush(stderr()); flush(stdout())
+
+### Name: heatDissMat
+### Title: Plot the heatmap of the dissimilarity matrix
+### Aliases: heatDissMat
+
+### ** Examples
+
+
+# generate simulated dataset
+generateDataList <- clusSummaryBernoulliDiscreteSmall()
+inputs <- generateSampleDataFile(generateDataList)
+
+# run profile regression
+runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+ nSweeps=10, nBurn=2000, data=inputs$inputData, output="output", 
+ covNames=inputs$covNames,nClusInit=15)
+
+# compute dissimilarity matrix     
+dissimObj<-calcDissimilarityMatrix(runInfoObj)
+
+# plot heatmap
+heatDissMat(dissimObj)
 
 
 
@@ -401,6 +432,22 @@ runInfoObj<-profRegr(yModel=inputs$yModel,
     covNames = inputs$covNames, varSelect="Continuous")
 
 rho<-summariseVarSelectRho(runInfoObj)
+
+
+
+cleanEx()
+nameEx("vec2mat")
+### * vec2mat
+
+flush(stderr()); flush(stdout())
+
+### Name: vec2mat
+### Title: Vector to upper triangular matrix
+### Aliases: vec2mat
+
+### ** Examples
+
+vec2mat(data=c(1,2,3),nrow=3)
 
 
 

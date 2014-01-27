@@ -551,3 +551,46 @@ clusSummaryBernoulliMixed<-function(){
 }
 
 			
+clusSummaryBernoulliDiscreteSmall<-function(){
+	list(
+	'outcomeType'='Bernoulli',
+	'covariateType'='Discrete',
+	'nCovariates'=5,
+	'nCategories'=c(3,3,3,3,3),
+	'nFixedEffects'=2,
+	'fixedEffectsCoeffs'=c(0.1,-0.5),
+	'missingDataProb'=0,
+	'nClusters'=5,
+	'clusterSizes'=c(100,100,100,100,100),
+	'clusterData'=list(list('theta'=log(9),
+		'covariateProbs'=list(c(0.8,0.1,0.1),
+			c(0.8,0.1,0.1),
+			c(0.8,0.1,0.1),
+			c(0.8,0.1,0.1),
+			c(0.8,0.1,0.1))),
+		list('theta'=log(2),
+		'covariateProbs'=list(c(0.8,0.1,0.1),
+			c(0.8,0.1,0.1),
+			c(0.1,0.8,0.1),
+			c(0.1,0.8,0.1),
+			c(0.1,0.1,0.8))),
+		list('theta'=0,
+		'covariateProbs'=list(c(0.1,0.8,0.1),
+			c(0.1,0.8,0.1),
+			c(0.1,0.8,0.1),
+			c(0.1,0.8,0.1),
+			c(0.1,0.8,0.1))),
+		list('theta'=log(1/2),
+		'covariateProbs'=list(c(0.1,0.1,0.8),
+			c(0.1,0.8,0.1),
+			c(0.8,0.1,0.1),
+			c(0.1,0.1,0.8),
+			c(0.8,0.1,0.1))),
+		list('theta'=log(1/9),
+		'covariateProbs'=list(c(0.1,0.1,0.8),
+			c(0.1,0.1,0.8),
+			c(0.1,0.1,0.8),
+			c(0.1,0.1,0.8),
+			c(0.1,0.1,0.8)))))
+}
+

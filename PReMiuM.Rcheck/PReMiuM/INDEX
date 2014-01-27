@@ -11,6 +11,7 @@ computeRatioOfVariance
 generateSampleDataFile
                         Generate sample data files for profile
                         regression
+heatDissMat             Plot the heatmap of the dissimilarity matrix
 is.wholenumber          Function to check if a number is a whole number
 margModelPosterior      Marginal Model Posterior
 plotRiskProfile         Plot the Risk Profiles
@@ -18,3 +19,4 @@ profRegr                Profile Regression
 setHyperparams          Definition of characteristics of sample
                         datasets for profile regression
 summariseVarSelectRho   summariseVarSelectRho
+vec2mat                 Vector to upper triangular matrix

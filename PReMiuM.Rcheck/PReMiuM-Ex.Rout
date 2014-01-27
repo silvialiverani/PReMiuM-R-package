@@ -97,7 +97,7 @@ Type 'q()' to quit R.
 > runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
 +     nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
 +     covNames=inputs$covNames,nClusInit=15)
-Random number seed: 1385739925
+Random number seed: 1390863684
 Sweep: 1
 > 
 > dissimObj<-calcDissimilarityMatrix(runInfoObj)
@@ -232,11 +232,11 @@ Stage 2:1 samples out of 10
 > 
 > ### Name: clusSummaryBernoulliDiscrete
 > ### Title: Sample datasets for profile regression
-> ### Aliases: clusSummaryBernoulliDiscrete clusSummaryBinomialNormal
-> ###   clusSummaryCategoricalDiscrete clusSummaryNormalDiscrete
-> ###   clusSummaryNormalNormal clusSummaryPoissonDiscrete
-> ###   clusSummaryPoissonNormal clusSummaryVarSelectBernoulliDiscrete
-> ###   clusSummaryBernoulliMixed
+> ### Aliases: clusSummaryBernoulliDiscrete clusSummaryBernoulliDiscreteSmall
+> ###   clusSummaryBinomialNormal clusSummaryCategoricalDiscrete
+> ###   clusSummaryNormalDiscrete clusSummaryNormalNormal
+> ###   clusSummaryPoissonDiscrete clusSummaryPoissonNormal
+> ###   clusSummaryVarSelectBernoulliDiscrete clusSummaryBernoulliMixed
 > ### Keywords: simulation
 > 
 > ### ** Examples
@@ -408,6 +408,45 @@ $clusterData[[5]]$covariateProbs[[5]]
 > 
 > 
 > cleanEx()
+> nameEx("heatDissMat")
+> ### * heatDissMat
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: heatDissMat
+> ### Title: Plot the heatmap of the dissimilarity matrix
+> ### Aliases: heatDissMat
+> 
+> ### ** Examples
+> 
+> 
+> # generate simulated dataset
+> generateDataList <- clusSummaryBernoulliDiscreteSmall()
+> inputs <- generateSampleDataFile(generateDataList)
+> 
+> # run profile regression
+> runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
++  nSweeps=10, nBurn=2000, data=inputs$inputData, output="output", 
++  covNames=inputs$covNames,nClusInit=15)
+Random number seed: 1390863684
+Sweep: 1
+Sweep: 500
+Sweep: 1000
+Sweep: 1500
+Sweep: 2000
+> 
+> # compute dissimilarity matrix     
+> dissimObj<-calcDissimilarityMatrix(runInfoObj)
+Stage 1:1 samples out of 10
+Stage 2:1 samples out of 10
+> 
+> # plot heatmap
+> heatDissMat(dissimObj)
+> 
+> 
+> 
+> 
+> cleanEx()
 > nameEx("is.wholenumber")
 > ### * is.wholenumber
 > 
@@ -446,11 +485,11 @@ $clusterData[[5]]$covariateProbs[[5]]
 +          nBurn=10, data=inputs$inputData, output="output", 
 +          covNames = inputs$covNames, nClusInit=15,
 +          fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1385739926
+Random number seed: 1390863691
 Sweep: 1
 > 
 > margModelPosterior(runInfoObj)
-[1] -3938.781
+[1] -3943.148
 > 
 > 
 > 
@@ -505,7 +544,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1385739927
+Random number seed: 1390863692
 Sweep: 1
 > 
 > 
@@ -516,7 +555,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     discreteCovs = inputs$discreteCovs,
 +     continuousCovs = inputs$continuousCovs)
-Random number seed: 1385739927
+Random number seed: 1390863692
 Sweep: 1
 > 
 > 
@@ -546,7 +585,7 @@ Sweep: 1
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames,
 +     hyper=hyp)
-Random number seed: 1385739927
+Random number seed: 1390863693
 Sweep: 1
 > 
 > 
@@ -572,10 +611,30 @@ Sweep: 1
 +     xModel=inputs$xModel, nSweeps=10, nClusInit=15, 
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, varSelect="Continuous")
-Random number seed: 1385739928
+Random number seed: 1390863693
 Sweep: 1
 > 
 > rho<-summariseVarSelectRho(runInfoObj)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("vec2mat")
+> ### * vec2mat
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: vec2mat
+> ### Title: Vector to upper triangular matrix
+> ### Aliases: vec2mat
+> 
+> ### ** Examples
+> 
+> vec2mat(data=c(1,2,3),nrow=3)
+     [,1] [,2] [,3]
+[1,]    0    1    2
+[2,]    1    0    3
+[3,]    2    3    0
 > 
 > 
 > 
@@ -583,7 +642,7 @@ Sweep: 1
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  5.404 0.216 5.663 0 0 
+Time elapsed:  11.62 0.232 11.917 0 0 
 > grDevices::dev.off()
 null device 
           1 
