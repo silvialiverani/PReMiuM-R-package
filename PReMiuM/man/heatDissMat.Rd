@@ -12,7 +12,7 @@ heatDissMat(dissimObj, main=NULL, xlab=NULL, ylab=NULL)
 \item{xlab}{The usual plot option, to be passed to the heatmap function.}
 }
 \value{
-Plot of the heatmap of the dissimilary matrix. This functions uses the function 'heatmap' of package 'stats'. 
+Plot of the heatmap of the dissimilary matrix. This functions uses the function 'heatmap' of package 'stats'. Note that this function has not been optimised for large datasets. 
 }
 \section{Authors}{
 
@@ -22,7 +22,7 @@ Maintainer: Silvia Liverani <liveranis@gmail.com>
 }
 \references{
 
-Liverani, S., Hastie, D. I., Papathomas, M. and Richardson, S. (2013) PReMiuM: An R package for Profile Regression Mixture Models using Dirichlet Processes. \emph{Submitted}. Available at http://uk.arxiv.org/abs/1303.2836
+Liverani, S., Hastie, D. I., Azizi, L., Papathomas, M. and Richardson, S. (2013) PReMiuM: An R package for Profile Regression Mixture Models using Dirichlet Processes. \emph{Submitted}. Available at http://uk.arxiv.org/abs/1303.2836
 
 }
 \examples{

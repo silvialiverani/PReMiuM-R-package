@@ -21,7 +21,7 @@ Maintainer: Silvia Liverani <liveranis@gmail.com>
 }
 \references{
 
-Liverani, S., Hastie, D. I., Papathomas, M. and Richardson, S. (2013) PReMiuM: An R package for Bayesian profile regression. \emph{Submitted}. Available at http://uk.arxiv.org/abs/1303.2836
+Liverani, S., Hastie, Azizi, L., D. I., Papathomas, M. and Richardson, S. (2013) PReMiuM: An R package for Bayesian profile regression. \emph{Submitted}. Available at http://uk.arxiv.org/abs/1303.2836
 
 }
 

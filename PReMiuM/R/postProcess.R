@@ -2442,7 +2442,89 @@ vec2mat<-function (data = NA, nrow = 1)
 # Some re-ordering of the observations is happening automatically
 heatDissMat<-function(dissimObj,main=NULL,xlab=NULL,ylab=NULL)
 {
-	dissMat<-vec2mat(dissimObj$disSimMat,nrow=dissimObj$disSimRunInfoObj$nSubjects)
-	heatmap(dissMat, keep.dendro=FALSE,symm=TRUE, Rowv=NA, labRow=FALSE, labCol=FALSE, margins=c(0.5,0.5), main = main, xlab=xlab,ylab=ylab)
+
+	nSbj<-dissimObj$disSimRunInfoObj$nSubjects
+
+	col.labels<-c("0","0.5","1")
+	colours <- colorRampPalette(c("white","black"))(10)
+
+	dissMat<-vec2mat(dissimObj$disSimMat,nrow=nSbj)
+	heatmap(1-dissMat, keep.dendro=FALSE,symm=TRUE, Rowv=NA, labRow=FALSE, labCol=FALSE, margins=c(4.5,4.5), col= colours ,main = main, xlab=xlab, ylab=ylab)
+	color.legend(0.95,0.7,1,1,legend = col.labels, colours, gradient="y",align="rb")
+
+}
+
+# function to plot the trace of the global parameters 
+globalParsTrace<-function(runInfoObj, parameters = "nClusters",plotBurnIn=FALSE,whichBeta=1){
+
+	directoryPath=NULL
+	fileStem=NULL
+	nSweeps=NULL
+	nFilter=NULL
+	nSubjects=NULL
+	nBurn=NULL
+	
+	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
+
+	if (parameters=="mmp") {
+		parametersIn<-"margModPost"
+	} else {
+		parametersIn<-parameters
+	}
+
+	# Construct the parameter file name
+	parFileName <- file.path(directoryPath,paste(fileStem,"_",parametersIn,".txt",sep=""))
+
+	# read the data in
+	parData<-read.table(parFileName)
+
+	if(parameters== "nClusters") ylabPar<- "Number of clusters"
+	if(parameters=="mmp") ylabPar<-"Log marginal model posterior"
+	if(parameters=="beta") ylabPar<-"beta"
+	if(parameters=="alpha") ylabPar<-"alpha"
+
+	xlabPars<-"Sweeps (after burn in)"
+
+
+	if(plotBurnIn==TRUE){
+		if (parameters=="mmp") stop("The mmp is only computed after the burn in. Set plotBurnIn=FALSE.")
+		if (reportBurnIn==TRUE) {
+
+			rangeSweeps<-1:((nBurn+nSweeps)/nFilter)
+			rangeParData<-1:(length(rangeSweeps)/nFilter)
+			xlabPars<-"Sweeps (including the burn in)"
+		} else {
+			stop("The function globalParsTrace cannot plot the burn in because the reportBurnIn option in profRegr was not set to TRUE and therefore the burn in has not been recorded.")
+		}
+	} else {
+		if (parameters=="mmp"){
+			firstLine<-ifelse(reportBurnIn,nBurn/nFilter+2,1)
+			lastLine<-(nSweeps+ifelse(reportBurnIn,nBurn+1,0))/nFilter
+			rangeSweeps<-firstLine:lastLine#(nBurn+1):(nBurn+nSweeps)
+			rangeParData<-1:(nSweeps)	
+		} else {
+			if (reportBurnIn==TRUE) {
+				firstLine<-ifelse(reportBurnIn,nBurn/nFilter+2,1)
+				lastLine<-(nSweeps+ifelse(reportBurnIn,nBurn+1,0))/nFilter
+				rangeSweeps<-firstLine:lastLine#(nBurn+1):(nBurn+nSweeps)
+				rangeParData<-rangeSweeps
+			} else {
+				firstLine<-ifelse(reportBurnIn,nBurn/nFilter+2,1)
+				lastLine<-(nSweeps+ifelse(reportBurnIn,nBurn+1,0))/nFilter
+				rangeSweeps<-(nBurn/nFilter+1):((nBurn+nSweeps)/nFilter)
+				rangeParData<-1:(nSweeps/nFilter)	
+
+			}
+		}
+	}
+
+	if (parameters=="alpha" || parameters=="nClusters"){
+		plot(rangeSweeps,parData[rangeParData,1],type="l",lty=1,col="red",ylab=ylabPar,xlab=xlabPars)
+	} else if (parameters=="mmp"){
+		plot(1:nSweeps,parData[,1],type="l",lty=1,col="red",ylab=ylabPar,xlab=xlabPars)
+	} else if (parameters=="beta"){
+		plot(rangeSweeps,parData[rangeParData,whichBeta],type="l",lty=1,col="red",ylab=ylabPar,xlab=xlabPars)
+	}
+
 }
 
