@@ -97,7 +97,7 @@ Type 'q()' to quit R.
 > runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
 +     nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
 +     covNames=inputs$covNames,nClusInit=15)
-Random number seed: 1390863684
+Random number seed: 1391684111
 Sweep: 1
 > 
 > dissimObj<-calcDissimilarityMatrix(runInfoObj)
@@ -408,6 +408,36 @@ $clusterData[[5]]$covariateProbs[[5]]
 > 
 > 
 > cleanEx()
+> nameEx("globalParsTrace")
+> ### * globalParsTrace
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: globalParsTrace
+> ### Title: Plot of the trace of some of the global parameters
+> ### Aliases: globalParsTrace
+> 
+> ### ** Examples
+> 
+> 
+> # generate simulated dataset
+> generateDataList <- clusSummaryBernoulliDiscreteSmall()
+> inputs <- generateSampleDataFile(generateDataList)
+> 
+> # run profile regression
+> runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
++  nSweeps=10, nBurn=20, data=inputs$inputData, output="output", nFilter=3,
++  covNames=inputs$covNames,nClusInit=15,reportBurnIn=FALSE,fixedEffectsNames = inputs$fixedEffectNames)
+Random number seed: 1391684111
+Sweep: 1
+> 
+> # plot trace for alpha
+> globalParsTrace(runInfoObj,par="alpha",plotBurnIn=FALSE)
+> 
+> 
+> 
+> 
+> cleanEx()
 > nameEx("heatDissMat")
 > ### * heatDissMat
 > 
@@ -428,7 +458,7 @@ $clusterData[[5]]$covariateProbs[[5]]
 > runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
 +  nSweeps=10, nBurn=2000, data=inputs$inputData, output="output", 
 +  covNames=inputs$covNames,nClusInit=15)
-Random number seed: 1390863684
+Random number seed: 1391684112
 Sweep: 1
 Sweep: 500
 Sweep: 1000
@@ -485,11 +515,11 @@ Stage 2:1 samples out of 10
 +          nBurn=10, data=inputs$inputData, output="output", 
 +          covNames = inputs$covNames, nClusInit=15,
 +          fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1390863691
+Random number seed: 1391684119
 Sweep: 1
 > 
 > margModelPosterior(runInfoObj)
-[1] -3943.148
+[1] -4011.085
 > 
 > 
 > 
@@ -544,7 +574,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1390863692
+Random number seed: 1391684120
 Sweep: 1
 > 
 > 
@@ -555,7 +585,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     discreteCovs = inputs$discreteCovs,
 +     continuousCovs = inputs$continuousCovs)
-Random number seed: 1390863692
+Random number seed: 1391684121
 Sweep: 1
 > 
 > 
@@ -585,7 +615,7 @@ Sweep: 1
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames,
 +     hyper=hyp)
-Random number seed: 1390863693
+Random number seed: 1391684121
 Sweep: 1
 > 
 > 
@@ -611,7 +641,7 @@ Sweep: 1
 +     xModel=inputs$xModel, nSweeps=10, nClusInit=15, 
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, varSelect="Continuous")
-Random number seed: 1390863693
+Random number seed: 1391684122
 Sweep: 1
 > 
 > rho<-summariseVarSelectRho(runInfoObj)
@@ -642,7 +672,7 @@ Sweep: 1
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  11.62 0.232 11.917 0 0 
+Time elapsed:  13.06 0.372 13.504 0 0 
 > grDevices::dev.off()
 null device 
           1 

@@ -1,3 +1,10 @@
+Changes in version 3.0.22 (2014-)
+
+* Added parameter for Bernoulli for sparsity inducing prior in variable selection
+* Added function for plotting heatmap of dissimilarity matrix
+* Added function to plot trace of mcmc for some global parameters 
+
+--------------------------------------------
 Changes in version 3.0.16 (2013-03-15)
 
 * Added ChangeLog

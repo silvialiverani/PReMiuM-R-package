@@ -199,6 +199,7 @@ class pReMiuMHyperParams{
 
 			_aRho = 0.5;
 			_bRho = 0.5;
+			_atomRho= 0.5;
 
 			_shapeSigmaSqY = 2.5;
 			_scaleSigmaSqY = 2.5;
@@ -371,6 +372,14 @@ class pReMiuMHyperParams{
 			_bRho = b;
 		}
 
+		double atomRho() const{
+			return _atomRho;
+		}
+
+		void atomRho(const double& atom){
+			_atomRho = atom;
+		}
+
 		double shapeSigmaSqY() const{
 			return _shapeSigmaSqY;
 		}
@@ -444,6 +453,7 @@ class pReMiuMHyperParams{
 			_rateTauEpsilon = hyperParams.rateTauEpsilon();
 			_aRho = hyperParams.aRho();
 			_bRho = hyperParams.bRho();
+			_atomRho = hyperParams.atomRho();
 			_shapeSigmaSqY = hyperParams.shapeSigmaSqY();
 			_scaleSigmaSqY = hyperParams.scaleSigmaSqY();
 			_workSqrtTau0 = hyperParams.workSqrtTau0();
@@ -498,9 +508,10 @@ class pReMiuMHyperParams{
 		double _rateTauEpsilon;
 
 		// Hyper parameters for prior for tauEpsilon (for variable selection)
-		// Prior is rho ~ Beta(a,b)
+		// Prior is rho ~ Beta(a,b) with a sparsity inducing atom Bernoulli(atomRho)
 		double _aRho;
 		double _bRho;
+		double _atomRho;
 
 		//Hyper parameter for prior for sigma_y^2 (for normal response model)
 		// Prior is sigma_y^2 ~ InvGamma(shapeSigmaSqY,scaleSigmaSqY)
@@ -2205,12 +2216,13 @@ vector<double> pReMiuMLogPost(const pReMiuMParams& params,
 		}
 
 		// We can add in the prior for rho and omega
-		logPrior+=log(0.5);
+		logPrior+=log(hyperParams.atomRho());
 		for(unsigned int j=0;j<nCovariates;j++){
 			if(params.omega(j)==1){
 				logPrior+=logPdfBeta(params.rho(j),hyperParams.aRho(),hyperParams.bRho());
 			}
 		}
+
 	}
 
 	if(includeResponse){
@@ -2325,7 +2337,7 @@ double logCondPostRhoOmegaj(const pReMiuMParams& params,
 			out+=params.workLogPXiGivenZi(i);
 		}
 	}else{
-
+		
 		// Add in contribution from prior
 		if(params.omega(j)==1){
 			for(unsigned int c=0;c<maxNClusters;c++){
@@ -2344,9 +2356,9 @@ double logCondPostRhoOmegaj(const pReMiuMParams& params,
 	// We can add in the prior for rho and omega
 	// We keep the loop here because it saves evaluations in the continuous case
 	for(unsigned int j1=0;j1<nCovariates;j1++){
-		out+=log(0.5);
-		if(params.omega(j1)==1){
-			out+=logPdfBeta(params.rho(j1),hyperParams.aRho(),hyperParams.bRho());
+		out+=log(hyperParams.atomRho());
+		if (params.omega(j1)==1){
+				out+=logPdfBeta(params.rho(j1),hyperParams.aRho(),hyperParams.bRho());
 		}
 	}
 	return out;

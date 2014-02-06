@@ -526,6 +526,8 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 
 	string inString;
 
+	bool wasError=false;
+
 	while(!inputFile.eof()){
 		getline(inputFile,inString);
 		if(inString.find("shapeAlpha")==0){
@@ -687,6 +689,16 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 			string tmpStr = inString.substr(pos,inString.size()-pos);
 			double bRho = (double)atof(tmpStr.c_str());
 			hyperParams.bRho(bRho);
+		}else if(inString.find("atomRho")==0){
+			size_t pos = inString.find("=")+1;
+			string tmpStr = inString.substr(pos,inString.size()-pos);
+			double atomRho = (double)atof(tmpStr.c_str());
+			hyperParams.atomRho(atomRho);
+			if(hyperParams.atomRho()<=0 || hyperParams.atomRho()>1){
+				// Illegal atomRho value entered - it must be in (0,1] where 1 corresponds to the non-sparsity inducing var selection
+				wasError=true;
+				break;
+			}
 		}else if(inString.find("shapeSigmaSqY")==0){
 			size_t pos = inString.find("=")+1;
 			string tmpStr = inString.substr(pos,inString.size()-pos);
@@ -708,6 +720,16 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 			double truncationEps = (double)atof(tmpStr.c_str());
 			hyperParams.truncationEps(truncationEps);
 		}
+	}
+
+	// Return if there was an error
+	if(wasError){
+		Rprintf("There is a mistake in the arguments provided in profRegr.\n");
+		Rprintf("The code will be run with default values.\n");
+	//	Rprintf("Please use:\n");
+	//	Rprintf("\t profileRegression --help\n");
+	//	Rprintf("to get help on correct usage.\n");
+	//	exit(-1);
 	}
 }
 
@@ -1211,7 +1233,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 		vector<unsigned int> omega(nCovariates);
 		vector<double> rho(nCovariates);
 		for(unsigned int j=0;j<nCovariates;j++){
-			if(unifRand(rndGenerator)<0.01){
+			if((unifRand(rndGenerator)<0.01) && (hyperParams.atomRho()!=1)){
 				// We are in the point mass at 0 case - variable is switched off
 				omega[j]=0;
 				rho[j]=0;
@@ -2004,7 +2026,8 @@ string storeLogFileData(const pReMiuMOptions& options,
 
 	if(options.varSelectType().compare("None")!=0){
 		tmpStr << "aRho: " << hyperParams.aRho() << endl;
-		tmpStr << "bRho: " << hyperParams.aRho() << endl;
+		tmpStr << "bRho: " << hyperParams.bRho() << endl;
+		tmpStr << "atomRho: " << hyperParams.atomRho() << endl;
 	}
 
 	if(dataset.outcomeType().compare("Normal")==0){

@@ -13,7 +13,7 @@ setHyperparams(shapeAlpha=NULL,rateAlpha=NULL,
      useReciprocalNCatsPhi=NULL,aPhi=NULL,mu0=NULL,Tau0=NULL,R0=NULL,
      kapp0=NULL,muTheta=NULL,sigmaTheta=NULL,dofTheta=NULL,muBeta=NULL,
      sigmaBeta=NULL,dofBeta=NULL,shapeTauEpsilon=NULL,
-     rateTauEpsilon=NULL,aRho=NULL,bRho=NULL,shapeSigmaSqY=NULL,
+     rateTauEpsilon=NULL,aRho=NULL,bRho=NULL,atomRho=NULL,shapeSigmaSqY=NULL,
      scaleSigmaSqY=NULL,rSlice=NULL,truncationEps=NULL)
 }
 \arguments{
@@ -36,6 +36,7 @@ setHyperparams(shapeAlpha=NULL,rateAlpha=NULL,
 \item{rateTauEpsilon}{Inverse-scale (rate) parameter for gamma distribution for prior for precision tau of extra variation errors epsilon (only used if extra variation is used i.e. extraYVar argument is used, default=0.5)}
 \item{aRho}{Parameter for beta distribution for prior on rho in variable selection (default=0.5)}
 \item{bRho}{Parameter for beta distribution for prior on rho in variable selection (default=0.5)}
+\item{atomRho}{Parameter for the probability for the atom at zero, i.e. the 0.5 probability in w_j distributed Bernoulli(0.5) in the formulation of the sparsity inducing prior (default=0.5). This parameter must be in the interval (0,1], where atomRho=1 corresponds to the case where the prior for rho is a Beta(aRho,bRho).}
 \item{shapeSigmaSqY}{Shape parameter of inverse-gamma prior for sigma_Y^2 (only used in the Normal response model, default =2.5)}
 \item{scaleSigmaSqY}{Scale parameter of inverse-gamma prior for sigma_Y^2 (only used in the Normal response model, default =2.5)}
 \item{rSlice}{Slice parameter for independent slice sampler such that xi_c = (1-rSlice)*rSlice^c for c=0,1,2,... (only used for slice independent sampler i.e. sampler=SliceIndependent, default 0.75).}

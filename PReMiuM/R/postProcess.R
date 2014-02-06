@@ -281,6 +281,10 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		if (!is.null(hyper$bRho)){
 			write(paste("bRho=",hyper$bRho,sep=""),hyperFile,append=T)
 		}
+		if (!is.null(hyper$atomRho)){
+			if (hyper$atomRho<=0 || hyper$atomRho >1) stop("Hyperparameter atomRho must be in (0,1]. See ?setHyperparams for help.")
+			write(paste("atomRho=",hyper$atomRho,sep=""),hyperFile,append=T)
+		}
 		if (!is.null(hyper$shapeSigmaSqY)){
 			write(paste("shapeSigmaSqY=",hyper$shapeSigmaSqY,sep=""),hyperFile,append=T)
 		}
@@ -513,8 +517,8 @@ calcOptimalClustering<-function(disSimObj,maxNClusters=NULL,useLS=F){
 					maxNClusters<-nNotEmpty
 				}
 			}   
-			# Add on another 5 just to make sure bound is safe (but don't let it exceed no. of subjects)
-			maxNClusters<-min(maxNClusters+5,nSubjects)
+			# Add on another 5 just to make sure bound is safe (but don't let it exceed no. of subjects -1)
+			maxNClusters<-min(maxNClusters+5,nSubjects-1)
 
 			close(nMembersFile)
 			close(nClustersFile)
@@ -705,7 +709,7 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 	}else{
 		riskArray<-NULL
 	}
-	
+
 	# Initialise the object for storing the profiles
 	if(xModel=='Discrete'){
 		phiArray<-array(dim=c(nSamples,nClusters,nCovariates,maxNCategories))
@@ -752,7 +756,7 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 		sigmaArray<-array(dim=c(nSamples,nClusters,nContinuousCovs,nContinuousCovs))
 	}
 	
-	
+
 	for(sweep in firstLine:lastLine){
 		if(sweep==firstLine){
 			skipVal<-firstLine-1
@@ -820,7 +824,7 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 				thetaArray[sweep-firstLine+1,c,]<-apply(as.matrix(currTheta[currZ[optAlloc[[c]]],],ncol=nCategoriesY),2,mean)
 			}
 		}
-	
+
 		# Calculate the average profile (over subjects) for each cluster
 		if(xModel=='Discrete'){
 			currPhi<-scan(phiFile,what=double(),
@@ -956,7 +960,7 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 			}
 		}
 	}
-	
+
 	# Calculate the empiricals
 	empiricals<-rep(0,nClusters)
 	if(!is.null(yModel)){
@@ -2302,7 +2306,7 @@ margModelPosterior<-function(runInfoObj,allocation){
 
 setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,useReciprocalNCatsPhi=NULL,aPhi=NULL,mu0=NULL,Tau0=NULL,R0=NULL,
 	kapp0=NULL,muTheta=NULL,sigmaTheta=NULL,dofTheta=NULL,muBeta=NULL,sigmaBeta=NULL,dofBeta=NULL,
-	shapeTauEpsilon=NULL,rateTauEpsilon=NULL,aRho=NULL,bRho=NULL,shapeSigmaSqY=NULL,scaleSigmaSqY=NULL,
+	shapeTauEpsilon=NULL,rateTauEpsilon=NULL,aRho=NULL,bRho=NULL,atomRho=NULL,shapeSigmaSqY=NULL,scaleSigmaSqY=NULL,
 	rSlice=NULL,truncationEps=NULL){
 	out<-list()
 	if (!is.null(shapeAlpha)){
@@ -2358,6 +2362,9 @@ setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,useReciprocalNCatsPhi=NU
 	}
 	if (!is.null(bRho)){
 		out$bRho<-bRho
+	}
+	if (!is.null(atomRho)){
+		out$atomRho<-atomRho
 	}
 	if (!is.null(shapeSigmaSqY)){
 		out$shapeSigmaSqY<-shapeSigmaSqY
@@ -2463,6 +2470,7 @@ globalParsTrace<-function(runInfoObj, parameters = "nClusters",plotBurnIn=FALSE,
 	nFilter=NULL
 	nSubjects=NULL
 	nBurn=NULL
+	reportBurnIn=NULL
 	
 	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 

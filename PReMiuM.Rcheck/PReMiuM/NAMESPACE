@@ -8,5 +8,6 @@ import(cluster)
 import(Rcpp)
 import(ggplot2)
 import(RcppEigen)
+import(plotrix)
 
 

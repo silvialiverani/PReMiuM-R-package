@@ -11,6 +11,8 @@ computeRatioOfVariance
 generateSampleDataFile
                         Generate sample data files for profile
                         regression
+globalParsTrace         Plot of the trace of some of the global
+                        parameters
 heatDissMat             Plot the heatmap of the dissimilarity matrix
 is.wholenumber          Function to check if a number is a whole number
 margModelPosterior      Marginal Model Posterior

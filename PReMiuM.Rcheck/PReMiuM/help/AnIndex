@@ -14,6 +14,7 @@ clusSummaryPoissonNormal	clusSummaryBernoulliDiscrete
 clusSummaryVarSelectBernoulliDiscrete	clusSummaryBernoulliDiscrete
 computeRatioOfVariance	computeRatioOfVariance
 generateSampleDataFile	generateSampleDataFile
+globalParsTrace	globalParsTrace
 heatDissMat	heatDissMat
 is.wholenumber	is.wholenumber
 margModelPosterior	margModelPosterior

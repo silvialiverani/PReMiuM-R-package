@@ -2212,7 +2212,7 @@ void metropolisHastingsForRhoOmega(mcmcChain<pReMiuMParams>& chain,
 
 		// Propose from the priors
 		double& stdDev = propParams.rhoStdDev(j);
-		if(unifRand(rndGenerator)<0.5){
+		if(unifRand(rndGenerator)>hyperParams.atomRho()){
 			// Proposing an omega 0
 			if(currentOmega[j]==0){
 				// Nothing to do as move to the same place
