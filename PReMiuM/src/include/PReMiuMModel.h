@@ -1177,6 +1177,17 @@ class pReMiuMParams{
 			_alpha=alphaVal;
 		}
 
+		/// \brief Return the hyper parameter dPitmanYor
+		double dPitmanYor() const{
+			return _dPitmanYor;
+		}
+
+		/// \brief Set the hyper parameter dPitmanYor
+		void dPitmanYor(const double& dPitmanYorVal){
+			_dPitmanYor=dPitmanYorVal;
+		}
+
+
 		/// \brief Return the mean y variables
 		vector<double> lambda() const{
 			return _lambda;
@@ -1775,6 +1786,7 @@ class pReMiuMParams{
 			_theta = params.theta();
 			_beta = params.beta();
 			_alpha = params.alpha();
+			_dPitmanYor = params.dPitmanYor();
 			_lambda = params.lambda();
 			_tauEpsilon = params.tauEpsilon();
 			_z = params.z();
@@ -1845,6 +1857,9 @@ class pReMiuMParams{
 
 		/// \brief The hyper parameter for dirichlet model
 		double _alpha;
+
+		/// \brief The discount hyper parameter for the pitman-yor process prior
+		double _dPitmanYor;
 
 		/// \brief The mean Y values (if required)
 		vector<double> _lambda;
@@ -2148,12 +2163,13 @@ vector<double> pReMiuMLogPost(const pReMiuMParams& params,
 	// Prior for V (we only need to include these up to maxNCluster, but we do need
 	// to include all V, whether or not a cluster is empty, as the V themselves
 	//don't correspond to a cluster
+	unsigned int maxZ = params.workMaxZi();
 	for(unsigned int c=0;c<maxNClusters;c++){
-		logPrior+=logPdfBeta(params.v(c),1.0,params.alpha());
+		logPrior+=logPdfBeta(params.v(c),1.0-params.dPitmanYor(),params.alpha()+params.dPitmanYor()*(c+1));
 	}
 
 	// Prior for alpha
-	if(fixedAlpha<0){
+	if(fixedAlpha<=-1){
 		logPrior+=logPdfGamma(params.alpha(),hyperParams.shapeAlpha(),hyperParams.rateAlpha());
 	}
 

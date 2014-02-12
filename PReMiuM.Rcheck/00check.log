@@ -7,7 +7,10 @@
 * this is package ‘PReMiuM’ version ‘3.0.22’
 * checking package namespace information ... OK
 * checking package dependencies ... OK
-* checking if this is a source package ... OK
+* checking if this is a source package ... WARNING
+Subdirectory ‘PReMiuM/src’ contains apparent object files/libraries
+  PReMiuM.o PReMiuM.so postProcess.o
+Object files/libraries should not be included in a source package.
 * checking if there is a namespace ... OK
 * checking for executable files ... OK
 * checking for hidden files and directories ... OK
@@ -15,7 +18,7 @@
 * checking for sufficient/correct file permissions ... OK
 * checking whether package ‘PReMiuM’ can be installed ... OK
 * checking installed package size ... NOTE
-  installed size is 10.7Mb
+  installed size is 10.8Mb
   sub-directories of 1Mb or more:
     libs  10.6Mb
 * checking package directory ... OK
@@ -52,4 +55,5 @@
 * checking compiled code ... OK
 * checking examples ... OK
 * checking PDF version of manual ... OK
+WARNING: There was 1 warning.
 NOTE: There was 1 note.

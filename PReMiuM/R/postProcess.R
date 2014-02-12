@@ -23,7 +23,7 @@
 
 is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
 
-profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-1, excludeY=FALSE, extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE, run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123"){
+profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-2, dPitmanYor=0, excludeY=FALSE, extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE, run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123"){
 
 	# suppress scientific notation
 	options(scipen=999)
@@ -221,6 +221,17 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	if (xModel!="Discrete"&xModel!="Normal"&xModel!="Mixed") stop("This xModel is not defined.")
 	if (yModel!="Poisson"&yModel!="Binomial"&yModel!="Bernoulli"&yModel!="Normal"&yModel!="Categorical") stop("This yModel is not defined.")
 
+	# conditions for alpha and dPitmanYor parameters	
+	# checks that dPitmanYor is in the correct interval
+	if (dPitmanYor<0&dPitmanYor>=1) stop("dPitmanYor must belongto the interval [0,1).")
+	# if alpha < 0 then we have a Dirichlet prior, so cannot use dPitmanYor
+	# if the user asks for alpha<0 and dPitmanYor>0 we stop and give an error message to ensure the user is aware
+	if (alpha<=-1&&dPitmanYor>0) stop("Setting alpha < 0 (the default is -2) and dPitmanYor > 0 is not allowed.")
+	# the third label switching move is only for Dirichlet process prior, not for Pitman-Yor process prior 
+	if (dPitmanYor>0) whichLabelSwitch<-"12"
+	if ((alpha>=-1)&(alpha < -dPitmanYor)) stop("It is a condition of the Pitman-Yor process prior that alpha > - dPitmanYor.")
+	if (dPitmanYor>0&sampler=="Truncated") print("Note that for the Pitman-Yor process prior there might be en error when using the Truncated sampler. This is due to the way that the bound on the number of clusters is computed.")
+
 	inputString<-paste("PReMiuM --input=",fileName," --output=",output," --xModel=",xModel," --yModel=",yModel," --varSelect=",varSelectType," --whichLabelSwitch=",whichLabelSwitch,sep="")
 
 	# create hyperparameters file
@@ -301,6 +312,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 
 	if (reportBurnIn) inputString<-paste(inputString," --reportBurnIn",sep="")
 	if (!missing(alpha)) inputString<-paste(inputString," --alpha=",alpha,sep="")
+	if (!missing(dPitmanYor)) inputString<-paste(inputString," --dPitmanYor=",dPitmanYor,sep="")
 	if (!missing(sampler)) inputString<-paste(inputString," --sampler=",sampler,sep="")
 	if (!missing(hyper)) inputString<-paste(inputString," --hyper=",hyperFile,sep="")
 	if (!missing(predict)) inputString<-paste(inputString," --predict=",paste(output,"_predict.txt",sep=""),sep="")
@@ -372,6 +384,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		"nSubjects"=nSubjects,
 		"nPredictSubjects"=nPreds,
 		"fullPredictFile"=fullPredictFile,
+		"alpha"=alpha,
+		"dPitmanYor"=dPitmanYor,
 		"covNames"=covNames,
 		"discreteCovs"=ifelse(xModel=="Mixed",discreteCovs,NA),
 		"continuousCovs"=ifelse(xModel=="Mixed",continuousCovs,NA),
@@ -1933,7 +1947,7 @@ margModelPosterior<-function(runInfoObj,allocation){
 	nFilter=NULL
 	nSweeps=NULL
 	nProgress=NULL
-	
+	dPitmanYor=NULL
 
 	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 
@@ -1953,6 +1967,8 @@ margModelPosterior<-function(runInfoObj,allocation){
 			stop("ERROR: No missing value handling technique has been implemented for the marginal model posterior. This function cannot be run if missing values are present.")
 		}
 	}
+	# this function only works for dPitmanYor == 0, ie only for Dirichlet process prior
+	if (runInfoObj$dPitmanYor !=0) stop("ERROR: the marginal model posterior has only been implemented for Dirichlet process priors.")
 
 	# read in value of hyperparameters
 	runData<-readLines(file.path(directoryPath,paste(fileStem,'_log.txt',sep='')))
@@ -2017,7 +2033,7 @@ margModelPosterior<-function(runInfoObj,allocation){
 		close(alphaFileName)
 		alpha<-median(alphaValues)
 	}
-	runInfoObj$alpha <- alpha
+	runInfoObj$alphaMMP <- alpha
 
 	if (xModel=="Discrete"){
 		aPhi<-runData[grep('aPhi',runData)]
@@ -2471,6 +2487,7 @@ globalParsTrace<-function(runInfoObj, parameters = "nClusters",plotBurnIn=FALSE,
 	nSubjects=NULL
 	nBurn=NULL
 	reportBurnIn=NULL
+	alpha= NULL
 	
 	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 
@@ -2489,7 +2506,11 @@ globalParsTrace<-function(runInfoObj, parameters = "nClusters",plotBurnIn=FALSE,
 	if(parameters== "nClusters") ylabPar<- "Number of clusters"
 	if(parameters=="mmp") ylabPar<-"Log marginal model posterior"
 	if(parameters=="beta") ylabPar<-"beta"
-	if(parameters=="alpha") ylabPar<-"alpha"
+	if(parameters=="alpha") {
+		if (alpha < -1) ylabPar<-"alpha"
+	} else {
+		stop("ERROR: Parameter alpha is random only for the Dirichlet process prior with random alpha.") 
+	}
 
 	xlabPars<-"Sweeps (after burn in)"
 

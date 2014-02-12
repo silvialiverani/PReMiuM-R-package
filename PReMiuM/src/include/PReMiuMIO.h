@@ -101,7 +101,8 @@ pReMiuMOptions processCommandLine(string inputStr){
 			Rprintf("--yModel=<string>\n\tThe model type for the outcome variable. Options are\n\tcurrently 'Bernoulli','Poisson','Binomial', 'Categorical' and 'Normal' (Bernoulli)\n");
 			Rprintf("--xModel=<string>\n\tThe model type for the covariates. Options are\n\tcurrently 'Discrete', 'Normal' and 'Mixed' (Discrete)\n");
 			Rprintf("--sampler=<string>\n\tThe sampler type to be used. Options are\n\tcurrently 'SliceDependent', 'SliceIndependent' and 'Truncated' (SliceDependent)\n");
-			Rprintf("--alpha=<double>\n\tThe value to be used if alpha is to remain fixed.\n\tIf a negative value is used then alpha is updated (-1)\n");
+			Rprintf("--alpha=<double>\n\tThe value to be used if alpha is to remain fixed.\n\tIf a negative value is used then alpha is updated (-2)\n");
+			Rprintf("--dPitmanYor=<double>\n\tThe value to be used for the discount parameter of the Pitman-Yor process prior.\n\tThe default corresponds to the Dirichlet process prior (0)\n");
 			Rprintf("--excludeY\n\tIf included only the covariate data X is modelled (not included)\n");
 			Rprintf("--extraYVar\n\tIf included extra Gaussian variance is included in the\n\tresponse model (not included).\n");
 			Rprintf("--varSelect=<string>\n\tThe type of variable selection to be used 'None',\n\t'BinaryCluster' or 'Continuous' (None)\n");
@@ -205,6 +206,11 @@ pReMiuMOptions processCommandLine(string inputStr){
 					string tmpStr = inString.substr(pos,inString.size()-pos);
 					double alpha=(double)atof(tmpStr.c_str());
 					options.fixedAlpha(alpha);
+				}else if(inString.find("--dPitmanYor")!=string::npos){
+					size_t pos = inString.find("=")+1;
+					string tmpStr = inString.substr(pos,inString.size()-pos);
+					double dPitmanYor=(double)atof(tmpStr.c_str());
+					options.dPitmanYor(dPitmanYor);
 				}else if(inString.find("--excludeY")!=string::npos){
 					options.includeResponse(false);
 				}else if(inString.find("--extraYVar")!=string::npos){
@@ -792,7 +798,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 		}
 		// Now compute the bound recommended in Ishwaran and James 2001
 		double multiplier=0.0;
-		if(options.fixedAlpha()>0){
+		if(options.fixedAlpha()>-1){
 			multiplier=options.fixedAlpha();
 		}else{
 			// Use the expected value of alpha as the multiplier
@@ -813,10 +819,13 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 	randomGamma gammaRand(hyperParams.shapeAlpha(),1.0/hyperParams.rateAlpha());
 
 	double alpha=gammaRand(rndGenerator);
-	if(options.fixedAlpha()>0){
+	if(options.fixedAlpha()>-1){
 		alpha=options.fixedAlpha();
 	}
-	params.alpha(alpha);
+	params.alpha(alpha);	
+
+	double dPitmanYor = options.dPitmanYor();
+	params.dPitmanYor(dPitmanYor);	
 
 	vector<unsigned int> nXInCluster(maxNClusters,0);
 	unsigned int maxZ=0;
@@ -834,7 +843,6 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 
 		}
 	}
-
 	params.workNXInCluster(nXInCluster);
 	params.workMaxZi(maxZ);
 
@@ -851,8 +859,9 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 	}
 
 	double tmp=0.0;
+
 	for(unsigned int c=0;c<=maxZ;c++){
-		double vVal = betaRand(rndGenerator,1.0+params.workNXInCluster(c),alpha+sumCPlus1ToMaxMembers[c]);
+		double vVal = betaRand(rndGenerator,1.0+params.workNXInCluster(c)-dPitmanYor,alpha+sumCPlus1ToMaxMembers[c]+dPitmanYor*(c+1));
 		params.v(c,vVal);
 		// Set logPsi
 		params.logPsi(c,tmp+log(vVal));
@@ -865,7 +874,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 		vector<double> logPsiNew=params.logPsi();
 
 		for(unsigned int c=maxZ+1;c<maxNClusters;c++){
-			double v=betaRand(rndGenerator,1.0,alpha);
+			double v=betaRand(rndGenerator,1.0-dPitmanYor,alpha+dPitmanYor*c);
 			double logPsi=log(v)+log(1-vNew[c-1])-log(vNew[c-1])+logPsiNew[c-1];
 			if(c>=vNew.size()){
 				vNew.push_back(v);
@@ -925,7 +934,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 			}else{
 				c++;
 				// We need a new sampled value of v
-				double v=betaRand(rndGenerator,1.0,alpha);
+				double v=betaRand(rndGenerator,1.0-dPitmanYor,alpha+dPitmanYor*c);
 				double logPsi=log(v)+log(1-vNew[c-1])-log(vNew[c-1])+logPsiNew[c-1];
 				if(c>=vNew.size()){
 					vNew.push_back(v);
@@ -1354,6 +1363,7 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 		bool includeResponse = sampler.model().options().includeResponse();
 		bool responseExtraVar = sampler.model().options().responseExtraVar();
 		double fixedAlpha = sampler.model().options().fixedAlpha();
+		double dPitmanYor = sampler.model().options().dPitmanYor();
 		string outcomeType = sampler.model().options().outcomeType();
 		bool computeEntropy = sampler.model().options().computeEntropy();
 		unsigned int nFixedEffects = params.nFixedEffects(outcomeType);
@@ -1400,7 +1410,7 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 			outFiles.push_back(new ofstream(fileName.c_str()));
 			fileName = fileStem + "_nMembers.txt";
 			outFiles.push_back(new ofstream(fileName.c_str()));
-			if(fixedAlpha<0){
+			if(fixedAlpha<=-1){
 				fileName = fileStem + "_alphaProp.txt";
 				outFiles.push_back(new ofstream(fileName.c_str()));
 			}
@@ -1482,7 +1492,7 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 		alphaInd=r++;
 		logPostInd=r++;
 		nMembersInd=r++;
-		if(fixedAlpha<0){
+		if(fixedAlpha<=-1){
 			alphaPropInd=r++;
 		}
 
@@ -1732,7 +1742,7 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 		}
 
 		// Print alpha
-		if(fixedAlpha<0||sweep==0){
+		if(fixedAlpha<=-1||sweep==0){
 			*(outFiles[alphaInd]) << params.alpha() << endl;
 		}
 
@@ -1795,7 +1805,7 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 		}
 
 		// Print the acceptance rates for alpha
-		if(fixedAlpha<0){
+		if(fixedAlpha<=-1){
 			anyUpdates = proposalParams.alphaAnyUpdates();
 			if(anyUpdates){
 				*(outFiles[alphaPropInd]) << sampler.proposalParams().alphaAcceptRate() <<
@@ -1959,11 +1969,16 @@ string storeLogFileData(const pReMiuMOptions& options,
 	}else{
 		tmpStr << "Include response: False" << endl;
 	}
-	if(options.fixedAlpha()<0){
+	if(options.fixedAlpha()<=-1){
 		tmpStr << "Update alpha: True" << endl;
 	}else{
 		tmpStr << "Update alpha: False" << endl;
 		tmpStr << "Fixed alpha: " << options.fixedAlpha() << endl;
+		if(options.dPitmanYor()==0) {
+			tmpStr << "Dirichlet process prior, so dPitmanYor: " << options.dPitmanYor() << endl;
+		} else {
+			tmpStr << "dPitmanYor: " << options.dPitmanYor() << endl;
+		}
 	}
 	if(options.computeEntropy()){
 		tmpStr << "Compute allocation entropy: True" << endl;
@@ -1975,7 +1990,7 @@ string storeLogFileData(const pReMiuMOptions& options,
 	tmpStr << "Variable selection: " << options.varSelectType() << endl;
 
 	tmpStr << endl << "Hyperparameters:" << endl;
-	if(options.fixedAlpha()<0){
+	if(options.fixedAlpha()<=-1){
 		tmpStr << "shapeAlpha: " << hyperParams.shapeAlpha() << endl;
 		tmpStr << "rateAlpha: " << hyperParams.rateAlpha() << endl;
 	}

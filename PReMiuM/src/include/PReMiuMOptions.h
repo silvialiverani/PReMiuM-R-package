@@ -79,7 +79,8 @@ class pReMiuMOptions{
 			_responseExtraVar = false;
 			_doPrediction = false;
 			_varSelectType ="None";
-			_fixedAlpha=-1;
+			_fixedAlpha=-2;
+			_dPitmanYor=0;
 			_samplerType="SliceDependent";
 			_computeEntropy=false;
 		};
@@ -253,6 +254,16 @@ class pReMiuMOptions{
 			_fixedAlpha=alphaVal;
 		}
 
+		/// \brief Return the fixed value of the discount parameter of the Pitman Yor process prior
+		double dPitmanYor() const{
+			return _dPitmanYor;
+		}
+
+		/// \brief Return the fixed value of the discount parameter of the Pitman Yor process prior
+		void dPitmanYor(const double& dPitmanYorVal){
+			_dPitmanYor=dPitmanYorVal;
+		}
+
 		/// \brief Return the sampler method
 		string samplerType() const{
 			return _samplerType;
@@ -318,6 +329,7 @@ class pReMiuMOptions{
 			_includeResponse=options.includeResponse();
 			_whichLabelSwitch=options.whichLabelSwitch();
 			_fixedAlpha=options.fixedAlpha();
+			_dPitmanYor=options.dPitmanYor();
 			_samplerType=options.samplerType();
 			_doPrediction=options.doPrediction();
 			_responseExtraVar=options.responseExtraVar();
@@ -360,6 +372,8 @@ class pReMiuMOptions{
 		string _whichLabelSwitch;
 		// This has a fixed value of alpha (if negative we update alpha)
 		double _fixedAlpha;
+		// This has a fixed value of the discount parameter of the Pitman Yor process prior
+		double _dPitmanYor;
 		// The method used by the sampler
 		string _samplerType;
 		// This notes whether we are also doing predictions

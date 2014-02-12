@@ -777,8 +777,9 @@ void gibbsForVActive(mcmcChain<pReMiuMParams>& chain,
 
 	double tmp=0.0;
 	double alpha = currentParams.alpha();
+	double dPitmanYor = currentParams.dPitmanYor();
 	for(unsigned int c=0;c<=maxZ;c++){
-		double vVal = betaRand(rndGenerator,1.0+currentParams.workNXInCluster(c),alpha+sumCPlus1ToMaxMembers[c]);
+		double vVal = betaRand(rndGenerator,1.0+currentParams.workNXInCluster(c)-dPitmanYor,alpha+sumCPlus1ToMaxMembers[c]+dPitmanYor*(c+1));
 		currentParams.v(c,vVal);
 		// Set psi
 		currentParams.logPsi(c,tmp+log(vVal));
@@ -1672,12 +1673,13 @@ void gibbsForVInActive(mcmcChain<pReMiuMParams>& chain,
 	vector<double> logPsiNew=currentParams.logPsi();
 
 	double alpha = currentParams.alpha();
+	double dPitmanYor = currentParams.dPitmanYor();
 
 	if(samplerType.compare("Truncated")==0){
 		// Just sample from the prior
 
 		for(unsigned int c=maxZ+1;c<maxNClusters;c++){
-			double v=betaRand(rndGenerator,1.0,alpha);
+			double v=betaRand(rndGenerator,1.0-dPitmanYor,alpha+dPitmanYor*c);
 			double logPsi=log(v)+log(1-vNew[c-1])-log(vNew[c-1])+logPsiNew[c-1];
 			if(c>=vNew.size()){
 				vNew.push_back(v);
@@ -1711,7 +1713,7 @@ void gibbsForVInActive(mcmcChain<pReMiuMParams>& chain,
 			}else{
 				c++;
 				// We need a new sampled value of v
-				double v=betaRand(rndGenerator,1.0,alpha);
+				double v=betaRand(rndGenerator,1.0-dPitmanYor,alpha+dPitmanYor*c);
 				double logPsi=log(v)+log(1-vNew[c-1])-log(vNew[c-1])+logPsiNew[c-1];
 				if(c>=vNew.size()){
 					vNew.push_back(v);

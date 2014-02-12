@@ -169,7 +169,7 @@ SEXP profRegr(SEXP inputString) {
 	}
 
 	// The Metropolis Hastings update for alpha
-	if(options.fixedAlpha()<0){
+	if(options.fixedAlpha()<=-1){
 		pReMiuMSampler.addProposal("metropolisHastingsForAlpha",1.0,1,1,&metropolisHastingsForAlpha);
 	}
 

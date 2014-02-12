@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2013.11.27)  6 FEB 2014 10:55
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2013.11.27)  12 FEB 2014 15:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -769,38 +769,37 @@ File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 ) [22] [23]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1021--1022
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1022--1023
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
  []
 
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1022--1023
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1023--1024
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
  []
 
 [24] [25] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [26]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1148--1149
+) [26] [27]
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1149--1150
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
  []
 
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1148--1149
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1149--1150
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
  []
 
-[27] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
-File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [28]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [29] (./Rd2.ind
-[30]
+) [28] [29]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
+) (./Rd2.ind [30]
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 3.
 
@@ -811,11 +810,11 @@ LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
 [31
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1287.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1287.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1288.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1288.
  (./Rd2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1287.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1287.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1288.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1288.
 
 Package rerunfilecheck Info: File `Rd2.out' has not changed.
 (rerunfilecheck)             Checksum: CD3A7361A8E2588E2451EE8E7BDE5362;1177.
@@ -823,16 +822,16 @@ Package rerunfilecheck Info: File `Rd2.out' has not changed.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1287.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1288.
  ) 
 Here is how much of TeX's memory you used:
  6580 strings out of 495031
  94919 string characters out of 6181530
- 165797 words of memory out of 5000000
+ 166797 words of memory out of 5000000
  9453 multiletter control sequences out of 15000+600000
  40988 words of font info for 50 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 38i,6n,34p,568b,594s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,6n,34p,599b,594s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/share/texliv
 e/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}</usr/share/texlive/texmf-
 dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/share/texlive/te
@@ -841,7 +840,7 @@ st/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/typ
 e1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/ut
 mr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/
 share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (31 pages, 143468 bytes).
+Output written on Rd2.pdf (31 pages, 144252 bytes).
 PDF statistics:
  495 PDF objects out of 1000 (max. 8388607)
  450 compressed objects within 5 object streams
