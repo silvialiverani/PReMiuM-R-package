@@ -248,8 +248,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	# the third label switching move is only for Dirichlet process prior, not for Pitman-Yor process prior 
 	if (dPitmanYor>0) whichLabelSwitch<-"12"
 	if ((alpha>=-1)&(alpha < -dPitmanYor)) stop("It is a condition of the Pitman-Yor process prior that alpha > - dPitmanYor.")
-	if (dPitmanYor>0&sampler!="Truncated") stop("The Pitman-Yor process prior has been implemented to use with the Truncated sampler only.")
-	#if (dPitmanYor>0&sampler=="Truncated") print("Note that for the Pitman-Yor process prior there might be en error when using the Truncated sampler. This is due to the way that the bound on the number of clusters is computed.")
+	if (dPitmanYor>0&sampler=="Truncated") print("Note that for the Pitman-Yor process prior there might be en error when using the Truncated sampler. This is due to the way that the bound on the number of clusters is computed.")
 
 	inputString<-paste("PReMiuM --input=",fileName," --output=",output," --xModel=",xModel," --yModel=",yModel," --varSelect=",varSelectType," --whichLabelSwitch=",whichLabelSwitch,sep="")
 
