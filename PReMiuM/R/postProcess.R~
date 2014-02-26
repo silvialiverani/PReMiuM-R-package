@@ -2527,9 +2527,11 @@ print(parameters)
 	if(parameters=="mmp") ylabPar<-"Log marginal model posterior"
 	if(parameters=="beta") ylabPar<-"beta"
 	if(parameters=="alpha") {
-		if (alpha < -1) ylabPar<-"alpha"
-	} else {
-		stop("ERROR: Parameter alpha is random only for the Dirichlet process prior with random alpha.") 
+		if (alpha < -1) {
+			ylabPar<-"alpha"
+		} else {
+			stop("ERROR: Parameter alpha is random only for the Dirichlet process prior with random alpha.") 
+		}
 	}
 
 	xlabPars<-"Sweeps (after burn in)"
@@ -2578,7 +2580,7 @@ print(parameters)
 }
 
 # plot posterior predictive densities
-plotPredictions<-function(outfile="condDensity.pdf",runInfoObj,predictions,logOR=FALSE){
+plotPredictions<-function(outfile,runInfoObj,predictions,logOR=FALSE){
 
 	# ignores fixed effects
 	
@@ -2608,14 +2610,14 @@ plotPredictions<-function(outfile="condDensity.pdf",runInfoObj,predictions,logOR
 	}
 	
 	# output file
-	pdf(outFile,onefile=TRUE)
+	pdf(outfile,onefile=TRUE)
    
 	# Relevant scenarios
 	nPredictSubjects<-runInfoObj$nPredictSubjects
 	
 	denObj<-vector(mode="list")
 	for(i in 1:nPredictSubjects){
-		denObj[[i]]<-density(na.omit(preds[,i]))
+		denObj[[i]]<-density(na.omit(preds[,i]),bw=0.78)
 	}
 	
 	for(k in 1:nPredictSubjects){

@@ -2580,7 +2580,7 @@ print(parameters)
 }
 
 # plot posterior predictive densities
-plotPredictions<-function(outfile="condDensity.pdf",runInfoObj,predictions,logOR=FALSE){
+plotPredictions<-function(outfile,runInfoObj,predictions,logOR=FALSE){
 
 	# ignores fixed effects
 	
@@ -2610,14 +2610,14 @@ plotPredictions<-function(outfile="condDensity.pdf",runInfoObj,predictions,logOR
 	}
 	
 	# output file
-	pdf(outFile,onefile=TRUE)
+	pdf(outfile,onefile=TRUE)
    
 	# Relevant scenarios
 	nPredictSubjects<-runInfoObj$nPredictSubjects
 	
 	denObj<-vector(mode="list")
 	for(i in 1:nPredictSubjects){
-		denObj[[i]]<-density(na.omit(preds[,i]))
+		denObj[[i]]<-density(na.omit(preds[,i]),bw=0.8)
 	}
 	
 	for(k in 1:nPredictSubjects){

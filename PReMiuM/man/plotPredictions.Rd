@@ -28,6 +28,24 @@ Liverani, S., Hastie, D. I., Azizi, L., Papathomas, M. and Richardson, S. (2013)
 }
 \examples{
 \dontrun{
+# example with Bernoulli outcome and Discrete covariates
+inputs <- generateSampleDataFile(clusSummaryBernoulliDiscrete())
+# prediction profiles
+preds<-data.frame(matrix(c(
+2, 2, 2, 2, 2,
+0, 0, NA, 0, 0),ncol=5,byrow=TRUE))
+
+colnames(preds)<-names(inputs$inputData)[2:(inputs$nCovariates+1)]
+# run profile regression
+runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+     nSweeps=10000, nBurn=10000, data=inputs$inputData, output="output", 
+     covNames=inputs$covNames,predict=preds,fixedEffectsNames = inputs$fixedEffectNames)        
+dissimObj <- calcDissimilarityMatrix(runInfoObj)
+clusObj <- calcOptimalClustering(dissimObj)
+riskProfileObj <- calcAvgRiskAndProfile(clusObj)
+predictions <- calcPredictions(riskProfileObj,fullSweepPredictions=TRUE,fullSweepLogOR=TRUE)
+
+plotPredictions(outfile="predictiveDensity.pdf",runInfoObj=runInfoObj,predictions=predictions,logOR=TRUE)
 
 }
 }
