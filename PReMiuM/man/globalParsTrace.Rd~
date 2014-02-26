@@ -41,7 +41,7 @@ runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel,
  covNames=inputs$covNames,nClusInit=15,reportBurnIn=FALSE,fixedEffectsNames = inputs$fixedEffectNames)
 
 # plot trace for alpha
-globalParsTrace(runInfoObj,parameters="alpha",plotBurnIn=FALSE)
+globalParsTrace(runInfoObj,par="alpha",plotBurnIn=FALSE)
 
 }
 

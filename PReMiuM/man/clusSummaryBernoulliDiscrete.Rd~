@@ -29,8 +29,6 @@ clusSummaryBernoulliMixed()
 
 clusSummaryBernoulliDiscrete generates a dataset with Bernoulli outcome and discrete covariates.
 
-clusSummaryBernoulliNormal generates a dataset with Bernoulli outcome and Normal covariates.
-
 clusSummaryBernoulliDiscreteSmall generates a dataset with Bernoulli outcome and discrete covariates (with smaller cluster sizes).
 
 clusSummaryBinomialNormal generates a dataset with Binomial outcome and discrete covariates.

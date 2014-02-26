@@ -347,6 +347,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 
 	if (run) .Call('profRegr', inputString, PACKAGE = 'PReMiuM')
 
+
 	# define directory path and fileStem
 	outputSplit <- strsplit(output,split="/")
 	fileStem <- tail(outputSplit[[1]],1)
@@ -2521,14 +2522,16 @@ globalParsTrace<-function(runInfoObj, parameters = "nClusters",plotBurnIn=FALSE,
 
 	# read the data in
 	parData<-read.table(parFileName)
-
+print(parameters)
 	if(parameters== "nClusters") ylabPar<- "Number of clusters"
 	if(parameters=="mmp") ylabPar<-"Log marginal model posterior"
 	if(parameters=="beta") ylabPar<-"beta"
 	if(parameters=="alpha") {
-		if (alpha < -1) ylabPar<-"alpha"
-	} else {
-		stop("ERROR: Parameter alpha is random only for the Dirichlet process prior with random alpha.") 
+		if (alpha < -1) {
+			ylabPar<-"alpha"
+		} else {
+			stop("ERROR: Parameter alpha is random only for the Dirichlet process prior with random alpha.") 
+		}
 	}
 
 	xlabPars<-"Sweeps (after burn in)"
@@ -2573,6 +2576,61 @@ globalParsTrace<-function(runInfoObj, parameters = "nClusters",plotBurnIn=FALSE,
 	} else if (parameters=="beta"){
 		plot(rangeSweeps,parData[rangeParData,whichBeta],type="l",lty=1,col="red",ylab=ylabPar,xlab=xlabPars)
 	}
+
+}
+
+# plot posterior predictive densities
+plotPredictions<-function(outfile="condDensity.pdf",runInfoObj,predictions,logOR=FALSE){
+
+	# ignores fixed effects
+	
+	nPredictedSubjects=NULL	
+	directoryPath=NULL
+	fileStem=NULL
+
+	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
+
+	if (yModel!="Bernoulli") stop("This function has been developed for Bernoulli response only.")
+	if (xModel=="Mixed") stop("This function has been developed for Discrete and Normal covariates only.")
+
+	if (runInfoObj$nFixedEffects>0) print("Note that fixed effects are not processed in this function.")
+	
+	predictResponseFileName = file.path(runInfoObj$directoryPath,paste(runInfoObj$fileStem,'_predict.txt',sep=''))
+	relScenarios<-read.table(predictResponseFileName,header=FALSE,skip=1)
+
+	# sistemare a seconda se logOR e' stato calcolato o no
+	if (logOR==FALSE) {
+		preds<-predictions$predictedYPerSweep[,,1]		
+	} else {
+		if (!is.null(predictions$logORPerSweep)){
+			preds<-predictions$logORPerSweep
+		} else {
+			stop("Log OR (odds ratios) cannot be plotted because they have not been computed by calcPredictions. Re-run calcPredictions with option fullSweepLogOR=TRUE.")
+		}
+	}
+	
+	# output file
+	pdf(outFile,onefile=TRUE)
+   
+	# Relevant scenarios
+	nPredictSubjects<-runInfoObj$nPredictSubjects
+	
+	denObj<-vector(mode="list")
+	for(i in 1:nPredictSubjects){
+		denObj[[i]]<-density(na.omit(preds[,i]))
+	}
+	
+	for(k in 1:nPredictSubjects){
+		plotDF<-data.frame('logOddsRatio'=denObj[[k]]$x,'density'=denObj[[k]]$y)
+		plotObj<-ggplot(plotDF)
+		plotObj<-plotObj+geom_line(aes(x=logOddsRatio,y=density),size=0.2)
+		plotObj<-plotObj+theme(legend.position="none")
+		plotObj<-plotObj+labs(x=ifelse(logOR==TRUE,"Log OR of response","Response"))+theme(axis.title.x=element_text(size=7))+labs(y="Density")+theme(axis.title.y=element_text(size=7,angle=90))							
+		plotObj<-plotObj+theme(axis.text.x=element_text(size=7))+theme(axis.text.y=element_text(size=7))
+		print(plotObj)
+	}
+	
+	dev.off()
 
 }
 
