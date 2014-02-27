@@ -2617,7 +2617,7 @@ plotPredictions<-function(outfile,runInfoObj,predictions,logOR=FALSE){
 	
 	denObj<-vector(mode="list")
 	for(i in 1:nPredictSubjects){
-		denObj[[i]]<-density(na.omit(preds[,i]),bw=0.78)
+		denObj[[i]]<-density(na.omit(preds[,i]),bw=0.8)
 	}
 	
 	for(k in 1:nPredictSubjects){

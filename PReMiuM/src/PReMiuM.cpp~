@@ -269,22 +269,20 @@ RcppExport SEXP profRegr(SEXP inputString) {
 	unsigned int maxNClusters = pReMiuMSampler.chain().currentState().parameters().maxNClusters();
 	/* ---------- Run the sampler --------- */
 	// Note: in this function the output gets written
-std::cout<<"here"<<std::endl;
+return Rcpp::wrap(0);
 	pReMiuMSampler.run();
-std::cout<<"here"<<std::endl;
+
 	/* -- End the clock time and write the full run details to log file --*/
 	currTime = time(NULL);
     	double timeInSecs=(double)currTime-(double)beginTime;
 	string tmpStr = storeLogFileData(options,dataset,hyperParams,nClusInit,maxNClusters,timeInSecs);
 	pReMiuMSampler.appendToLogFile(tmpStr);
-std::cout<<"here"<<std::endl;
+
 	/* ---------- Clean Up ---------------- */
 	pReMiuMSampler.closeOutputFiles();
-std::cout<<"here3"<<std::endl;
+
 	//int err = 0;
 	return Rcpp::wrap(0);
-//	return(Rcpp::wrap(0));
-std::cout<<"here3"<<std::endl;
 // alternative output
 //	return Rcpp::List::create(Rcpp::Named("yModel")=options.outcomeType());
 

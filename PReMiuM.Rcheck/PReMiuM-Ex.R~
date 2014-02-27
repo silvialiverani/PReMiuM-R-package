@@ -1,0 +1,24 @@
+library(PReMiuM)
+# example with Bernoulli outcome and Discrete covariates
+inputs <- generateSampleDataFile(clusSummaryBernoulliMixed())
+# prediction profiles
+preds<-data.frame(matrix(c(
+2, 2, 2, 2, 2,
+NA, 2, 2, 2, 2,
+2, NA, 2, 2, 2,
+2, 2, 2, NA, 2,
+0, 0, NA, 0, 0),ncol=5,byrow=TRUE))
+
+colnames(preds)<-names(inputs$inputData)[2:(inputs$nCovariates+1)]
+# run profile regression
+runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+     nSweeps=10, nBurn=10, data=inputs$inputData, output="output", 
+#     covNames=inputs$covNames,
+predict=preds,discreteCovs = inputs$discreteCovs,
+         continuousCovs = inputs$continuousCovs)        
+
+  
+
+
+
+

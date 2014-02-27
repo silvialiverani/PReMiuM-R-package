@@ -418,6 +418,9 @@ void importPReMiuMData(const string& fitFilename,const string& predictFilename,p
 				} else {
 					inputFile >> continuousX[i][j-nDiscreteCovs];
 					if(fabs(continuousX[i][j-nDiscreteCovs]+999)>0.00000000001){
+std::cout<<continuousX[i][j-nDiscreteCovs]<<std::endl;
+std::cout<<i<<std::endl;
+std::cout<<j<<std::endl;
 						nContinuousCovariatesNotMissing[i]++;
 						meanX[j]+=continuousX[i][j-nDiscreteCovs];
 						nXNotMissing[j]+=1;
@@ -498,7 +501,7 @@ void importPReMiuMData(const string& fitFilename,const string& predictFilename,p
 					if (j < nDiscreteCovs) {
 						discreteX[i][j]=(int)meanX[j];
 					} else {
-						continuousX[i][j]=meanX[j-nDiscreteCovs];
+						continuousX[i][j-nDiscreteCovs]=(double)meanX[j-nDiscreteCovs];
 					}
 				}
 			}
@@ -1347,7 +1350,7 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 	unsigned int nBurn = sampler.nBurn();
 	unsigned int nFilter = sampler.nFilter();
 	vector<ofstream*>& outFiles = sampler.outFiles();
-std::cout<<"here"<<std::endl;
+
 	// Check if we need to do anything
 	if((reportBurnIn||((!reportBurnIn)&&sweep>nBurn))&&(sweep%nFilter==0)){
 		const pReMiuMParams& params = sampler.chain().currentState().parameters();

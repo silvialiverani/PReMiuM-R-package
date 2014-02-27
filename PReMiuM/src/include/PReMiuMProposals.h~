@@ -2569,7 +2569,7 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 				if(u[i]<testBound[c]){
 					VectorXd workMuStar=currentParams.workMuStar(c);
 					VectorXd xi=VectorXd::Zero(nNotMissing);
-//std::cout<<"n "<<nNotMissing<<std::endl;
+std::cout<<"n "<<nNotMissing<<std::endl;
 					VectorXd muStar=VectorXd::Zero(nNotMissing);
 					MatrixXd sqrtTau=MatrixXd::Zero(nNotMissing,nNotMissing);
 					double logDetTau =0.0;
@@ -2587,7 +2587,7 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 						unsigned int j=0;
 						for(unsigned int j0=0;j0<nContinuousCovs;j0++){
 							if(!missingX[i][nDiscreteCovs+j0]){
-//std::cout<<j<<std::endl;
+std::cout<<j<<std::endl;
 								xi(j)=currentParams.workContinuousX(i,j0);
 								muStar(j)=workMuStar(j0);
 								unsigned int r=0;

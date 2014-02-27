@@ -498,7 +498,7 @@ void importPReMiuMData(const string& fitFilename,const string& predictFilename,p
 					if (j < nDiscreteCovs) {
 						discreteX[i][j]=(int)meanX[j];
 					} else {
-						continuousX[i][j]=meanX[j-nDiscreteCovs];
+						continuousX[i][j-nDiscreteCovs]=(double)meanX[j-nDiscreteCovs];
 					}
 				}
 			}
