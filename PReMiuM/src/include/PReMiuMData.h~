@@ -416,22 +416,6 @@ class pReMiuMData{
 		}
 
 
-		/// \brief Return the n vector for Survival data
-		const vector<unsigned int>& censoring() const{
-			return _censoring;
-		}
-
-		/// \brief Return the n vector for Survival data 
-		vector<unsigned int>& censoring(){
-			return _censoring;
-		}
-
-		/// \brief Return n for subject i for Survival data
-		unsigned int censoring(const unsigned int& i) const{
-			return _censoring[i];
-		}
-
-
 	private:
 		/// \brief The number of subjects
 		unsigned int _nSubjects;
@@ -503,9 +487,6 @@ class pReMiuMData{
 
 		/// \brief A vector of n for each individual (only used in the Binomial model)
 		vector<unsigned int> _nTrials;
-
-		/// \brief A vector of n for each individual (only used in the survival model)
-		vector<unsigned int> _censoring;
 
 };
 

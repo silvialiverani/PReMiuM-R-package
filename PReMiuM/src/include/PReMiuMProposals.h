@@ -2628,6 +2628,8 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 				logPYiGivenZiWi = &logPYiGivenZiWiNormal;
 			}else if(outcomeType.compare("Categorical")==0){
 				logPYiGivenZiWi = &logPYiGivenZiWiCategorical;
+			}else if(outcomeType.compare("Survival")==0){
+				logPYiGivenZiWi = &logPYiGivenZiWiSurvival;
 			}
 		}
 	}

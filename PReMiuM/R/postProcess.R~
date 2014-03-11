@@ -37,7 +37,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	
 	if (!is.data.frame(data)) stop("Input data must be a data.frame with outcome, covariates and fixed effect names as column names.")
 
-	if (extraYVar==TRUE&(yModel=="Categorical"||yModel=="Normal")) stop("Option extraYVar is only available for Bernoulli, Binomial and Poisson response.")
+	if (extraYVar==TRUE&(yModel=="Categorical"||yModel=="Normal"||yModel=="Survival")) stop("Option extraYVar is only available for Bernoulli, Binomial and Poisson response.")
 
 	# open file to write output
 	fileName<-paste(output,"_input.txt",sep="")
@@ -150,18 +150,22 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		}
 	} else {
 		nFixedEffects<-0
+		if (yModel=="Survival") stop("ERROR: For the current implementation of Survival outcome the fixed effects must be provided. ")
 	}
 
 	#  extra outcome data
-	if (yModel=="Poisson"||yModel=="Binomial") {
+	if (yModel=="Poisson"||yModel=="Binomial"||yModel=="Survival") {
 		if(is.na(outcomeT)){
-			stop ("It is required to set outcomeT for Poisson (offset) or Binomial (number of trials) outcome.")
+			stop ("It is required to set outcomeT for Poisson (offset), Binomial (number of trials) or Survival (censoring) outcome.")
 		} else {
 			indexOutcomeT <- which(colnames(data)==outcomeT)
+			if (yModel=="Survival") {
+				if (sum(names(table(data[indexOutcomeT])) == c("0","1"))!=2) stop("If yModel is Survival, variable outcomeT corresponds to the censoring of the outcome. Therefore, it must be coded 0 and 1.")
+			}
 			dataMatrix <- cbind(dataMatrix,data[indexOutcomeT])
 		}
 	} else {
-		if(!is.na(outcomeT)) stop ("It is only required to set outcomeT for Poisson and Binomial outcome.")
+		if(!is.na(outcomeT)) stop ("It is only required to set outcomeT for Poisson, Binomial and Survival outcome.")
 	}		
 
 	# print number of subjects
@@ -200,7 +204,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 			if (nFixedEffects>0 ) {
 			if (length(intersect(fixedEffectsNames,names(predict)))==length(fixedEffectsNames)) {
 				write(nPreds, paste(output,"_predictFull.txt",sep=""),ncolumns=1)
-				if (yModel=="Poisson" || yModel=="Binomial"){
+				if (yModel=="Poisson" || yModel=="Binomial"||yModel=="Survival"){
 					write(t(as.matrix(predict[,c(outcome,outcomeT,fixedEffectsNames)])), paste(output,"_predictFull.txt",sep=""),append=T,ncolumns=(2+length(fixedEffectsNames)))
 				} else {
 					write(t(as.matrix(predict[,c(outcome,fixedEffectsNames)])), paste(output,"_predictFull.txt",sep=""),append=T,ncolumns=(1+length(fixedEffectsNames)))				
@@ -215,7 +219,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 			} else {
 
 				write(nPreds, paste(output,"_predictFull.txt",sep=""),ncolumns=1)
-				if (yModel=="Poisson" || yModel=="Binomial"){
+				if (yModel=="Poisson" || yModel=="Binomial" ||yModel == "Survival"){
 					predictFixedEffectsNA<-as.matrix(predict[,c(outcome,outcomeT)])
 					write(t(predictFixedEffectsNA), paste(output,"_predictFull.txt",sep=""),append=T,ncolumns=2)
 				} else {
@@ -237,7 +241,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 
 	# other checks to ensure that there are no errors when calling the program
 	if (xModel!="Discrete"&xModel!="Normal"&xModel!="Mixed") stop("This xModel is not defined.")
-	if (yModel!="Poisson"&yModel!="Binomial"&yModel!="Bernoulli"&yModel!="Normal"&yModel!="Categorical") stop("This yModel is not defined.")
+	if (yModel!="Poisson"&yModel!="Binomial"&yModel!="Bernoulli"&yModel!="Normal"&yModel!="Categorical"&yModel!="Survival") stop("This yModel is not defined.")
 
 	# conditions for alpha and dPitmanYor parameters	
 	# checks that dPitmanYor is in the correct interval
@@ -380,6 +384,9 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		}else if(yModel=='Binomial'){
 			nTrials<-dataMatrix[,ncol(dataMatrix)]
 			yMat<-cbind(yMat,nTrials)
+		}else if(yModel=='Survival'){
+			censoring<-dataMatrix[,ncol(dataMatrix)]
+			yMat<-cbind(yMat,censoring)
 		}
 		if(nFixedEffects>0){
 			wMat<-dataMatrix[,(2+nCovariates):(1+nCovariates+nFixedEffects)]
@@ -853,6 +860,9 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 				}else if(yModel=="Categorical"){
 					currRisk<-matrix(0,ncol=length(optAlloc[[c]]),nrow=nCategoriesY)
 					currRisk<-exp(currLambda)/rowSums(exp(currLambda))
+				}else if(yModel=="Survival"){
+					currRisk<-currLambda
+					print("need to sort this out for Survival data.")
 				}
 				riskArray[sweep-firstLine+1,c,]<-apply(currRisk,2,mean)
 				thetaArray[sweep-firstLine+1,c,]<-apply(as.matrix(currTheta[currZ[optAlloc[[c]]],],ncol=nCategoriesY),2,mean)
@@ -1756,7 +1766,7 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 	if(!is.null(predictResponseFileName)){
 		predictResponseData<-scan(predictResponseFileName,quiet=T)
 		predictResponseMat<-matrix(predictResponseData[2:length(predictResponseData)],
-		nrow=nPredictSubjects,byrow=T)
+			nrow=nPredictSubjects,byrow=T)
 		predictYMat<-matrix(predictResponseMat[,1],ncol=1)
 		if(yModel=="Poisson"||yModel=="Binomial"){
 			predictYMat<-cbind(predictYMat,predictResponseMat[,ncol(predictResponseMat)])

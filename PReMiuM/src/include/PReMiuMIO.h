@@ -98,7 +98,7 @@ pReMiuMOptions processCommandLine(string inputStr){
 			Rprintf("--nFilter=<unsigned int>\n\tThe frequency (in sweeps) with which to write\n\tthe output to file (1)\n");
 			Rprintf("--nClusInit=<unsigned int>\n\tThe number of clusters individuals should be\n\tinitially randomly assigned to (Unif[50,60])\n");
 			Rprintf("--seed=<unsigned int>\n\tThe value for the seed for the random number\n\tgenerator (current time)\n");
-			Rprintf("--yModel=<string>\n\tThe model type for the outcome variable. Options are\n\tcurrently 'Bernoulli','Poisson','Binomial', 'Categorical' and 'Normal' (Bernoulli)\n");
+			Rprintf("--yModel=<string>\n\tThe model type for the outcome variable. Options are\n\tcurrently 'Bernoulli','Poisson','Binomial', 'Categorical', 'Survival' and 'Normal' (Bernoulli)\n");
 			Rprintf("--xModel=<string>\n\tThe model type for the covariates. Options are\n\tcurrently 'Discrete', 'Normal' and 'Mixed' (Discrete)\n");
 			Rprintf("--sampler=<string>\n\tThe sampler type to be used. Options are\n\tcurrently 'SliceDependent', 'SliceIndependent' and 'Truncated' (SliceDependent)\n");
 			Rprintf("--alpha=<double>\n\tThe value to be used if alpha is to remain fixed.\n\tIf a negative value is used then alpha is updated (-2)\n");
@@ -162,7 +162,7 @@ pReMiuMOptions processCommandLine(string inputStr){
 					size_t pos = inString.find("=")+1;
 					string outcomeType = inString.substr(pos,inString.size()-pos);
 					if(outcomeType.compare("Poisson")!=0&&outcomeType.compare("Bernoulli")!=0&&
-							outcomeType.compare("Categorical")!=0&&
+							outcomeType.compare("Categorical")!=0&&outcomeType.compare("Survival")!=0&&
 							outcomeType.compare("Binomial")!=0&&outcomeType.compare("Normal")!=0){
 						// Illegal outcome model entered
 						wasError=true;
@@ -171,6 +171,10 @@ pReMiuMOptions processCommandLine(string inputStr){
 					options.outcomeType(outcomeType);
 					if(outcomeType.compare("Normal")==0&&options.responseExtraVar()){
 						Rprintf("Response extra variation not permitted with Normal response\n");			
+						options.responseExtraVar(false);
+					}
+					if(outcomeType.compare("Survival")==0&&options.responseExtraVar()){
+						Rprintf("Response extra variation not permitted with Survival response\n");			
 						options.responseExtraVar(false);
 					}
 				}else if(inString.find("--xModel")!=string::npos){
@@ -219,6 +223,7 @@ pReMiuMOptions processCommandLine(string inputStr){
 					}else{
 						Rprintf("Response extra variation not permitted with Normal response\n");
 					}
+					if(options.outcomeType().compare("Survival")==0) Rprintf("Response extra variation not permitted with Survival response\n");
 				}else if(inString.find("--varSelect")!=string::npos){
 					size_t pos = inString.find("=")+1;
 					string varSelectType = inString.substr(pos,inString.size()-pos);
@@ -292,6 +297,7 @@ void importPReMiuMData(const string& fitFilename,const string& predictFilename,p
 	string covariateType = dataset.covariateType();
 	vector<double>& logOffset=dataset.logOffset();
 	vector<unsigned int>& nTrials=dataset.nTrials();
+	vector<unsigned int>& censoring=dataset.censoring();
 
 	bool wasError=false;
 
@@ -370,12 +376,15 @@ void importPReMiuMData(const string& fitFilename,const string& predictFilename,p
 	if(outcomeType.compare("Binomial")==0){
 		nTrials.resize(nSubjects);
 	}
+	if(outcomeType.compare("Survival")==0){
+		censoring.resize(nSubjects);
+	}
 	missingX.resize(nSubjects+nPredictSubjects);
 	nContinuousCovariatesNotMissing.resize(nSubjects+nPredictSubjects);
 	vector<double> meanX(nCovariates,0);
 	vector<unsigned int> nXNotMissing(nCovariates,0);
 	for(unsigned int i=0;i<nSubjects;i++){
-		if(outcomeType.compare("Normal")==0){
+		if(outcomeType.compare("Normal")==0||outcomeType.compare("Survival")==0){
 			inputFile >> continuousY[i];
 		}else{
 			inputFile >> discreteY[i];
@@ -437,6 +446,9 @@ void importPReMiuMData(const string& fitFilename,const string& predictFilename,p
 		}
 		if(outcomeType.compare("Binomial")==0){
 			inputFile >> nTrials[i];
+		}
+		if(outcomeType.compare("Survival")==0){
+			inputFile >> censoring[i];
 		}
 	}
 
