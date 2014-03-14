@@ -2106,6 +2106,7 @@ margModelPosterior<-function(runInfoObj,allocation){
 		parFirstIter<-c(rep(0,nClusters))
 	}
 	# compute marginal model posterior
+
 	output<-.pZpXpY(zAlloc=zAllocCurrent, par=parFirstIter, clusterSizes=clusterSizes, nClusters=nClusters, runInfoObj=runInfoObj, alpha=alpha)
 	margModPost[1]<-output$margModPost
 	if (missing(allocation)){
@@ -2311,7 +2312,7 @@ margModelPosterior<-function(runInfoObj,allocation){
 	nPlus<-head(c(rev(cumsum(rev(clusterSizes[-1]))),0),-1)	
 
 	# computation of pX+pZ
-	pZpX<-.Call('pZpX',nClusters,nCategories,hyperParams$aPhi,clusterSizes,nCovariates, zAlloc, as.vector(as.matrix(xMat)), as.integer(nTableNames), alpha, nPlus, PACKAGE = 'PReMiuM')
+	pZpX<-.Call('pZpX',nClusters,nCategories,hyperParams$aPhi,clusterSizes,nCovariates, zAlloc, as.vector(as.matrix(xMat)), as.integer(nTableNames), alphaMMP, nPlus, PACKAGE = 'PReMiuM')
 
 	# computation of pY
 	if (includeResponse==T){

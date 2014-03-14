@@ -861,7 +861,7 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 					currRisk<-matrix(0,ncol=length(optAlloc[[c]]),nrow=nCategoriesY)
 					currRisk<-exp(currLambda)/rowSums(exp(currLambda))
 				}else if(yModel=="Survival"){
-					currRisk<-currLambda
+					currRisk<-exp(currLambda)
 					print("need to sort this out for Survival data.")
 				}
 				riskArray[sweep-firstLine+1,c,]<-apply(currRisk,2,mean)
@@ -2064,6 +2064,7 @@ margModelPosterior<-function(runInfoObj,allocation){
 		alpha<-median(alphaValues)
 	}
 	runInfoObj$alphaMMP <- alpha
+print(alpha)
 
 	if (xModel=="Discrete"){
 		aPhi<-runData[grep('aPhi',runData)]
@@ -2106,6 +2107,8 @@ margModelPosterior<-function(runInfoObj,allocation){
 		parFirstIter<-c(rep(0,nClusters))
 	}
 	# compute marginal model posterior
+
+print(alpha)
 	output<-.pZpXpY(zAlloc=zAllocCurrent, par=parFirstIter, clusterSizes=clusterSizes, nClusters=nClusters, runInfoObj=runInfoObj, alpha=alpha)
 	margModPost[1]<-output$margModPost
 	if (missing(allocation)){
@@ -2311,7 +2314,7 @@ margModelPosterior<-function(runInfoObj,allocation){
 	nPlus<-head(c(rev(cumsum(rev(clusterSizes[-1]))),0),-1)	
 
 	# computation of pX+pZ
-	pZpX<-.Call('pZpX',nClusters,nCategories,hyperParams$aPhi,clusterSizes,nCovariates, zAlloc, as.vector(as.matrix(xMat)), as.integer(nTableNames), alpha, nPlus, PACKAGE = 'PReMiuM')
+	pZpX<-.Call('pZpX',nClusters,nCategories,hyperParams$aPhi,clusterSizes,nCovariates, zAlloc, as.vector(as.matrix(xMat)), as.integer(nTableNames), alphaMMP, nPlus, PACKAGE = 'PReMiuM')
 
 	# computation of pY
 	if (includeResponse==T){
