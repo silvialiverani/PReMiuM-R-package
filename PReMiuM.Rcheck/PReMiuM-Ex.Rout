@@ -1,6 +1,6 @@
 
-R version 3.0.2 (2013-09-25) -- "Frisbee Sailing"
-Copyright (C) 2013 The R Foundation for Statistical Computing
+R version 3.0.3 (2014-03-06) -- "Warm Puppy"
+Copyright (C) 2014 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -97,7 +97,7 @@ Type 'q()' to quit R.
 > runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
 +     nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
 +     covNames=inputs$covNames,nClusInit=15)
-Random number seed: 1392388209
+Random number seed: 1396264699
 Sweep: 1
 > 
 > dissimObj<-calcDissimilarityMatrix(runInfoObj)
@@ -232,11 +232,12 @@ Stage 2:1 samples out of 10
 > 
 > ### Name: clusSummaryBernoulliDiscrete
 > ### Title: Sample datasets for profile regression
-> ### Aliases: clusSummaryBernoulliDiscrete clusSummaryBernoulliDiscreteSmall
-> ###   clusSummaryBinomialNormal clusSummaryCategoricalDiscrete
-> ###   clusSummaryNormalDiscrete clusSummaryNormalNormal
-> ###   clusSummaryPoissonDiscrete clusSummaryPoissonNormal
-> ###   clusSummaryVarSelectBernoulliDiscrete clusSummaryBernoulliMixed
+> ### Aliases: clusSummaryBernoulliDiscrete clusSummaryBernoulliNormal
+> ###   clusSummaryBernoulliDiscreteSmall clusSummaryBinomialNormal
+> ###   clusSummaryCategoricalDiscrete clusSummaryNormalDiscrete
+> ###   clusSummaryNormalNormal clusSummaryPoissonDiscrete
+> ###   clusSummaryPoissonNormal clusSummaryVarSelectBernoulliDiscrete
+> ###   clusSummaryBernoulliMixed
 > ### Keywords: simulation
 > 
 > ### ** Examples
@@ -427,12 +428,14 @@ $clusterData[[5]]$covariateProbs[[5]]
 > # run profile regression
 > runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
 +  nSweeps=10, nBurn=20, data=inputs$inputData, output="output", nFilter=3,
-+  covNames=inputs$covNames,nClusInit=15,reportBurnIn=FALSE,fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1392388210
++  covNames=inputs$covNames,nClusInit=15,reportBurnIn=FALSE,
++  fixedEffectsNames = inputs$fixedEffectNames)
+Random number seed: 1396264700
 Sweep: 1
 > 
 > # plot trace for alpha
-> globalParsTrace(runInfoObj,par="alpha",plotBurnIn=FALSE)
+> globalParsTrace(runInfoObj,parameters="alpha",plotBurnIn=FALSE)
+[1] "alpha"
 > 
 > 
 > 
@@ -449,30 +452,22 @@ Sweep: 1
 > 
 > ### ** Examples
 > 
-> 
-> # generate simulated dataset
-> generateDataList <- clusSummaryBernoulliDiscreteSmall()
-> inputs <- generateSampleDataFile(generateDataList)
-> 
-> # run profile regression
-> runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
-+  nSweeps=10, nBurn=2000, data=inputs$inputData, output="output", 
-+  covNames=inputs$covNames,nClusInit=15)
-Random number seed: 1392388210
-Sweep: 1
-Sweep: 500
-Sweep: 1000
-Sweep: 1500
-Sweep: 2000
-> 
-> # compute dissimilarity matrix     
-> dissimObj<-calcDissimilarityMatrix(runInfoObj)
-Stage 1:1 samples out of 10
-Stage 2:1 samples out of 10
-> 
-> # plot heatmap
-> heatDissMat(dissimObj)
-> 
+> ## Not run: 
+> ##D # generate simulated dataset
+> ##D generateDataList <- clusSummaryBernoulliDiscreteSmall()
+> ##D inputs <- generateSampleDataFile(generateDataList)
+> ##D 
+> ##D # run profile regression
+> ##D runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+> ##D  nSweeps=10, nBurn=2000, data=inputs$inputData, output="output", 
+> ##D  covNames=inputs$covNames,nClusInit=15)
+> ##D 
+> ##D # compute dissimilarity matrix     
+> ##D dissimObj<-calcDissimilarityMatrix(runInfoObj)
+> ##D 
+> ##D # plot heatmap
+> ##D heatDissMat(dissimObj)
+> ## End(Not run)
 > 
 > 
 > 
@@ -515,12 +510,51 @@ Stage 2:1 samples out of 10
 +          nBurn=10, data=inputs$inputData, output="output", 
 +          covNames = inputs$covNames, nClusInit=15,
 +          fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1392388218
+Random number seed: 1396264700
 Sweep: 1
 > 
 > margModelPosterior(runInfoObj)
-[1] NaN
+[1] -4000.564
 > 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotPredictions")
+> ### * plotPredictions
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotPredictions
+> ### Title: Plot the conditional density using the predicted scenarios
+> ### Aliases: plotPredictions
+> ### Keywords: predictions, plots
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # example with Bernoulli outcome and Discrete covariates
+> ##D inputs <- generateSampleDataFile(clusSummaryBernoulliDiscrete())
+> ##D # prediction profiles
+> ##D preds<-data.frame(matrix(c(
+> ##D 2, 2, 2, 2, 2,
+> ##D 0, 0, NA, 0, 0),ncol=5,byrow=TRUE))
+> ##D 
+> ##D colnames(preds)<-names(inputs$inputData)[2:(inputs$nCovariates+1)]
+> ##D # run profile regression
+> ##D runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+> ##D  nSweeps=10000, nBurn=10000, data=inputs$inputData, output="output", 
+> ##D  covNames=inputs$covNames,predict=preds,
+> ##D  fixedEffectsNames = inputs$fixedEffectNames)        
+> ##D dissimObj <- calcDissimilarityMatrix(runInfoObj)
+> ##D clusObj <- calcOptimalClustering(dissimObj)
+> ##D riskProfileObj <- calcAvgRiskAndProfile(clusObj)
+> ##D predictions <- calcPredictions(riskProfileObj,fullSweepPredictions=TRUE,fullSweepLogOR=TRUE)
+> ##D 
+> ##D plotPredictions(outfile="predictiveDensity.pdf",runInfoObj=runInfoObj,
+> ##D  predictions=predictions,logOR=TRUE)
+> ##D 
+> ## End(Not run)
 > 
 > 
 > 
@@ -574,7 +608,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1392388218
+Random number seed: 1396264701
 Sweep: 1
 > 
 > 
@@ -585,7 +619,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     discreteCovs = inputs$discreteCovs,
 +     continuousCovs = inputs$continuousCovs)
-Random number seed: 1392388219
+Random number seed: 1396264702
 Sweep: 1
 > 
 > 
@@ -615,7 +649,7 @@ Sweep: 1
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames,
 +     hyper=hyp)
-Random number seed: 1392388219
+Random number seed: 1396264702
 Sweep: 1
 > 
 > 
@@ -641,7 +675,7 @@ Sweep: 1
 +     xModel=inputs$xModel, nSweeps=10, nClusInit=15, 
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, varSelect="Continuous")
-Random number seed: 1392388220
+Random number seed: 1396264703
 Sweep: 1
 > 
 > rho<-summariseVarSelectRho(runInfoObj)
@@ -672,7 +706,7 @@ Sweep: 1
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  12.644 0.232 12.944 0 0 
+Time elapsed:  6.02 0.24 6.338 0 0 
 > grDevices::dev.off()
 null device 
           1 

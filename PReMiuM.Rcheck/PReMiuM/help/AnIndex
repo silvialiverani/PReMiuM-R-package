@@ -5,6 +5,7 @@ calcPredictions	calcPredictions
 clusSummaryBernoulliDiscrete	clusSummaryBernoulliDiscrete
 clusSummaryBernoulliDiscreteSmall	clusSummaryBernoulliDiscrete
 clusSummaryBernoulliMixed	clusSummaryBernoulliDiscrete
+clusSummaryBernoulliNormal	clusSummaryBernoulliDiscrete
 clusSummaryBinomialNormal	clusSummaryBernoulliDiscrete
 clusSummaryCategoricalDiscrete	clusSummaryBernoulliDiscrete
 clusSummaryNormalDiscrete	clusSummaryBernoulliDiscrete
@@ -18,6 +19,7 @@ globalParsTrace	globalParsTrace
 heatDissMat	heatDissMat
 is.wholenumber	is.wholenumber
 margModelPosterior	margModelPosterior
+plotPredictions	plotPredictions
 plotRiskProfile	plotRiskProfile
 PReMiuM	PReMiuM-package
 PReMiuMpackage	PReMiuM-package

@@ -862,7 +862,6 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 					currRisk<-exp(currLambda)/rowSums(exp(currLambda))
 				}else if(yModel=="Survival"){
 					currRisk<-exp(currLambda)
-					print("need to sort this out for Survival data.")
 				}
 				riskArray[sweep-firstLine+1,c,]<-apply(currRisk,2,mean)
 				thetaArray[sweep-firstLine+1,c,]<-apply(as.matrix(currTheta[currZ[optAlloc[[c]]],],ncol=nCategoriesY),2,mean)
@@ -1978,6 +1977,7 @@ margModelPosterior<-function(runInfoObj,allocation){
 	nSweeps=NULL
 	nProgress=NULL
 	dPitmanYor=NULL
+	nCovariates=NULL
 
 	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 
@@ -1992,7 +1992,11 @@ margModelPosterior<-function(runInfoObj,allocation){
 	# the subjects with missing values are simply removed for now
 	missingX<-FALSE
 	for (k in 1:nSubjects){
-		if (sum(xMat[k,]==-999)>0) {
+		if (nCovariates>1&&sum(xMat[k,]==-999)>0) {
+			missingX<-TRUE
+			stop("ERROR: No missing value handling technique has been implemented for the marginal model posterior. This function cannot be run if missing values are present.")
+		}
+		if (nCovariates==1&&sum(xMat[k]==-999)>0) {
 			missingX<-TRUE
 			stop("ERROR: No missing value handling technique has been implemented for the marginal model posterior. This function cannot be run if missing values are present.")
 		}
@@ -2295,6 +2299,7 @@ margModelPosterior<-function(runInfoObj,allocation){
 	yMat=NULL
 	wMat=NULL
 	nSubjects=NULL
+	alphaMMP=NULL
 
 	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 
@@ -2598,6 +2603,9 @@ plotPredictions<-function(outfile,runInfoObj,predictions,logOR=FALSE){
 	nPredictedSubjects=NULL	
 	directoryPath=NULL
 	fileStem=NULL
+	yModel=NULL
+	xModel=NULL
+	logOddsRatio=NULL
 
 	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 

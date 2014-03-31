@@ -2061,8 +2061,8 @@ double logPYiGivenZiWiSurvival(const pReMiuMParams& params, const pReMiuMData& d
 	for(unsigned int j=0;j<nFixedEffects;j++){
 		lambda+=params.beta(j,0)*dataset.W(i,j);
 	}
-	lambda=exp(lambda);
-	return logPdfWeibullCensored(dataset.continuousY(i), params.theta(zi,0), lambda, dataset.censoring(i));
+	lambda=exp(params.theta(zi,0)+lambda);
+	return logPdfWeibullCensored(dataset.continuousY(i), lambda, 1, dataset.censoring(i));
 }
 
 

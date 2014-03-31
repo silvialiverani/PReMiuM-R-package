@@ -1,5 +1,5 @@
 * using log directory ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
-* using R version 3.0.2 (2013-09-25)
+* using R version 3.0.3 (2014-03-06)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
@@ -15,9 +15,9 @@
 * checking for sufficient/correct file permissions ... OK
 * checking whether package ‘PReMiuM’ can be installed ... OK
 * checking installed package size ... NOTE
-  installed size is 10.8Mb
+  installed size is 11.2Mb
   sub-directories of 1Mb or more:
-    libs  10.6Mb
+    libs  11.0Mb
 * checking package directory ... OK
 * checking DESCRIPTION meta-information ... OK
 * checking top-level files ... OK

@@ -3,7 +3,7 @@
 \title{Plot the conditional density using the predicted scenarios}
 \description{Plots the conditional density for the predicted scenarios provided. It produces a pdf with a page for each predictive scenario provided. Each page has a plot of the }
 \usage{
-plotCondDensity(outfile="condDensity.pdf", runInfoObj, predictions,
+plotPredictions(outfile, runInfoObj, predictions,
     logOR=FALSE)
 }
 \arguments{
@@ -38,14 +38,16 @@ preds<-data.frame(matrix(c(
 colnames(preds)<-names(inputs$inputData)[2:(inputs$nCovariates+1)]
 # run profile regression
 runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
-     nSweeps=10000, nBurn=10000, data=inputs$inputData, output="output", 
-     covNames=inputs$covNames,predict=preds,fixedEffectsNames = inputs$fixedEffectNames)        
+ nSweeps=10000, nBurn=10000, data=inputs$inputData, output="output", 
+ covNames=inputs$covNames,predict=preds,
+ fixedEffectsNames = inputs$fixedEffectNames)        
 dissimObj <- calcDissimilarityMatrix(runInfoObj)
 clusObj <- calcOptimalClustering(dissimObj)
 riskProfileObj <- calcAvgRiskAndProfile(clusObj)
 predictions <- calcPredictions(riskProfileObj,fullSweepPredictions=TRUE,fullSweepLogOR=TRUE)
 
-plotPredictions(outfile="predictiveDensity.pdf",runInfoObj=runInfoObj,predictions=predictions,logOR=TRUE)
+plotPredictions(outfile="predictiveDensity.pdf",runInfoObj=runInfoObj,
+ predictions=predictions,logOR=TRUE)
 
 }
 }

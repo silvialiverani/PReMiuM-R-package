@@ -4,7 +4,7 @@ This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian)
  restricted \write18 enabled.
 entering extended mode
 LaTeX2e <2011/06/27>
-Babel <3.9f> and hyphenation patterns for 2 languages loaded.
+Babel <3.9h> and hyphenation patterns for 2 languages loaded.
 (./Rd2.tex
 (/usr/share/texlive/texmf-dist/tex/latex/base/book.cls
 Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
@@ -79,37 +79,37 @@ No file Rd2.aux.
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [13]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [14]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (11.78088pt too wide) in paragraph at lines 675--675
+Overfull \hbox (11.78088pt too wide) in paragraph at lines 679--679
  []\T1/zi4/m/n/10 globalParsTrace(runInfoObj, parameters = "nClusters",plotBurn
 In=FALSE,whichBeta=1)[] 
-[15]
-Overfull \hbox (61.0809pt too wide) in paragraph at lines 719--719
- [] \T1/zi4/m/n/9 covNames=inputs$covNames,nClusInit=15,reportBurnIn=FALSE,fixe
-dEffectsNames = inputs$fixedEffectNames)[] 
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [16] [17]
+[15] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [16] [17]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [18]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [19] [20]
+Overfull \hbox (16.9809pt too wide) in paragraph at lines 945--945
+ []\T1/zi4/m/n/9 predictions <- calcPredictions(riskProfileObj,fullSweepPredict
+ions=TRUE,fullSweepLogOR=TRUE)[] 
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [21] [22]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1022--1023
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [23] [24]
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1096--1097
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
-[23]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1023--1024
+
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1097--1098
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
-[24] [25] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [26]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1149--1150
+[25] [26] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [27] [28]
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1223--1224
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1149--1150
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1223--1224
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
-[27] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [28]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [29]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [29] [30]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
 No file Rd2.ind.
-[30] (./Rd2.aux)
+[31] (./Rd2.aux)
 
 Package rerunfilecheck Warning: File `Rd2.out' has changed.
 (rerunfilecheck)                Rerun to get outlines right
@@ -124,19 +124,19 @@ etic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/te
 xlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (30 pages, 131422 bytes).
+Output written on Rd2.pdf (31 pages, 133597 bytes).
 Transcript written on Rd2.log.
 This is makeindex, version 2.15 [TeX Live 2013] (kpathsea + Thai support).
-Scanning input file Rd2.idx....done (40 entries accepted, 0 rejected).
-Sorting entries....done (225 comparisons).
-Generating output file Rd2.ind....done (87 lines written, 0 warnings).
+Scanning input file Rd2.idx....done (43 entries accepted, 0 rejected).
+Sorting entries....done (244 comparisons).
+Generating output file Rd2.ind....done (92 lines written, 0 warnings).
 Output written in Rd2.ind.
 Transcript written in Rd2.ilg.
 This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian)
  restricted \write18 enabled.
 entering extended mode
 LaTeX2e <2011/06/27>
-Babel <3.9f> and hyphenation patterns for 2 languages loaded.
+Babel <3.9h> and hyphenation patterns for 2 languages loaded.
 (./Rd2.tex
 (/usr/share/texlive/texmf-dist/tex/latex/base/book.cls
 Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
@@ -212,40 +212,41 @@ Underfull \vbox (badness 3803) has occurred while \output is active [11]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [14]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [15]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (11.78088pt too wide) in paragraph at lines 675--675
+Overfull \hbox (11.78088pt too wide) in paragraph at lines 679--679
  []\T1/zi4/m/n/10 globalParsTrace(runInfoObj, parameters = "nClusters",plotBurn
 In=FALSE,whichBeta=1)[] 
-[16]
-Overfull \hbox (61.0809pt too wide) in paragraph at lines 719--719
- [] \T1/zi4/m/n/9 covNames=inputs$covNames,nClusInit=15,reportBurnIn=FALSE,fixe
-dEffectsNames = inputs$fixedEffectNames)[] 
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [17]
+[16] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [17]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [18]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [19]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [20] [21]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [22] [23]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1022--1023
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [20]
+Overfull \hbox (16.9809pt too wide) in paragraph at lines 945--945
+ []\T1/zi4/m/n/9 predictions <- calcPredictions(riskProfileObj,fullSweepPredict
+ions=TRUE,fullSweepLogOR=TRUE)[] 
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [21] [22]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [23] [24]
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1096--1097
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1023--1024
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1097--1098
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
-[24] [25] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [26] [27]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1149--1150
+[25] [26] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [27] [28]
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1223--1224
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1149--1150
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1223--1224
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [28] [29]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) (./Rd2.ind [30]
+[29] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [30]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [31] (./Rd2.ind
+[32]
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 31.
+(Font)              using `T1/zi4/m/n' instead on input line 33.
 
-[31]) (./Rd2.aux)
+[33]) (./Rd2.aux)
 
 Package rerunfilecheck Warning: File `Rd2.out' has changed.
 (rerunfilecheck)                Rerun to get outlines right
@@ -264,19 +265,19 @@ hvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/
 texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/font
 s/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (31 pages, 143750 bytes).
+Output written on Rd2.pdf (33 pages, 146792 bytes).
 Transcript written on Rd2.log.
 This is makeindex, version 2.15 [TeX Live 2013] (kpathsea + Thai support).
-Scanning input file Rd2.idx....done (40 entries accepted, 0 rejected).
-Sorting entries....done (225 comparisons).
-Generating output file Rd2.ind....done (87 lines written, 0 warnings).
+Scanning input file Rd2.idx....done (43 entries accepted, 0 rejected).
+Sorting entries....done (244 comparisons).
+Generating output file Rd2.ind....done (92 lines written, 0 warnings).
 Output written in Rd2.ind.
 Transcript written in Rd2.ilg.
 This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian)
  restricted \write18 enabled.
 entering extended mode
 LaTeX2e <2011/06/27>
-Babel <3.9f> and hyphenation patterns for 2 languages loaded.
+Babel <3.9h> and hyphenation patterns for 2 languages loaded.
 (./Rd2.tex
 (/usr/share/texlive/texmf-dist/tex/latex/base/book.cls
 Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
@@ -352,40 +353,41 @@ Underfull \vbox (badness 3803) has occurred while \output is active [11]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [14]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [15]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (11.78088pt too wide) in paragraph at lines 675--675
+Overfull \hbox (11.78088pt too wide) in paragraph at lines 679--679
  []\T1/zi4/m/n/10 globalParsTrace(runInfoObj, parameters = "nClusters",plotBurn
 In=FALSE,whichBeta=1)[] 
-[16]
-Overfull \hbox (61.0809pt too wide) in paragraph at lines 719--719
- [] \T1/zi4/m/n/9 covNames=inputs$covNames,nClusInit=15,reportBurnIn=FALSE,fixe
-dEffectsNames = inputs$fixedEffectNames)[] 
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [17]
+[16] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [17]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [18]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [19]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [20] [21]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [22] [23]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1022--1023
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [20]
+Overfull \hbox (16.9809pt too wide) in paragraph at lines 945--945
+ []\T1/zi4/m/n/9 predictions <- calcPredictions(riskProfileObj,fullSweepPredict
+ions=TRUE,fullSweepLogOR=TRUE)[] 
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [21] [22]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [23] [24]
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1096--1097
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1023--1024
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1097--1098
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
-[24] [25] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [26] [27]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1149--1150
+[25] [26] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [27] [28]
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1223--1224
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1149--1150
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1223--1224
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [28] [29]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) (./Rd2.ind [30]
+[29] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [30]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [31] (./Rd2.ind
+[32]
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 31.
+(Font)              using `T1/zi4/m/n' instead on input line 33.
 
-[31]) (./Rd2.aux)
+[33]) (./Rd2.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -399,8 +401,8 @@ hvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/
 texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/font
 s/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (31 pages, 144252 bytes).
+Output written on Rd2.pdf (33 pages, 147190 bytes).
 Transcript written on Rd2.log.
 Saving output to 'PReMiuM-manual.pdf' ...
 Done
-You may want to clean up by 'rm -rf /tmp/RtmpkiQ25G/Rd2pdf2d00cbc2fc0'
+You may want to clean up by 'rm -rf /tmp/Rtmpl3cfMY/Rd2pdf2eaa3cbb751f'

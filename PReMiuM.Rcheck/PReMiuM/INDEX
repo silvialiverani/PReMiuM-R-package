@@ -16,6 +16,8 @@ globalParsTrace         Plot of the trace of some of the global
 heatDissMat             Plot the heatmap of the dissimilarity matrix
 is.wholenumber          Function to check if a number is a whole number
 margModelPosterior      Marginal Model Posterior
+plotPredictions         Plot the conditional density using the
+                        predicted scenarios
 plotRiskProfile         Plot the Risk Profiles
 profRegr                Profile Regression
 setHyperparams          Definition of characteristics of sample

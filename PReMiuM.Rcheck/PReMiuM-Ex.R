@@ -209,11 +209,12 @@ flush(stderr()); flush(stdout())
 
 ### Name: clusSummaryBernoulliDiscrete
 ### Title: Sample datasets for profile regression
-### Aliases: clusSummaryBernoulliDiscrete clusSummaryBernoulliDiscreteSmall
-###   clusSummaryBinomialNormal clusSummaryCategoricalDiscrete
-###   clusSummaryNormalDiscrete clusSummaryNormalNormal
-###   clusSummaryPoissonDiscrete clusSummaryPoissonNormal
-###   clusSummaryVarSelectBernoulliDiscrete clusSummaryBernoulliMixed
+### Aliases: clusSummaryBernoulliDiscrete clusSummaryBernoulliNormal
+###   clusSummaryBernoulliDiscreteSmall clusSummaryBinomialNormal
+###   clusSummaryCategoricalDiscrete clusSummaryNormalDiscrete
+###   clusSummaryNormalNormal clusSummaryPoissonDiscrete
+###   clusSummaryPoissonNormal clusSummaryVarSelectBernoulliDiscrete
+###   clusSummaryBernoulliMixed
 ### Keywords: simulation
 
 ### ** Examples
@@ -265,10 +266,11 @@ inputs <- generateSampleDataFile(generateDataList)
 # run profile regression
 runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
  nSweeps=10, nBurn=20, data=inputs$inputData, output="output", nFilter=3,
- covNames=inputs$covNames,nClusInit=15,reportBurnIn=FALSE,fixedEffectsNames = inputs$fixedEffectNames)
+ covNames=inputs$covNames,nClusInit=15,reportBurnIn=FALSE,
+ fixedEffectsNames = inputs$fixedEffectNames)
 
 # plot trace for alpha
-globalParsTrace(runInfoObj,par="alpha",plotBurnIn=FALSE)
+globalParsTrace(runInfoObj,parameters="alpha",plotBurnIn=FALSE)
 
 
 
@@ -285,22 +287,22 @@ flush(stderr()); flush(stdout())
 
 ### ** Examples
 
-
-# generate simulated dataset
-generateDataList <- clusSummaryBernoulliDiscreteSmall()
-inputs <- generateSampleDataFile(generateDataList)
-
-# run profile regression
-runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
- nSweeps=10, nBurn=2000, data=inputs$inputData, output="output", 
- covNames=inputs$covNames,nClusInit=15)
-
-# compute dissimilarity matrix     
-dissimObj<-calcDissimilarityMatrix(runInfoObj)
-
-# plot heatmap
-heatDissMat(dissimObj)
-
+## Not run: 
+##D # generate simulated dataset
+##D generateDataList <- clusSummaryBernoulliDiscreteSmall()
+##D inputs <- generateSampleDataFile(generateDataList)
+##D 
+##D # run profile regression
+##D runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+##D  nSweeps=10, nBurn=2000, data=inputs$inputData, output="output", 
+##D  covNames=inputs$covNames,nClusInit=15)
+##D 
+##D # compute dissimilarity matrix     
+##D dissimObj<-calcDissimilarityMatrix(runInfoObj)
+##D 
+##D # plot heatmap
+##D heatDissMat(dissimObj)
+## End(Not run)
 
 
 
@@ -344,6 +346,45 @@ runInfoObj<-profRegr(yModel=inputs$yModel,
 
 margModelPosterior(runInfoObj)
 
+
+
+
+cleanEx()
+nameEx("plotPredictions")
+### * plotPredictions
+
+flush(stderr()); flush(stdout())
+
+### Name: plotPredictions
+### Title: Plot the conditional density using the predicted scenarios
+### Aliases: plotPredictions
+### Keywords: predictions, plots
+
+### ** Examples
+
+## Not run: 
+##D # example with Bernoulli outcome and Discrete covariates
+##D inputs <- generateSampleDataFile(clusSummaryBernoulliDiscrete())
+##D # prediction profiles
+##D preds<-data.frame(matrix(c(
+##D 2, 2, 2, 2, 2,
+##D 0, 0, NA, 0, 0),ncol=5,byrow=TRUE))
+##D 
+##D colnames(preds)<-names(inputs$inputData)[2:(inputs$nCovariates+1)]
+##D # run profile regression
+##D runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+##D  nSweeps=10000, nBurn=10000, data=inputs$inputData, output="output", 
+##D  covNames=inputs$covNames,predict=preds,
+##D  fixedEffectsNames = inputs$fixedEffectNames)        
+##D dissimObj <- calcDissimilarityMatrix(runInfoObj)
+##D clusObj <- calcOptimalClustering(dissimObj)
+##D riskProfileObj <- calcAvgRiskAndProfile(clusObj)
+##D predictions <- calcPredictions(riskProfileObj,fullSweepPredictions=TRUE,fullSweepLogOR=TRUE)
+##D 
+##D plotPredictions(outfile="predictiveDensity.pdf",runInfoObj=runInfoObj,
+##D  predictions=predictions,logOR=TRUE)
+##D 
+## End(Not run)
 
 
 

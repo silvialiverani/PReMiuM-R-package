@@ -38,7 +38,8 @@ inputs <- generateSampleDataFile(generateDataList)
 # run profile regression
 runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
  nSweeps=10, nBurn=20, data=inputs$inputData, output="output", nFilter=3,
- covNames=inputs$covNames,nClusInit=15,reportBurnIn=FALSE,fixedEffectsNames = inputs$fixedEffectNames)
+ covNames=inputs$covNames,nClusInit=15,reportBurnIn=FALSE,
+ fixedEffectsNames = inputs$fixedEffectNames)
 
 # plot trace for alpha
 globalParsTrace(runInfoObj,parameters="alpha",plotBurnIn=FALSE)
