@@ -1,12 +1,15 @@
-* using log directory ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
-* using R version 3.0.3 (2014-03-06)
+* using log directory ‘/home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
+* using R version 3.1.0 beta (2014-03-28 r65330)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
 * this is package ‘PReMiuM’ version ‘3.0.22’
+* checking CRAN incoming feasibility ... NOTE
+Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
 * checking package namespace information ... OK
-* checking package dependencies ... OK
+* checking package dependencies ... NOTE
+Package in Depends/Imports which should probably only be in LinkingTo: ‘RcppEigen’
 * checking if this is a source package ... OK
 * checking if there is a namespace ... OK
 * checking for executable files ... OK
@@ -15,9 +18,9 @@
 * checking for sufficient/correct file permissions ... OK
 * checking whether package ‘PReMiuM’ can be installed ... OK
 * checking installed package size ... NOTE
-  installed size is 11.2Mb
+  installed size is 11.4Mb
   sub-directories of 1Mb or more:
-    libs  11.0Mb
+    libs  11.2Mb
 * checking package directory ... OK
 * checking DESCRIPTION meta-information ... OK
 * checking top-level files ... OK
@@ -39,6 +42,7 @@
 * checking R code for possible problems ... OK
 * checking Rd files ... OK
 * checking Rd metadata ... OK
+* checking Rd line widths ... OK
 * checking Rd cross-references ... OK
 * checking for missing documentation entries ... OK
 * checking for code/documentation mismatches ... OK
@@ -52,4 +56,4 @@
 * checking compiled code ... OK
 * checking examples ... OK
 * checking PDF version of manual ... OK
-NOTE: There was 1 note.
+NOTE: There were 3 notes.
