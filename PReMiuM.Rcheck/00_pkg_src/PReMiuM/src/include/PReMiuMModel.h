@@ -122,7 +122,6 @@ class pReMiuMHyperParams{
 
 			if(options.covariateType().compare("Discrete")==0 || options.covariateType().compare("Mixed")==0 ){
 				// For Phi
-				_useReciprocalNCatsPhi=false;
 				for(unsigned int j=0;j<_aPhi.size();j++){
 					_aPhi[j]=1.0;
 				}
@@ -223,14 +222,6 @@ class pReMiuMHyperParams{
 
 		void rateAlpha(const double& r){
 			_rateAlpha = r;
-		}
-
-		bool useReciprocalNCatsPhi() const{
-			return _useReciprocalNCatsPhi;
-		}
-
-		void useReciprocalNCatsPhi(const bool& useRecip){
-			_useReciprocalNCatsPhi = useRecip;
 		}
 
 		vector<double> aPhi() const{
@@ -437,7 +428,6 @@ class pReMiuMHyperParams{
 		pReMiuMHyperParams& operator=(const pReMiuMHyperParams& hyperParams){
 			_shapeAlpha = hyperParams.shapeAlpha();
 			_rateAlpha = hyperParams.rateAlpha();
-			_useReciprocalNCatsPhi = hyperParams.useReciprocalNCatsPhi();
 			_aPhi = hyperParams.aPhi();
 			_mu0 = hyperParams.mu0();
 			_Tau0 = hyperParams.Tau0();
@@ -474,7 +464,6 @@ class pReMiuMHyperParams{
 
 		// Hyper parameters for prior for Phi_j (discrete categorical covariates)
 		// Prior is Phi_j ~ Dirichlet(a,a,...,a)
-		bool _useReciprocalNCatsPhi;
 		vector<double> _aPhi;
 
 		// Hyper parameters for prior for mu (for Normal covariates)

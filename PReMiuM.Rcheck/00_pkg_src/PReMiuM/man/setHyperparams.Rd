@@ -10,7 +10,7 @@ file is not provided, all hyperparameters will take their default values.
 }
 \usage{
 setHyperparams(shapeAlpha=NULL,rateAlpha=NULL,
-     useReciprocalNCatsPhi=NULL,aPhi=NULL,mu0=NULL,Tau0=NULL,R0=NULL,
+     aPhi=NULL,mu0=NULL,Tau0=NULL,R0=NULL,
      kapp0=NULL,muTheta=NULL,sigmaTheta=NULL,dofTheta=NULL,muBeta=NULL,
      sigmaBeta=NULL,dofBeta=NULL,shapeTauEpsilon=NULL,
      rateTauEpsilon=NULL,aRho=NULL,bRho=NULL,atomRho=NULL,shapeSigmaSqY=NULL,
@@ -20,8 +20,7 @@ setHyperparams(shapeAlpha=NULL,rateAlpha=NULL,
 
 \item{shapeAlpha}{The shape parameter for Gamma prior on alpha (default=2)}
 \item{rateAlpha}{The inverse-scale (rate) parameter for the Gamma prior on alpha (default=1)}
-\item{useReciprocalNCatsPhi}{Boolean denoting whether the vector phi_j (for covariate j) have all elements equal (only used in the discrete covariate case, default=true)}
-\item{aPhi}{The vector of parameters for the Dirichlet prior on phi_j. Element j corresponds to covariate j which then has a prior Dirichlet(aPhi[j],aPhi[j],....,aPhi[j]). (Only used in discrete case if useReciprocalNCatsPhi is false, default=(1 1 1 ... 1))}
+\item{aPhi}{The vector of parameters for the Dirichlet prior on phi_j. Element j corresponds to covariate j which then has a prior Dirichlet(aPhi[j],aPhi[j],....,aPhi[j]). Only used in discrete case, default=(1 1 1 ... 1).}
 \item{mu0}{The mean vector for mu_c in the Normal covariate case (only used in Normal covariate case, default=empirical covariate means)}
 \item{Tau0}{The precision matrix for mu_c in the Normal covariate case (only used in Normal covariate case, default=inverse of diagonal matrix with elements equal to squareof empirical range for each covariate)}
 \item{R0}{The matrix parameter for the Wishart distribution for Tau_c (only used in Normal covariate case, default=1/nCovariates * inverse of empirical covariance matrix)}

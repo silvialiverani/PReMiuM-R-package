@@ -558,14 +558,14 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 			string tmpStr = inString.substr(pos,inString.size()-pos);
 			double rateAlpha = (double)atof(tmpStr.c_str());
 			hyperParams.rateAlpha(rateAlpha);
-		}else if(inString.find("useReciprocalNCatsPhi")==0){
-			size_t pos = inString.find("=")+1;
-			string tmpStr = inString.substr(pos,inString.size()-pos);
-			bool useRecip = false;
-			if(tmpStr.compare("true")==0){
-				useRecip = true;
-			}
-			hyperParams.useReciprocalNCatsPhi(useRecip);
+//		}else if(inString.find("useReciprocalNCatsPhi")==0){
+//			size_t pos = inString.find("=")+1;
+//			string tmpStr = inString.substr(pos,inString.size()-pos);
+//			bool useRecip = false;
+//			if(tmpStr.compare("true")==0){
+//				useRecip = true;
+//			}
+//			hyperParams.useReciprocalNCatsPhi(useRecip);
 		}else if(inString.find("aPhi")==0){
 			size_t pos = inString.find("=")+1;
 			string tmpStr = inString.substr(pos,inString.size()-pos);
@@ -2007,23 +2007,18 @@ string storeLogFileData(const pReMiuMOptions& options,
 		tmpStr << "rateAlpha: " << hyperParams.rateAlpha() << endl;
 	}
 	if(options.covariateType().compare("Discrete")==0 ||options.covariateType().compare("Mixed")==0 ){
-		if(hyperParams.useReciprocalNCatsPhi()){
-			tmpStr << "aPhi[j]: 1/nCategories[j]" << endl;
-		}else{
-			tmpStr << "aPhi[j]: ";
-			if(options.covariateType().compare("Discrete")==0){
-				for(unsigned int j=0;j<dataset.nCovariates();j++){
-					tmpStr << hyperParams.aPhi(j) << " ";
-				}
+		tmpStr << "aPhi[j]: ";
+		if(options.covariateType().compare("Discrete")==0){
+			for(unsigned int j=0;j<dataset.nCovariates();j++){
+				tmpStr << hyperParams.aPhi(j) << " ";
 			}
-			if(options.covariateType().compare("Mixed")==0){
-				for(unsigned int j=0;j<dataset.nDiscreteCovs();j++){
-					tmpStr << hyperParams.aPhi(j) << " ";
-				}
-			}
-			tmpStr << endl;
 		}
-
+		if(options.covariateType().compare("Mixed")==0){
+			for(unsigned int j=0;j<dataset.nDiscreteCovs();j++){
+				tmpStr << hyperParams.aPhi(j) << " ";
+			}
+		}
+		tmpStr << endl;
 	}
 
 	if(options.covariateType().compare("Normal")==0 ||options.covariateType().compare("Mixed")==0 ){

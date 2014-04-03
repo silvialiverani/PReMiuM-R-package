@@ -267,9 +267,6 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		if (!is.null(hyper$rateAlpha)){
 			write(paste("rateAlpha=",hyper$rateAlpha,sep=""),hyperFile,append=T)
 		}
-		if (!is.null(hyper$useReciprocalNCatsPhi)){
-			write(paste("useReciprocalNCatsPhi=",hyper$useReciprocalNCatsPhi,sep=""),hyperFile,append=T)
-		}
 		if (!is.null(hyper$aPhi)){
 			write(paste("aPhi=",paste(hyper$aPhi,collapse=" ")," ",sep=""),hyperFile,append=T)
 		}
@@ -2356,7 +2353,7 @@ margModelPosterior<-function(runInfoObj,allocation){
   
 }
 
-setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,useReciprocalNCatsPhi=NULL,aPhi=NULL,mu0=NULL,Tau0=NULL,R0=NULL,
+setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,aPhi=NULL,mu0=NULL,Tau0=NULL,R0=NULL,
 	kapp0=NULL,muTheta=NULL,sigmaTheta=NULL,dofTheta=NULL,muBeta=NULL,sigmaBeta=NULL,dofBeta=NULL,
 	shapeTauEpsilon=NULL,rateTauEpsilon=NULL,aRho=NULL,bRho=NULL,atomRho=NULL,shapeSigmaSqY=NULL,scaleSigmaSqY=NULL,
 	rSlice=NULL,truncationEps=NULL){
@@ -2366,9 +2363,6 @@ setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,useReciprocalNCatsPhi=NU
 	}
 	if (!is.null(rateAlpha)){
 		out$rateAlpha<-rateAlpha
-	}
-	if (!is.null(useReciprocalNCatsPhi)){
-		out$useReciprocalNCatsPhi<-useReciprocalNCatsPhi
 	}
 	if (!is.null(aPhi)){
 		out$aPhi<-aPhi

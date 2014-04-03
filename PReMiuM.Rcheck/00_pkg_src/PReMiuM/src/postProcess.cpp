@@ -283,7 +283,7 @@ SEXP pZpX(SEXP nClusters, SEXP nCategories,SEXP aPhi, SEXP n,SEXP nCovariates,SE
 	}
 
 	for (unsigned int i=0;i<nSj;i++){
-		out = out -log(a+i)-counts[i]*log(i+1)-LogGamma(counts[i]+1);
+		out = out -log(a+i)-counts[i] * log(i+1.0)-LogGamma(counts[i]+1);
 	}
 
 	return Rcpp::wrap(out);

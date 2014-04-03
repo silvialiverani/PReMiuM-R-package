@@ -4,12 +4,12 @@
 * using session charset: UTF-8
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘PReMiuM’ version ‘3.0.22’
+* this is package ‘PReMiuM’ version ‘3.0.24’
 * checking CRAN incoming feasibility ... NOTE
 Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
+Days since last update: 0
 * checking package namespace information ... OK
-* checking package dependencies ... NOTE
-Package in Depends/Imports which should probably only be in LinkingTo: ‘RcppEigen’
+* checking package dependencies ... OK
 * checking if this is a source package ... OK
 * checking if there is a namespace ... OK
 * checking for executable files ... OK
@@ -56,4 +56,4 @@ Package in Depends/Imports which should probably only be in LinkingTo: ‘RcppEi
 * checking compiled code ... OK
 * checking examples ... OK
 * checking PDF version of manual ... OK
-NOTE: There were 3 notes.
+NOTE: There were 2 notes.
