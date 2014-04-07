@@ -1,13 +1,12 @@
-* using log directory ‘/home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
-* using R version 3.1.0 beta (2014-03-28 r65330)
+* using log directory ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
+* using R version 3.0.3 (2014-03-06)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘PReMiuM’ version ‘3.0.24’
+* this is package ‘PReMiuM’ version ‘3.0.22’
 * checking CRAN incoming feasibility ... NOTE
 Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
-Days since last update: 0
 * checking package namespace information ... OK
 * checking package dependencies ... OK
 * checking if this is a source package ... OK
@@ -23,7 +22,9 @@ Days since last update: 0
     libs  11.2Mb
 * checking package directory ... OK
 * checking DESCRIPTION meta-information ... OK
-* checking top-level files ... OK
+* checking top-level files ... NOTE
+Non-standard files found at top level:
+  ‘DESCRIPTION~’ ‘NAMESPACE~’
 * checking for left-over files ... OK
 * checking index information ... OK
 * checking package subdirectories ... OK
@@ -56,4 +57,4 @@ Days since last update: 0
 * checking compiled code ... OK
 * checking examples ... OK
 * checking PDF version of manual ... OK
-NOTE: There were 2 notes.
+NOTE: There were 3 notes.

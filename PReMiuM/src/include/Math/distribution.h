@@ -138,9 +138,8 @@ double logPdfMultinomialSizeOne(const unsigned int& x, const vector<double>& p){
 
 double logPdfWeibullCensored(const double& x, const double& shape, const double& scale, const unsigned int& censoring){
 
-	double out = 0.0;
-	if (censoring == 1) out = log(scale) + log(shape) + (shape-1) * log(x) ;
-	out = out  - scale* pow( x,shape);
+	double out = - pow((x/scale),shape);
+	if (censoring == 1) out += - shape * log(scale) + log(shape) + (shape-1) * log(x) ;
 	return out;
 }
 
