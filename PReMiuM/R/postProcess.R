@@ -2607,7 +2607,7 @@ plotPredictions<-function(outfile,runInfoObj,predictions,logOR=FALSE){
 	if (yModel!="Bernoulli") stop("This function has been developed for Bernoulli response only.")
 	if (xModel=="Mixed") stop("This function has been developed for Discrete and Normal covariates only.")
 
-	if (runInfoObj$nFixedEffects>0) print("Note that fixed effects are not processed in this function.")
+	#if (runInfoObj$nFixedEffects>0) print("Note that fixed effects are not processed in this function.")
 	
 	predictResponseFileName = file.path(runInfoObj$directoryPath,paste(runInfoObj$fileStem,'_predict.txt',sep=''))
 	relScenarios<-read.table(predictResponseFileName,header=FALSE,skip=1)
@@ -2644,7 +2644,5 @@ plotPredictions<-function(outfile,runInfoObj,predictions,logOR=FALSE){
 		print(plotObj)
 	}
 	
-	dev.off()
-
 }
 

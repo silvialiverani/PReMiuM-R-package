@@ -24,7 +24,7 @@ predictions (i.e. no fixed effect contribution to predicted response). If the
 offset / number of trials is missing this value is taken to be 1 when making
 predictions. If the response is provided for all subjects, the predicted
 responses are compared with the observed responses and the bias and rmse are
-computed.
+computed. If the response is provided in the data frame it must be in a column called "outcome". 
 
 The function can produce predicted values based on simple allocations
 (the default), or a Rao-Blackwellised estimate of predictions, where
@@ -39,7 +39,7 @@ The output is a list with the following elements.
 \item{rmse}{The root mean square error of the predicted values with respect to the observed outcome. If the response is not provided, this is set to NA.}
 \item{mae}{The mean absolute error of the predicted values with respect to the observed outcome. If the response is not provided, this is set to NA.}
 \item{observedY}{The values of the outcome provided by the user. This is in the case that predictions are run as a validation tool. If the response is not provided, this is set to NA.}
-\item{predictedY}{This matrix has as many rows as predictions requested by the user. It is the mean of the predicted values over all the sweeps that have been run after the burn-in period.}
+\item{predictedY}{This matrix has as many rows as predictions requested by the user. It is the median of the predicted values over all the sweeps that have been run after the burn-in period.}
 \item{doRaoBlackwell}{This is set to TRUE if it has done Rao-Blackwell predictions, and FALSE otherwise.}
 \item{predictedYPerSweep}{This array has the first dimension equivalent to the number of sweeps and the second dimension as large as the number of predictions requested by the user. It contains the predicted values per sweep.}
 \item{logORPerSweep}{This array has the first dimension equivalent to the number of sweeps and the second dimension as large as the number of predictions requested by the user. It contains the predicted log OR values per sweep (not available for Poisson and Normal outcome).}
