@@ -4,12 +4,12 @@ This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian)
  restricted \write18 enabled.
 entering extended mode
 LaTeX2e <2011/06/27>
-Babel <3.9h> and hyphenation patterns for 2 languages loaded.
+Babel <3.9f> and hyphenation patterns for 78 languages loaded.
 (./Rd2.tex
 (/usr/share/texlive/texmf-dist/tex/latex/base/book.cls
 Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/bk10.clo))
-(/usr/share/R/share/texmf/tex/latex/Rd.sty
+(/usr/share/texmf/tex/latex/R/tex/latex/Rd.sty
 (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/tools/bm.sty)
@@ -98,16 +98,16 @@ names, if xModel="Mixed".
 Overfull \hbox (19.17761pt too wide) in paragraph at lines 1097--1098
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
-[26] [27] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [28] [29]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1223--1224
+[26] [27] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [28]
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1222--1223
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1223--1224
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1222--1223
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [30] [31]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
+[29] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [30]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [31]
 No file Rd2.ind.
 [32] (./Rd2.aux)
 
@@ -124,7 +124,7 @@ etic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/te
 xlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (32 pages, 133990 bytes).
+Output written on Rd2.pdf (32 pages, 133874 bytes).
 Transcript written on Rd2.log.
 This is makeindex, version 2.15 [TeX Live 2013] (kpathsea + Thai support).
 Scanning input file Rd2.idx....done (43 entries accepted, 0 rejected).
@@ -136,12 +136,12 @@ This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian)
  restricted \write18 enabled.
 entering extended mode
 LaTeX2e <2011/06/27>
-Babel <3.9h> and hyphenation patterns for 2 languages loaded.
+Babel <3.9f> and hyphenation patterns for 78 languages loaded.
 (./Rd2.tex
 (/usr/share/texlive/texmf-dist/tex/latex/base/book.cls
 Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/bk10.clo))
-(/usr/share/R/share/texmf/tex/latex/Rd.sty
+(/usr/share/texmf/tex/latex/R/tex/latex/Rd.sty
 (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/tools/bm.sty)
@@ -232,11 +232,11 @@ Overfull \hbox (19.17761pt too wide) in paragraph at lines 1097--1098
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 [25] [26] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [27] [28]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1223--1224
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1222--1223
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1223--1224
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1222--1223
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
 [29] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [30]
@@ -265,7 +265,7 @@ hvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/
 texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/font
 s/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (33 pages, 146861 bytes).
+Output written on Rd2.pdf (33 pages, 146727 bytes).
 Transcript written on Rd2.log.
 This is makeindex, version 2.15 [TeX Live 2013] (kpathsea + Thai support).
 Scanning input file Rd2.idx....done (43 entries accepted, 0 rejected).
@@ -277,12 +277,12 @@ This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian)
  restricted \write18 enabled.
 entering extended mode
 LaTeX2e <2011/06/27>
-Babel <3.9h> and hyphenation patterns for 2 languages loaded.
+Babel <3.9f> and hyphenation patterns for 78 languages loaded.
 (./Rd2.tex
 (/usr/share/texlive/texmf-dist/tex/latex/base/book.cls
 Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/bk10.clo))
-(/usr/share/R/share/texmf/tex/latex/Rd.sty
+(/usr/share/texmf/tex/latex/R/tex/latex/Rd.sty
 (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/tools/bm.sty)
@@ -373,11 +373,11 @@ Overfull \hbox (19.17761pt too wide) in paragraph at lines 1097--1098
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 [25] [26] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [27] [28]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1223--1224
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1222--1223
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1223--1224
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1222--1223
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
 [29] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [30]
@@ -401,8 +401,8 @@ hvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/
 texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/font
 s/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (33 pages, 147258 bytes).
+Output written on Rd2.pdf (33 pages, 147156 bytes).
 Transcript written on Rd2.log.
 Saving output to 'PReMiuM-manual.pdf' ...
 Done
-You may want to clean up by 'rm -rf /tmp/RtmpsKm5OR/Rd2pdf52d060b54627'
+You may want to clean up by 'rm -rf /tmp/RtmpvzO5Og/Rd2pdf29c35484d6f'
