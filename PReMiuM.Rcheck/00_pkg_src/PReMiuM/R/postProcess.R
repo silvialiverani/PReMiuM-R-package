@@ -160,7 +160,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		} else {
 			indexOutcomeT <- which(colnames(data)==outcomeT)
 			if (yModel=="Survival") {
-				if (sum(names(table(data[indexOutcomeT])) == c("0","1"))!=2) stop("If yModel is Survival, variable outcomeT corresponds to the censoring of the outcome. Therefore, it must be coded 0 and 1.")
+				if (!all(is.element(names(table(data[indexOutcomeT])),c("0","1")))) stop("If yModel is Survival, variable outcomeT corresponds to the censoring of the outcome. Therefore, it must be coded 0 and 1.")
+
 			}
 			dataMatrix <- cbind(dataMatrix,data[indexOutcomeT])
 		}
@@ -1005,7 +1006,7 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 	empiricals<-rep(0,nClusters)
 	if(!is.null(yModel)){
 		for(c in 1:nClusters){
-			if(yModel=='Bernoulli'||yModel=='Normal'){
+			if(yModel=='Bernoulli'||yModel=='Normal'||yModel=='Survival'){
 				empiricals[c]<-mean(yMat[optAlloc[[c]],1])
 			}else if(yModel=='Binomial'){
 				empiricals[c]<-mean(yMat[optAlloc[[c]],1]/yMat[optAlloc[[c]],2])
@@ -1319,7 +1320,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 		sizeDF<-rbind(sizeDF,
 			data.frame("clusterSize"=clusterSizes[c],"cluster"=c,"fillColor"=riskColor[c]))
 	}
-	
+
 	if(includeResponse){
 		if(yModel=='Categorical'){
 			riskDF<-data.frame("prob"=c(),"cluster"=c(),"category"=c(),"meanProb"=c(),
@@ -1366,8 +1367,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 				theme(plot.margin=unit(c(0,0,0,0),'lines'))
 			print(plotObj,vp=viewport(layout.pos.row=1:6,layout.pos.col=2))
 	   }else{
-			rownames(riskDF)<-seq(1,nrow(riskDF),1)
-
+			rownames(riskDF)<-seq(1,nrow(riskDF),by=1)
 
 			# Create the risk plot
 			plotObj<-ggplot(riskDF)
@@ -1387,7 +1387,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			print(plotObj,vp=viewport(layout.pos.row=1:6,layout.pos.col=2))
 		}	
 	}
-	
+
 	# Create a bar chart of cluster empiricals
 	if((!is.null(yModel))){
 		if(yModel!="Categorical"){
@@ -1402,7 +1402,8 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 				labs(y=ifelse(yModel=="Bernoulli","Proportion of cases",
 				ifelse(yModel=="Binomial","Avg Proportion of occurrence",
 				ifelse(yModel=="Poisson","Avg Count",
-				ifelse(yModel=="Categorical","Avg Proportion of occurrence","Avg Y")))),x="Cluster")
+				ifelse(yModel=="Survival","Avg Survival Time",
+				ifelse(yModel=="Categorical","Avg Proportion of occurrence","Avg Y"))))),x="Cluster")
 			plotObj<-plotObj+theme(plot.margin=unit(c(0,0,0,0),'lines'))+theme(plot.margin=unit(c(0.15,0.5,0.5,1),'lines'))
 			print(plotObj,vp=viewport(layout.pos.row=1:3,layout.pos.col=1))
 		}
@@ -2606,7 +2607,7 @@ plotPredictions<-function(outfile,runInfoObj,predictions,logOR=FALSE){
 	if (yModel!="Bernoulli") stop("This function has been developed for Bernoulli response only.")
 	if (xModel=="Mixed") stop("This function has been developed for Discrete and Normal covariates only.")
 
-	if (runInfoObj$nFixedEffects>0) print("Note that fixed effects are not processed in this function.")
+	#if (runInfoObj$nFixedEffects>0) print("Note that fixed effects are not processed in this function.")
 	
 	predictResponseFileName = file.path(runInfoObj$directoryPath,paste(runInfoObj$fileStem,'_predict.txt',sep=''))
 	relScenarios<-read.table(predictResponseFileName,header=FALSE,skip=1)
@@ -2643,7 +2644,5 @@ plotPredictions<-function(outfile,runInfoObj,predictions,logOR=FALSE){
 		print(plotObj)
 	}
 	
-	dev.off()
-
 }
 
