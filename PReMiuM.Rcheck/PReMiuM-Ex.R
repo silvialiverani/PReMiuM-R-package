@@ -493,12 +493,12 @@ runInfoObj<-profRegr(yModel=inputs$yModel,
 
 
 # example with Bernoulli outcome and Mixed covariates
-inputs <- generateSampleDataFile(clusSummaryBernoulliMixed())
-runInfoObj<-profRegr(yModel=inputs$yModel, 
-    xModel=inputs$xModel, nSweeps=10, nClusInit=15,
-    nBurn=20, data=inputs$inputData, output="output", 
-    discreteCovs = inputs$discreteCovs,
-    continuousCovs = inputs$continuousCovs)
+#inputs <- generateSampleDataFile(clusSummaryBernoulliMixed())
+#runInfoObj<-profRegr(yModel=inputs$yModel, 
+#    xModel=inputs$xModel, nSweeps=10, nClusInit=15,
+#    nBurn=20, data=inputs$inputData, output="output", 
+#    discreteCovs = inputs$discreteCovs,
+#    continuousCovs = inputs$continuousCovs)
 
 
 
