@@ -280,8 +280,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		if (!is.null(hyper$R0)){
 			write(paste("R0=",paste(t(hyper$R0),collapse=" ")," ",sep=""),hyperFile,append=T)
 		}
-		if (!is.null(hyper$kapp0)){
-			write(paste("kapp0=",hyper$kapp0,sep=""),hyperFile,append=T)
+		if (!is.null(hyper$kappa0)){
+			write(paste("kappa0=",hyper$kappa0,sep=""),hyperFile,append=T)
 		}
 		if (!is.null(hyper$muTheta)){
 			write(paste("muTheta=",hyper$muTheta,sep=""),hyperFile,append=T)
@@ -1765,7 +1765,7 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 		predictResponseMat<-matrix(predictResponseData[2:length(predictResponseData)],
 			nrow=nPredictSubjects,byrow=T)
 		predictYMat<-matrix(predictResponseMat[,1],ncol=1)
-		if(yModel=="Poisson"||yModel=="Binomial"){
+		if(yModel=="Poisson"||yModel=="Binomial"||yModel=="Survival"){
 			predictYMat<-cbind(predictYMat,predictResponseMat[,ncol(predictResponseMat)])
 			if(all(predictYMat[,2]>-999)){
 				extraInfoProvided<-T
@@ -1889,7 +1889,7 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 		}else if(yModel=='Normal'){
 			predictedY[sweep,,]<-lambda
 		}else if(yModel=='Survival'){
-			predictedY[sweep,,]<-lambda
+			predictedY[sweep,,]<-exp(lambda)
 		}else if(yModel=="Categorical"){
 			predictedY[sweep,,]<-exp(lambda)/rowSums(exp(lambda))
 		}
@@ -2357,7 +2357,7 @@ margModelPosterior<-function(runInfoObj,allocation){
 }
 
 setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,aPhi=NULL,mu0=NULL,Tau0=NULL,R0=NULL,
-	kapp0=NULL,muTheta=NULL,sigmaTheta=NULL,dofTheta=NULL,muBeta=NULL,sigmaBeta=NULL,dofBeta=NULL,
+	kappa0=NULL,muTheta=NULL,sigmaTheta=NULL,dofTheta=NULL,muBeta=NULL,sigmaBeta=NULL,dofBeta=NULL,
 	shapeTauEpsilon=NULL,rateTauEpsilon=NULL,aRho=NULL,bRho=NULL,atomRho=NULL,shapeSigmaSqY=NULL,scaleSigmaSqY=NULL,
 	rSlice=NULL,truncationEps=NULL){
 	out<-list()
@@ -2379,8 +2379,8 @@ setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,aPhi=NULL,mu0=NULL,Tau0=
 	if (!is.null(R0)){
 		out$R0<-R0
 	}
-	if (!is.null(kapp0)){
-		out$kapp0<-kapp0
+	if (!is.null(kappa0)){
+		out$kappa0<-kappa0
 	}
 	if (!is.null(muTheta)){
 		out$muTheta<-muTheta

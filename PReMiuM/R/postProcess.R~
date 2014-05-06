@@ -1765,7 +1765,7 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 		predictResponseMat<-matrix(predictResponseData[2:length(predictResponseData)],
 			nrow=nPredictSubjects,byrow=T)
 		predictYMat<-matrix(predictResponseMat[,1],ncol=1)
-		if(yModel=="Poisson"||yModel=="Binomial"){
+		if(yModel=="Poisson"||yModel=="Binomial"||yModel=="Survival"){
 			predictYMat<-cbind(predictYMat,predictResponseMat[,ncol(predictResponseMat)])
 			if(all(predictYMat[,2]>-999)){
 				extraInfoProvided<-T
@@ -1888,6 +1888,8 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 			predictedY[sweep,,]<-exp(lambda)
 		}else if(yModel=='Normal'){
 			predictedY[sweep,,]<-lambda
+		}else if(yModel=='Survival'){
+			predictedY[sweep,,]<-exp(lambda)
 		}else if(yModel=="Categorical"){
 			predictedY[sweep,,]<-exp(lambda)/rowSums(exp(lambda))
 		}
