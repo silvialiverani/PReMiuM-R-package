@@ -2645,6 +2645,6 @@ plotPredictions<-function(outfile,runInfoObj,predictions,logOR=FALSE){
 		plotObj<-plotObj+theme(axis.text.x=element_text(size=7))+theme(axis.text.y=element_text(size=7))
 		print(plotObj)
 	}
-	
+	dev.off()
 }
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.4.2)  29 APR 2014 10:56
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.3.8)  1 MAY 2014 16:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -22,7 +22,7 @@ File: bk10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
-(/usr/share/texmf/tex/latex/R/tex/latex/Rd.sty
+(/usr/share/R/share/texmf/tex/latex/Rd.sty
 Package: Rd 
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
@@ -65,7 +65,7 @@ Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 )
 (/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip10
-Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 (/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2005/09/27 v1.99g Standard LaTeX package
@@ -828,12 +828,12 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1361.
  ) 
 Here is how much of TeX's memory you used:
- 6595 strings out of 493307
- 95228 string characters out of 6139906
- 171083 words of memory out of 5000000
- 9703 multiletter control sequences out of 15000+600000
+ 6594 strings out of 495028
+ 95206 string characters out of 6181498
+ 167055 words of memory out of 5000000
+ 9456 multiletter control sequences out of 15000+600000
  40988 words of font info for 50 fonts, out of 8000000 for 9000
- 957 hyphenation exceptions out of 8191
+ 14 hyphenation exceptions out of 8191
  38i,6n,34p,599b,594s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/share/texliv
 e/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}</usr/share/texlive/texmf-
@@ -843,7 +843,7 @@ st/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/typ
 e1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/ut
 mr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/
 share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (33 pages, 147525 bytes).
+Output written on Rd2.pdf (33 pages, 147713 bytes).
 PDF statistics:
  522 PDF objects out of 1000 (max. 8388607)
  475 compressed objects within 5 object streams
