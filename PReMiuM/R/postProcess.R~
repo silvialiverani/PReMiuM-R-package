@@ -2641,10 +2641,11 @@ plotPredictions<-function(outfile,runInfoObj,predictions,logOR=FALSE){
 		plotObj<-ggplot(plotDF)
 		plotObj<-plotObj+geom_line(aes(x=logOddsRatio,y=density),size=0.2)
 		plotObj<-plotObj+theme(legend.position="none")
-		plotObj<-plotObj+labs(x=ifelse(logOR==TRUE,"Log OR of response","Response"))+theme(axis.title.x=element_text(size=7))+labs(y="Density")+theme(axis.title.y=element_text(size=7,angle=90))							
-		plotObj<-plotObj+theme(axis.text.x=element_text(size=7))+theme(axis.text.y=element_text(size=7))
+		plotObj<-plotObj+labs(x=ifelse(logOR==TRUE,"Log OR of response","Response"))+theme(axis.title.x=element_text(size=12))+labs(y="Density")+theme(axis.title.y=element_text(size=12,angle=90))
+		plotObj<-plotObj+theme(axis.text.x=element_text(size=12))+theme(axis.text.y=element_text(size=12))
 		print(plotObj)
 	}
-	dev.off()
+	output<-dev.off()
+#	return(outfile=outfile)
 }
 
