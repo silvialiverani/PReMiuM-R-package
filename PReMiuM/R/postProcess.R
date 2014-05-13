@@ -2535,7 +2535,7 @@ globalParsTrace<-function(runInfoObj, parameters = "nClusters",plotBurnIn=FALSE,
 
 	# read the data in
 	parData<-read.table(parFileName)
-print(parameters)
+
 	if(parameters== "nClusters") ylabPar<- "Number of clusters"
 	if(parameters=="mpp") ylabPar<-"Log marginal model posterior"
 	if(parameters=="beta") ylabPar<-"beta"
@@ -2583,11 +2583,11 @@ print(parameters)
 	}
 
 	if (parameters=="alpha" || parameters=="nClusters"){
-		plot(rangeSweeps,parData[rangeParData,1],type="l",lty=1,col="red",ylab=ylabPar,xlab=xlabPars)
+		plot(rangeSweeps,parData[rangeParData,1],type="l",lty=1,col="red",ylab=ylabPar,xlab=xlabPars,cex.axis=1.5,cex.lab=1.5)
 	} else if (parameters=="mpp"){
-		plot(1:nSweeps,parData[,1],type="l",lty=1,col="red",ylab=ylabPar,xlab=xlabPars)
+		plot(1:nSweeps,parData[,1],type="l",lty=1,col="red",ylab=ylabPar,xlab=xlabPars,cex.axis=1.5,cex.lab=1.5)
 	} else if (parameters=="beta"){
-		plot(rangeSweeps,parData[rangeParData,whichBeta],type="l",lty=1,col="red",ylab=ylabPar,xlab=xlabPars)
+		plot(rangeSweeps,parData[rangeParData,whichBeta],type="l",lty=1,col="red",ylab=ylabPar,xlab=xlabPars,cex.axis=1.5,cex.lab=1.5)
 	}
 
 }
@@ -2641,8 +2641,8 @@ plotPredictions<-function(outfile,runInfoObj,predictions,logOR=FALSE){
 		plotObj<-ggplot(plotDF)
 		plotObj<-plotObj+geom_line(aes(x=logOddsRatio,y=density),size=0.2)
 		plotObj<-plotObj+theme(legend.position="none")
-		plotObj<-plotObj+labs(x=ifelse(logOR==TRUE,"Log OR of response","Response"))+theme(axis.title.x=element_text(size=12))+labs(y="Density")+theme(axis.title.y=element_text(size=12,angle=90))
-		plotObj<-plotObj+theme(axis.text.x=element_text(size=12))+theme(axis.text.y=element_text(size=12))
+		plotObj<-plotObj+labs(x=ifelse(logOR==TRUE,"Log OR of response","Response"))+theme(axis.title.x=element_text(size=15))+labs(y="Density")+theme(axis.title.y=element_text(size=15,angle=90))
+		plotObj<-plotObj+theme(axis.text.x=element_text(size=15))+theme(axis.text.y=element_text(size=15))
 		print(plotObj)
 	}
 	output<-dev.off()
