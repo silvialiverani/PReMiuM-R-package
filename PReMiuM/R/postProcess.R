@@ -1150,34 +1150,45 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 	}
 
 	png(outFile,width=1200,height=800)
+		orderProvided<-F
 	
 	if(!is.null(orderBy)){
 		if(!includeResponse){
 			if(orderBy!='Empirical'&&orderBy!='ClusterSize'&&!orderBy%in%covNames){
+				if(is.numeric(orderBy)){
+					if(length(orderBy)==nClusters){
+						orderProvided<-T
+						meanSortIndex<-orderBy
+					}else{
+						cat("Order vector provided not of same length as number of clusters. Reverting to default ordering.\n")	
+						orderBy<-NULL
+					}
 				orderBy<-NULL
+				}
+				#orderBy<-NULL
 			}
 		}else{
 			if(orderBy!='Risk'&&orderBy!='Empirical'&&orderBy!='ClusterSize'&&!orderBy%in%covNames){
+				if(is.numeric(orderBy)){
+					if(length(orderBy)==nClusters){
+						orderProvided<-T
+						meanSortIndex<-orderBy
+					}else{
+						cat("Order vector provided not of same length as number of clusters. Reverting to default ordering.\n")	
+						orderBy<-NULL
+					}
 				orderBy<-NULL
+				}
+				#orderBy<-NULL
 			}
 		}
+
 	}
 	
 	# Set up the layout for the plot
 	plotLayout<-grid.layout(ncol = nCovariates+2, nrow = 6)
 	grid.newpage()
 	pushViewport(viewport(layout = plotLayout))
-	
-	orderProvided<-F
-	if(is.numeric(orderBy)){
-		if(length(orderBy)==nClusters){
-			orderProvided<-T
-			meanSortIndex<-orderBy
-		}else{
-			cat("Order vector provided not of same length as number of clusters. Reverting to default ordering.\n")
-			orderBy<-NULL
-		}
-	}
 
 	if(!orderProvided){
 		if(!is.null(risk)){
@@ -1227,7 +1238,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 						# and then uses an expected value
 						tmpMat<-profile[,,whichCov,1]
 						if(nCategories[whichCov]>1){
-							for(k in 2:nCategories[whicCov]){
+							for(k in 2:(nCategories[whichCov])){
 								tmpMat<-tmpMat+k*profile[,,whichCov,k]
 							}
 						}
