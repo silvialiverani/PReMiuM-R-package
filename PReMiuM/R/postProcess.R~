@@ -850,7 +850,7 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 					}
 				}
 				if(yModel=="Poisson"){
-					currRisk<-exp(currLambda)
+					currRisk<-exp(currLambda )
 				}else if(yModel=="Bernoulli"||yModel=="Binomial"){
 					currRisk<-1.0/(1.0+exp(-currLambda))
 				}else if(yModel=="Normal"){

@@ -1,19 +1,16 @@
-* using log directory ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
+* using log directory ‘/home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
 * using R version 3.1.0 (2014-04-10)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘PReMiuM’ version ‘3.0.26’
+* this is package ‘PReMiuM’ version ‘3.0.25’
 * checking CRAN incoming feasibility ... NOTE
 Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
 * checking package namespace information ... OK
 * checking package dependencies ... NOTE
   No repository set, so cyclic dependency check skipped
-* checking if this is a source package ... WARNING
-Subdirectory ‘PReMiuM/src’ contains apparent object files/libraries
-  PReMiuM.o PReMiuM.so postProcess.o
-Object files/libraries should not be included in a source package.
+* checking if this is a source package ... OK
 * checking if there is a namespace ... OK
 * checking for executable files ... OK
 * checking for hidden files and directories ... OK
@@ -59,5 +56,4 @@ Object files/libraries should not be included in a source package.
 * checking compiled code ... OK
 * checking examples ... OK
 * checking PDF version of manual ... OK
-WARNING: There was 1 warning.
 NOTE: There were 3 notes.

@@ -204,16 +204,18 @@ generateSampleDataFile<-function(clusterSummary){
 		out$fixedEffectNames <- fixEffNames
 	}
 	if(clusterSummary$outcomeType=="Poisson"){
+		newNames <- c(colnames(outData) ,"outcomeT")
 		outData<-data.frame(cbind(outData,offset))
 		out$inputData <- outData
-		colnames(outData) <- c("outcome",covNames,fixEffNames,"outcomeT")
+		colnames(outData) <- c(newNames)
 		out$inputData <- outData
 		out$outcomeT <- "outcomeT"
 	}
 	if(clusterSummary$outcomeType=="Binomial"){
+		newNames <- c(colnames(outData) ,"outcomeT")
 		outData<-data.frame(cbind(outData,nTrials))
 		out$inputData <- outData	
-		colnames(outData) <- c("outcome",covNames,fixEffNames,"outcomeT")
+		colnames(outData) <- c(newNames)
 		out$inputData <- outData
 		out$outcomeT <- "outcomeT"
 	}

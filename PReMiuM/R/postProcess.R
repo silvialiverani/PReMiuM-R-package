@@ -850,7 +850,7 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 					}
 				}
 				if(yModel=="Poisson"){
-					currRisk<-exp(currLambda)
+					currRisk<-exp(currLambda )
 				}else if(yModel=="Bernoulli"||yModel=="Binomial"){
 					currRisk<-1.0/(1.0+exp(-currLambda))
 				}else if(yModel=="Normal"){
@@ -1009,6 +1009,8 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 			if(yModel=='Bernoulli'||yModel=='Normal'||yModel=='Survival'){
 				empiricals[c]<-mean(yMat[optAlloc[[c]],1])
 			}else if(yModel=='Binomial'){
+print(yMat[optAlloc[[c]],1])
+print(yMat[optAlloc[[c]],2])
 				empiricals[c]<-mean(yMat[optAlloc[[c]],1]/yMat[optAlloc[[c]],2])
 			}else if(yModel=='Poisson'){
 				empiricals[c]<-mean(yMat[optAlloc[[c]],1]/yMat[optAlloc[[c]],2])

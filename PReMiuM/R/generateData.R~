@@ -204,16 +204,17 @@ generateSampleDataFile<-function(clusterSummary){
 		out$fixedEffectNames <- fixEffNames
 	}
 	if(clusterSummary$outcomeType=="Poisson"){
+		newNames <- c(colnames(outData) ,"outcomeT")
 		outData<-data.frame(cbind(outData,offset))
 		out$inputData <- outData
-		colnames(outData) <- c("outcome",covNames,fixEffNames,"outcomeT")
+		colnames(outData) <- c(newNames)
 		out$inputData <- outData
 		out$outcomeT <- "outcomeT"
 	}
 	if(clusterSummary$outcomeType=="Binomial"){
 		outData<-data.frame(cbind(outData,nTrials))
 		out$inputData <- outData	
-		colnames(outData) <- c("outcome",covNames,fixEffNames,"outcomeT")
+		colnames(outData) <- c(colnames(outData) ,"outcomeT")
 		out$inputData <- outData
 		out$outcomeT <- "outcomeT"
 	}
@@ -261,8 +262,8 @@ clusSummaryBernoulliDiscrete<-function(){
 	'covariateType'='Discrete',
 	'nCovariates'=5,
 	'nCategories'=c(3,3,3,3,3),
-	'nFixedEffects'=0,#2,
-#	'fixedEffectsCoeffs'=c(0.1,-0.5),
+	'nFixedEffects'=2,
+	'fixedEffectsCoeffs'=c(0.1,-0.5),
 	'missingDataProb'=0,
 	'nClusters'=5,
 	'clusterSizes'=c(200,200,200,200,200),
