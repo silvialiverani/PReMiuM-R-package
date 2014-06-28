@@ -157,4 +157,25 @@ double logPdfWishart(const unsigned int& dimA, const MatrixXd& A, const double& 
 			  - (0.5*kappa*(double)dimA*log(2.0)+logMultivarGammaFn(kappa/2.0,dimA));
 }
 
+double logPdfIntrinsicCAR(const vector<double>& x, const vector<vector<unsigned int> >& Neighbours, const double& precision){
+	// compute xtPx with P the precision Matrix of the intrinsic CAR
+	double sumCAR1 = 0.0;
+	double sumCAR2 = 0.0;
+	int n=x.size();
+	for (int i=0; i<n; i++){
+		double xi = x[i];
+		int nNeighi = (Neighbours[i]).size();
+		sumCAR1+= xi*xi*nNeighi;
+		for (int j = 0; j<nNeighi; j++){
+			unsigned int nj = Neighbours[i][j];
+			double xj = x[nj-1];
+			sumCAR2+=xi*xj;
+	        }
+	}
+	double xtPx=sumCAR1-sumCAR2;
+
+	return 0.5*(n-1)*log(precision)-0.5*precision*xtPx;
+}
+
+
 #endif /*DISTRIBUTION_H_*/

@@ -63,6 +63,7 @@ using std::ostringstream;
 using std::istringstream;
 using std::string;
 using std::endl;
+using std::stringstream;
 
 // Process the command line run time options
 pReMiuMOptions processCommandLine(string inputStr){
@@ -217,6 +218,12 @@ pReMiuMOptions processCommandLine(string inputStr){
 					options.dPitmanYor(dPitmanYor);
 				}else if(inString.find("--excludeY")!=string::npos){
 					options.includeResponse(false);
+                		}else if(inString.find("--includeCAR")!=string::npos){
+					options.includeCAR(true);
+        		        }else if(inString.find("--neighbours")!=string::npos){
+					size_t pos = inString.find("=")+1;
+					string neighboursFile = inString.substr(pos,inString.size()-pos);
+					options.neighbourFileName(neighboursFile);
 				}else if(inString.find("--extraYVar")!=string::npos){
 					if(options.outcomeType().compare("Normal")!=0){
 						options.responseExtraVar(true);
@@ -261,7 +268,7 @@ pReMiuMOptions processCommandLine(string inputStr){
 }
 
 // Read the PReMiuM data set
-void importPReMiuMData(const string& fitFilename,const string& predictFilename,pReMiuMData& dataset){
+void importPReMiuMData(const string& fitFilename,const string& predictFilename, const string& neighboursFilename, pReMiuMData& dataset){
 
 	ifstream inputFile,predictFile;
 	inputFile.open(fitFilename.c_str());
@@ -298,6 +305,9 @@ void importPReMiuMData(const string& fitFilename,const string& predictFilename,p
 	vector<double>& logOffset=dataset.logOffset();
 	vector<unsigned int>& nTrials=dataset.nTrials();
 	vector<unsigned int>& censoring=dataset.censoring();
+	vector<vector<unsigned int> >& neighbours=dataset.neighbours();
+	vector<unsigned int>& nNeighbours=dataset.nNeighbours();
+	bool& includeCAR=dataset.includeCAR();
 
 	bool wasError=false;
 
@@ -522,6 +532,43 @@ void importPReMiuMData(const string& fitFilename,const string& predictFilename,p
 		predictFile.close();
 	}
 
+	//Fill nNeighbours and Neighbours
+	if (includeCAR){
+        ifstream neighFile;
+        neighFile.open(neighboursFilename.c_str());
+
+        if (!neighFile.is_open()){
+            Rprintf("Neighbourhood structure file not found\n");
+		wasError = true;
+        }
+        if (neighFile.good()){
+            string line;
+            getline(neighFile, line);
+            stringstream streamline(line);
+            unsigned int nsub;
+            streamline >> nsub;
+            nNeighbours.resize(nSubjects);
+            neighbours.resize(nSubjects);
+        }
+        int i=0;
+        while (neighFile.good()){
+            string line;
+            getline(neighFile, line);
+            stringstream streamline(line);
+            int j;
+            streamline>>j;
+            streamline>>nNeighbours[j-1];
+            neighbours[j-1].resize(nNeighbours[j-1]);
+            int k=0;
+            while (streamline.good()){
+                streamline>>neighbours[j-1][k];
+                k++;
+            }
+          i++;
+        }
+        neighFile.close();
+	}
+
 	// Return if there was an error
 	if(wasError){
 		Rprintf("Please use:\n");
@@ -737,7 +784,18 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 			string tmpStr = inString.substr(pos,inString.size()-pos);
 			double truncationEps = (double)atof(tmpStr.c_str());
 			hyperParams.truncationEps(truncationEps);
+		}else if(inString.find("shapeTauCAR")==0){
+			size_t pos = inString.find("=")+1;
+			string tmpStr = inString.substr(pos,inString.size()-pos);
+			double shapeTauCAR = (double)atof(tmpStr.c_str());
+			hyperParams.shapeTauCAR(shapeTauCAR);
+		}else if(inString.find("rateTauCAR")==0){
+			size_t pos = inString.find("=")+1;
+			string tmpStr = inString.substr(pos,inString.size()-pos);
+			double rateTauCAR = (double)atof(tmpStr.c_str());
+			hyperParams.rateTauCAR(rateTauCAR);
 		}
+
 	}
 
 	// Return if there was an error
@@ -776,6 +834,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 	string samplerType = options.samplerType();
 	bool includeResponse = options.includeResponse();
 	bool responseExtraVar = options.responseExtraVar();
+	bool includeCAR=options.includeCAR();
 
 	vector<unsigned int> nCategories;
 	nCategories = dataset.nCategories();
@@ -1347,6 +1406,23 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 
 			}
 		}
+	        // And also _uCAR and _TauCAR if includeCAR==TRUE
+	        if (includeCAR){
+			// Boost parameterised in terms of shape and scale
+			randomGamma gammaRand(5.0,0.5);
+			// Tau is now a Gamma(shape,rate)
+			double tau = gammaRand(rndGenerator);
+			params.TauCAR(tau);
+
+			double mean_w=0;
+			for (int i=0; i<nSubjects; i++ ) mean_w+=dataset.nNeighbours(i);
+			mean_w /= nSubjects;
+			randomNormal normalRand(0,sqrt(mean_w/tau));
+			for(unsigned int i=0;i<nSubjects;i++){
+				double eps = normalRand(rndGenerator);
+				params.uCAR(i,eps);
+			}
+	        }
 
 	}
 }
@@ -1373,6 +1449,7 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 		unsigned int nCategoriesY = params.nCategoriesY();
 		string covariateType = sampler.model().dataset().covariateType();
 		bool includeResponse = sampler.model().options().includeResponse();
+		bool includeCAR = sampler.model().options().includeCAR();
 		bool responseExtraVar = sampler.model().options().responseExtraVar();
 		double fixedAlpha = sampler.model().options().fixedAlpha();
 		double dPitmanYor = sampler.model().options().dPitmanYor();
@@ -1451,6 +1528,12 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 					fileName = fileStem + "_predictThetaRaoBlackwell.txt";
 					outFiles.push_back(new ofstream(fileName.c_str()));
 				}
+				if (includeCAR){
+					fileName = fileStem + "_TauCAR.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+					fileName = fileStem + "_uCAR.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+				}
 			}
 			if(varSelectType.compare("None")!=0){
 				fileName = fileStem + "_omega.txt";
@@ -1485,6 +1568,7 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 		int sigmaEpsilonInd=-1,epsilonPropInd=-1,omegaInd=-1,rhoInd=-1;
 		int rhoOmegaPropInd=-1,gammaInd=-1,nullPhiInd=-1,nullMuInd=-1;
 		int predictThetaRaoBlackwellInd=-1;
+		int TauCARInd=-1,uCARInd=-1;
 
 		int r=0;
 		nClustersInd=r++;
@@ -1523,6 +1607,10 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 			}
 			if(nPredictSubjects>0){
 				predictThetaRaoBlackwellInd=r++;
+			}
+			if (includeCAR){
+				TauCARInd=r++;
+				uCARInd=r++;
 			}
 		}
 
@@ -1718,6 +1806,20 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 						*(outFiles[betaInd]) << endl;
 					}
 				}
+			}
+			if (includeCAR){
+				for(unsigned int i=0;i<nSubjects;i++){
+					double uCARi = params.uCAR(i);
+					*(outFiles[uCARInd]) << uCARi;
+					if(i<nSubjects-1){
+						*(outFiles[uCARInd]) << " ";
+					}else{
+						*(outFiles[uCARInd]) << endl;
+					}
+				}
+				double tau=params.TauCAR();
+				*(outFiles[TauCARInd]) << tau;
+				*(outFiles[TauCARInd]) << endl;
 			}
 		}
 
@@ -2055,6 +2157,13 @@ string storeLogFileData(const pReMiuMOptions& options,
 	if(dataset.outcomeType().compare("Normal")==0){
 		tmpStr << "shapeSigmaSqY: " << hyperParams.shapeSigmaSqY() << endl;
 		tmpStr << "scaleSigmaSqY: " << hyperParams.scaleSigmaSqY() << endl;
+	}
+
+	if(options.includeCAR()){
+		tmpStr << "shapeTauCAR: " << endl;
+		tmpStr << hyperParams.shapeTauCAR() << endl;
+		tmpStr << "rateTauCAR:" << endl;
+		tmpStr << hyperParams.rateTauCAR() << endl;
 	}
 
 	tmpStr << endl << options.nSweeps()+options.nBurn() << " sweeps done in " <<

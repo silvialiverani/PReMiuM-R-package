@@ -1,7 +1,0 @@
-
-PKG_CPPFLAGS=-I./include 
-
-#CC = gcc-4.8 -std=gnu99 -fsanitize=undefined -fno-omit-frame-pointer -fcatch-undefined-behavior
-#CXX = g++-4.8 -fsanitize=undefined -fno-omit-frame-pointer -fcatch-undefined-behavior
-
-

@@ -53,6 +53,7 @@
 #include<PReMiuMOptions.h>
 #include<PReMiuMModel.h>
 #include<PReMiuMData.h>
+#include<PReMiuMArs.h>
 
 using namespace Eigen;
 
@@ -1964,7 +1965,7 @@ void gibbsForThetaInActive(mcmcChain<pReMiuMParams>& chain,
 
 
 /*********** BLOCK 4 p(Theta^N|.) **********************************/
-// N=Non-cluster, and Theta contains: beta, rho, omega, lambda, tau_epsilon
+// N=Non-cluster, and Theta contains: beta, rho, omega, lambda, tau_epsilon, uCAR and TauCAR
 
 // Adaptive Metropolis-Hastings for beta
 void metropolisHastingsForBeta(mcmcChain<pReMiuMParams>& chain,
@@ -2352,6 +2353,91 @@ void gibbsForSigmaSqY(mcmcChain<pReMiuMParams>& chain,
 
 
 }
+
+// Gibbs update for the precision of spatial random term
+void gibbsForTauCAR(mcmcChain<pReMiuMParams>& chain,
+						unsigned int& nTry,unsigned int& nAccept,
+						const mcmcModel<pReMiuMParams,
+										pReMiuMOptions,
+										pReMiuMData>& model,
+						pReMiuMPropParams& propParams,
+						baseGeneratorType& rndGenerator){
+
+
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+	const pReMiuMData& dataset = model.dataset();
+	const string& outcomeType = model.dataset().outcomeType();
+
+	//Rprintf("TauCAR before update is %f \n.", currentParams.TauCAR());
+
+	unsigned int nSubjects=dataset.nSubjects();
+	unsigned int nFixedEffects=dataset.nFixedEffects();
+
+	nTry++;
+	nAccept++;
+
+	double a=hyperParams.shapeTauCAR(),b=hyperParams.rateTauCAR();
+
+	double sumCAR1 = 0.0;
+	double sumCAR2 = 0.0;
+	for (int i=0; i<nSubjects; i++){
+		double uCARi = currentParams.uCAR(i);
+		int nNeighi = dataset.nNeighbours(i);
+		sumCAR1+= uCARi*uCARi*nNeighi;
+		for (int j = 0; j<nNeighi; j++){
+			unsigned int nj = dataset.neighbours(i,j);
+			double ucarj = currentParams.uCAR(nj-1);
+			sumCAR2+=uCARi*ucarj;
+	        }
+	}
+	double sumCAR=sumCAR1-sumCAR2;
+
+	a+=(double)(nSubjects-1)/2.0;
+	b+=sumCAR/2.0;
+
+	// Boost uses shape and scale parameterisation
+	randomGamma gammaRand(a,1.0/b);
+	double tau = gammaRand(rndGenerator);
+	currentParams.TauCAR(tau);
+	//Rprintf("TauCAR after update is %f \n .", currentParams.TauCAR());
+}
+
+// Gibbs update for spatial random term using adaptive rejection sampling
+void gibbsForUCAR(mcmcChain<pReMiuMParams>& chain,
+						unsigned int& nTry,unsigned int& nAccept,
+						const mcmcModel<pReMiuMParams,
+										pReMiuMOptions,
+										pReMiuMData>& model,
+						pReMiuMPropParams& propParams,
+						baseGeneratorType& rndGenerator){
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	const pReMiuMData& dataset = model.dataset();
+	unsigned int nSubjects=dataset.nSubjects();
+	unsigned int nFixedEffects=dataset.nFixedEffects();
+	//Rprintf("TauCAR after update of uCAR is %f \n .", currentParams.TauCAR());
+	nTry++;
+	nAccept++;
+
+	vector<double> tempU;
+	tempU.resize(nSubjects);
+	for (int iSub=0; iSub<nSubjects; iSub++){
+		double ui=ARSsample(currentParams, model, iSub, logUiPostPoissonSpatial,rndGenerator);
+		tempU[iSub]=ui;
+	}
+	double meanU=0;
+	for (int i=0; i<nSubjects; i++){meanU+=tempU[i];}
+	meanU/=nSubjects;
+	for (int i=0; i<nSubjects; i++){tempU[i]-=meanU;}
+	currentParams.uCAR(tempU);
+	//Rprintf("uCAR1 equals %f \n", currentParams.uCAR(1));
+}
+
+
 /*********** BLOCK 5 p(Z|.) **********************************/
 
 // Gibbs update for the allocation variables
@@ -2383,6 +2469,7 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 	const vector<vector<bool> >& missingX=dataset.missingX();
 	bool includeResponse = model.options().includeResponse();
 	bool responseExtraVar = model.options().responseExtraVar();
+	const bool includeCAR=model.options().includeCAR();
 
 	nTry++;
 	nAccept++;
@@ -2623,7 +2710,11 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 			}else if(outcomeType.compare("Binomial")==0){
 				logPYiGivenZiWi = &logPYiGivenZiWiBinomial;
 			}else if(outcomeType.compare("Poisson")==0){
-				logPYiGivenZiWi = &logPYiGivenZiWiPoisson;
+				if (includeCAR){
+					logPYiGivenZiWi = &logPYiGivenZiWiPoissonSpatial;
+				}else{
+					logPYiGivenZiWi = &logPYiGivenZiWiPoisson;
+				}
 			}else if(outcomeType.compare("Normal")==0){
 				logPYiGivenZiWi = &logPYiGivenZiWiNormal;
 			}else if(outcomeType.compare("Categorical")==0){

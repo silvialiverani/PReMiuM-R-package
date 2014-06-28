@@ -206,6 +206,9 @@ class pReMiuMHyperParams{
 			_rSlice =0.75;
 			_truncationEps = 0.000001;
 
+			_shapeTauCAR=0.001;
+			_rateTauCAR=0.001;
+
 		}
 
 		double shapeAlpha() const{
@@ -424,6 +427,21 @@ class pReMiuMHyperParams{
 			return (1-_rSlice)*pow(_rSlice,(double)c);
 		}
 
+		double shapeTauCAR() const{
+			return _shapeTauCAR;
+		}
+
+		void shapeTauCAR(const double& a){
+			_shapeTauCAR = a;
+		}
+
+		double rateTauCAR() const{
+			return _rateTauCAR;
+		}
+
+		void rateTauCAR(const double& b){
+			_rateTauCAR = b;
+		}
 		// Copy operator
 		pReMiuMHyperParams& operator=(const pReMiuMHyperParams& hyperParams){
 			_shapeAlpha = hyperParams.shapeAlpha();
@@ -452,6 +470,8 @@ class pReMiuMHyperParams{
 			_workLogDetR0 = hyperParams.workLogDetR0();
 			_rSlice = hyperParams.rSlice();
 			_truncationEps = hyperParams.truncationEps();
+			_shapeTauCAR = hyperParams.shapeTauCAR();
+			_rateTauCAR = hyperParams.rateTauCAR();
 			return *this;
 		}
 
@@ -519,6 +539,11 @@ class pReMiuMHyperParams{
 		//Truncated sampler variables
 		double _truncationEps;
 
+		// Hyper parameters for prior for tauCAR (for spatial CAR term)
+		// Prior is tauCAR ~ Gamma(shape,rate)
+		// we use the inverse scale parameterisation so that E[tauCAR] = shape/rate
+		double _shapeTauCAR;
+		double _rateTauCAR;
 
 };
 
@@ -669,6 +694,7 @@ class pReMiuMParams{
 					_workLogPXiGivenZi[i]=0;
 				}
 			}
+			_uCAR.resize(nSubjects);
 		}
 
 		/// \brief Return the number of clusters
@@ -1505,6 +1531,35 @@ class pReMiuMParams{
 			_sigmaSqY=sigmaSqYVal;
 		}
 
+		/// \brief Return the vector _uCAR
+		vector<double> uCAR() const{
+			return _uCAR;
+		}
+
+		/// \brief Return the value of_uCAR for subject i
+		double uCAR(const unsigned int& i ) const{
+			return _uCAR[i];
+		}
+
+		/// \brief Set the CAR spatial random vector
+		void uCAR(vector<double>& u){
+			_uCAR=u;
+		}
+
+		/// \brief Set the CAR spatial random term for subject i
+		void uCAR(const unsigned int& i, double& u){
+			_uCAR[i]=u;
+		}
+
+		/// \brief Return the precision of spatial random term
+		double TauCAR() const{
+			return _TauCAR;
+		}
+
+		/// \brief Set the precision for the spatial random term
+		void TauCAR(double& t){
+			_TauCAR=t;
+		}
 
 		const pReMiuMHyperParams& hyperParams() const{
 			return _hyperParams;
@@ -1797,6 +1852,8 @@ class pReMiuMParams{
 			_workNClusInit = params.workNClusInit();
 			_workLogDetTau = params.workLogDetTau();
 			_workSqrtTau = params.workSqrtTau();
+			_uCAR = params.uCAR();
+			_TauCAR = params.TauCAR();
 			return *this;
 		}
 
@@ -1921,6 +1978,12 @@ class pReMiuMParams{
 
 		/// \brief Working vector containing the log determinants of Tau
 		vector<double> _workLogDetTau;
+
+		/// \brief vector of CAR spatial random term U
+		vector<double> _uCAR;
+
+		/// \brief double for the precision of the CAR random term _uCAR
+		double _TauCAR;
 };
 
 
@@ -2000,6 +2063,22 @@ double logPYiGivenZiWiPoissonExtraVar(const pReMiuMParams& params,
 	return logPdfPoisson(dataset.discreteY(i),mu);
 }
 
+double logPYiGivenZiWiPoissonSpatial(const pReMiuMParams& params, const pReMiuMData& dataset,
+						const unsigned int& nFixedEffects,const int& zi,
+						const unsigned int& i){
+
+	double lambda;
+	lambda=params.theta(zi,0);
+	for(unsigned int j=0;j<nFixedEffects;j++){
+		lambda+=params.beta(j,0)*dataset.W(i,j);
+	}
+	lambda+=dataset.logOffset(i);
+	lambda+=params.uCAR(i);
+
+	double mu =exp(lambda);
+	return logPdfPoisson(dataset.discreteY(i),mu);
+}
+
 double logPYiGivenZiWiNormal(const pReMiuMParams& params, const pReMiuMData& dataset,
 						const unsigned int& nFixedEffects,const int& zi,
 						const unsigned int& i){
@@ -2075,6 +2154,7 @@ vector<double> pReMiuMLogPost(const pReMiuMParams& params,
 	unsigned int nCategoriesY=dataset.nCategoriesY();
 	vector<unsigned int> nCategories = dataset.nCategories();
 	const pReMiuMHyperParams& hyperParams = params.hyperParams();
+	const bool includeCAR=model.options().includeCAR();
 
 	// (Augmented) Log Likelihood first
 	// We want p(y,X|z,params,W) = p(y|z=c,W,params)p(X|z=c,params)
@@ -2125,7 +2205,11 @@ vector<double> pReMiuMLogPost(const pReMiuMParams& params,
 			}
 		}else if(outcomeType.compare("Poisson")==0){
 			if(!responseExtraVar){
-				logPYiGivenZiWi = &logPYiGivenZiWiPoisson;
+				if (includeCAR){
+					logPYiGivenZiWi = &logPYiGivenZiWiPoissonSpatial;
+				}else{
+					logPYiGivenZiWi = &logPYiGivenZiWiPoisson;
+				}
 			}else{
 				logPYiGivenZiWi = &logPYiGivenZiWiPoissonExtraVar;
 				for(unsigned int i=0;i<nSubjects;i++){
@@ -2286,6 +2370,12 @@ vector<double> pReMiuMLogPost(const pReMiuMParams& params,
 			logPrior+=logPdfGamma(tau,hyperParams.shapeSigmaSqY(),hyperParams.scaleSigmaSqY());
 		}
 
+		// Prior for TauCAR and UCAR
+		if (includeCAR){
+			logPrior+=logPdfGamma(params.TauCAR(),hyperParams.shapeTauCAR(),hyperParams.rateTauCAR());
+			logPrior+=logPdfIntrinsicCAR(params.uCAR(), dataset.neighbours() , params.TauCAR());
+		}
+
 	}
 
 	vector<double> outVec(3);
@@ -2396,6 +2486,7 @@ double logCondPostThetaBeta(const pReMiuMParams& params,
 	unsigned int nFixedEffects=dataset.nFixedEffects();
 	unsigned int nCategoriesY=dataset.nCategoriesY();
 	const pReMiuMHyperParams& hyperParams = params.hyperParams();
+	const bool includeCAR=model.options().includeCAR();
 
 	double out=0.0;
 
@@ -2437,7 +2528,11 @@ double logCondPostThetaBeta(const pReMiuMParams& params,
 		}
 	}else if(outcomeType.compare("Poisson")==0){
 		if(!responseExtraVar){
-			logPYiGivenZiWi = &logPYiGivenZiWiPoisson;
+			if (includeCAR){
+				logPYiGivenZiWi = &logPYiGivenZiWiPoissonSpatial;
+			}else{
+				logPYiGivenZiWi = &logPYiGivenZiWiPoisson;
+			}
 		}else{
 			logPYiGivenZiWi = &logPYiGivenZiWiPoissonExtraVar;
 			for(unsigned int i=0;i<nSubjects;i++){
@@ -2557,4 +2652,57 @@ double logCondPostLambdaiPoisson(const pReMiuMParams& params,
 }
 
 
+// Evaluation log of conditional density of U_i given U_{-i} and Y for adaptive rejection
+void logUiPostPoissonSpatial(const pReMiuMParams& params,
+                                 const mcmcModel<pReMiuMParams,pReMiuMOptions,pReMiuMData>& model,
+                                 const unsigned int& iSub,
+                                 const double& x,
+                                 double* Pt_y1, double* Pt_y2){
+
+	const pReMiuMData& dataset=model.dataset();
+	unsigned int nFixedEffects=dataset.nFixedEffects();
+
+	double y1;
+	double y2;
+	int Yi=dataset.discreteY(iSub);
+	int zi=params.z(iSub);
+	double meanVal=params.theta(zi,0);
+	for(unsigned int j=0;j<nFixedEffects;j++){
+		meanVal+=params.beta(j,0)*dataset.W(iSub,j);
+	}
+	int nNeighi=dataset.nNeighbours(iSub);
+	// mean of Ui is mean of Uj where j are the neighbours of i
+	double meanUi=0.0;
+	for (int j = 0; j<nNeighi; j++){
+	        unsigned int nj = dataset.neighbours(iSub,j);
+	        double ucarj = params.uCAR(nj-1);
+	        meanUi+=ucarj;
+	}
+	meanUi/=nNeighi;
+	y1=Yi*x-exp(dataset.logOffset(iSub)+meanVal+x)-0.5*params.TauCAR()*nNeighi*(x-meanUi)*(x-meanUi);
+	// derivative of y1
+	y2=Yi-exp(dataset.logOffset(iSub)+meanVal+x)-params.TauCAR()*nNeighi*(x-meanUi);
+	*Pt_y1=y1;
+	*Pt_y2=y2;
+}
+
+
+//void EvalHXHPrimaXPoissonSpatial(const pReMiuMParams& params,
+//                                 const mcmcModel<pReMiuMParams,pReMiuMOptions,pReMiuMData>& model,
+//                                 const unsigned int& iSub,
+//                                 const double& x,
+//                                 double* Pt_y1, double* Pt_y2){
+//
+//    const pReMiuMData& dataset=model.dataset();
+//    unsigned int nFixedEffects=dataset.nFixedEffects();
+//
+//    double y1;
+//    double y2;
+//    y1=-0.5*x*x;
+//    y2=-x;
+//    *Pt_y1=y1;
+//    *Pt_y2=y2;
+//}
+
 #endif /* DIPBACMODEL_H_ */
+

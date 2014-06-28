@@ -1,7 +1,7 @@
 \name{plotPredictions}
 \alias{plotPredictions}
 \title{Plot the conditional density using the predicted scenarios}
-\description{Plots the conditional density for the predicted scenarios provided. It produces a pdf with a page for each predictive scenario provided. Each page has a plot of the }
+\description{Plots the conditional density for the predicted scenarios provided. It produces a pdf with a page for each predictive scenario provided. Each page has a plot of the predicted response, in the order as they were provided to the function. Note that fixed effects are not processed in this function.}
 \usage{
 plotPredictions(outfile, runInfoObj, predictions,
     logOR=FALSE)

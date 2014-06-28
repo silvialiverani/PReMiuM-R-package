@@ -15,6 +15,7 @@ globalParsTrace         Plot of the trace of some of the global
                         parameters
 heatDissMat             Plot the heatmap of the dissimilarity matrix
 is.wholenumber          Function to check if a number is a whole number
+mapforGeneratedData     Map generated data
 margModelPosterior      Marginal Model Posterior
 plotPredictions         Plot the conditional density using the
                         predicted scenarios

@@ -83,6 +83,8 @@ class pReMiuMOptions{
 			_dPitmanYor=0;
 			_samplerType="SliceDependent";
 			_computeEntropy=false;
+			_includeCAR=false;
+			_neighbourFileName="Neighbour.txt";
 		};
 
 		/// \brief Default destructor
@@ -309,6 +311,27 @@ class pReMiuMOptions{
 			_computeEntropy=compEntr;
 		}
 
+		/// \brief Return whether we are including CAR random term
+		bool includeCAR() const{
+			return _includeCAR;
+		}
+
+		/// \brief Set whether we are including CAR random term
+		void includeCAR(const bool& incCar){
+			_includeCAR=incCar;
+		}
+
+		/// \brief Return the neighbour structure file name
+		string neighbourFileName() const{
+			return _neighbourFileName;
+		}
+
+		/// \brief Set whether we are including CAR random term
+		void neighbourFileName(const string& neiFileName){
+			_neighbourFileName=neiFileName;
+		}
+
+
 
 		// Copy operator
 		pReMiuMOptions& operator=(const pReMiuMOptions& options){
@@ -335,6 +358,8 @@ class pReMiuMOptions{
 			_responseExtraVar=options.responseExtraVar();
 			_varSelectType=options.varSelectType();
 			_computeEntropy=options.computeEntropy();
+			_includeCAR=options.includeCAR();
+			_neighbourFileName=options.neighbourFileName();
 			return *this;
 		}
 
@@ -384,6 +409,10 @@ class pReMiuMOptions{
 		string _varSelectType;
 		// This notes whether we are computing entropy
 		bool _computeEntropy;
+		// This notes whether we are including CAR random term
+		bool _includeCAR;
+		// Neighbours structure file name
+		string _neighbourFileName;
 
 };
 

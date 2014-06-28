@@ -88,7 +88,7 @@ template<class modelParamType,class optionType,class dataType = vector<int> > cl
 		/// \brief Member function for assigning the (user defined) function for
 		///	importing data
 		/// \param[in] *f Pointer to a function for importing data
-		void importDataFunction(void (*f)(const string&,const string&,dataType&)){
+		void importDataFunction(void (*f)(const string&,const string&, const string&, dataType&)){
 					_importData=f;
 		}
 
@@ -121,8 +121,8 @@ template<class modelParamType,class optionType,class dataType = vector<int> > cl
 		/// \brief Member function as wrapper to import the data
 		/// \param[in] fitFilePath Name of the filepath where fitting data should be imported from
 		/// \param[in] predictFilePath Name of the filepath where predictive data should be imported from
-		void importData(const string& fitFilePath,const string& predictFilePath){
-			(*_importData)(fitFilePath,predictFilePath,_dataset);
+		void importData(const string& fitFilePath,const string& predictFilePath, const string& neighFilePath){
+			(*_importData)(fitFilePath,predictFilePath,neighFilePath,_dataset);
 		}
 
 		/// \brief Member function as wrapper to update missing data
@@ -164,7 +164,7 @@ template<class modelParamType,class optionType,class dataType = vector<int> > cl
 		optionType _options;
 
 		/// \brief Pointer to function for importing the data given a filePath
-		void (*_importData)(const string&,const string&,dataType&);
+		void (*_importData)(const string&,const string&, const string&, dataType&);
 
 		/// \brief Pointer to function for updating missing data given random number
 		/// generator, model parameters and model options

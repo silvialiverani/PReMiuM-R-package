@@ -241,8 +241,8 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 ###   clusSummaryBernoulliDiscreteSmall clusSummaryBinomialNormal
 ###   clusSummaryCategoricalDiscrete clusSummaryNormalDiscrete
 ###   clusSummaryNormalNormal clusSummaryPoissonDiscrete
-###   clusSummaryPoissonNormal clusSummaryVarSelectBernoulliDiscrete
-###   clusSummaryBernoulliMixed
+###   clusSummaryPoissonNormal clusSummaryPoissonNormalSpatial
+###   clusSummaryVarSelectBernoulliDiscrete clusSummaryBernoulliMixed
 ### Keywords: simulation
 
 ### ** Examples
@@ -365,6 +365,26 @@ is.wholenumber(3.4) # FALSE
 
 base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
 base::cat("is.wholenumber", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("mapforGeneratedData")
+### * mapforGeneratedData
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: mapforGeneratedData
+### Title: Map generated data
+### Aliases: mapforGeneratedData
+
+### ** Examples
+
+inputs=generateSampleDataFile(clusSummaryPoissonNormalSpatial())
+mapforGeneratedData(inputs$uCAR)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("mapforGeneratedData", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 cleanEx()
 nameEx("margModelPosterior")
 ### * margModelPosterior
@@ -493,12 +513,12 @@ runInfoObj<-profRegr(yModel=inputs$yModel,
 
 
 # example with Bernoulli outcome and Mixed covariates
-#inputs <- generateSampleDataFile(clusSummaryBernoulliMixed())
-#runInfoObj<-profRegr(yModel=inputs$yModel, 
-#    xModel=inputs$xModel, nSweeps=10, nClusInit=15,
-#    nBurn=20, data=inputs$inputData, output="output", 
-#    discreteCovs = inputs$discreteCovs,
-#    continuousCovs = inputs$continuousCovs)
+inputs <- generateSampleDataFile(clusSummaryBernoulliMixed())
+runInfoObj<-profRegr(yModel=inputs$yModel, 
+    xModel=inputs$xModel, nSweeps=10, nClusInit=15,
+    nBurn=20, data=inputs$inputData, output="output", 
+    discreteCovs = inputs$discreteCovs,
+    continuousCovs = inputs$continuousCovs)
 
 
 

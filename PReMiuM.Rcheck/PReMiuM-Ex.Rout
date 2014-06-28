@@ -116,7 +116,7 @@ Type 'q()' to quit R.
 > runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
 +     nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
 +     covNames=inputs$covNames,nClusInit=15)
-Random number seed: 1398765362
+Random number seed: 1403900682
 Sweep: 1
 > 
 > dissimObj<-calcDissimilarityMatrix(runInfoObj)
@@ -264,8 +264,8 @@ Stage 2:1 samples out of 10
 > ###   clusSummaryBernoulliDiscreteSmall clusSummaryBinomialNormal
 > ###   clusSummaryCategoricalDiscrete clusSummaryNormalDiscrete
 > ###   clusSummaryNormalNormal clusSummaryPoissonDiscrete
-> ###   clusSummaryPoissonNormal clusSummaryVarSelectBernoulliDiscrete
-> ###   clusSummaryBernoulliMixed
+> ###   clusSummaryPoissonNormal clusSummaryPoissonNormalSpatial
+> ###   clusSummaryVarSelectBernoulliDiscrete clusSummaryBernoulliMixed
 > ### Keywords: simulation
 > 
 > ### ** Examples
@@ -298,6 +298,12 @@ $nClusters
 
 $clusterSizes
 [1] 200 200 200 200 200
+
+$includeCAR
+[1] FALSE
+
+$TauCAR
+[1] 100
 
 $clusterData
 $clusterData[[1]]
@@ -464,12 +470,11 @@ $clusterData[[5]]$covariateProbs[[5]]
 +  nSweeps=10, nBurn=20, data=inputs$inputData, output="output", nFilter=3,
 +  covNames=inputs$covNames,nClusInit=15,reportBurnIn=FALSE,
 +  fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1398765363
+Random number seed: 1403900683
 Sweep: 1
 > 
 > # plot trace for alpha
 > globalParsTrace(runInfoObj,parameters="alpha",plotBurnIn=FALSE)
-[1] "alpha"
 > 
 > 
 > 
@@ -533,6 +538,32 @@ Sweep: 1
 > base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
 > base::cat("is.wholenumber", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
+> nameEx("mapforGeneratedData")
+> ### * mapforGeneratedData
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: mapforGeneratedData
+> ### Title: Map generated data
+> ### Aliases: mapforGeneratedData
+> 
+> ### ** Examples
+> 
+> inputs=generateSampleDataFile(clusSummaryPoissonNormalSpatial())
+> mapforGeneratedData(inputs$uCAR)
+Warning in par(pardef) : graphical parameter "cin" cannot be set
+Warning in par(pardef) : graphical parameter "cra" cannot be set
+Warning in par(pardef) : graphical parameter "csi" cannot be set
+Warning in par(pardef) : graphical parameter "cxy" cannot be set
+Warning in par(pardef) : graphical parameter "din" cannot be set
+Warning in par(pardef) : graphical parameter "page" cannot be set
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("mapforGeneratedData", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
 > nameEx("margModelPosterior")
 > ### * margModelPosterior
 > 
@@ -553,11 +584,11 @@ Sweep: 1
 +          nBurn=10, data=inputs$inputData, output="output", 
 +          covNames = inputs$covNames, nClusInit=15,
 +          fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1398765363
+Random number seed: 1403900683
 Sweep: 1
 > 
 > margModelPosterior(runInfoObj)
-[1] -4009.32
+[1] -4009.272
 > 
 > 
 > 
@@ -660,7 +691,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1398765364
+Random number seed: 1403900684
 Sweep: 1
 > 
 > 
@@ -671,7 +702,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     discreteCovs = inputs$discreteCovs,
 +     continuousCovs = inputs$continuousCovs)
-Random number seed: 1398765365
+Random number seed: 1403900684
 Sweep: 1
 > 
 > 
@@ -704,7 +735,7 @@ Sweep: 1
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames,
 +     hyper=hyp)
-Random number seed: 1398765365
+Random number seed: 1403900685
 Sweep: 1
 > 
 > 
@@ -733,7 +764,7 @@ Sweep: 1
 +     xModel=inputs$xModel, nSweeps=10, nClusInit=15, 
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, varSelect="Continuous")
-Random number seed: 1398765365
+Random number seed: 1403900685
 Sweep: 1
 > 
 > rho<-summariseVarSelectRho(runInfoObj)
@@ -769,7 +800,7 @@ Sweep: 1
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  2.832 0.184 4.125 0 0 
+Time elapsed:  2.92 0.242 3.171 0 0 
 > grDevices::dev.off()
 null device 
           1 

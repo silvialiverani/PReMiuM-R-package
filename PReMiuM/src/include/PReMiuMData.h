@@ -430,7 +430,75 @@ class pReMiuMData{
 		unsigned int censoring(const unsigned int& i) const{
 			return _censoring[i];
 		}
+		/// \brief Return the vector of lists of neighbours
+		const vector<vector<unsigned int> >& neighbours() const{
+			return _neighbours;
+		}
 
+		/// \brief Return the vector of lists of neighbours
+		vector<vector<unsigned int> >& neighbours() {
+			return _neighbours;
+		}
+
+		/// \brief Return the list of neighbours for subject i
+		vector<unsigned int> neighbours(const unsigned int& i) const{
+			return _neighbours[i];
+		}
+
+		/// \brief Return the j-th neighbour for subject i
+		unsigned int neighbours(const unsigned int& i, const unsigned& j) const{
+			return _neighbours[i][j];
+		}
+
+		/// \brief Set the vector of lists of neighbours
+		void neighbours(const vector<vector<unsigned int> >&  neighvec){
+			_neighbours = neighvec;
+		}
+
+		/// \brief Set the list of neighbours for subject i
+		void neighbours(const vector<unsigned int>&  neighvec, const unsigned int& i){
+			_neighbours[i] = neighvec;
+		}
+
+		/// \brief Return the number of neighbours for all subjects
+		const vector<unsigned int>& nNeighbours() const{
+			return _nNeighbours;
+		}
+
+		/// \brief Return the number of neighbours for all subjects
+		vector<unsigned int>& nNeighbours(){
+			return _nNeighbours;
+		}
+
+		/// \brief Return the number of neighbours for subject i
+		unsigned int nNeighbours(const unsigned int& i) const{
+			return _nNeighbours[i];
+		}
+
+		/// \brief Set the number of neighbours for all subjects
+		void nNeighbours(const vector<unsigned int>& nNeigh){
+			_nNeighbours=nNeigh;
+		}
+
+		/// \brief Set the number of neighbours for subject i
+		void nNeighbours(const unsigned int& nNeigh, const unsigned int& i ){
+			_nNeighbours[i]=nNeigh;
+		}
+
+		/// \brief Set includeCAR
+		void includeCAR(const bool& incl ){
+			_includeCAR=incl;
+		}
+
+		/// \brief return includeCAR
+		bool& includeCAR(){
+			return _includeCAR;
+		}
+
+		/// \brief return includeCAR
+		bool includeCAR() const{
+			return _includeCAR;
+		}
 
 	private:
 		/// \brief The number of subjects
@@ -507,6 +575,14 @@ class pReMiuMData{
 		/// \brief A vector of n for each individual (only used in the survival model)
 		vector<unsigned int> _censoring;
 
+		/// \brief A vector of vector of neighbours for each subject
+		vector<vector<unsigned int> > _neighbours;
+
+		/// \brief A containing the number of neighbours for each subject
+		vector<unsigned int> _nNeighbours;
+
+		/// \brief Is the CAR term is included
+		bool _includeCAR;
 };
 
 

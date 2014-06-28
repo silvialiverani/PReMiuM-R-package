@@ -1,4 +1,4 @@
-# (C) Copyright David Hastie and Silvia Liverani, 2012.
+# (C) Copyright David Hastie, Silvia Liverani and Aurore J. Lavigne, 2012-2014.
 
 # PReMiuM++ is free software; you can redistribute it and/or modify it under the
 # terms of the GNU Lesser General Public License as published by the Free Software
@@ -23,7 +23,7 @@
 
 is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
 
-profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-2, dPitmanYor=0, excludeY=FALSE, extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE, run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123"){
+profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-2, dPitmanYor=0, excludeY=FALSE, extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE, run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123", includeCAR=FALSE, neighboursFile="Neighbours.txt"){
 
 	# suppress scientific notation
 	options(scipen=999)
@@ -38,6 +38,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	if (!is.data.frame(data)) stop("Input data must be a data.frame with outcome, covariates and fixed effect names as column names.")
 
 	if (extraYVar==TRUE&(yModel=="Categorical"||yModel=="Normal"||yModel=="Survival")) stop("Option extraYVar is only available for Bernoulli, Binomial and Poisson response.")
+
+	if (includeCAR==TRUE&(yModel=="Categorical"||yModel=="Normal"||yModel=="Survival"||yModel=="Bernoulli"||yModel=="Binomial")) stop("Option includeCAR is only available for Poisson response.")
 
 	# open file to write output
 	fileName<-paste(output,"_input.txt",sep="")
@@ -190,6 +192,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	}
 
 	# write prediction file
+	if (!missing(predict)&(includeCAR)) stop ("Predictions are not available with spatial effect.")
 	if (!missing(predict)) {
 		nPreds<-dim(predict)[1]
 		write(nPreds, paste(output,"_predict.txt",sep=""),ncolumns=1)
@@ -256,6 +259,9 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	if (dPitmanYor>0&sampler!="Truncated") stop("The Pitman-Yor process prior has been implemented to use with the Truncated sampler only.")
 	#if (dPitmanYor>0&sampler=="Truncated") print("Note that for the Pitman-Yor process prior there might be en error when using the Truncated sampler. This is due to the way that the bound on the number of clusters is computed.")
 
+	#check entries for spatial CAR term
+	if (includeCAR&file.exists(neighboursFile)==FALSE) stop("You must enter a valid file for neighbourhood structure.") 
+ 
 	inputString<-paste("PReMiuM --input=",fileName," --output=",output," --xModel=",xModel," --yModel=",yModel," --varSelect=",varSelectType," --whichLabelSwitch=",whichLabelSwitch,sep="")
 
 	# create hyperparameters file
@@ -329,6 +335,12 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		if (!is.null(hyper$truncationEps)){
 			write(paste("truncationEps=",hyper$truncationEps,sep=""),hyperFile,append=T)
 		}
+		if (!is.null(hyper$shapeTauCAR)){
+		  write(paste("shapeTauCAR=",hyper$shapeTauCAR,sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$rateTauCAR)){
+		  write(paste("rateTauCAR=",hyper$rateTauCAR,sep=""),hyperFile,append=T)
+		}
 	}
 
 	if (reportBurnIn) inputString<-paste(inputString," --reportBurnIn",sep="")
@@ -346,6 +358,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	if (excludeY) inputString<-paste(inputString," --excludeY",sep="")
 	if (extraYVar) inputString<-paste(inputString," --extraYVar",sep="")
 	if (!missing(entropy)) inputString<-paste(inputString," --entropy",sep="")
+	if (includeCAR) inputString<-paste(inputString," --includeCAR", " --neighbours=", neighboursFile ,sep="")
 
 	if (run) .Call('profRegr', inputString, PACKAGE = 'PReMiuM')
 
@@ -427,6 +440,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		"nCategoriesY"=yLevels,
 		"nCategories"=xLevels,
 		"extraYVar"=extraYVar,
+		"includeCAR"=includeCAR,
 		"xMat"=xMat,"yMat"=yMat,"wMat"=wMat))
 }
 
@@ -1009,8 +1023,6 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 			if(yModel=='Bernoulli'||yModel=='Normal'||yModel=='Survival'){
 				empiricals[c]<-mean(yMat[optAlloc[[c]],1])
 			}else if(yModel=='Binomial'){
-print(yMat[optAlloc[[c]],1])
-print(yMat[optAlloc[[c]],2])
 				empiricals[c]<-mean(yMat[optAlloc[[c]],1]/yMat[optAlloc[[c]],2])
 			}else if(yModel=='Poisson'){
 				empiricals[c]<-mean(yMat[optAlloc[[c]],1]/yMat[optAlloc[[c]],2])
@@ -1152,7 +1164,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 	}
 
 	png(outFile,width=1200,height=800)
-		orderProvided<-F
+	orderProvided<-F
 	
 	if(!is.null(orderBy)){
 		if(!includeResponse){
@@ -2372,7 +2384,7 @@ margModelPosterior<-function(runInfoObj,allocation){
 setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,aPhi=NULL,mu0=NULL,Tau0=NULL,R0=NULL,
 	kappa0=NULL,muTheta=NULL,sigmaTheta=NULL,dofTheta=NULL,muBeta=NULL,sigmaBeta=NULL,dofBeta=NULL,
 	shapeTauEpsilon=NULL,rateTauEpsilon=NULL,aRho=NULL,bRho=NULL,atomRho=NULL,shapeSigmaSqY=NULL,scaleSigmaSqY=NULL,
-	rSlice=NULL,truncationEps=NULL){
+	rSlice=NULL,truncationEps=NULL,shapeTauCAR=NULL,rateTauCAR=NULL){
 	out<-list()
 	if (!is.null(shapeAlpha)){
 		out$shapeAlpha<-shapeAlpha
@@ -2439,6 +2451,12 @@ setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,aPhi=NULL,mu0=NULL,Tau0=
 	}
 	if (!is.null(truncationEps)){
 		out$truncationEps<-truncationEps
+	}
+	if (!is.null(shapeTauCAR)){
+	  out$shapeTauCAR<-shapeTauCAR
+	}
+	if (!is.null(rateTauCAR)){
+	  out$rateTauCAR<-rateTauCAR
 	}
 	return(out)
 }

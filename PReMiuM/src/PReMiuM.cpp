@@ -98,7 +98,8 @@ RcppExport SEXP profRegr(SEXP inputString) {
 	/* ---------- Read in the data -------- */
 	pReMiuMSampler.model().dataset().outcomeType(options.outcomeType());
 	pReMiuMSampler.model().dataset().covariateType(options.covariateType());
-	pReMiuMSampler.importData(options.inFileName(),options.predictFileName());
+	pReMiuMSampler.model().dataset().includeCAR(options.includeCAR());
+	pReMiuMSampler.importData(options.inFileName(),options.predictFileName(),options.neighbourFileName());
 	pReMiuMData dataset = pReMiuMSampler.model().dataset();
 
 	/* ---------- Add the proposals -------- */
@@ -150,9 +151,29 @@ RcppExport SEXP profRegr(SEXP inputString) {
 	}
 
 	if(options.includeResponse()){
-		// The Metropolis Hastings update for the active theta
-		pReMiuMSampler.addProposal("metropolisHastingsForThetaActive",1.0,1,1,&metropolisHastingsForThetaActive);
+		// Adaptive MH for beta
+		if(dataset.nFixedEffects()>0){
+			pReMiuMSampler.addProposal("metropolisHastingsForBeta",1.0,1,1,&metropolisHastingsForBeta);
+		}
+
+		if(options.responseExtraVar()){
+			// Adaptive MH for lambda
+			pReMiuMSampler.addProposal("metropolisHastingsForLambda",1.0,1,1,&metropolisHastingsForLambda);
+
+			// Gibbs for tauEpsilon
+			pReMiuMSampler.addProposal("gibbsForTauEpsilon",1.0,1,1,&gibbsForTauEpsilon);
+		}
+
+		//if spatial random term
+		if (options.includeCAR()){
+		//Adaptive rejection sampling for uCAR
+		pReMiuMSampler.addProposal("gibbsforUCAR", 1.0,1,1,&gibbsForUCAR);
+
+		//Gibbs for TauCAR
+		pReMiuMSampler.addProposal("gibbsForTauCAR", 1.0,1,1,&gibbsForTauCAR);
+		}
 	}
+
 
 	// The Metropolis Hastings update for labels
 	if(options.whichLabelSwitch().compare("123")==0){
@@ -283,8 +304,8 @@ RcppExport SEXP profRegr(SEXP inputString) {
 
 	//int err = 0;
 	return Rcpp::wrap(0);
-// alternative output
-//	return Rcpp::List::create(Rcpp::Named("yModel")=options.outcomeType());
+	// alternative output
+	// return Rcpp::List::create(Rcpp::Named("yModel")=options.outcomeType());
 
 }
 

@@ -1,11 +1,19 @@
-Changes in version 3.0.25 (2013-04-24)
+Changes in version 3.0.27 (2013-05-22)
+
+* Fixed bug in data generation for Poisson and Binomial with no fixed effects
+* Added spatial term (conditional autoregressive term) in the model specification to take into account spatial correlation
+* Spatial model only available for Poisson response
+* Added functions for simulated spatial data mapforGeneratedData()
+
+--------------------------------------------
+Changes in version 3.0.25 (2014-04-24)
 
 * Update to boost 1.54 (package BH >= 1.54) which removes the warning message
 * Removed warning message in plotPredictions function 
 * Removed BOOSTLIB command from Makevars.win 
 
 --------------------------------------------
-Changes in version 3.0.24 (2013-04-04)
+Changes in version 3.0.24 (2014-04-04)
 
 * Removed the hyperparameter useReciprocalNCatsPhi
 

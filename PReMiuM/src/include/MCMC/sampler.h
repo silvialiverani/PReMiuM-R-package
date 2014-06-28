@@ -192,7 +192,7 @@ template<class modelParamType,class optionType,class propParamType,class dataTyp
 						vector<double> (*logPostFn)(const modelParamType&,const mcmcModel<modelParamType,optionType,dataType>&));
 
 		// Full comments with function definition below
-		void model(void (*importDataFn)(const string&,const string&,dataType&),
+		void model(void (*importDataFn)(const string&,const string&,const string&,dataType&),
 						void (*initialiseParamsFn)(baseGeneratorType&,const mcmcModel<modelParamType,optionType,dataType>&,modelParamType&),
 						vector<double> (*logPostFn)(const modelParamType&,const mcmcModel<modelParamType,optionType,dataType>&),
 						const bool&);
@@ -258,10 +258,11 @@ template<class modelParamType,class optionType,class propParamType,class dataTyp
 
 		/// \brief Member function to import the data
 		/// \param[in] dataFilePath The file path where the data is stored
- 		void importData(const string& dataFilePath,const string& predictFilePath){
+ 		void importData(const string& dataFilePath,const string& predictFilePath, const string& neighFilePath){
 			_dataFilePath=dataFilePath;
 			_predictFilePath=predictFilePath;
-			_model.importData(dataFilePath,predictFilePath);
+			_neighFilePath=neighFilePath;
+			_model.importData(dataFilePath,predictFilePath,neighFilePath);
 		}
 
 		/// \brief Member function to updateMissingData the data
@@ -330,6 +331,9 @@ template<class modelParamType,class optionType,class propParamType,class dataTyp
 		/// \brief The input file path
 		string _predictFilePath;
 
+		/// \brief The neighbour file path
+		string _neighFilePath;
+
 		/// \var _reportBurnIn
 		/// \brief Boolean to indicate whether we want to report back output
 		/// during the burn in period
@@ -397,7 +401,7 @@ void mcmcSampler<modelParamType,optionType,propParamType,dataType>::
 /// \param[in] logPostFn Pointer to function for evaluating the log posterior
 template<class modelParamType,class optionType,class propParamType,class dataType>
 void mcmcSampler<modelParamType,optionType,propParamType,dataType>::
-	model(void (*importDataFn)(const string&,const string&,dataType&),
+	model(void (*importDataFn)(const string&,const string&,const string&, dataType&),
 				void (*initialiseParamsFn)(baseGeneratorType&,const mcmcModel<modelParamType,optionType,dataType>&,modelParamType&),
 				vector<double> (*logPostFn)(const modelParamType&,const mcmcModel<modelParamType,optionType,dataType>&),
 				const bool& hasMissingData){
