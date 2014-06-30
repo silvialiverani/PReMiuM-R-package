@@ -90,9 +90,8 @@ Liverani, S., Hastie, D. I., Azizi, L., Papathomas, M. and Richardson, S. (2014)
 
 }
 \examples{
-\dontrun{
-clusSummaryBernoulliDiscrete()
-}
+names(clusSummaryBernoulliDiscrete())
+
 }
 \keyword{simulation}
 

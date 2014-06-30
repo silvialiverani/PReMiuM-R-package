@@ -247,8 +247,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-
-clusSummaryBernoulliDiscrete()
+names(clusSummaryBernoulliDiscrete())
 
 
 

@@ -751,7 +751,7 @@ mapforGeneratedData=function(u, del=NULL, palette='RGB', main=''){
 		}
 		deltot=c(deltot,del[length(del)])
 	}
-	pardef=par()
+	pardef=par(no.readonly=TRUE)
 	par(mar=c(4,4,4,8),tck=0.02,mgp=c(3,0.2,0),las=1)
        
 	#Begin plot      

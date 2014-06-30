@@ -1415,7 +1415,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 			params.TauCAR(tau);
 
 			double mean_w=0;
-			for (int i=0; i<nSubjects; i++ ) mean_w+=dataset.nNeighbours(i);
+			for (unsigned int i=0; i<nSubjects; i++ ) mean_w+=dataset.nNeighbours(i);
 			mean_w /= nSubjects;
 			randomNormal normalRand(0,sqrt(mean_w/tau));
 			for(unsigned int i=0;i<nSubjects;i++){
@@ -1452,7 +1452,6 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 		bool includeCAR = sampler.model().options().includeCAR();
 		bool responseExtraVar = sampler.model().options().responseExtraVar();
 		double fixedAlpha = sampler.model().options().fixedAlpha();
-		double dPitmanYor = sampler.model().options().dPitmanYor();
 		string outcomeType = sampler.model().options().outcomeType();
 		bool computeEntropy = sampler.model().options().computeEntropy();
 		unsigned int nFixedEffects = params.nFixedEffects(outcomeType);

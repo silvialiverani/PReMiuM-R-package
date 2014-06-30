@@ -2250,7 +2250,6 @@ vector<double> pReMiuMLogPost(const pReMiuMParams& params,
 	// Prior for V (we only need to include these up to maxNCluster, but we do need
 	// to include all V, whether or not a cluster is empty, as the V themselves
 	//don't correspond to a cluster
-	unsigned int maxZ = params.workMaxZi();
 	for(unsigned int c=0;c<maxNClusters;c++){
 		logPrior+=logPdfBeta(params.v(c),1.0-params.dPitmanYor(),params.alpha()+params.dPitmanYor()*(c+1));
 	}

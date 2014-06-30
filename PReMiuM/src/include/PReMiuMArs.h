@@ -30,8 +30,8 @@ double ARSsample(pReMiuMParams params,
                  baseGeneratorType& rndGenerator)
 {
     //initialise sampler
-    int ns=100;
-    int m=5;
+    const int ns=100;
+    const int m=5;
     double x[m];//pointeur vers le tableau des valeurs intiales
     double hx[m];
     double hpx[m];

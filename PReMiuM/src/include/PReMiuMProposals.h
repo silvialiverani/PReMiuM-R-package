@@ -1455,8 +1455,6 @@ void metropolisHastingsForLabels3(mcmcChain<pReMiuMParams>& chain,
 	unsigned int i1=(unsigned int)nNotEmpty*unifRand(rndGenerator);
 	unsigned int c1=nonEmptyIndices[i1];
 	nonEmptyIndices.erase(nonEmptyIndices.begin()+i1);
-	unsigned int i2=(unsigned int)(nNotEmpty-1)*unifRand(rndGenerator);
-	unsigned int c2=nonEmptyIndices[i2];
 
 	// Check whether we accept the move
 	double logAcceptRatio=0;
@@ -2369,12 +2367,10 @@ void gibbsForTauCAR(mcmcChain<pReMiuMParams>& chain,
 	pReMiuMParams& currentParams = currentState.parameters();
 	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
 	const pReMiuMData& dataset = model.dataset();
-	const string& outcomeType = model.dataset().outcomeType();
 
 	//Rprintf("TauCAR before update is %f \n.", currentParams.TauCAR());
 
 	unsigned int nSubjects=dataset.nSubjects();
-	unsigned int nFixedEffects=dataset.nFixedEffects();
 
 	nTry++;
 	nAccept++;
@@ -2383,7 +2379,7 @@ void gibbsForTauCAR(mcmcChain<pReMiuMParams>& chain,
 
 	double sumCAR1 = 0.0;
 	double sumCAR2 = 0.0;
-	for (int i=0; i<nSubjects; i++){
+	for (unsigned int i=0; i<nSubjects; i++){
 		double uCARi = currentParams.uCAR(i);
 		int nNeighi = dataset.nNeighbours(i);
 		sumCAR1+= uCARi*uCARi*nNeighi;
@@ -2418,21 +2414,20 @@ void gibbsForUCAR(mcmcChain<pReMiuMParams>& chain,
 	pReMiuMParams& currentParams = currentState.parameters();
 	const pReMiuMData& dataset = model.dataset();
 	unsigned int nSubjects=dataset.nSubjects();
-	unsigned int nFixedEffects=dataset.nFixedEffects();
 	//Rprintf("TauCAR after update of uCAR is %f \n .", currentParams.TauCAR());
 	nTry++;
 	nAccept++;
 
 	vector<double> tempU;
 	tempU.resize(nSubjects);
-	for (int iSub=0; iSub<nSubjects; iSub++){
+	for (unsigned int iSub=0; iSub<nSubjects; iSub++){
 		double ui=ARSsample(currentParams, model, iSub, logUiPostPoissonSpatial,rndGenerator);
 		tempU[iSub]=ui;
 	}
 	double meanU=0;
-	for (int i=0; i<nSubjects; i++){meanU+=tempU[i];}
+	for (unsigned int i=0; i<nSubjects; i++){meanU+=tempU[i];}
 	meanU/=nSubjects;
-	for (int i=0; i<nSubjects; i++){tempU[i]-=meanU;}
+	for (unsigned int i=0; i<nSubjects; i++){tempU[i]-=meanU;}
 	currentParams.uCAR(tempU);
 	//Rprintf("uCAR1 equals %f \n", currentParams.uCAR(1));
 }
