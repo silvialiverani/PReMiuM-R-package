@@ -1,0 +1,7 @@
+name	user	system	elapsed
+PReMiuM-package	0.003	0.000	0.003	
+calcAvgRiskAndProfile	0.002	0.001	0.003	
+calcDissimilarityMatrix	11.055	 0.197	11.295	
+calcOptimalClustering	0.004	0.001	0.004	
+calcPredictions	0.008	0.001	0.010	
+clusSummaryBernoulliDiscrete	0.040	0.002	0.044	
