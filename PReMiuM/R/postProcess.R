@@ -54,7 +54,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	}
 
 	if (sum(is.na(dataMatrix))>0) stop("ERROR: the outcome cannot have missing values. Use the profiles with missing outcome for predictions.")
-	if (dim(dataMatrix)[2]==0) stop("ERROR: the outcome provided (or by default) is not one of the names of the variables in the dataframe.")
+
+	if (length(dataMatrix)==0) stop("ERROR: the outcome provided is not one of the names of the variables in the dataframe.")
 
 	# recode outcome covariates
 	if (yModel=="Categorical"||yModel=="Bernoulli"){
