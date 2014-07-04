@@ -2690,7 +2690,7 @@ void logUiPostPoissonSpatial(const pReMiuMParams& params,
 // given \gamma for adaptive rejection sampling
 void logNuPostSurvival(const pReMiuMParams& params,
                                  const mcmcModel<pReMiuMParams,pReMiuMOptions,pReMiuMData>& model,
-                                 const unsigned int& iSub,
+                                 //const unsigned int& iSub,
                                  const double& x,
                                  double* Pt_y1, double* Pt_y2){
 
