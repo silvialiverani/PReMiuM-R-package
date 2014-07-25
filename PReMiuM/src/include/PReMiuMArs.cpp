@@ -6,6 +6,7 @@
 //    Fecha: 17/02/07
 //    PURPOSE: Adaptive rejection sampling
 //    Modified by Aurore J. Lavigne on 28/06/2014
+//    Modified by Silvia Liverani on 24/07/2014
 //
 /* ********************************************************************************* */
 #include "PReMiuMArs.h"
@@ -566,7 +567,10 @@
 
 	int control_count = 0;                                                                                           /* added by AK */
 	while (ipt[i__] != 0) {
-		if (control_count > *n) {cout << "Trap in ARS: infinite while in update_ of ars.cpp near l. 810" << endl;}   /* added by AK */
+		if (control_count > *n) {
+			cout << "Error message from the Adaptive Rejection Sampler - for parameters uCAR (spatial term) or nu (survival response)" << endl;
+			cout << "Trap in ARS: infinite while in update_ of ars.cpp near l. 810" << endl;   /* added by AK */
+		}
 		control_count++;                                                                                             /* added by AK */
 		dh = huz[j] - huz[i__];
 		horiz = (d__1 = hpx[i__], fabs(d__1)) < *eps;
@@ -740,7 +744,10 @@
 	}    /** end of while (! sampld) **/
         //Necesario al terminar de utilizar los generadores de numeros aleatorios del R
 	//PutRNGstate();
-	if (attempts >= max_attempt) {cout << "Trap in ARS: Maximum number of attempts reached by routine spl1_" << endl;}
+	if (attempts >= max_attempt) {
+		Rprintf("Error message from the Adaptive Rejection Sampler - for parameters uCAR (spatial term) or nu (survival response)");
+		Rprintf("Trap in ARS: Maximum number of attempts reached by routine spl1_");
+	}
 	return;
 	} /* end of the routine spl1_ */
 

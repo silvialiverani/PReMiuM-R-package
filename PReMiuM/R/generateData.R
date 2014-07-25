@@ -148,7 +148,12 @@ generateSampleDataFile<-function(clusterSummary){
 			beta<-as.matrix(clusterSummary$fixedEffectsCoeffs,nrow=1)
 		}
 	}
-   
+   	if (outcomeType=='Weibull'){
+		shape=clusterSummary$shape # shape parameter of the Weibull - constant across clusters
+		censorT = clusterSummary$censorT # time to censor the outcomes
+		event = clusterSummary$event # indicator variable for whether event has occured (1 = occured, 0 = censored)
+	}
+
 	if(outcomeType=='Poisson'){
 		offset<-runif(nSubjects,clusterSummary$offsetLims[1],clusterSummary$offsetLims[2])
 	}else{
@@ -213,6 +218,15 @@ generateSampleDataFile<-function(clusterSummary){
 			p[1]<-1/sumMu
 			for (kk in 2:nCategoriesY) p[kk]<-exp(mu[kk])/sumMu
 			Y[i]<-which(rmultinom(1,1,p)==1)-1
+		}else if (outcomeType == 'Weibull'){
+			Y[i] <- rweibull(1, shape=shape, scale=(exp(mu))) # create an outcome from the Weibull 
+			if (Y[i] >  censorT){  
+				Y[i] <- censorT 
+				event[i] <- 0
+			} else {
+				Y[i] <- Y[i]
+				event[i] <- 1
+			}
 		}
 	}
 
@@ -254,6 +268,14 @@ generateSampleDataFile<-function(clusterSummary){
 		colnames(outData) <- c("outcome",covNames,fixEffNames,"outcomeT")
 		out$inputData <- outData
 		out$outcomeT <- "outcomeT"
+	}
+	if(clusterSummary$outcomeType=="Weibull"){
+		outData<-data.frame(cbind(outData,event))
+		out$inputData <- outData	
+		colnames(outData) <- c("outcome",covNames,fixEffNames, "event")
+		out$inputData <- outData
+		out$shape <- shape
+		out$censorT <- censorT
 	}
 	if(clusterSummary$includeCAR){
 		out$uCAR=U
@@ -711,6 +733,44 @@ clusSummaryBernoulliNormal<-function(){
 			'covariateCovariance'=matrix(c(0.5,0,0,3),nrow=2))))
 
 }
+
+
+clusSummaryWeibullDiscrete<-function(){                 
+	list(
+	'outcomeType'='Weibull',
+	'covariateType'='Discrete',
+	'nCovariates'=5,
+	'nCategories'=c(2,2,3,3,4),
+	'nFixedEffects'=1,                                      
+	'fixedEffectsCoeffs'=c(0),
+	'shape'=1.5,
+	'censorT'=5,                                                                  
+	'missingDataProb'=0,
+	'nClusters'=3,                                      
+	'clusterSizes'=c(250,250,250),
+	'includeCAR'=FALSE,
+	'clusterData'=list(list('theta'=1.6,                   
+		'covariateProbs'=list(c(0.8,0.2),
+			c(0.8,0.2),
+			c(0.8,0.1,0.1),
+			c(0.8,0.1,0.1),
+			rep(0.25,4))),
+		list('theta'=1.25,            
+		'covariateProbs'=list(c(0.8,0.2),
+			c(0.1,0.8),
+			c(0.1,0.1,0.8),
+			c(0.1,0.8,0.1),
+			rep(0.25,4))),
+		list('theta'= 0.3,  
+		'covariateProbs'=list(c(0.2,0.8),
+			c(0.2,8),
+			c(0.1,0.1,0.8),
+			c(0.1,0.8,0.1),
+			c(0.1,0.1,0.1,0.7)))))
+
+}
+
+
 
 
 

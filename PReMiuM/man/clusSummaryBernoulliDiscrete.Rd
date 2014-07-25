@@ -11,6 +11,7 @@
 \alias{clusSummaryPoissonNormalSpatial}
 \alias{clusSummaryVarSelectBernoulliDiscrete}
 \alias{clusSummaryBernoulliMixed}
+\alias{clusSummaryWeibullDiscrete}
 \title{Sample datasets for profile regression}
 \description{Definition of skeleton of sample datasets for profile regression.}
 \usage{
@@ -26,6 +27,7 @@ clusSummaryPoissonNormal()
 clusSummaryPoissonNormalSpatial()
 clusSummaryVarSelectBernoulliDiscrete()
 clusSummaryBernoulliMixed()
+clusSummaryWeibullDiscrete()
 }
 \section{Details}{
 
@@ -52,6 +54,8 @@ clusSummaryPoissonNormalSpatial generates a dataset with Poisson outcome, Normal
 clusSummaryVarSelectBernoulliDiscrete generates a dataset with Bernoulli outcome and discrete covariates, suitable for variable selection as some covariates are not driving the clustering.
 
 clusSummaryBernoulliMixed generates a dataset with Bernoulli outcome and mixed covariates.
+
+clusSummaryWeibullDiscrete generates a dataset with a Weibull outcome and censored observations.
 
 }
 

@@ -2352,6 +2352,33 @@ void gibbsForSigmaSqY(mcmcChain<pReMiuMParams>& chain,
 
 }
 
+// Gibbs for update of nu (survival response case) using adaptive rejection sampling
+void gibbsForNu(mcmcChain<pReMiuMParams>& chain,
+		unsigned int& nTry,unsigned int& nAccept,
+		const mcmcModel<pReMiuMParams,
+		pReMiuMOptions,
+		pReMiuMData>& model,
+		pReMiuMPropParams& propParams,
+		baseGeneratorType& rndGenerator){
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+
+	const pReMiuMData& dataset = model.dataset();
+
+	unsigned int nSubjects = currentParams.nSubjects();
+	unsigned int nFixedEffects = dataset.nFixedEffects();
+
+	nTry++;
+	nAccept++;
+
+	double nu = ARSsample(currentParams, model, 0, 1,logNuPostSurvival,rndGenerator);
+	currentParams.nu(nu);
+
+}
+
+
 // Gibbs update for the precision of spatial random term
 void gibbsForTauCAR(mcmcChain<pReMiuMParams>& chain,
 						unsigned int& nTry,unsigned int& nAccept,
@@ -2421,7 +2448,7 @@ void gibbsForUCAR(mcmcChain<pReMiuMParams>& chain,
 	vector<double> tempU;
 	tempU.resize(nSubjects);
 	for (unsigned int iSub=0; iSub<nSubjects; iSub++){
-		double ui=ARSsample(currentParams, model, iSub, logUiPostPoissonSpatial,rndGenerator);
+		double ui=ARSsample(currentParams, model, iSub, 0,logUiPostPoissonSpatial,rndGenerator);
 		tempU[iSub]=ui;
 	}
 	double meanU=0;

@@ -6,6 +6,7 @@
 //    Fecha: 17/02/07
 //    PURPOSE: Adaptive rejection sampling
 //    Modified by Aurore J. Lavigne on 28/06/2014
+//    Modified by Silvia Liverani on 24/07/2014
 //
 /* ********************************************************************************* */
 #ifndef _ARSPReMiuM_H_
@@ -23,36 +24,78 @@
 //using namespace itpp;
 using namespace std;
 
+
+// Adaptive rejection sampler for spatial CAR model
 double ARSsample(pReMiuMParams params,
                  const mcmcModel<pReMiuMParams,pReMiuMOptions,pReMiuMData>& model,
-                 const unsigned int& iSub,
+                 const unsigned int& iSub, unsigned int whichParameter,
                  void (*evalhxhprimax)(const pReMiuMParams&,const mcmcModel<pReMiuMParams,pReMiuMOptions,pReMiuMData>&, const unsigned int&,const double&, double*, double*),
                  baseGeneratorType& rndGenerator)
 {
-    //initialise sampler
-    const int ns=100;
-    const int m=5;
-    double x[m];//pointeur vers le tableau des valeurs intiales
-    double hx[m];
-    double hpx[m];
-    double ui=params.uCAR(iSub);
-        x[0] = ui-50;
-        x[1] = ui-2;
-        x[2] = ui+0;
-        x[3] = ui+2;
-        x[4] = ui+50;
-    double y1=0;
-    double y2=0;
+	//initialise sampler
+	const int ns=100;
+	int mm;
+	vector<double> xTmp;
+	double ui=0, xlb, xub;
+	int lb, ub;
+	if (whichParameter==0) {
+		mm = 5; 
+		xTmp.resize(mm);
+		ui=params.uCAR(iSub);
+		xTmp[0] = ui-50;
+	        xTmp[1] = ui-2;
+	        xTmp[2] = ui+0;
+	        xTmp[3] = ui+2;
+	        xTmp[4] = ui+50;
+	    xlb=0;
+	    xub=0;
+	    lb=0; //false
+	    ub=0; //false
+
+	} else {
+		mm = 20;
+		xTmp.resize(mm);
+		ui=params.nu();	
+		xlb=0.000001;
+		xub=0;
+		lb=1; //true
+		ub=0; //false
+		xTmp[0] = 0.000001;
+		xTmp[1] = 0.000005;
+		xTmp[2] = 0.00001;
+		xTmp[3] = 0.0005;
+		xTmp[4] = 0.0001;
+		xTmp[5] = 0.0005;
+		xTmp[6] = 0.001;
+		xTmp[7] = 0.005;
+		xTmp[8] = 0.01;
+		xTmp[9] = 0.5;
+		xTmp[10] = 1;
+		xTmp[11] = 1.1;
+		xTmp[12] = 1.5;
+		xTmp[13] = 2;
+		xTmp[14] = 2.5;
+		xTmp[15] = 3;
+		xTmp[16] = 5;
+		xTmp[17] = 10;
+		xTmp[18] = 50;
+		xTmp[19] = ui;
+// can try to remove some of these points on the x axis to improve efficiency
+	}
+
+	double* x = &xTmp[0];
+	const int m = mm;
+
+	double hx[m];
+	double hpx[m];
+	double y1=0;
+	double y2=0;
     for (int i=0; i<m; i++){
         (*evalhxhprimax)(params, model, iSub, x[i], &y1, &y2);
         hx[i]=y1;
         hpx[i]=y2;
     }
     double emax=64;
-    double xlb=0;
-    double xub=0;
-    int lb=0; //false
-    int ub=0; //false
     int iwv[ns+7];
     double rwv[6*(ns+1)+9];
     int ifault=0;
@@ -61,14 +104,24 @@ double ARSsample(pReMiuMParams params,
 
     //Check initialization is done properly
     if (ifault!=0){
-        Rprintf("Error in ARS, cannot update uCAR for subject %d \n", iSub);
+	Rprintf("Error in the Adaptive Rejection Sampler");
+	if (whichParameter==0) {
+		Rprintf("Error in ARS, cannot update uCAR for subject %d \n", iSub);
+	} else {
+		Rprintf("Error in ARS, cannot update nu (survival response)");
+	}
         Rprintf("Error in subroutine initial, ifault equals %d \n",ifault);
         return 0;
     }else{
         double beta=0;
         sample_( iwv, rwv, &beta,  &ifault, params, model, iSub, evalhxhprimax,rndGenerator );
         if (ifault!=0){
-            Rprintf("Error in ARS, cannot update uCAR for subject %d \n", iSub);
+	Rprintf("Error in the Adaptive Rejection Sampler");
+	if (whichParameter==0) {
+		Rprintf("Error in ARS, cannot update uCAR for subject %d \n", iSub);
+	} else {
+		Rprintf("Error in ARS, cannot update nu (survival response)");
+	}
             Rprintf("Error in subroutine sample, ifault equals %d \n",ifault);
             return 0;
         }else{
@@ -76,8 +129,5 @@ double ARSsample(pReMiuMParams params,
         }
     }//end of no error u=in subroutine initial
 }
-
-
-
 
 #endif

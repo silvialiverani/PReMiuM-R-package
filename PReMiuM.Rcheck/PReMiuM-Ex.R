@@ -243,6 +243,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 ###   clusSummaryNormalNormal clusSummaryPoissonDiscrete
 ###   clusSummaryPoissonNormal clusSummaryPoissonNormalSpatial
 ###   clusSummaryVarSelectBernoulliDiscrete clusSummaryBernoulliMixed
+###   clusSummaryWeibullDiscrete
 ### Keywords: simulation
 
 ### ** Examples

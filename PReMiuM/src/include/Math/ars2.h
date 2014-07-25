@@ -256,7 +256,12 @@ expon_(const double *x, const double *emax)            /* exponential without un
 
 	int control_count = 0;                                                                                           /* added by AK */
 	while (ipt[i__] != 0) {
-		if (control_count > *n) Rprintf("Trap in ARS: infinite while in update_ of ars.cpp near l. 810");   /* added by AK */
+		if (control_count > *n) {
+			Rprintf("Error message from the Adaptive Rejection Sampler - for parameters uCAR (spatial term) or nu (survival response)");
+			Rprintf("Trap in ARS: infinite while in update_ of ars.cpp near l. 810");   /* added by AK */
+			return ;
+			//exit(0);
+		}
 		control_count++;                                                                                             /* added by AK */
 		dh = huz[j] - huz[i__];
 		horiz = (d__1 = hpx[i__], fabs(d__1)) < *eps;

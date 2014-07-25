@@ -774,6 +774,16 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 			string tmpStr = inString.substr(pos,inString.size()-pos);
 			double scaleSigmaSqY = (double)atof(tmpStr.c_str());
 			hyperParams.scaleSigmaSqY(scaleSigmaSqY);
+		}else if(inString.find("shapeNu")==0){
+			size_t pos = inString.find("=")+1;
+			string tmpStr = inString.substr(pos,inString.size()-pos);
+			double shapeNu = (double)atof(tmpStr.c_str());
+			hyperParams.shapeNu(shapeNu);
+		}else if(inString.find("scaleNu")==0){
+			size_t pos = inString.find("=")+1;
+			string tmpStr = inString.substr(pos,inString.size()-pos);
+			double scaleNu = (double)atof(tmpStr.c_str());
+			hyperParams.scaleNu(scaleNu);
 		}else if(inString.find("rSlice")==0){
 			size_t pos = inString.find("=")+1;
 			string tmpStr = inString.substr(pos,inString.size()-pos);
@@ -1372,7 +1382,12 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 			randomGamma gammaRand(hyperParams.shapeSigmaSqY(),1.0/hyperParams.scaleSigmaSqY());
 			double sigmaSqY=1.0/(gammaRand(rndGenerator));
 			params.sigmaSqY(sigmaSqY);
+		}
 
+		if(outcomeType.compare("Survival")==0){
+			randomGamma gammaRand(hyperParams.shapeNu(),hyperParams.scaleNu());
+			double nu=gammaRand(rndGenerator);
+			params.nu(nu);
 		}
 
 		// And also the extra variation values if necessary
@@ -1515,6 +1530,10 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 					fileName = fileStem + "_sigmaSqY.txt";
 					outFiles.push_back(new ofstream(fileName.c_str()));
 				}
+				if(outcomeType.compare("Survival")==0){
+					fileName = fileStem + "_nu.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+				}
 				if(responseExtraVar){
 					fileName = fileStem + "_epsilon.txt";
 					outFiles.push_back(new ofstream(fileName.c_str()));
@@ -1563,7 +1582,7 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 		// File indices
 		int nClustersInd=-1,psiInd=-1,phiInd=-1,muInd=-1,SigmaInd=-1,zInd=-1,entropyInd=-1,alphaInd=-1;
 		int logPostInd=-1,nMembersInd=-1,alphaPropInd=-1;
-		int thetaInd=-1,betaInd=-1,thetaPropInd=-1,betaPropInd=-1,sigmaSqYInd=-1,epsilonInd=-1;
+		int thetaInd=-1,betaInd=-1,thetaPropInd=-1,betaPropInd=-1,sigmaSqYInd=-1,nuInd=-1,epsilonInd=-1;
 		int sigmaEpsilonInd=-1,epsilonPropInd=-1,omegaInd=-1,rhoInd=-1;
 		int rhoOmegaPropInd=-1,gammaInd=-1,nullPhiInd=-1,nullMuInd=-1;
 		int predictThetaRaoBlackwellInd=-1;
@@ -1598,6 +1617,9 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 			betaPropInd=r++;
 			if(outcomeType.compare("Normal")==0){
 				sigmaSqYInd=r++;
+			}
+			if(outcomeType.compare("Survival")==0){
+				nuInd=r++;
 			}
 			if(responseExtraVar){
 				epsilonInd=r++;
@@ -1795,6 +1817,9 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 			} else {
 				if(outcomeType.compare("Normal")==0){
 					*(outFiles[sigmaSqYInd]) << params.sigmaSqY() << endl;
+				}
+				if(outcomeType.compare("Survival")==0){
+					*(outFiles[nuInd]) << params.nu() << endl;
 				}
 				// Print beta
 				for(unsigned int j=0;j<nFixedEffects;j++){
@@ -2156,6 +2181,11 @@ string storeLogFileData(const pReMiuMOptions& options,
 	if(dataset.outcomeType().compare("Normal")==0){
 		tmpStr << "shapeSigmaSqY: " << hyperParams.shapeSigmaSqY() << endl;
 		tmpStr << "scaleSigmaSqY: " << hyperParams.scaleSigmaSqY() << endl;
+	}
+
+	if(dataset.outcomeType().compare("Survival")==0){
+		tmpStr << "shapeNu: " << hyperParams.shapeNu() << endl;
+		tmpStr << "scaleNu: " << hyperParams.scaleNu() << endl;
 	}
 
 	if(options.includeCAR()){

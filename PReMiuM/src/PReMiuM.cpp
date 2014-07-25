@@ -269,6 +269,11 @@ RcppExport SEXP profRegr(SEXP inputString) {
 		pReMiuMSampler.addProposal("gibbsForSigmaSqY",1.0,1,1,&gibbsForSigmaSqY);
 	}
 
+	if(options.outcomeType().compare("Survival")==0){
+		// Gibbs for shape parameter of Weibull for survival response model
+		pReMiuMSampler.addProposal("gibbsForNu",1.0,1,1,&gibbsForNu);
+	}
+
 	// Gibbs update for the allocation parameters
 	pReMiuMSampler.addProposal("gibbsForZ",1.0,1,1,&gibbsForZ);
 

@@ -209,6 +209,9 @@ class pReMiuMHyperParams{
 			_shapeTauCAR=0.001;
 			_rateTauCAR=0.001;
 
+			_shapeNu = 2.5;
+			_scaleNu = 1;
+
 		}
 
 		double shapeAlpha() const{
@@ -389,6 +392,22 @@ class pReMiuMHyperParams{
 		void scaleSigmaSqY(const double& r){
 			_scaleSigmaSqY = r;
 		}
+		
+		double shapeNu() const{
+			return _shapeNu;
+		}
+
+		void shapeNu(const double& s){
+			_shapeNu = s;
+		}
+
+		double scaleNu() const{
+			return _scaleNu;
+		}
+
+		void scaleNu(const double& r){
+			_scaleNu = r;
+		}
 
 		double rSlice() const{
 			return _rSlice;
@@ -464,6 +483,8 @@ class pReMiuMHyperParams{
 			_atomRho = hyperParams.atomRho();
 			_shapeSigmaSqY = hyperParams.shapeSigmaSqY();
 			_scaleSigmaSqY = hyperParams.scaleSigmaSqY();
+			_shapeNu = hyperParams.shapeNu();
+			_scaleNu = hyperParams.scaleNu();
 			_workSqrtTau0 = hyperParams.workSqrtTau0();
 			_workLogDetTau0 = hyperParams.workLogDetTau0();
 			_workInverseR0 = hyperParams.workInverseR0();
@@ -526,6 +547,11 @@ class pReMiuMHyperParams{
 		// Prior is sigma_y^2 ~ InvGamma(shapeSigmaSqY,scaleSigmaSqY)
 		double _shapeSigmaSqY;
 		double _scaleSigmaSqY;
+
+		//Hyper parameter for prior for nu, the shape parameter of the Weibull (for survival response model)
+		// Prior is nu ~ Gamma(shapeNu,scaleNu)
+		double _shapeNu;
+		double _scaleNu;
 
 		//Some working variables for speeding up linear algebra
 		double _workLogDetTau0;
@@ -1531,6 +1557,16 @@ class pReMiuMParams{
 			_sigmaSqY=sigmaSqYVal;
 		}
 
+		/// \brief Return the parameter nu
+		double nu() const{
+			return _nu;
+		}
+
+		/// \brief Set the parameter nu
+		void nu(const double& nuVal){
+			_nu=nuVal;
+		}
+
 		/// \brief Return the vector _uCAR
 		vector<double> uCAR() const{
 			return _uCAR;
@@ -1838,6 +1874,7 @@ class pReMiuMParams{
 			_rho = params.rho();
 			_omega = params.omega();
 			_sigmaSqY = params.sigmaSqY();
+			_nu = params.nu();
 			_hyperParams = params.hyperParams();
 			_workNXInCluster=params.workNXInCluster();
 			_workMaxZi=params.workMaxZi();
@@ -1933,6 +1970,9 @@ class pReMiuMParams{
 
 		/// \brief Prior variance for Y model when response is Normal
 		double _sigmaSqY;
+
+		/// \brief Prior shape parameter for Y model when response is weibull (survival)
+		double _nu;
 
 		/// NOTE: hyper parameters
 		/// \brief The hyper parameter object
@@ -2129,7 +2169,7 @@ double logPYiGivenZiWiSurvival(const pReMiuMParams& params, const pReMiuMData& d
 	for(unsigned int j=0;j<nFixedEffects;j++){
 		lambda+=params.beta(j,0)*dataset.W(i,j);
 	}
-	return logPdfWeibullCensored(dataset.continuousY(i), 5.0, exp(lambda), dataset.censoring(i));
+	return logPdfWeibullCensored(dataset.continuousY(i), params.nu(), exp(lambda), dataset.censoring(i));
 }
 
 
@@ -2367,6 +2407,10 @@ vector<double> pReMiuMLogPost(const pReMiuMParams& params,
 		if(outcomeType.compare("Normal")==0){
 			double tau = 1.0/params.sigmaSqY();
 			logPrior+=logPdfGamma(tau,hyperParams.shapeSigmaSqY(),hyperParams.scaleSigmaSqY());
+		}
+
+		if(outcomeType.compare("Survival")==0){
+			logPrior+=logPdfGamma(params.nu(),hyperParams.shapeNu(),hyperParams.scaleNu());
 		}
 
 		// Prior for TauCAR and UCAR
@@ -2695,34 +2739,38 @@ void logNuPostSurvival(const pReMiuMParams& params,
                                  double* Pt_y1, double* Pt_y2){
 
 	const pReMiuMData& dataset=model.dataset();
+	const pReMiuMHyperParams& hyperParams = params.hyperParams();
 	unsigned int nFixedEffects=dataset.nFixedEffects();
-
+	unsigned int nSubjects=dataset.nSubjects();
+	const vector<unsigned int> censoring = dataset.censoring();
+	vector<double> y = dataset.continuousY();
 	double y1;
 	double y2;
-	int Yi=dataset.continuousY(iSub);
-	int zi=params.z(iSub);
-	double meanVal=params.theta(zi,0);
-	for(unsigned int j=0;j<nFixedEffects;j++){
-		meanVal+=params.beta(j,0)*dataset.W(iSub,j);
-	}
-	int nNeighi=dataset.nNeighbours(iSub);
-	// mean of Ui is mean of Uj where j are the neighbours of i
-	double meanUi=0.0;
-	for (int j = 0; j<nNeighi; j++){
-	        unsigned int nj = dataset.neighbours(iSub,j);
-	        double ucarj = params.uCAR(nj-1);
-	        meanUi+=ucarj;
-	}
-	meanUi/=nNeighi;
-	
-
-	double dCensored = 0;
  	// compute d
-
-
-	y1=dCensored * log(x) + Yi*x-exp(dataset.logOffset(iSub)+meanVal+x)-0.5*params.TauCAR()*nNeighi*(x-meanUi)*(x-meanUi);
+	double dCensored = 0;
+	for (unsigned int i=0;i<nSubjects;i++){
+		dCensored += censoring[i];
+	}	
+	// sum of yi^nu
+	double yNu = 0;
+	double yNulogy = 0;
+	for (unsigned int i=0;i<nSubjects;i++){
+		int zi=params.z(i);
+		double lambda = params.theta(zi,0);
+		for(unsigned int j=0;j<nFixedEffects;j++){
+			lambda+=params.beta(j,0)*dataset.W(i,j);
+		}
+		yNulogy += pow(y[i],x) * log(y[i]) * exp(lambda);
+		yNu += pow(y[i],x) * exp(lambda);
+	}	
+	// sum of di*log yi
+	double dlogY = 0;
+	for (unsigned int i=0;i<nSubjects;i++){
+		dlogY += log(y[i]) * censoring[i];
+	}	
+	y1=dCensored * log(x) - yNu + x * dlogY + (hyperParams.shapeNu()-1) * log(x) - hyperParams.scaleNu() * x;
 	// derivative of y1
-	y2=Yi-exp(dataset.logOffset(iSub)+meanVal+x)-params.TauCAR()*nNeighi*(x-meanUi);
+	y2=dCensored / x - yNulogy + dlogY + (hyperParams.shapeNu()-1) / x - hyperParams.scaleNu();
 	*Pt_y1=y1;
 	*Pt_y2=y2;
 }

@@ -40,7 +40,6 @@ SEXP calcDisSimMat(SEXP fileName, SEXP nSweeps, SEXP nBurn, SEXP nFilter,SEXP nS
     // The denominator for the contributions
     double denom = 1+(double)nLines-(double)firstLine;
 
-
     // A temporary vector for storing the cluster from each sweep
     vector<int> clusterData(nSj+nPSj);
     for(unsigned long int k=1;k<=nLines;k++){

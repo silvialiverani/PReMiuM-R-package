@@ -154,7 +154,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		}
 	} else {
 		nFixedEffects<-0
-		if (yModel=="Survival") stop("ERROR: For the current implementation of Survival outcome the fixed effects must be provided. ")
+		#if (yModel=="Survival") stop("ERROR: For the current implementation of Survival outcome the fixed effects must be provided. ")
 	}
 
 	#  extra outcome data
@@ -342,6 +342,12 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		}
 		if (!is.null(hyper$rateTauCAR)){
 		  write(paste("rateTauCAR=",hyper$rateTauCAR,sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$shapeNu)){
+			write(paste("shapeNu=",hyper$shapeNu,sep=""),hyperFile,append=T)
+		}
+		if (!is.null(hyper$scaleNu)){
+			write(paste("scaleNu=",hyper$scaleNu,sep=""),hyperFile,append=T)
 		}
 	}
 
@@ -2386,7 +2392,7 @@ margModelPosterior<-function(runInfoObj,allocation){
 setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,aPhi=NULL,mu0=NULL,Tau0=NULL,R0=NULL,
 	kappa0=NULL,muTheta=NULL,sigmaTheta=NULL,dofTheta=NULL,muBeta=NULL,sigmaBeta=NULL,dofBeta=NULL,
 	shapeTauEpsilon=NULL,rateTauEpsilon=NULL,aRho=NULL,bRho=NULL,atomRho=NULL,shapeSigmaSqY=NULL,scaleSigmaSqY=NULL,
-	rSlice=NULL,truncationEps=NULL,shapeTauCAR=NULL,rateTauCAR=NULL){
+	rSlice=NULL,truncationEps=NULL,shapeTauCAR=NULL,rateTauCAR=NULL,shapeNu=NULL,scaleNu=NULL){
 	out<-list()
 	if (!is.null(shapeAlpha)){
 		out$shapeAlpha<-shapeAlpha
@@ -2459,6 +2465,12 @@ setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,aPhi=NULL,mu0=NULL,Tau0=
 	}
 	if (!is.null(rateTauCAR)){
 	  out$rateTauCAR<-rateTauCAR
+	}	
+	if (!is.null(shapeNu)){
+		out$shapeNu<-shapeNu
+	}
+	if (!is.null(scaleNu)){
+		out$scaleNu<-scaleNu
 	}
 	return(out)
 }
