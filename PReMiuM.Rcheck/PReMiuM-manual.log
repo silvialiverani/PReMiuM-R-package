@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.3.8)  25 JUL 2014 14:45
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.3.8)  8 SEP 2014 16:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -780,13 +780,13 @@ File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 ) [24] [25]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1155--1156
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1154--1155
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
  []
 
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1156--1157
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1155--1156
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
  []
@@ -794,13 +794,13 @@ names, if xModel="Mixed".
 [26] [27] [28] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 ) [29]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1287--1288
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1286--1287
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
  []
 
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1287--1288
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1286--1287
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
  []
@@ -824,11 +824,11 @@ LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
 ] [35
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1430.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1430.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1429.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1429.
  (./Rd2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1430.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1430.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1429.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1429.
 
 Package rerunfilecheck Info: File `Rd2.out' has not changed.
 (rerunfilecheck)             Checksum: 3C2B4C9DD03BAC3676700DA29C63D797;1311.
@@ -836,7 +836,7 @@ Package rerunfilecheck Info: File `Rd2.out' has not changed.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1430.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1429.
  ) 
 Here is how much of TeX's memory you used:
  6626 strings out of 495028
@@ -845,7 +845,7 @@ Here is how much of TeX's memory you used:
  9470 multiletter control sequences out of 15000+600000
  41277 words of font info for 51 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 38i,6n,34p,599b,592s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,6n,34p,856b,592s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/inconsolata/i4-ts1.enc}{/usr/s
 hare/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/share/texlive/texmf-d
 ist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}</usr/share/texlive/texmf-dist/font
@@ -855,7 +855,7 @@ type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/ti
 mes/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
 </usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/tex
 live/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (35 pages, 156239 bytes).
+Output written on Rd2.pdf (35 pages, 156377 bytes).
 PDF statistics:
  556 PDF objects out of 1000 (max. 8388607)
  506 compressed objects within 6 object streams

@@ -51,9 +51,12 @@ Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
 * checking for unstated dependencies in examples ... OK
 * checking line endings in C/C++/Fortran sources/headers ... OK
 * checking line endings in Makefiles ... OK
-* checking compilation flags in Makevars ... OK
+* checking compilation flags in Makevars ... WARNING
+Non-portable flags in variable 'PKG_CPPFLAGS':
+  -fsanitize=address
 * checking for portable use of $(BLAS_LIBS) and $(LAPACK_LIBS) ... OK
 * checking compiled code ... OK
 * checking examples ... OK
 * checking PDF version of manual ... OK
+WARNING: There was 1 warning.
 NOTE: There were 3 notes.

@@ -2175,7 +2175,7 @@ margModelPosterior<-function(runInfoObj,allocation){
 	}
 
 	write.table(margModPost,file.path(directoryPath,paste(fileStem,"_margModPost.txt",sep="")), col.names = FALSE,row.names = FALSE)
-	return(mean(margModPost))
+	return(list("meanMargModPost"=mean(margModPost),"runInfoObj"=runInfoObj))
 }
 
 # internal function

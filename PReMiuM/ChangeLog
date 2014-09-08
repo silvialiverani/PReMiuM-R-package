@@ -1,6 +1,6 @@
 Changes in version 3.0.29 (2014-07-22)
 
-* Added survival outcome with random parameters
+* Added survival outcome with random shape parameter nu (global, ie not cluster specific), estimated with an adaptive rejection sampler
 
 --------------------------------------------
 Changes in version 3.0.27 (2013-05-22)

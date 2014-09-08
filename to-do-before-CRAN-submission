@@ -1,0 +1,10 @@
+To do before CRAN submission
+
+- delete any extra files
+- R check
+- valgrind
+- UBSAN
+- send to windows compiler
+- update description with date
+- backup in git
+

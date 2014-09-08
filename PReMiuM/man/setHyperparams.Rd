@@ -43,8 +43,8 @@ setHyperparams(shapeAlpha=NULL,rateAlpha=NULL,
 \item{truncationEps}{Parameter for determining the truncation level of the finite Dirichlet process (only used for truncated sampler i.e. sampler=Truncated}
 \item{shapeTauCAR}{Shape parameter for gamma distribution for precision TauCAR of spatial CAR term (only used if a spatial term is included i.e. includeCAR argument is TRUE, default=0.001)}
 \item{rateTauCAR}{Inverse-scale (rate) parameter for gamma distribution for precision TauCAR of spatial CAR term (only used if a spatial term is included i.e. includeCAR argument is TRUE, default=0.001)}
-\item{shapeNu}{Shape parameter of Gamma prior for the shape parameter of the Weibull for survival response (only used in the Survival response model, default =2.5)}
-\item{scaleNu}{Scale parameter of Gamma prior for the shape parameter of the Weibull for survival response  (only used in the Survival response model, default =2.5)}
+\item{shapeNu}{Shape parameter of Gamma prior for the shape parameter of the Weibull for survival response (only used in the Survival response model, default = 2.5)}
+\item{scaleNu}{Scale parameter of Gamma prior for the shape parameter of the Weibull for survival response  (only used in the Survival response model, default = 1)}
 }
 
 \value{

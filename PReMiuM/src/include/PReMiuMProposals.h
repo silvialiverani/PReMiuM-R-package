@@ -2365,11 +2365,6 @@ void gibbsForNu(mcmcChain<pReMiuMParams>& chain,
 	pReMiuMParams& currentParams = currentState.parameters();
 	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
 
-	const pReMiuMData& dataset = model.dataset();
-
-	unsigned int nSubjects = currentParams.nSubjects();
-	unsigned int nFixedEffects = dataset.nFixedEffects();
-
 	nTry++;
 	nAccept++;
 
