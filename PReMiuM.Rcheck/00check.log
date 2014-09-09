@@ -1,10 +1,10 @@
-* using log directory ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
-* using R version 3.1.1 (2014-07-10)
+* using log directory ‘/home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
+* using R version 3.1.0 (2014-04-10)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘PReMiuM’ version ‘3.0.29’
+* this is package ‘PReMiuM’ version ‘3.0.25’
 * checking CRAN incoming feasibility ... NOTE
 Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
 * checking package namespace information ... OK
@@ -18,9 +18,9 @@ Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
 * checking for sufficient/correct file permissions ... OK
 * checking whether package ‘PReMiuM’ can be installed ... OK
 * checking installed package size ... NOTE
-  installed size is 11.3Mb
+  installed size is 11.0Mb
   sub-directories of 1Mb or more:
-    libs  11.1Mb
+    libs  10.9Mb
 * checking package directory ... OK
 * checking DESCRIPTION meta-information ... OK
 * checking top-level files ... OK
@@ -51,12 +51,9 @@ Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
 * checking for unstated dependencies in examples ... OK
 * checking line endings in C/C++/Fortran sources/headers ... OK
 * checking line endings in Makefiles ... OK
-* checking compilation flags in Makevars ... WARNING
-Non-portable flags in variable 'PKG_CPPFLAGS':
-  -fsanitize=address
+* checking compilation flags in Makevars ... OK
 * checking for portable use of $(BLAS_LIBS) and $(LAPACK_LIBS) ... OK
 * checking compiled code ... OK
 * checking examples ... OK
 * checking PDF version of manual ... OK
-WARNING: There was 1 warning.
 NOTE: There were 3 notes.

@@ -1,9 +1,9 @@
 * installing *source* package ‘PReMiuM’ ...
 ** libs
-g++ -I/usr/share/R/include -DNDEBUG -isystem./include   -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.1/Rcpp/include" -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.1/RcppEigen/include" -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.1/BH/include"   -fpic  -g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2 -g  -c PReMiuM.cpp -o PReMiuM.o
-g++ -I/usr/share/R/include -DNDEBUG -isystem./include   -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.1/Rcpp/include" -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.1/RcppEigen/include" -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.1/BH/include"   -fpic  -g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2 -g  -c postProcess.cpp -o postProcess.o
+g++ -I/usr/share/R/include -DNDEBUG -I./include   -I"/home/sliveran/R/x86_64-pc-linux-gnu-library/3.1/Rcpp/include" -I"/home/sliveran/R/x86_64-pc-linux-gnu-library/3.1/RcppEigen/include" -I"/home/sliveran/R/x86_64-pc-linux-gnu-library/3.1/BH/include"   -fpic  -g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2 -g  -c PReMiuM.cpp -o PReMiuM.o
+g++ -I/usr/share/R/include -DNDEBUG -I./include   -I"/home/sliveran/R/x86_64-pc-linux-gnu-library/3.1/Rcpp/include" -I"/home/sliveran/R/x86_64-pc-linux-gnu-library/3.1/RcppEigen/include" -I"/home/sliveran/R/x86_64-pc-linux-gnu-library/3.1/BH/include"   -fpic  -g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2 -g  -c postProcess.cpp -o postProcess.o
 g++ -shared -Wl,-Bsymbolic-functions -Wl,-z,relro -o PReMiuM.so PReMiuM.o postProcess.o -L/usr/lib/R/lib -lR
-installing to /home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/PReMiuM/libs
+installing to /home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/PReMiuM/libs
 ** R
 ** inst
 ** preparing package for lazy loading

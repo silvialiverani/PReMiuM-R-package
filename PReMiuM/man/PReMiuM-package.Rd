@@ -15,8 +15,8 @@ Dirichlet process Bayesian clustering and functions for the post-processing of i
 \item Can do dependent or independent slice sampling (Kalli et al., 2011) 
      or truncated Dirichlet process model (Ishwaran and James, 2001)
 \item Handles categorical or Normal covariates, or a mixture of them
-\item Handles Bernoulli, Binomial, Categorical, Poisson or Normal responses
-\item Handles inclusion of fixed effects in the response model
+\item Handles Bernoulli, Binomial, Categorical, Poisson, survival or Normal responses
+\item Handles inclusion of fixed effects in the response model, including a spatial CAR (conditional autoregressive) term
 \item Handles Extra Variation in the response (for Bernoulli, Binomial and Poisson response only)
 \item Handles variable selection (tested in Discrete covariate case only)
 \item Includes label switching moves for better mixing
@@ -38,14 +38,14 @@ Dirichlet process Bayesian clustering and functions for the post-processing of i
 \tabular{ll}{
 Package: \tab PReMiuM\cr
 Type: \tab Package\cr
-Version: \tab 3.0.24\cr
-Date: \tab 2014-04-04\cr
-License: \tab GPL3\cr
+Version: \tab 3.0.29\cr
+Date: \tab 2014-09-09\cr
+License: \tab GPL2\cr
 LazyLoad: \tab yes\cr
 }
 
 Program to implement Dirichlet Process Bayesian Clustering as described in
-Liverani et al. 2014. Previously this project was called profile regression.
+Liverani et al. 2014. This is a package for Bayesian clustering using a Dirichlet process mixture model. This model is an alternative to regression models, non-parametrically linking a response vector to covariate data through cluster membership. The package allows Bernoulli, Binomial, Poisson, Normal, survival and categorical response, as well as Normal and discrete covariates. It also allows for fixed effects in the response model, where a spatial CAR (conditional autoregressive) term can be also included. Additionally, predictions may be made for the response, and missing values for the covariates are handled. Several samplers and label switching moves are implemented along with diagnostic tools to assess convergence. A number of R functions for post-processing of the output are also provided. In addition to fitting mixtures, it may additionally be of interest to determine which covariates actively drive the mixture components. This is implemented in the package as variable selection. 
 
 }
 \section{Authors}{
