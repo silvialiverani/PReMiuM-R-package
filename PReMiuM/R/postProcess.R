@@ -419,6 +419,14 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		includeResponse <- TRUE
 	}
 
+	if (xModel=="Mixed") {
+		discreteTmp<-discreteCovs
+		contTmp<-continuousCovs
+	} else {
+		discreteTmp<-NA
+		contTmp<-NA
+	}
+
 	return(list("directoryPath"=directoryPath,
 		"fileStem"=fileStem,
 		"inputFileName"=fileName,
@@ -433,8 +441,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		"alpha"=alpha,
 		"dPitmanYor"=dPitmanYor,
 		"covNames"=covNames,
-		"discreteCovs"=ifelse(xModel=="Mixed",discreteCovs,NA),
-		"continuousCovs"=ifelse(xModel=="Mixed",continuousCovs,NA),
+		"discreteCovs"=discreteTmp,
+		"continuousCovs"=contTmp,
 		"xModel"=xModel,
 		"includeResponse"=includeResponse,
 		"whichLabelSwitch"=whichLabelSwitch,
@@ -1155,19 +1163,19 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 		}else if(xModel=='Mixed'){
 			nDiscreteCovsAll <- nDiscreteCovs
 			nContinuousCovsAll <- nContinuousCovs
-			whichDiscreteCovs <- which(whichCovariates<=nDiscreteCovs)
+			whichDiscreteCovs <- whichCovariates[which(whichCovariates<=nDiscreteCovs)]
+			whichContinuousCovs <- whichCovariates[which(whichCovariates>nDiscreteCovs)]
 			discreteCovs <- discreteCovs[whichDiscreteCovs]
 			nDiscreteCovs <- length(discreteCovs)
-			tmpContCovs <- whichCovariates-nDiscreteCovsAll
-			whichContinuousCovs <- tmpContCovs[tmpContCovs>=0]
-			continuousCovs <- continuousCovs[whichContinuousCovs]
+			continuousCovs <- continuousCovs[whichContinuousCovs-nDiscreteCovsAll]
 			nContinuousCovs <- length(continuousCovs)
 			profilePhi<-profilePhi[,,whichDiscreteCovs,]
 			nCategories<-nCategories[whichDiscreteCovs]
-			profileMu<-profileMu[,,whichContinuousCovs]
-			profileStdDev<-profileStdDev[,,whichContinuousCovs,whichContinuousCovs]
+			profileMu<-profileMu[,,whichContinuousCovs-nDiscreteCovsAll]
+			profileStdDev<-profileStdDev[,,whichContinuousCovs-nDiscreteCovsAll,whichContinuousCovs-nDiscreteCovsAll]
 			covNames<-c(discreteCovs,continuousCovs)
 			nCovariates<-length(covNames)
+
 		}
 	}
 
@@ -1601,7 +1609,11 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			profileDF<-data.frame("prob"=c(),"cluster"=c(),"category"=c(),"meanProb"=c(),
 				"lowerProb"=c(),"upperProb"=c(),"fillColor"=c())
 			for(k in 1:nCategories[j]){
-				probMat<-profilePhi[,meanSortIndex,j,k]
+				if (nDiscreteCovs==1) {
+					probMat<-profilePhi[,meanSortIndex,k]
+				} else {
+					probMat<-profilePhi[,meanSortIndex,j,k]
+				}
 				nPoints<-nrow(probMat)
 				probMeans<-apply(probMat,2,mean)
 				probMean<-sum(probMeans*clusterSizes)/sum(clusterSizes)
@@ -1649,7 +1661,11 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			# Plot the means
 			profileDF<-data.frame("mu"=c(),"cluster"=c(),"muMean"=c(),
 				"lowerMu"=c(),"upperMu"=c(),"fillColor"=c())
-			muMat<-profileMu[,meanSortIndex,(j-nDiscreteCovs)]
+			if (nContinuousCovs==1){
+				muMat<-profileMu[,meanSortIndex]
+			} else {
+				muMat<-profileMu[,meanSortIndex,(j-nDiscreteCovs)]
+			}
 			muMeans<-apply(muMat,2,mean)
 			muMean<-sum(muMeans*clusterSizes)/sum(clusterSizes)
 			muLower<-apply(muMat,2,quantile,0.05)
@@ -1697,7 +1713,11 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			# Plot the variances
 			profileDF<-data.frame("sigma"=c(),"cluster"=c(),"sigmaMean"=c(),
 				"lowerSigma"=c(),"upperSigma"=c(),"fillColor"=c())
-			sigmaMat<-profileStdDev[,meanSortIndex,(j-nDiscreteCovs),(j-nDiscreteCovs)]
+			if (nContinuousCovs==1){
+				sigmaMat<-profileStdDev[,meanSortIndex]
+			} else {
+				sigmaMat<-profileStdDev[,meanSortIndex,(j-nDiscreteCovs),(j-nDiscreteCovs)]
+			}
 			sigmaMeans<-apply(sigmaMat,2,mean)
 			sigmaMean<-sum(sigmaMeans*clusterSizes)/sum(clusterSizes)
 			sigmaLower<-apply(sigmaMat,2,quantile,0.05)

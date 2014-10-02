@@ -1,12 +1,14 @@
-* using log directory ‘/home/sliveran/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
-* using R version 3.1.0 (2014-04-10)
+* using log directory ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
+* using R version 3.1.1 (2014-07-10)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘PReMiuM’ version ‘3.0.25’
-* checking CRAN incoming feasibility ... NOTE
+* this is package ‘PReMiuM’ version ‘3.0.29’
+* checking CRAN incoming feasibility ... WARNING
 Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
+Insufficient package version (submitted: 3.0.29, existing: 3.0.29)
+Days since last update: 1
 * checking package namespace information ... OK
 * checking package dependencies ... NOTE
   No repository set, so cyclic dependency check skipped
@@ -18,9 +20,9 @@ Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
 * checking for sufficient/correct file permissions ... OK
 * checking whether package ‘PReMiuM’ can be installed ... OK
 * checking installed package size ... NOTE
-  installed size is 11.0Mb
+  installed size is 11.3Mb
   sub-directories of 1Mb or more:
-    libs  10.9Mb
+    libs  11.1Mb
 * checking package directory ... OK
 * checking DESCRIPTION meta-information ... OK
 * checking top-level files ... OK
@@ -56,4 +58,5 @@ Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
 * checking compiled code ... OK
 * checking examples ... OK
 * checking PDF version of manual ... OK
-NOTE: There were 3 notes.
+WARNING: There was 1 warning.
+NOTE: There were 2 notes.

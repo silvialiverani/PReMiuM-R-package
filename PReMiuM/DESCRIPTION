@@ -1,8 +1,8 @@
 Package: PReMiuM
 Type: Package
 Title: Dirichlet Process Bayesian Clustering, Profile Regression
-Version: 3.0.29
-Date: 2014-09-08
+Version: 3.0.31
+Date: 2014-10-02
 Author: David I. Hastie <david.hastie@rsimony.com>, Silvia Liverani <liveranis@gmail.com>, Aurore J. Lavigne, Lucy Leigh, Lamiae Azizi, Sylvia Richardson <sylvia.richardson@mrc-bsu.cam.ac.uk>
 Maintainer: Silvia Liverani <liveranis@gmail.com>
 Description: This is a package for Bayesian clustering using a Dirichlet process mixture model. This model is an alternative to regression models, non-parametrically linking a response vector to covariate data through cluster membership. The package allows Bernoulli, Binomial, Poisson, Normal, survival and categorical response, as well as Normal and discrete covariates. It also allows for fixed effects in the response model, where a spatial CAR (conditional autoregressive) term can be also included. Additionally, predictions may be made for the response, and missing values for the covariates are handled. Several samplers and label switching moves are implemented along with diagnostic tools to assess convergence. A number of R functions for post-processing of the output are also provided. In addition to fitting mixtures, it may additionally be of interest to determine which covariates actively drive the mixture components. This is implemented in the package as variable selection. 

@@ -1,5 +1,5 @@
 
-R version 3.1.0 (2014-04-10) -- "Spring Dance"
+R version 3.1.1 (2014-07-10) -- "Sock it to Me"
 Copyright (C) 2014 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -116,7 +116,7 @@ Type 'q()' to quit R.
 > runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
 +     nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
 +     covNames=inputs$covNames,nClusInit=15)
-Random number seed: 1398765362
+Random number seed: 1410381911
 Sweep: 1
 > 
 > dissimObj<-calcDissimilarityMatrix(runInfoObj)
@@ -264,153 +264,18 @@ Stage 2:1 samples out of 10
 > ###   clusSummaryBernoulliDiscreteSmall clusSummaryBinomialNormal
 > ###   clusSummaryCategoricalDiscrete clusSummaryNormalDiscrete
 > ###   clusSummaryNormalNormal clusSummaryPoissonDiscrete
-> ###   clusSummaryPoissonNormal clusSummaryVarSelectBernoulliDiscrete
-> ###   clusSummaryBernoulliMixed
+> ###   clusSummaryPoissonNormal clusSummaryPoissonNormalSpatial
+> ###   clusSummaryVarSelectBernoulliDiscrete clusSummaryBernoulliMixed
+> ###   clusSummaryWeibullDiscrete
 > ### Keywords: simulation
 > 
 > ### ** Examples
 > 
-> 
-> clusSummaryBernoulliDiscrete()
-$outcomeType
-[1] "Bernoulli"
-
-$covariateType
-[1] "Discrete"
-
-$nCovariates
-[1] 5
-
-$nCategories
-[1] 3 3 3 3 3
-
-$nFixedEffects
-[1] 2
-
-$fixedEffectsCoeffs
-[1]  0.1 -0.5
-
-$missingDataProb
-[1] 0
-
-$nClusters
-[1] 5
-
-$clusterSizes
-[1] 200 200 200 200 200
-
-$clusterData
-$clusterData[[1]]
-$clusterData[[1]]$theta
-[1] 2.197225
-
-$clusterData[[1]]$covariateProbs
-$clusterData[[1]]$covariateProbs[[1]]
-[1] 0.8 0.1 0.1
-
-$clusterData[[1]]$covariateProbs[[2]]
-[1] 0.8 0.1 0.1
-
-$clusterData[[1]]$covariateProbs[[3]]
-[1] 0.8 0.1 0.1
-
-$clusterData[[1]]$covariateProbs[[4]]
-[1] 0.8 0.1 0.1
-
-$clusterData[[1]]$covariateProbs[[5]]
-[1] 0.8 0.1 0.1
-
-
-
-$clusterData[[2]]
-$clusterData[[2]]$theta
-[1] 0.6931472
-
-$clusterData[[2]]$covariateProbs
-$clusterData[[2]]$covariateProbs[[1]]
-[1] 0.8 0.1 0.1
-
-$clusterData[[2]]$covariateProbs[[2]]
-[1] 0.8 0.1 0.1
-
-$clusterData[[2]]$covariateProbs[[3]]
-[1] 0.1 0.8 0.1
-
-$clusterData[[2]]$covariateProbs[[4]]
-[1] 0.1 0.8 0.1
-
-$clusterData[[2]]$covariateProbs[[5]]
-[1] 0.1 0.1 0.8
-
-
-
-$clusterData[[3]]
-$clusterData[[3]]$theta
-[1] 0
-
-$clusterData[[3]]$covariateProbs
-$clusterData[[3]]$covariateProbs[[1]]
-[1] 0.1 0.8 0.1
-
-$clusterData[[3]]$covariateProbs[[2]]
-[1] 0.1 0.8 0.1
-
-$clusterData[[3]]$covariateProbs[[3]]
-[1] 0.1 0.8 0.1
-
-$clusterData[[3]]$covariateProbs[[4]]
-[1] 0.1 0.8 0.1
-
-$clusterData[[3]]$covariateProbs[[5]]
-[1] 0.1 0.8 0.1
-
-
-
-$clusterData[[4]]
-$clusterData[[4]]$theta
-[1] -0.6931472
-
-$clusterData[[4]]$covariateProbs
-$clusterData[[4]]$covariateProbs[[1]]
-[1] 0.1 0.1 0.8
-
-$clusterData[[4]]$covariateProbs[[2]]
-[1] 0.1 0.8 0.1
-
-$clusterData[[4]]$covariateProbs[[3]]
-[1] 0.8 0.1 0.1
-
-$clusterData[[4]]$covariateProbs[[4]]
-[1] 0.1 0.1 0.8
-
-$clusterData[[4]]$covariateProbs[[5]]
-[1] 0.8 0.1 0.1
-
-
-
-$clusterData[[5]]
-$clusterData[[5]]$theta
-[1] -2.197225
-
-$clusterData[[5]]$covariateProbs
-$clusterData[[5]]$covariateProbs[[1]]
-[1] 0.1 0.1 0.8
-
-$clusterData[[5]]$covariateProbs[[2]]
-[1] 0.1 0.1 0.8
-
-$clusterData[[5]]$covariateProbs[[3]]
-[1] 0.1 0.1 0.8
-
-$clusterData[[5]]$covariateProbs[[4]]
-[1] 0.1 0.1 0.8
-
-$clusterData[[5]]$covariateProbs[[5]]
-[1] 0.1 0.1 0.8
-
-
-
-
+> names(clusSummaryBernoulliDiscrete())
+ [1] "outcomeType"        "covariateType"      "nCovariates"       
+ [4] "nCategories"        "nFixedEffects"      "fixedEffectsCoeffs"
+ [7] "missingDataProb"    "nClusters"          "clusterSizes"      
+[10] "includeCAR"         "TauCAR"             "clusterData"       
 > 
 > 
 > 
@@ -464,12 +329,11 @@ $clusterData[[5]]$covariateProbs[[5]]
 +  nSweeps=10, nBurn=20, data=inputs$inputData, output="output", nFilter=3,
 +  covNames=inputs$covNames,nClusInit=15,reportBurnIn=FALSE,
 +  fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1398765363
+Random number seed: 1410381911
 Sweep: 1
 > 
 > # plot trace for alpha
 > globalParsTrace(runInfoObj,parameters="alpha",plotBurnIn=FALSE)
-[1] "alpha"
 > 
 > 
 > 
@@ -533,6 +397,26 @@ Sweep: 1
 > base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
 > base::cat("is.wholenumber", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
+> nameEx("mapforGeneratedData")
+> ### * mapforGeneratedData
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: mapforGeneratedData
+> ### Title: Map generated data
+> ### Aliases: mapforGeneratedData
+> 
+> ### ** Examples
+> 
+> inputs=generateSampleDataFile(clusSummaryPoissonNormalSpatial())
+> mapforGeneratedData(inputs$uCAR)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("mapforGeneratedData", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
 > nameEx("margModelPosterior")
 > ### * margModelPosterior
 > 
@@ -553,11 +437,3134 @@ Sweep: 1
 +          nBurn=10, data=inputs$inputData, output="output", 
 +          covNames = inputs$covNames, nClusInit=15,
 +          fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1398765363
+Random number seed: 1410381911
 Sweep: 1
 > 
 > margModelPosterior(runInfoObj)
-[1] -4009.32
+$meanMargModPost
+[1] -3972.042
+
+$runInfoObj
+$runInfoObj$directoryPath
+[1] "."
+
+$runInfoObj$fileStem
+[1] "output"
+
+$runInfoObj$inputFileName
+[1] "output_input.txt"
+
+$runInfoObj$nSweeps
+[1] 5
+
+$runInfoObj$nBurn
+[1] 10
+
+$runInfoObj$reportBurnIn
+[1] FALSE
+
+$runInfoObj$nFilter
+[1] 1
+
+$runInfoObj$nProgress
+[1] 500
+
+$runInfoObj$nSubjects
+[1] 1000
+
+$runInfoObj$nPredictSubjects
+[1] 0
+
+$runInfoObj$fullPredictFile
+[1] FALSE
+
+$runInfoObj$alpha
+[1] -2
+
+$runInfoObj$dPitmanYor
+[1] 0
+
+$runInfoObj$covNames
+[1] "Variable1" "Variable2" "Variable3" "Variable4" "Variable5"
+
+$runInfoObj$discreteCovs
+[1] NA
+
+$runInfoObj$continuousCovs
+[1] NA
+
+$runInfoObj$xModel
+[1] "Discrete"
+
+$runInfoObj$includeResponse
+[1] TRUE
+
+$runInfoObj$whichLabelSwitch
+[1] "123"
+
+$runInfoObj$yModel
+[1] "Bernoulli"
+
+$runInfoObj$varSelect
+[1] FALSE
+
+$runInfoObj$varSelectType
+NULL
+
+$runInfoObj$nCovariates
+[1] 5
+
+$runInfoObj$nDiscreteCovs
+[1] NA
+
+$runInfoObj$nContinuousCovs
+[1] NA
+
+$runInfoObj$nFixedEffects
+[1] 2
+
+$runInfoObj$nCategoriesY
+[1] 1
+
+$runInfoObj$nCategories
+[1] 3 3 3 3 3
+
+$runInfoObj$extraYVar
+[1] FALSE
+
+$runInfoObj$includeCAR
+[1] FALSE
+
+$runInfoObj$xMat
+     Variable1 Variable2 Variable3 Variable4 Variable5
+1            0         0         0         2         0
+2            2         0         0         0         0
+3            0         0         2         0         0
+4            0         1         0         0         1
+5            0         0         1         0         0
+6            0         0         0         0         0
+7            0         0         2         0         0
+8            0         0         0         0         0
+9            1         0         0         0         0
+10           0         0         0         0         0
+11           0         1         0         0         0
+12           0         2         2         0         0
+13           0         0         2         0         0
+14           0         0         0         0         2
+15           0         2         0         0         0
+16           0         0         0         0         0
+17           0         0         0         0         1
+18           0         0         0         1         0
+19           0         0         0         1         1
+20           0         2         0         0         0
+21           0         0         0         0         0
+22           0         0         2         0         1
+23           0         2         0         0         2
+24           0         0         0         0         0
+25           0         0         0         2         0
+26           0         0         0         0         0
+27           0         0         0         0         0
+28           0         0         0         0         0
+29           0         0         0         1         0
+30           0         0         0         2         0
+31           0         0         0         0         0
+32           0         0         0         1         0
+33           0         2         0         0         1
+34           1         0         2         0         0
+35           0         0         2         0         0
+36           0         0         0         0         2
+37           1         1         0         1         0
+38           0         0         0         2         0
+39           0         0         0         0         0
+40           0         0         0         2         0
+41           0         0         0         2         2
+42           0         0         2         0         0
+43           0         0         0         0         0
+44           0         1         2         0         0
+45           0         0         0         0         0
+46           0         0         2         0         0
+47           0         0         0         0         0
+48           0         0         0         0         0
+49           1         0         0         1         0
+50           0         1         0         0         0
+51           0         1         0         0         0
+52           0         0         1         0         0
+53           0         0         1         0         0
+54           1         2         0         0         0
+55           0         0         0         0         0
+56           2         0         1         0         0
+57           0         1         0         0         2
+58           0         0         0         0         1
+59           0         1         0         0         0
+60           0         2         0         0         1
+61           0         0         1         0         2
+62           0         2         2         0         0
+63           0         0         1         0         0
+64           0         0         1         0         0
+65           0         0         2         2         0
+66           0         0         0         0         0
+67           0         0         0         0         0
+68           2         0         0         1         0
+69           0         0         0         0         0
+70           0         0         0         1         0
+71           0         2         2         0         0
+72           0         2         0         0         0
+73           0         0         0         2         0
+74           0         0         0         0         0
+75           0         0         0         0         0
+76           0         0         0         0         0
+77           0         2         0         1         0
+78           0         1         0         0         0
+79           0         0         2         0         1
+80           0         0         0         2         0
+81           0         1         1         2         0
+82           0         0         0         0         0
+83           2         0         0         0         1
+84           0         0         0         1         0
+85           0         2         2         0         0
+86           0         0         2         0         0
+87           0         0         0         0         0
+88           0         0         0         1         0
+89           0         0         0         2         0
+90           1         0         0         0         0
+91           0         0         1         0         0
+92           0         0         0         0         0
+93           0         0         0         2         1
+94           0         0         0         0         0
+95           2         1         0         0         0
+96           0         2         0         0         0
+97           1         0         0         0         0
+98           0         2         2         0         0
+99           0         0         0         2         0
+100          0         2         0         0         0
+101          0         0         0         0         0
+102          0         1         2         0         0
+103          1         0         0         0         0
+104          0         0         0         0         0
+105          0         1         0         0         0
+106          0         0         0         0         1
+107          0         0         0         1         0
+108          0         2         0         0         2
+109          0         0         0         0         0
+110          0         2         0         0         0
+111          0         0         0         0         0
+112          0         2         0         0         0
+113          0         0         0         0         0
+114          0         0         1         0         0
+115          0         1         0         1         0
+116          0         1         1         0         2
+117          0         0         0         0         2
+118          2         0         1         0         0
+119          0         0         0         0         2
+120          0         0         0         0         0
+121          1         0         0         2         0
+122          0         0         0         0         0
+123          2         0         0         0         0
+124          0         2         0         0         0
+125          0         0         0         0         2
+126          2         0         0         0         0
+127          0         2         0         0         0
+128          0         0         0         0         0
+129          0         0         0         0         0
+130          0         0         0         1         0
+131          0         0         0         0         2
+132          0         0         0         0         0
+133          0         0         0         1         0
+134          0         0         0         0         0
+135          0         2         0         1         0
+136          0         0         0         0         0
+137          0         0         1         0         0
+138          0         0         0         0         1
+139          2         0         1         0         0
+140          0         0         0         0         0
+141          0         0         0         2         0
+142          0         0         0         0         0
+143          2         2         2         2         0
+144          0         0         0         0         2
+145          0         1         0         0         2
+146          0         0         0         0         1
+147          0         0         0         1         0
+148          0         0         0         1         0
+149          1         0         0         0         2
+150          0         0         0         1         0
+151          2         2         0         0         0
+152          0         0         0         2         1
+153          0         0         0         0         0
+154          0         0         2         0         2
+155          0         0         0         0         1
+156          2         0         0         1         0
+157          0         1         0         1         0
+158          0         1         0         0         0
+159          0         0         0         2         0
+160          0         0         0         0         0
+161          0         1         0         0         1
+162          0         0         0         0         1
+163          0         0         0         0         0
+164          0         0         2         0         0
+165          0         0         0         1         0
+166          0         0         0         0         2
+167          0         0         0         2         1
+168          0         0         1         2         0
+169          0         0         2         0         2
+170          0         0         0         1         0
+171          0         0         0         0         0
+172          0         0         0         0         0
+173          0         0         0         1         0
+174          0         0         2         0         0
+175          0         0         2         0         0
+176          0         0         0         0         1
+177          0         0         0         0         0
+178          0         1         2         0         2
+179          0         0         0         0         2
+180          0         0         0         0         1
+181          0         0         0         0         0
+182          0         0         0         0         0
+183          0         0         0         0         0
+184          0         2         0         0         0
+185          0         2         0         2         0
+186          0         0         0         0         0
+187          1         0         0         1         0
+188          0         0         2         0         0
+189          0         0         0         0         1
+190          0         0         0         2         2
+191          0         0         1         0         0
+192          0         0         0         1         0
+193          0         0         0         0         0
+194          2         0         0         2         0
+195          0         0         0         1         0
+196          0         0         0         0         0
+197          2         0         0         0         0
+198          0         0         0         0         0
+199          0         0         0         0         0
+200          1         0         0         0         0
+201          0         0         1         1         1
+202          0         0         0         1         0
+203          0         1         1         1         0
+204          0         0         1         1         0
+205          0         2         1         1         2
+206          0         0         1         1         2
+207          0         0         1         1         2
+208          0         1         1         1         2
+209          2         0         1         1         1
+210          0         2         1         1         2
+211          0         0         1         1         1
+212          2         0         1         1         2
+213          2         0         0         2         2
+214          0         0         0         1         0
+215          0         0         1         1         2
+216          0         2         1         0         0
+217          0         0         1         1         2
+218          0         0         1         1         2
+219          0         0         2         1         2
+220          0         0         0         2         2
+221          0         0         1         1         2
+222          0         0         1         1         1
+223          0         0         1         1         2
+224          0         0         1         1         2
+225          0         0         1         1         2
+226          0         1         1         1         0
+227          0         0         2         1         1
+228          0         0         1         1         2
+229          2         0         1         1         0
+230          1         0         1         1         2
+231          0         0         0         1         2
+232          0         0         1         1         2
+233          0         0         1         1         2
+234          0         0         1         1         2
+235          0         0         1         1         2
+236          2         1         1         1         2
+237          0         0         2         1         2
+238          0         0         2         1         2
+239          2         0         1         1         1
+240          1         0         1         1         2
+241          0         0         0         2         0
+242          0         0         1         1         2
+243          0         2         0         2         2
+244          0         1         1         1         2
+245          0         0         1         2         2
+246          0         0         1         1         2
+247          2         0         1         1         2
+248          0         0         1         1         2
+249          0         0         1         2         0
+250          0         0         1         2         2
+251          0         0         1         1         2
+252          2         0         1         1         2
+253          0         0         1         1         1
+254          0         0         1         1         2
+255          0         2         1         1         2
+256          0         2         1         1         2
+257          0         0         0         1         2
+258          2         0         1         1         2
+259          2         0         1         1         2
+260          1         2         1         1         2
+261          0         0         1         2         1
+262          0         2         1         1         1
+263          0         0         1         2         2
+264          0         0         1         1         2
+265          0         1         1         1         2
+266          0         0         1         1         2
+267          0         0         1         1         2
+268          0         0         1         1         2
+269          0         0         0         1         2
+270          1         2         1         1         2
+271          0         0         0         1         2
+272          0         0         1         1         2
+273          0         0         1         0         0
+274          0         2         1         1         0
+275          0         0         1         1         2
+276          0         1         1         1         2
+277          1         0         1         1         2
+278          0         0         1         1         1
+279          2         0         1         1         2
+280          0         0         1         1         2
+281          0         0         2         1         2
+282          0         0         1         1         0
+283          0         0         1         1         2
+284          0         0         1         1         2
+285          2         2         1         1         2
+286          2         2         1         1         2
+287          0         0         1         1         2
+288          1         0         1         2         2
+289          2         2         1         0         2
+290          0         0         0         1         0
+291          0         0         1         1         2
+292          0         0         1         1         2
+293          0         2         1         1         2
+294          0         0         2         1         2
+295          0         0         0         1         0
+296          0         1         1         2         2
+297          0         0         1         1         2
+298          0         0         1         1         2
+299          0         0         1         1         2
+300          1         2         1         1         2
+301          0         0         1         1         2
+302          0         0         1         1         2
+303          0         0         0         1         1
+304          0         0         1         1         2
+305          0         2         0         1         2
+306          0         0         1         1         2
+307          0         2         1         1         0
+308          1         2         1         1         2
+309          0         1         1         1         2
+310          0         0         1         1         2
+311          0         0         1         1         2
+312          0         0         1         2         2
+313          0         0         1         1         2
+314          0         0         0         2         2
+315          1         0         1         0         2
+316          0         0         1         2         2
+317          0         0         0         1         0
+318          0         0         1         0         2
+319          0         0         1         1         2
+320          1         0         1         2         1
+321          0         0         1         1         1
+322          0         0         1         1         2
+323          0         0         1         0         2
+324          0         0         2         1         2
+325          0         2         1         1         2
+326          0         0         0         1         2
+327          0         0         1         0         2
+328          0         0         1         1         2
+329          0         0         1         1         2
+330          0         1         1         1         1
+331          2         0         1         1         2
+332          0         0         1         1         2
+333          0         0         1         1         2
+334          0         0         0         0         2
+335          0         0         1         2         1
+336          0         0         1         0         2
+337          1         1         1         1         2
+338          1         0         1         0         2
+339          1         0         1         1         2
+340          2         0         1         0         0
+341          1         0         2         1         0
+342          2         0         1         1         2
+343          0         0         2         1         2
+344          2         0         1         0         2
+345          0         0         0         1         2
+346          0         0         0         2         2
+347          0         1         2         1         1
+348          1         0         1         2         0
+349          0         1         2         1         2
+350          0         0         1         1         2
+351          0         0         1         1         0
+352          0         0         1         1         2
+353          0         1         1         1         2
+354          0         1         1         1         2
+355          0         0         0         1         2
+356          1         0         1         1         2
+357          0         0         1         0         2
+358          0         0         1         1         2
+359          0         0         0         0         0
+360          2         0         2         0         2
+361          1         0         1         1         2
+362          2         0         2         1         2
+363          0         0         1         1         2
+364          1         0         2         1         2
+365          0         0         1         1         2
+366          1         2         1         1         2
+367          0         0         1         1         0
+368          2         0         1         2         2
+369          0         0         2         1         2
+370          1         1         1         1         2
+371          0         0         1         2         2
+372          0         0         0         1         2
+373          0         0         1         1         2
+374          0         0         1         1         2
+375          0         0         1         1         0
+376          0         0         1         1         0
+377          0         2         1         1         2
+378          0         0         1         1         2
+379          0         0         1         1         2
+380          0         0         1         1         2
+381          0         0         1         1         2
+382          0         0         0         1         2
+383          0         0         1         1         1
+384          0         0         0         1         2
+385          0         0         1         1         2
+386          2         0         1         0         2
+387          0         0         1         1         2
+388          0         0         1         1         2
+389          1         1         1         1         2
+390          0         0         1         0         2
+391          0         0         1         1         0
+392          0         0         1         2         2
+393          2         2         1         1         0
+394          1         0         1         0         2
+395          0         2         1         1         2
+396          0         0         1         2         1
+397          0         0         1         0         0
+398          0         0         1         1         2
+399          0         2         1         1         2
+400          0         1         1         1         2
+401          1         1         1         0         2
+402          1         1         1         1         0
+403          0         1         1         1         1
+404          1         1         2         1         1
+405          1         2         0         1         1
+406          1         2         1         1         0
+407          1         1         1         1         1
+408          1         2         1         2         0
+409          1         1         1         1         1
+410          0         1         2         1         2
+411          1         1         2         0         1
+412          1         1         1         0         0
+413          1         1         2         1         1
+414          1         1         1         1         1
+415          1         1         1         1         1
+416          1         1         2         1         1
+417          1         2         1         0         1
+418          1         1         1         1         1
+419          1         1         1         1         1
+420          1         1         1         2         0
+421          1         1         0         1         2
+422          2         1         1         2         1
+423          1         0         1         2         1
+424          1         0         1         1         1
+425          1         1         1         1         2
+426          1         1         1         1         1
+427          0         2         1         0         1
+428          1         2         1         0         1
+429          1         0         1         0         2
+430          1         1         1         2         1
+431          1         1         1         2         1
+432          1         1         1         1         1
+433          1         0         1         1         1
+434          2         1         0         1         1
+435          2         1         2         1         1
+436          2         0         1         1         1
+437          1         1         1         1         1
+438          1         1         1         0         1
+439          1         1         2         1         1
+440          1         1         2         1         1
+441          1         1         1         1         1
+442          0         1         2         1         1
+443          0         1         1         1         1
+444          1         1         0         0         1
+445          1         2         2         1         1
+446          1         1         1         1         1
+447          1         1         1         1         0
+448          1         1         1         1         1
+449          1         1         1         1         1
+450          1         1         1         2         1
+451          1         1         1         1         1
+452          1         0         1         1         1
+453          1         2         1         1         2
+454          1         1         2         1         1
+455          1         1         0         1         1
+456          0         1         1         0         1
+457          1         1         1         1         1
+458          1         1         1         1         1
+459          2         1         1         0         1
+460          2         1         1         1         1
+461          1         1         1         1         1
+462          1         1         2         1         1
+463          1         2         1         2         1
+464          1         1         1         1         2
+465          1         1         1         1         1
+466          1         1         1         1         2
+467          1         0         1         1         2
+468          1         1         1         1         1
+469          1         1         1         1         1
+470          1         1         1         1         1
+471          2         1         1         2         1
+472          1         1         1         1         1
+473          1         1         1         1         2
+474          1         1         1         0         1
+475          1         2         1         1         2
+476          1         1         1         1         1
+477          1         1         1         0         1
+478          1         1         1         1         1
+479          0         1         1         1         1
+480          0         1         1         1         2
+481          1         1         1         1         1
+482          2         1         1         2         1
+483          1         1         1         1         0
+484          1         1         2         1         1
+485          1         1         1         1         0
+486          1         1         0         1         0
+487          1         1         1         1         1
+488          1         1         1         1         1
+489          1         2         1         1         1
+490          2         1         1         1         1
+491          1         1         1         2         1
+492          2         1         1         1         0
+493          1         0         1         1         1
+494          1         2         1         1         1
+495          1         0         1         1         0
+496          2         1         1         1         0
+497          1         2         2         1         2
+498          2         1         2         1         1
+499          0         1         1         1         1
+500          1         1         1         0         1
+501          0         0         0         1         1
+502          1         1         1         0         1
+503          1         0         1         1         1
+504          1         1         1         0         1
+505          1         1         1         1         1
+506          1         1         0         1         2
+507          1         1         1         1         1
+508          1         1         1         1         0
+509          0         1         1         1         1
+510          1         1         1         1         2
+511          1         1         1         1         1
+512          1         1         1         1         1
+513          1         1         1         1         1
+514          1         1         1         0         2
+515          1         1         1         1         1
+516          1         1         1         1         1
+517          1         1         2         1         1
+518          1         0         1         1         1
+519          1         1         1         1         2
+520          1         0         0         1         2
+521          1         1         1         1         1
+522          1         2         0         1         1
+523          0         1         1         1         1
+524          1         1         1         1         1
+525          1         2         1         1         2
+526          1         1         1         1         1
+527          1         1         1         1         1
+528          1         1         1         1         1
+529          1         1         1         2         1
+530          1         1         1         1         1
+531          1         1         2         1         1
+532          1         1         1         2         1
+533          1         0         1         1         1
+534          0         1         1         1         1
+535          1         1         1         1         1
+536          1         1         2         1         1
+537          2         1         1         1         1
+538          1         1         1         2         2
+539          1         1         1         0         1
+540          1         1         1         1         1
+541          2         0         1         2         1
+542          1         1         1         1         1
+543          1         1         1         1         2
+544          2         1         1         1         2
+545          0         1         1         1         2
+546          1         1         0         1         1
+547          2         1         1         1         2
+548          1         1         1         1         1
+549          1         1         1         1         2
+550          1         1         1         1         1
+551          1         1         1         1         1
+552          1         1         0         1         1
+553          2         1         2         1         0
+554          0         2         1         1         1
+555          1         1         0         1         1
+556          1         1         1         1         1
+557          2         0         1         1         1
+558          2         1         1         1         2
+559          1         0         1         1         2
+560          1         1         1         1         1
+561          1         0         0         1         1
+562          0         1         1         1         1
+563          1         2         1         2         1
+564          1         1         1         0         0
+565          1         2         1         1         1
+566          1         1         1         1         1
+567          1         0         1         2         1
+568          2         1         1         1         0
+569          1         1         1         0         1
+570          1         2         1         1         1
+571          1         1         1         1         1
+572          1         1         1         0         1
+573          0         1         1         1         2
+574          2         1         1         1         1
+575          0         2         1         1         1
+576          1         1         0         1         1
+577          1         1         2         2         1
+578          1         1         0         1         0
+579          1         0         1         1         1
+580          1         1         1         1         0
+581          1         1         1         1         1
+582          0         1         0         1         1
+583          2         1         1         0         2
+584          1         2         1         1         1
+585          1         1         1         1         1
+586          1         1         1         1         1
+587          1         1         1         1         2
+588          1         1         1         1         1
+589          1         1         1         1         2
+590          1         1         1         1         0
+591          1         2         1         1         0
+592          1         1         1         1         1
+593          1         2         1         1         2
+594          1         0         0         1         1
+595          1         1         2         1         1
+596          1         1         1         1         1
+597          0         1         2         1         1
+598          1         1         0         1         1
+599          1         1         2         1         0
+600          1         1         1         1         2
+601          0         1         0         2         2
+602          2         0         1         2         0
+603          2         2         0         2         0
+604          2         1         0         2         0
+605          2         1         0         2         1
+606          0         1         0         0         0
+607          0         1         2         0         0
+608          2         1         0         2         0
+609          2         2         0         2         1
+610          0         1         0         2         0
+611          2         1         0         2         0
+612          2         1         0         2         0
+613          2         1         0         1         2
+614          1         1         1         2         2
+615          2         1         1         1         2
+616          2         1         0         2         2
+617          2         1         0         2         0
+618          2         1         2         2         1
+619          2         1         0         2         2
+620          2         1         0         2         0
+621          1         1         0         2         1
+622          2         1         1         2         0
+623          1         1         0         2         0
+624          2         1         2         0         0
+625          2         1         0         2         0
+626          2         1         0         1         1
+627          2         1         2         2         2
+628          2         1         2         0         0
+629          2         1         2         2         0
+630          0         1         0         2         0
+631          2         0         0         2         0
+632          2         1         0         0         0
+633          2         1         1         2         0
+634          0         0         0         2         1
+635          2         1         0         2         2
+636          1         1         0         2         0
+637          2         1         0         2         0
+638          2         1         0         2         0
+639          2         1         0         2         0
+640          2         0         0         2         0
+641          2         1         0         2         0
+642          2         2         0         1         2
+643          2         1         0         2         1
+644          2         1         0         2         0
+645          0         2         0         2         0
+646          2         1         0         2         0
+647          2         1         0         1         0
+648          2         1         0         2         0
+649          2         2         0         1         0
+650          1         2         0         2         2
+651          2         1         0         2         0
+652          2         2         0         2         0
+653          2         1         0         2         0
+654          1         0         0         2         0
+655          1         1         0         0         1
+656          2         1         0         0         0
+657          2         1         0         2         0
+658          0         2         1         2         0
+659          2         1         0         2         0
+660          2         2         1         2         0
+661          2         2         0         2         0
+662          2         1         0         2         2
+663          2         1         0         2         2
+664          2         1         1         2         0
+665          2         1         0         2         0
+666          0         1         0         2         0
+667          1         1         2         2         0
+668          2         1         0         2         0
+669          2         1         1         0         2
+670          2         1         0         2         0
+671          1         1         0         1         0
+672          0         1         0         2         0
+673          2         0         0         2         0
+674          2         0         0         1         1
+675          2         1         2         2         0
+676          2         1         0         2         0
+677          2         1         0         2         0
+678          2         1         0         2         1
+679          2         1         0         2         1
+680          2         1         0         0         0
+681          1         1         0         2         0
+682          2         1         0         2         0
+683          2         0         1         2         0
+684          2         1         2         2         2
+685          2         1         0         2         0
+686          2         1         0         0         0
+687          2         1         0         2         0
+688          2         1         0         2         0
+689          2         1         0         2         1
+690          2         1         0         2         0
+691          2         1         0         2         0
+692          2         1         2         0         0
+693          2         1         0         1         0
+694          2         0         0         2         0
+695          0         1         0         0         2
+696          0         1         0         1         0
+697          2         1         0         2         0
+698          2         1         0         0         0
+699          2         1         2         2         0
+700          0         1         2         2         0
+701          2         1         0         2         0
+702          2         1         0         2         0
+703          2         1         0         2         0
+704          2         2         0         2         0
+705          2         1         0         1         0
+706          0         1         0         2         2
+707          2         1         0         2         2
+708          2         1         0         2         2
+709          1         2         0         2         0
+710          2         1         0         2         0
+711          2         1         0         0         0
+712          2         1         0         0         2
+713          2         1         0         2         0
+714          2         1         0         2         0
+715          2         1         0         2         1
+716          2         1         0         2         2
+717          1         1         1         2         0
+718          2         1         1         0         0
+719          0         1         2         2         2
+720          2         1         0         2         0
+721          2         1         2         2         0
+722          2         1         0         1         0
+723          2         1         0         2         0
+724          1         2         0         0         0
+725          2         1         0         2         0
+726          2         1         0         0         0
+727          2         1         0         0         0
+728          2         1         0         2         0
+729          2         1         0         2         0
+730          2         1         0         2         1
+731          2         1         2         2         0
+732          2         1         0         2         1
+733          2         1         0         2         0
+734          2         1         1         2         2
+735          2         1         0         2         1
+736          2         1         0         2         2
+737          2         0         0         2         0
+738          1         1         0         0         0
+739          2         1         0         2         0
+740          0         1         0         2         0
+741          2         1         1         0         0
+742          2         1         0         2         1
+743          2         0         0         2         0
+744          2         1         1         2         0
+745          1         1         0         2         0
+746          2         1         0         2         2
+747          2         1         0         2         0
+748          1         1         0         0         0
+749          2         1         0         2         1
+750          2         2         0         2         0
+751          2         1         0         0         0
+752          2         1         0         0         0
+753          2         1         0         2         0
+754          1         0         0         2         0
+755          2         1         0         2         2
+756          2         1         0         2         2
+757          2         1         0         2         1
+758          2         1         0         2         0
+759          2         1         0         2         0
+760          2         1         0         2         0
+761          2         0         0         2         0
+762          2         1         2         2         0
+763          1         1         0         2         0
+764          0         1         0         2         0
+765          2         1         0         2         0
+766          2         1         2         2         0
+767          2         0         0         2         2
+768          2         1         1         2         2
+769          2         1         0         2         1
+770          0         1         0         1         1
+771          2         1         0         0         1
+772          2         2         0         2         0
+773          2         2         0         2         0
+774          2         1         0         2         2
+775          2         1         1         2         0
+776          2         0         0         2         0
+777          0         1         0         1         0
+778          2         1         0         2         0
+779          2         1         0         0         1
+780          2         1         2         2         0
+781          2         1         0         2         0
+782          2         1         1         2         0
+783          2         1         0         2         0
+784          2         1         0         2         0
+785          2         0         0         0         0
+786          2         1         0         2         0
+787          2         1         0         0         0
+788          2         0         0         2         1
+789          2         1         0         2         1
+790          2         1         0         2         1
+791          2         1         2         2         0
+792          2         1         0         2         0
+793          2         1         0         2         1
+794          1         1         2         2         1
+795          2         1         0         0         0
+796          2         1         0         1         1
+797          1         1         0         0         0
+798          2         0         0         2         0
+799          2         1         0         2         0
+800          2         1         0         2         0
+801          2         1         1         2         2
+802          0         0         2         0         2
+803          2         2         1         0         2
+804          2         2         2         2         2
+805          2         2         2         2         2
+806          0         2         2         2         2
+807          0         2         0         2         2
+808          2         2         2         2         2
+809          2         2         2         1         2
+810          2         2         2         2         2
+811          2         1         2         2         2
+812          2         1         0         2         2
+813          1         0         2         2         2
+814          2         1         2         2         2
+815          2         2         2         2         2
+816          2         2         2         2         0
+817          2         2         1         2         2
+818          2         2         1         2         2
+819          2         2         2         2         2
+820          2         2         2         2         0
+821          1         2         2         2         1
+822          2         2         1         2         2
+823          2         2         1         2         2
+824          2         0         2         0         1
+825          2         2         2         1         0
+826          2         0         2         2         2
+827          2         0         2         2         2
+828          2         2         1         2         2
+829          2         2         2         2         2
+830          2         2         2         2         1
+831          0         2         0         2         2
+832          1         2         2         2         2
+833          2         2         1         2         1
+834          2         2         0         2         2
+835          2         2         2         2         2
+836          2         2         2         2         2
+837          2         1         1         2         2
+838          2         2         2         2         2
+839          0         1         2         2         2
+840          2         2         2         2         2
+841          2         0         0         2         0
+842          0         2         2         2         2
+843          2         2         1         2         2
+844          2         2         2         2         2
+845          0         2         2         2         2
+846          2         2         2         1         0
+847          2         2         2         2         2
+848          2         0         2         2         2
+849          2         2         2         2         2
+850          2         2         2         2         2
+851          2         2         2         0         2
+852          2         2         1         1         2
+853          2         2         2         0         1
+854          2         2         2         1         2
+855          2         0         2         0         2
+856          0         2         2         1         2
+857          2         2         2         2         2
+858          2         1         2         1         2
+859          2         1         2         2         2
+860          2         1         2         2         2
+861          2         2         2         2         1
+862          2         2         1         2         2
+863          1         0         2         2         2
+864          2         2         1         2         2
+865          2         2         2         2         2
+866          2         0         2         2         2
+867          0         2         2         2         0
+868          2         2         2         2         2
+869          2         2         2         0         2
+870          2         2         2         2         2
+871          2         2         2         2         1
+872          2         2         2         2         2
+873          2         2         1         2         2
+874          2         2         1         2         2
+875          2         2         1         2         1
+876          2         2         2         2         2
+877          2         2         0         2         2
+878          2         2         0         0         2
+879          2         2         2         2         2
+880          2         2         2         2         0
+881          2         2         2         2         2
+882          2         2         2         1         2
+883          0         2         2         2         1
+884          2         2         2         1         2
+885          0         2         2         2         2
+886          2         2         2         2         2
+887          2         2         2         2         2
+888          2         2         2         2         2
+889          2         2         2         2         2
+890          0         2         2         2         0
+891          2         2         2         0         2
+892          2         2         2         2         2
+893          1         2         2         2         0
+894          2         2         0         2         2
+895          2         1         1         2         2
+896          2         1         2         0         2
+897          2         2         2         2         2
+898          2         2         2         2         2
+899          0         2         2         2         2
+900          2         2         2         2         1
+901          2         2         2         2         0
+902          2         0         2         2         2
+903          2         2         2         0         2
+904          2         1         2         2         2
+905          2         2         2         1         2
+906          1         2         0         2         2
+907          0         2         0         2         0
+908          2         2         2         2         2
+909          2         0         2         1         2
+910          2         0         2         2         2
+911          2         2         2         2         2
+912          2         2         2         2         2
+913          0         2         2         2         2
+914          1         2         2         0         2
+915          0         2         1         2         2
+916          2         2         0         2         2
+917          2         2         2         2         2
+918          2         1         0         2         2
+919          2         2         0         2         1
+920          2         2         2         2         2
+921          2         2         2         0         2
+922          2         2         2         2         2
+923          2         2         2         2         2
+924          2         1         1         2         0
+925          2         2         2         2         2
+926          2         2         2         2         1
+927          2         2         2         2         0
+928          2         2         2         2         2
+929          2         2         2         2         1
+930          2         2         2         2         1
+931          2         2         2         2         2
+932          2         2         2         2         2
+933          1         2         2         2         2
+934          2         2         2         2         2
+935          2         1         2         2         2
+936          2         2         1         2         2
+937          2         2         2         1         2
+938          2         0         2         2         1
+939          2         2         2         2         2
+940          2         2         2         2         2
+941          2         2         2         2         2
+942          2         2         2         2         2
+943          2         2         2         2         0
+944          2         0         2         0         0
+945          1         2         2         2         0
+946          2         2         2         1         1
+947          2         2         2         2         2
+948          0         2         2         2         2
+949          2         2         2         2         2
+950          0         2         2         2         0
+951          2         2         2         2         1
+952          2         2         2         2         2
+953          2         1         2         2         2
+954          2         0         2         2         2
+955          0         2         2         2         2
+956          0         2         1         0         2
+957          2         2         1         2         0
+958          2         2         2         1         2
+959          1         1         2         2         2
+960          2         2         2         0         2
+961          2         2         1         2         2
+962          2         2         2         2         2
+963          2         2         2         2         2
+964          2         2         1         2         0
+965          2         1         2         2         2
+966          0         2         2         2         1
+967          0         2         2         2         2
+968          0         2         0         2         2
+969          2         2         2         2         0
+970          2         2         2         2         2
+971          2         2         1         2         1
+972          0         2         2         2         2
+973          2         2         2         2         1
+974          1         1         2         2         0
+975          2         1         2         2         2
+976          2         2         2         2         2
+977          0         2         0         2         2
+978          2         2         2         1         2
+979          2         2         2         2         0
+980          2         1         2         2         2
+981          2         2         0         2         2
+982          2         2         1         2         2
+983          2         2         2         2         1
+984          2         2         2         0         2
+985          0         2         2         2         2
+986          0         2         0         2         1
+987          2         2         0         2         2
+988          2         0         1         1         2
+989          2         2         2         2         2
+990          2         2         2         2         2
+991          1         2         0         2         2
+992          0         1         2         0         2
+993          2         1         2         2         2
+994          2         2         0         2         2
+995          2         2         2         2         2
+996          1         1         2         2         2
+997          2         2         1         2         1
+998          2         2         2         2         2
+999          1         2         2         2         2
+1000         0         0         2         2         2
+
+$runInfoObj$yMat
+        [,1]
+   [1,]    1
+   [2,]    1
+   [3,]    1
+   [4,]    1
+   [5,]    1
+   [6,]    1
+   [7,]    1
+   [8,]    1
+   [9,]    1
+  [10,]    1
+  [11,]    1
+  [12,]    1
+  [13,]    1
+  [14,]    1
+  [15,]    1
+  [16,]    1
+  [17,]    1
+  [18,]    1
+  [19,]    1
+  [20,]    1
+  [21,]    1
+  [22,]    1
+  [23,]    1
+  [24,]    1
+  [25,]    1
+  [26,]    1
+  [27,]    1
+  [28,]    0
+  [29,]    1
+  [30,]    1
+  [31,]    1
+  [32,]    1
+  [33,]    1
+  [34,]    1
+  [35,]    1
+  [36,]    1
+  [37,]    1
+  [38,]    1
+  [39,]    1
+  [40,]    1
+  [41,]    0
+  [42,]    1
+  [43,]    0
+  [44,]    1
+  [45,]    1
+  [46,]    1
+  [47,]    0
+  [48,]    1
+  [49,]    1
+  [50,]    1
+  [51,]    1
+  [52,]    1
+  [53,]    1
+  [54,]    1
+  [55,]    0
+  [56,]    1
+  [57,]    1
+  [58,]    1
+  [59,]    1
+  [60,]    1
+  [61,]    1
+  [62,]    1
+  [63,]    0
+  [64,]    1
+  [65,]    1
+  [66,]    1
+  [67,]    1
+  [68,]    1
+  [69,]    1
+  [70,]    1
+  [71,]    1
+  [72,]    1
+  [73,]    1
+  [74,]    1
+  [75,]    0
+  [76,]    1
+  [77,]    1
+  [78,]    1
+  [79,]    1
+  [80,]    1
+  [81,]    1
+  [82,]    1
+  [83,]    1
+  [84,]    1
+  [85,]    0
+  [86,]    1
+  [87,]    1
+  [88,]    1
+  [89,]    1
+  [90,]    1
+  [91,]    1
+  [92,]    1
+  [93,]    1
+  [94,]    1
+  [95,]    1
+  [96,]    1
+  [97,]    1
+  [98,]    1
+  [99,]    1
+ [100,]    1
+ [101,]    1
+ [102,]    1
+ [103,]    1
+ [104,]    1
+ [105,]    1
+ [106,]    0
+ [107,]    1
+ [108,]    1
+ [109,]    1
+ [110,]    1
+ [111,]    1
+ [112,]    1
+ [113,]    1
+ [114,]    1
+ [115,]    1
+ [116,]    1
+ [117,]    1
+ [118,]    1
+ [119,]    1
+ [120,]    1
+ [121,]    1
+ [122,]    0
+ [123,]    1
+ [124,]    1
+ [125,]    1
+ [126,]    1
+ [127,]    1
+ [128,]    1
+ [129,]    1
+ [130,]    1
+ [131,]    1
+ [132,]    1
+ [133,]    1
+ [134,]    1
+ [135,]    0
+ [136,]    1
+ [137,]    1
+ [138,]    1
+ [139,]    1
+ [140,]    1
+ [141,]    1
+ [142,]    1
+ [143,]    1
+ [144,]    1
+ [145,]    1
+ [146,]    1
+ [147,]    1
+ [148,]    1
+ [149,]    1
+ [150,]    1
+ [151,]    1
+ [152,]    1
+ [153,]    0
+ [154,]    1
+ [155,]    1
+ [156,]    0
+ [157,]    1
+ [158,]    0
+ [159,]    1
+ [160,]    1
+ [161,]    1
+ [162,]    1
+ [163,]    1
+ [164,]    1
+ [165,]    1
+ [166,]    1
+ [167,]    0
+ [168,]    1
+ [169,]    1
+ [170,]    1
+ [171,]    1
+ [172,]    1
+ [173,]    0
+ [174,]    1
+ [175,]    1
+ [176,]    1
+ [177,]    1
+ [178,]    1
+ [179,]    1
+ [180,]    1
+ [181,]    1
+ [182,]    1
+ [183,]    1
+ [184,]    1
+ [185,]    0
+ [186,]    1
+ [187,]    1
+ [188,]    1
+ [189,]    1
+ [190,]    1
+ [191,]    1
+ [192,]    1
+ [193,]    1
+ [194,]    0
+ [195,]    0
+ [196,]    1
+ [197,]    1
+ [198,]    0
+ [199,]    1
+ [200,]    1
+ [201,]    0
+ [202,]    0
+ [203,]    1
+ [204,]    1
+ [205,]    0
+ [206,]    1
+ [207,]    1
+ [208,]    1
+ [209,]    0
+ [210,]    1
+ [211,]    1
+ [212,]    1
+ [213,]    0
+ [214,]    1
+ [215,]    1
+ [216,]    1
+ [217,]    0
+ [218,]    1
+ [219,]    1
+ [220,]    1
+ [221,]    0
+ [222,]    0
+ [223,]    1
+ [224,]    0
+ [225,]    1
+ [226,]    1
+ [227,]    1
+ [228,]    0
+ [229,]    0
+ [230,]    0
+ [231,]    1
+ [232,]    0
+ [233,]    1
+ [234,]    1
+ [235,]    1
+ [236,]    1
+ [237,]    1
+ [238,]    1
+ [239,]    1
+ [240,]    1
+ [241,]    1
+ [242,]    1
+ [243,]    1
+ [244,]    1
+ [245,]    1
+ [246,]    1
+ [247,]    1
+ [248,]    1
+ [249,]    1
+ [250,]    1
+ [251,]    1
+ [252,]    1
+ [253,]    0
+ [254,]    1
+ [255,]    1
+ [256,]    1
+ [257,]    1
+ [258,]    1
+ [259,]    0
+ [260,]    0
+ [261,]    1
+ [262,]    0
+ [263,]    1
+ [264,]    1
+ [265,]    0
+ [266,]    1
+ [267,]    1
+ [268,]    1
+ [269,]    1
+ [270,]    1
+ [271,]    0
+ [272,]    0
+ [273,]    1
+ [274,]    1
+ [275,]    0
+ [276,]    0
+ [277,]    0
+ [278,]    1
+ [279,]    0
+ [280,]    0
+ [281,]    1
+ [282,]    1
+ [283,]    1
+ [284,]    0
+ [285,]    1
+ [286,]    1
+ [287,]    0
+ [288,]    1
+ [289,]    1
+ [290,]    1
+ [291,]    1
+ [292,]    0
+ [293,]    0
+ [294,]    1
+ [295,]    1
+ [296,]    1
+ [297,]    1
+ [298,]    1
+ [299,]    1
+ [300,]    0
+ [301,]    1
+ [302,]    1
+ [303,]    0
+ [304,]    1
+ [305,]    0
+ [306,]    1
+ [307,]    1
+ [308,]    0
+ [309,]    0
+ [310,]    1
+ [311,]    0
+ [312,]    0
+ [313,]    1
+ [314,]    0
+ [315,]    1
+ [316,]    1
+ [317,]    1
+ [318,]    1
+ [319,]    1
+ [320,]    1
+ [321,]    1
+ [322,]    1
+ [323,]    1
+ [324,]    0
+ [325,]    0
+ [326,]    1
+ [327,]    1
+ [328,]    1
+ [329,]    1
+ [330,]    1
+ [331,]    1
+ [332,]    1
+ [333,]    1
+ [334,]    1
+ [335,]    0
+ [336,]    0
+ [337,]    1
+ [338,]    1
+ [339,]    1
+ [340,]    1
+ [341,]    1
+ [342,]    1
+ [343,]    0
+ [344,]    1
+ [345,]    1
+ [346,]    0
+ [347,]    0
+ [348,]    0
+ [349,]    1
+ [350,]    1
+ [351,]    1
+ [352,]    1
+ [353,]    1
+ [354,]    0
+ [355,]    0
+ [356,]    1
+ [357,]    0
+ [358,]    0
+ [359,]    1
+ [360,]    1
+ [361,]    1
+ [362,]    1
+ [363,]    0
+ [364,]    1
+ [365,]    1
+ [366,]    0
+ [367,]    1
+ [368,]    0
+ [369,]    0
+ [370,]    0
+ [371,]    1
+ [372,]    0
+ [373,]    1
+ [374,]    1
+ [375,]    1
+ [376,]    1
+ [377,]    0
+ [378,]    0
+ [379,]    0
+ [380,]    1
+ [381,]    1
+ [382,]    1
+ [383,]    1
+ [384,]    1
+ [385,]    1
+ [386,]    1
+ [387,]    1
+ [388,]    1
+ [389,]    1
+ [390,]    0
+ [391,]    0
+ [392,]    0
+ [393,]    1
+ [394,]    1
+ [395,]    1
+ [396,]    0
+ [397,]    0
+ [398,]    0
+ [399,]    0
+ [400,]    1
+ [401,]    0
+ [402,]    1
+ [403,]    1
+ [404,]    0
+ [405,]    1
+ [406,]    0
+ [407,]    1
+ [408,]    0
+ [409,]    0
+ [410,]    0
+ [411,]    0
+ [412,]    0
+ [413,]    0
+ [414,]    1
+ [415,]    1
+ [416,]    0
+ [417,]    1
+ [418,]    1
+ [419,]    1
+ [420,]    0
+ [421,]    0
+ [422,]    1
+ [423,]    0
+ [424,]    1
+ [425,]    0
+ [426,]    0
+ [427,]    0
+ [428,]    0
+ [429,]    0
+ [430,]    1
+ [431,]    0
+ [432,]    1
+ [433,]    1
+ [434,]    0
+ [435,]    1
+ [436,]    1
+ [437,]    0
+ [438,]    0
+ [439,]    0
+ [440,]    1
+ [441,]    1
+ [442,]    1
+ [443,]    1
+ [444,]    0
+ [445,]    0
+ [446,]    1
+ [447,]    0
+ [448,]    1
+ [449,]    1
+ [450,]    0
+ [451,]    0
+ [452,]    1
+ [453,]    0
+ [454,]    1
+ [455,]    1
+ [456,]    1
+ [457,]    1
+ [458,]    1
+ [459,]    1
+ [460,]    0
+ [461,]    1
+ [462,]    1
+ [463,]    0
+ [464,]    0
+ [465,]    1
+ [466,]    1
+ [467,]    0
+ [468,]    1
+ [469,]    1
+ [470,]    0
+ [471,]    1
+ [472,]    1
+ [473,]    1
+ [474,]    1
+ [475,]    0
+ [476,]    1
+ [477,]    0
+ [478,]    1
+ [479,]    0
+ [480,]    1
+ [481,]    1
+ [482,]    0
+ [483,]    1
+ [484,]    1
+ [485,]    1
+ [486,]    1
+ [487,]    1
+ [488,]    0
+ [489,]    0
+ [490,]    1
+ [491,]    0
+ [492,]    0
+ [493,]    1
+ [494,]    1
+ [495,]    1
+ [496,]    0
+ [497,]    0
+ [498,]    1
+ [499,]    1
+ [500,]    0
+ [501,]    0
+ [502,]    0
+ [503,]    0
+ [504,]    0
+ [505,]    0
+ [506,]    1
+ [507,]    0
+ [508,]    0
+ [509,]    0
+ [510,]    0
+ [511,]    1
+ [512,]    0
+ [513,]    0
+ [514,]    1
+ [515,]    0
+ [516,]    1
+ [517,]    1
+ [518,]    1
+ [519,]    0
+ [520,]    1
+ [521,]    0
+ [522,]    0
+ [523,]    0
+ [524,]    0
+ [525,]    1
+ [526,]    1
+ [527,]    1
+ [528,]    0
+ [529,]    1
+ [530,]    1
+ [531,]    1
+ [532,]    1
+ [533,]    0
+ [534,]    0
+ [535,]    1
+ [536,]    0
+ [537,]    0
+ [538,]    0
+ [539,]    0
+ [540,]    1
+ [541,]    0
+ [542,]    0
+ [543,]    1
+ [544,]    0
+ [545,]    0
+ [546,]    0
+ [547,]    0
+ [548,]    0
+ [549,]    1
+ [550,]    1
+ [551,]    1
+ [552,]    1
+ [553,]    0
+ [554,]    1
+ [555,]    1
+ [556,]    1
+ [557,]    1
+ [558,]    1
+ [559,]    1
+ [560,]    0
+ [561,]    0
+ [562,]    0
+ [563,]    0
+ [564,]    1
+ [565,]    1
+ [566,]    1
+ [567,]    1
+ [568,]    0
+ [569,]    0
+ [570,]    0
+ [571,]    1
+ [572,]    1
+ [573,]    0
+ [574,]    1
+ [575,]    0
+ [576,]    1
+ [577,]    1
+ [578,]    1
+ [579,]    1
+ [580,]    1
+ [581,]    1
+ [582,]    1
+ [583,]    1
+ [584,]    1
+ [585,]    1
+ [586,]    1
+ [587,]    0
+ [588,]    0
+ [589,]    0
+ [590,]    1
+ [591,]    0
+ [592,]    0
+ [593,]    0
+ [594,]    1
+ [595,]    1
+ [596,]    0
+ [597,]    0
+ [598,]    1
+ [599,]    0
+ [600,]    1
+ [601,]    0
+ [602,]    1
+ [603,]    0
+ [604,]    0
+ [605,]    1
+ [606,]    0
+ [607,]    0
+ [608,]    0
+ [609,]    0
+ [610,]    1
+ [611,]    0
+ [612,]    0
+ [613,]    0
+ [614,]    0
+ [615,]    0
+ [616,]    0
+ [617,]    0
+ [618,]    0
+ [619,]    0
+ [620,]    0
+ [621,]    0
+ [622,]    1
+ [623,]    0
+ [624,]    0
+ [625,]    0
+ [626,]    1
+ [627,]    1
+ [628,]    0
+ [629,]    1
+ [630,]    0
+ [631,]    1
+ [632,]    0
+ [633,]    1
+ [634,]    0
+ [635,]    0
+ [636,]    1
+ [637,]    0
+ [638,]    0
+ [639,]    0
+ [640,]    0
+ [641,]    1
+ [642,]    0
+ [643,]    1
+ [644,]    0
+ [645,]    0
+ [646,]    0
+ [647,]    1
+ [648,]    0
+ [649,]    1
+ [650,]    0
+ [651,]    1
+ [652,]    0
+ [653,]    0
+ [654,]    1
+ [655,]    1
+ [656,]    0
+ [657,]    0
+ [658,]    1
+ [659,]    1
+ [660,]    0
+ [661,]    1
+ [662,]    1
+ [663,]    0
+ [664,]    0
+ [665,]    1
+ [666,]    1
+ [667,]    0
+ [668,]    0
+ [669,]    1
+ [670,]    1
+ [671,]    0
+ [672,]    0
+ [673,]    0
+ [674,]    0
+ [675,]    0
+ [676,]    0
+ [677,]    0
+ [678,]    1
+ [679,]    1
+ [680,]    0
+ [681,]    1
+ [682,]    0
+ [683,]    0
+ [684,]    1
+ [685,]    0
+ [686,]    1
+ [687,]    0
+ [688,]    0
+ [689,]    1
+ [690,]    0
+ [691,]    0
+ [692,]    0
+ [693,]    1
+ [694,]    0
+ [695,]    1
+ [696,]    1
+ [697,]    0
+ [698,]    1
+ [699,]    0
+ [700,]    0
+ [701,]    1
+ [702,]    0
+ [703,]    0
+ [704,]    0
+ [705,]    0
+ [706,]    0
+ [707,]    1
+ [708,]    0
+ [709,]    0
+ [710,]    1
+ [711,]    1
+ [712,]    1
+ [713,]    1
+ [714,]    1
+ [715,]    0
+ [716,]    0
+ [717,]    0
+ [718,]    0
+ [719,]    0
+ [720,]    0
+ [721,]    1
+ [722,]    1
+ [723,]    1
+ [724,]    0
+ [725,]    1
+ [726,]    1
+ [727,]    0
+ [728,]    1
+ [729,]    0
+ [730,]    1
+ [731,]    0
+ [732,]    0
+ [733,]    0
+ [734,]    1
+ [735,]    0
+ [736,]    1
+ [737,]    0
+ [738,]    0
+ [739,]    0
+ [740,]    0
+ [741,]    0
+ [742,]    0
+ [743,]    0
+ [744,]    1
+ [745,]    1
+ [746,]    1
+ [747,]    0
+ [748,]    0
+ [749,]    0
+ [750,]    0
+ [751,]    1
+ [752,]    1
+ [753,]    0
+ [754,]    0
+ [755,]    0
+ [756,]    1
+ [757,]    0
+ [758,]    0
+ [759,]    1
+ [760,]    0
+ [761,]    0
+ [762,]    0
+ [763,]    0
+ [764,]    0
+ [765,]    1
+ [766,]    0
+ [767,]    1
+ [768,]    0
+ [769,]    0
+ [770,]    0
+ [771,]    1
+ [772,]    1
+ [773,]    1
+ [774,]    0
+ [775,]    0
+ [776,]    0
+ [777,]    0
+ [778,]    0
+ [779,]    1
+ [780,]    0
+ [781,]    0
+ [782,]    0
+ [783,]    0
+ [784,]    0
+ [785,]    1
+ [786,]    0
+ [787,]    0
+ [788,]    0
+ [789,]    0
+ [790,]    1
+ [791,]    0
+ [792,]    0
+ [793,]    0
+ [794,]    0
+ [795,]    1
+ [796,]    0
+ [797,]    0
+ [798,]    0
+ [799,]    1
+ [800,]    0
+ [801,]    1
+ [802,]    0
+ [803,]    0
+ [804,]    0
+ [805,]    0
+ [806,]    0
+ [807,]    0
+ [808,]    1
+ [809,]    0
+ [810,]    0
+ [811,]    0
+ [812,]    1
+ [813,]    0
+ [814,]    0
+ [815,]    0
+ [816,]    0
+ [817,]    1
+ [818,]    0
+ [819,]    0
+ [820,]    0
+ [821,]    0
+ [822,]    0
+ [823,]    0
+ [824,]    0
+ [825,]    1
+ [826,]    0
+ [827,]    0
+ [828,]    0
+ [829,]    0
+ [830,]    0
+ [831,]    0
+ [832,]    0
+ [833,]    0
+ [834,]    1
+ [835,]    0
+ [836,]    1
+ [837,]    1
+ [838,]    0
+ [839,]    0
+ [840,]    0
+ [841,]    1
+ [842,]    0
+ [843,]    0
+ [844,]    0
+ [845,]    1
+ [846,]    0
+ [847,]    1
+ [848,]    0
+ [849,]    0
+ [850,]    0
+ [851,]    0
+ [852,]    0
+ [853,]    0
+ [854,]    0
+ [855,]    1
+ [856,]    0
+ [857,]    0
+ [858,]    0
+ [859,]    0
+ [860,]    0
+ [861,]    0
+ [862,]    0
+ [863,]    0
+ [864,]    0
+ [865,]    0
+ [866,]    0
+ [867,]    0
+ [868,]    0
+ [869,]    1
+ [870,]    0
+ [871,]    0
+ [872,]    0
+ [873,]    1
+ [874,]    0
+ [875,]    0
+ [876,]    0
+ [877,]    0
+ [878,]    0
+ [879,]    0
+ [880,]    0
+ [881,]    0
+ [882,]    1
+ [883,]    0
+ [884,]    1
+ [885,]    0
+ [886,]    1
+ [887,]    1
+ [888,]    0
+ [889,]    0
+ [890,]    0
+ [891,]    0
+ [892,]    0
+ [893,]    0
+ [894,]    0
+ [895,]    0
+ [896,]    0
+ [897,]    0
+ [898,]    0
+ [899,]    0
+ [900,]    1
+ [901,]    0
+ [902,]    0
+ [903,]    0
+ [904,]    0
+ [905,]    0
+ [906,]    0
+ [907,]    0
+ [908,]    0
+ [909,]    0
+ [910,]    0
+ [911,]    0
+ [912,]    0
+ [913,]    0
+ [914,]    0
+ [915,]    0
+ [916,]    0
+ [917,]    0
+ [918,]    0
+ [919,]    0
+ [920,]    0
+ [921,]    0
+ [922,]    0
+ [923,]    1
+ [924,]    0
+ [925,]    0
+ [926,]    0
+ [927,]    0
+ [928,]    0
+ [929,]    0
+ [930,]    0
+ [931,]    0
+ [932,]    0
+ [933,]    0
+ [934,]    0
+ [935,]    0
+ [936,]    0
+ [937,]    0
+ [938,]    0
+ [939,]    0
+ [940,]    0
+ [941,]    0
+ [942,]    0
+ [943,]    0
+ [944,]    1
+ [945,]    0
+ [946,]    0
+ [947,]    0
+ [948,]    0
+ [949,]    0
+ [950,]    0
+ [951,]    0
+ [952,]    0
+ [953,]    0
+ [954,]    0
+ [955,]    0
+ [956,]    0
+ [957,]    0
+ [958,]    0
+ [959,]    0
+ [960,]    0
+ [961,]    0
+ [962,]    0
+ [963,]    0
+ [964,]    0
+ [965,]    0
+ [966,]    1
+ [967,]    0
+ [968,]    1
+ [969,]    0
+ [970,]    0
+ [971,]    0
+ [972,]    0
+ [973,]    0
+ [974,]    1
+ [975,]    1
+ [976,]    0
+ [977,]    0
+ [978,]    0
+ [979,]    0
+ [980,]    0
+ [981,]    0
+ [982,]    0
+ [983,]    0
+ [984,]    0
+ [985,]    0
+ [986,]    0
+ [987,]    0
+ [988,]    0
+ [989,]    0
+ [990,]    0
+ [991,]    0
+ [992,]    0
+ [993,]    0
+ [994,]    0
+ [995,]    0
+ [996,]    0
+ [997,]    0
+ [998,]    0
+ [999,]    0
+[1000,]    0
+
+$runInfoObj$wMat
+     FixedEffects1 FixedEffects2
+1      0.619077079  -1.078988810
+2      0.008463216   0.045873845
+3      0.392558054  -0.421037893
+4      0.458246731  -1.271475132
+5     -1.219645399   0.839310920
+6     -1.122098345   0.540012921
+7      0.993330306   1.867938727
+8     -1.833247005   0.444518044
+9      0.123885130  -0.745008862
+10     0.590554495  -1.912499905
+11     0.804763316   1.359993522
+12     0.007538413   0.732699212
+13    -1.816252785   1.381034467
+14    -0.404867982   0.141175886
+15     0.737149956   1.225023000
+16     0.485845569   1.290893505
+17     0.829313101   1.258132505
+18    -0.170121821   0.917080521
+19     1.385921466   1.193278160
+20     0.888019022  -0.469677581
+21     0.181933281  -0.806104159
+22    -0.584381980  -0.941438914
+23     1.743577573   0.143248866
+24    -1.392554594  -1.431739668
+25     1.231556152  -0.813822836
+26     0.578386992  -0.100086182
+27     0.138776103   0.080752691
+28     1.097725373  -0.079281162
+29    -0.573111837  -0.689576773
+30     0.718893033  -1.094315376
+31    -0.964204030   1.104593663
+32    -2.524785564  -1.167417799
+33    -1.204761190   0.454162269
+34    -0.459550532   0.471517710
+35     2.190954881  -0.092757373
+36    -0.700582159  -0.468451792
+37    -1.022635626   0.555775471
+38    -0.653639189   0.045767367
+39    -1.884160314  -0.610206978
+40     0.199777797  -0.072942274
+41     0.528681702  -0.618602650
+42     0.006223751  -0.313493295
+43    -0.185505333   1.178361179
+44     0.368200703  -0.149590051
+45     1.023030938  -0.889439485
+46     1.080816596   0.318011799
+47     1.449630122   0.711923435
+48    -0.685832199   0.435315545
+49    -1.281190520  -0.461459437
+50    -0.794089997  -0.434105891
+51    -1.899164512  -0.403806648
+52    -1.241637244  -0.075975268
+53     0.512993178  -0.452328976
+54     0.413764787  -0.577220100
+55    -2.557848326   1.265264783
+56    -0.560996378   1.318289145
+57     0.504351425   0.606133556
+58     1.703382826  -0.362116247
+59     1.351547160   1.943001136
+60    -0.456743047   1.622884510
+61     1.723053952   0.631800381
+62    -1.982441795   0.975600583
+63     1.496357418   0.824468644
+64     0.867309113  -0.307797376
+65    -0.284402993  -2.082821465
+66     2.104499858  -0.416717721
+67     0.168638912  -1.319407161
+68     0.187991429  -0.150057617
+69     0.782341066   0.242651889
+70    -1.732491839   1.284975716
+71    -0.883375979   2.351634465
+72    -0.013781814   0.679495733
+73     0.506152227  -0.575220585
+74    -0.499965346   0.387633204
+75    -0.695617045   1.859196458
+76    -0.277818356  -1.530670039
+77     0.272981532  -0.311391538
+78     1.249873660  -0.288244933
+79     0.457519639  -0.816272080
+80     0.765285762   1.242994935
+81     0.391727362   0.324675647
+82    -0.547200685  -0.666031586
+83    -0.467794482  -1.173324619
+84    -1.107023371   0.322401004
+85     0.785514903  -1.993547983
+86    -0.648088753  -1.268438109
+87     1.073976163   1.044367897
+88     0.362385510  -0.380481074
+89     1.915651937   1.062729797
+90     0.553448609  -0.781841354
+91    -0.210139876   0.214708742
+92    -0.409313391  -0.669056921
+93     0.118329982  -0.822140379
+94     1.074187839   1.089244658
+95     0.039428168  -0.715936097
+96    -0.159337857  -1.630824905
+97    -2.286883966  -0.380165131
+98    -0.327042542   0.158449960
+99     0.074390475   1.092956925
+100    0.792440987  -0.561320485
+101    0.236677781   0.818142900
+102    1.233160267  -0.942945387
+103    1.031171941  -1.077362635
+104    0.933384043   0.058600588
+105    0.593017114   0.271361470
+106    0.791839101   1.631226726
+107   -1.951380315   0.121693726
+108    1.406851108  -1.328758384
+109    1.172095916  -1.024411824
+110    1.599134091  -0.541436913
+111   -0.061781281  -1.044091424
+112    0.713751148  -1.052527864
+113   -2.199265911  -0.340726985
+114    0.020574834  -2.077064331
+115   -1.520474124   1.608824229
+116    1.347988820  -1.447420217
+117    1.057395882   0.262319802
+118   -0.319838822  -0.973920658
+119    0.816086465   0.299178865
+120   -1.154473930  -0.419198100
+121    0.053351208  -0.177579173
+122    1.208345055  -0.111755749
+123   -0.242296048  -0.333190243
+124   -0.048818134  -0.635842656
+125   -0.141725650  -0.101681298
+126    0.617031864  -1.481600067
+127   -0.979846428  -0.835883708
+128   -0.869942311  -0.995991364
+129   -1.884733195   0.971753082
+130    0.377683031   0.264028928
+131   -0.543240212   0.161640510
+132   -0.233514403  -0.287713330
+133   -1.647978463  -0.027474434
+134    0.789613131   0.748450058
+135   -2.033583956   0.534804196
+136    0.398603012  -1.474818057
+137    1.442598307  -0.399251684
+138   -1.752983819  -0.294697470
+139   -0.938311134  -0.153447558
+140    0.322845125   0.388084568
+141   -1.201337007   2.935695441
+142    1.699900727  -0.768828346
+143   -1.255213352  -2.506271659
+144    1.235550058   0.253159678
+145   -0.435478441  -0.726676163
+146    0.723629144  -0.155311170
+147    0.387126845  -0.258115517
+148    0.775999894   1.009750435
+149   -2.162354707   0.111442779
+150   -1.110634987  -0.026593884
+151   -0.773287639  -0.184723139
+152    0.921654867  -1.053384590
+153   -0.487449422   0.579560370
+154    1.922250672   0.558080430
+155   -0.002523439  -1.932731924
+156   -0.548384667  -0.710039691
+157    1.887521604  -1.550155580
+158   -0.004746543   0.629274819
+159    0.124471223   0.633920146
+160    0.195513937   0.886255912
+161   -1.587542959  -1.208991843
+162   -0.385409367   0.219065302
+163   -0.086832994   0.948179956
+164   -0.706165254  -0.183772611
+165    0.514977249  -0.637680623
+166   -0.120666010   0.975719865
+167   -0.852387479   0.122993868
+168    0.558950764   0.813152781
+169   -1.372970183  -0.432204047
+170   -0.890827899  -2.008304901
+171   -0.319488728   0.401204653
+172    0.075319373  -1.577248912
+173   -0.564186396  -1.584398334
+174   -1.761295622  -1.433583224
+175   -0.116509270   0.466875291
+176    1.209688244  -0.030588515
+177   -3.188399482   0.418275433
+178    0.671635567  -1.201585112
+179    1.055717317   1.191637760
+180    0.209872530  -0.902797726
+181   -0.019052602   0.384165348
+182    1.403527646   1.082058902
+183    0.048306336  -0.313431225
+184   -2.811454468   0.332733264
+185    0.740275554  -0.811813020
+186    1.249926777   0.655484949
+187    0.851252502   0.720378672
+188    0.502004868   0.762415603
+189    0.462814915   0.057468609
+190    0.374278392  -0.132919422
+191    0.554904362  -0.940569124
+192    1.336120985  -0.675004458
+193   -1.185658515  -1.218625431
+194   -0.005494698   2.270141762
+195    0.446647652  -0.760961335
+196    0.856330811   0.411453250
+197   -1.325852442  -0.079634710
+198   -0.642461498   1.011316920
+199   -2.655929616   0.746996684
+200    0.255900133  -0.098701392
+201   -0.314253761   0.071052193
+202   -0.678510112  -0.806340916
+203   -0.141579279   0.041542693
+204    1.219636441   0.140309420
+205    1.385153151   1.245789338
+206   -0.368547430  -0.757556051
+207   -1.197018002   0.899233839
+208   -1.066134746   0.816045156
+209    0.873338327   0.149706374
+210   -1.071563851   0.860102329
+211    0.335789725  -1.173292868
+212    1.100838211  -0.298257171
+213    0.608302471   0.067361918
+214   -0.335181627  -0.178496770
+215    0.047473189  -1.397854700
+216    1.370272096  -0.293442920
+217    0.290039472  -0.068588004
+218   -1.506816034  -1.809658827
+219    2.010828517  -0.087045100
+220   -0.339501587   0.231293806
+221   -0.839068956   1.278869418
+222   -0.178097397  -1.400046971
+223    0.575640869  -1.153910024
+224    1.765762606   0.785576005
+225    0.350792130  -1.517274636
+226    0.677636502  -0.012740175
+227   -1.956686181   0.935350937
+228   -0.194763867  -1.226600969
+229    0.238331537  -1.337376429
+230    1.813758715   0.645662230
+231   -0.405404116  -0.658492591
+232    0.022489810   1.510009839
+233    0.735691108  -0.035101248
+234    0.097149639   0.913315009
+235    1.176801213   0.280882984
+236    0.345317696  -0.490384894
+237    1.082009262   0.722445783
+238   -1.066591552  -1.274346709
+239    0.512395996   0.869832955
+240    1.103835849   0.868258147
+241    0.848277047  -0.281232163
+242    0.064536491  -1.831619736
+243    0.998522135   0.630194882
+244    1.064583339  -1.064415576
+245    0.009593653   0.570591788
+246   -1.220852681   1.364167885
+247    2.321848116   0.143363088
+248    0.927053655   1.596889494
+249    0.229478762   0.508521890
+250    0.301005290   0.627636716
+251   -0.857247416  -1.086526884
+252    0.118649565   0.652047400
+253   -0.123931799   1.416787138
+254    0.449945915   0.106682050
+255    1.394777491  -0.488882274
+256    0.533085289   0.233023212
+257   -1.392090254  -0.308505568
+258    0.796728080  -1.989827316
+259    1.917521511   0.097999127
+260    0.363318999   1.422183827
+261    1.569727393   0.763511551
+262   -0.744183601   1.145972804
+263   -0.340698643  -0.303465141
+264    0.148125162   0.187129238
+265    1.048216488   0.141373778
+266    0.159756307  -0.695152770
+267   -0.915393600  -0.041825425
+268   -1.629885244   1.371001272
+269    0.024825655   0.226526311
+270    1.383989307  -0.550777446
+271    1.304399197  -1.039948415
+272    1.030157999   0.731880410
+273    0.980845352   1.062889306
+274    0.503872136  -0.546838845
+275   -0.443338128   0.064522766
+276    0.087571326   1.068420989
+277   -0.414881181   0.201119396
+278    0.996929720  -1.567177706
+279   -0.094773116  -0.833413105
+280    0.066529831   1.894747452
+281    0.191155227  -0.386814770
+282    0.655878476  -0.053634784
+283   -0.129969333   1.143841738
+284   -2.043651893   0.638649291
+285   -0.069060069   2.580469651
+286    0.359523851  -0.563776505
+287    0.677357216  -0.883557096
+288   -2.101283766   0.343330575
+289    0.704487147  -0.111327779
+290    1.478487039   2.257816536
+291    0.346524042  -0.814850931
+292    0.954101719  -1.479551053
+293    0.207389257   0.613164678
+294    0.100562311   1.039126809
+295   -0.737712677   1.118772445
+296   -0.785782846   0.274583735
+297   -1.367685276  -0.134951151
+298    1.034275634  -0.766140845
+299   -1.219374973   0.604180076
+300   -0.238212024   1.802747769
+301    0.471033652   0.604651910
+302    0.729266681  -1.448553326
+303   -1.187124120   1.345494590
+304    1.314713504  -0.109458323
+305   -1.098718054   0.344798557
+306   -0.964226978  -0.508735128
+307   -2.676163037   2.189269497
+308    0.578759657   1.074405861
+309   -0.742939259  -0.825170584
+310   -0.235915570   0.714725927
+311   -0.784583725   0.812834011
+312    0.268546973   0.272578214
+313    1.319463078  -0.648120076
+314   -0.406003674   2.226522700
+315    0.339005407  -1.739534382
+316   -0.727222907   1.470318028
+317   -0.780556450   0.268084365
+318    0.826066838   0.591869931
+319    1.622326862  -1.259489234
+320   -0.083516780  -0.804360596
+321    0.338891799   0.537970488
+322    0.058294547  -0.169073783
+323    2.001573170  -0.378430738
+324   -0.282589958   0.281733389
+325    0.517519137   1.898728170
+326    1.081679422  -0.965565632
+327   -0.308788240   0.316714179
+328   -1.442184346  -0.860760698
+329    0.203365430   0.192666680
+330    0.408160266  -0.613647494
+331    0.112341063   1.717154095
+332   -0.604922279   0.399421148
+333    0.402445627  -0.006004373
+334    0.819039018   0.970432132
+335    0.240017751   0.013422412
+336    0.672592082   0.153348196
+337   -0.014024780   0.370200259
+338   -1.366322537   0.796137492
+339    1.132300179  -0.422094048
+340    0.070721950   0.606710052
+341    0.037938745  -0.622514252
+342   -2.289316905  -0.477077716
+343   -0.991396888  -0.720544311
+344    0.249946367   0.315481886
+345   -1.065841876   0.696314238
+346   -0.718714942   1.662069501
+347   -0.723917047  -1.245961811
+348   -1.462514175  -0.681950799
+349    0.359613170   0.608012178
+350    0.838125954   0.011626349
+351    0.557374435   0.083256924
+352   -0.060498515   0.309298560
+353   -1.064196353   0.077333978
+354   -0.392663103   2.569992036
+355   -1.236748218  -1.081663507
+356    0.195523861  -1.508424918
+357   -0.106683307   0.124733260
+358    0.349929686   1.030639569
+359   -0.138482904   0.246430286
+360    0.150270478  -0.096573390
+361   -0.603301397   0.517934609
+362   -2.613318739  -0.033231247
+363   -0.274716029  -0.158611459
+364    0.453348926  -0.511161078
+365   -0.365593142  -0.990180920
+366    0.196880448  -1.079092485
+367    0.684820133  -0.538363967
+368    0.800887215   0.668842103
+369   -1.688759927   0.801670295
+370    0.481965307   1.400612191
+371    0.366837855  -0.435796367
+372   -0.763822477  -0.348075864
+373   -0.731059487   0.358176119
+374   -0.405746958  -0.638991841
+375    0.849340990   0.590372548
+376   -1.416714264   0.002648733
+377   -0.356150873  -0.098880234
+378    0.693077667   1.393527569
+379    0.550891658   1.171930580
+380   -0.335819866  -1.704986109
+381    0.364603317   0.444853590
+382    0.300124979  -0.424649377
+383    2.260645919  -1.292643786
+384   -0.342744886   1.641948646
+385    0.836188823  -1.563198257
+386    0.820132165   0.203190617
+387   -0.011593152  -2.702369095
+388    0.109000513   0.064566954
+389    1.846797628  -0.229270725
+390   -0.386226037   0.738534427
+391   -0.456573361   0.146353880
+392   -0.326352410   1.020344002
+393    0.442792694  -0.904860649
+394   -0.247986239  -0.192445798
+395    2.280306720  -1.081375240
+396   -0.501697301  -0.595147229
+397    0.312925785  -0.179231528
+398    0.635345320  -0.463951422
+399   -1.959437855   0.240701916
+400    0.035343186  -0.464830481
+401   -1.318870528   0.711386360
+402   -1.826603525   1.133731634
+403    0.763292396  -0.910401490
+404    0.801289087   0.434111162
+405    0.428764413  -1.370384577
+406    0.910528775   0.150112887
+407   -0.358814033   0.530042223
+408   -0.231720664   0.242874546
+409   -1.452057390  -1.059563118
+410    0.971911057   0.974650093
+411   -1.838466025   0.167859582
+412    0.806860671   1.535835823
+413    0.924765085   1.330073116
+414    0.440480602  -1.435794697
+415   -0.535266320   0.351370492
+416    1.347430852  -0.212831253
+417    0.112820304  -0.988550344
+418    1.199072121   0.253368000
+419   -0.725425380  -0.353142055
+420    0.011248430   0.521385844
+421   -0.001571908  -0.400301417
+422   -0.291288593  -0.731668091
+423    0.963989337  -0.036483758
+424    0.825788227  -0.207034471
+425   -0.073198329  -0.988681067
+426   -1.448006764  -0.636090885
+427   -1.684779176  -0.679701153
+428    1.062375303   0.489061417
+429    0.303405693   1.345797749
+430    0.574864987  -0.169339909
+431    0.173555359   0.654254284
+432   -0.878174433  -0.188164203
+433    0.516036194  -1.467301923
+434   -2.140789086  -0.595564658
+435    0.324897063   1.372758103
+436   -2.775826632  -0.263721621
+437   -1.060439969   1.870067834
+438    1.059596869  -1.103036534
+439    1.170243133  -1.473546881
+440    0.883568931  -0.201959087
+441    1.297140317   0.030967918
+442   -0.161007728  -0.706510226
+443   -0.349880303   0.813972527
+444   -1.166369032   1.478967930
+445   -0.471877982   0.744881341
+446    1.216691392  -0.863192532
+447   -0.342897920   3.018814366
+448    1.839932314   0.978862925
+449   -1.737593346   0.376595323
+450   -0.330292853   1.465939267
+451    0.421292217   2.144258319
+452    0.988501020  -0.624190527
+453    0.676745834   0.299811692
+454    0.092695731   0.044029390
+455    0.543738424  -1.726477053
+456    0.533381436   0.177510472
+457    1.710894865   1.085332081
+458   -1.137946999  -0.501690763
+459    0.951371132   0.089830275
+460    0.365735076   0.725126357
+461    1.575004433   1.936919908
+462   -0.697779829  -0.061345583
+463   -0.225701774   1.520132258
+464    0.217534699   0.928517323
+465    1.385162413  -1.819223278
+466   -0.959548819  -1.206244523
+467    0.359670904  -0.305894345
+468    0.454419135  -1.070237246
+469   -0.686341572   0.321796813
+470   -0.311883165  -0.116197985
+471   -0.313034441   0.264801179
+472    0.083668440  -0.510278130
+473    0.711029227  -2.123813665
+474   -1.117907531  -1.225422784
+475   -0.819830721   0.595499367
+476    0.204117547   0.788308074
+477    0.446889659   1.267265629
+478   -0.090251540   1.202371641
+479   -1.889155507   1.001301922
+480   -0.445259512  -1.237963944
+481    0.420097683   0.976149466
+482   -0.022927073  -1.262552844
+483   -0.053016136  -1.970698186
+484   -0.297793341  -0.688398835
+485   -1.827768046  -1.072575985
+486   -0.127678638  -1.151798999
+487    1.942971213  -1.354561999
+488   -0.645480670  -0.018650526
+489    0.625717821  -0.991180345
+490    0.132113232  -1.179350202
+491    1.256011980   0.183073356
+492    1.323143356   2.804861089
+493    0.652336303   0.479548921
+494   -1.835437836  -0.940619142
+495    1.723335447   1.208634533
+496    0.154914263  -0.661581200
+497    0.070405036  -0.852986396
+498    1.866069755   0.611063084
+499    0.736292183  -0.953556839
+500    1.968000278  -1.362229407
+501   -1.902806250   0.054435106
+502    0.817624149  -1.205546158
+503   -0.164488018   1.069442194
+504   -0.816932791   1.434888397
+505    0.318922234  -0.055534975
+506    1.494739149   1.166962019
+507    0.616580650   2.601225618
+508   -0.142137614   0.338802255
+509    0.156584938   0.548950452
+510    0.557833174   0.479534288
+511   -2.664052689  -0.101529774
+512   -0.836329192  -1.390219274
+513    0.499861286   0.110024209
+514    0.829426325  -0.192596755
+515   -0.110479724   0.223157778
+516    0.267262616   0.234595297
+517   -1.376503504   0.570323012
+518    0.545345692  -1.549419216
+519   -1.399315829  -0.650432199
+520   -0.924170860   0.293297383
+521   -1.099534940  -0.569627088
+522   -0.186240356   0.961546448
+523   -0.097991976   1.111371921
+524    0.665337593   1.123127838
+525   -0.295232371  -1.011660971
+526   -0.774750809  -0.607408168
+527    0.048307517   0.735726452
+528    0.578826788   0.744283501
+529   -0.183301494   0.184668091
+530   -0.291759361   0.750884931
+531   -1.067784197   0.427893092
+532    0.103564536   1.819112736
+533   -0.106494447   1.298614235
+534    0.047839440   1.455977066
+535   -0.541673581  -1.856078469
+536   -2.498361969   1.322534620
+537   -0.062981883   0.009468615
+538   -1.521464681  -1.059493186
+539   -1.371370244  -0.941383279
+540    1.168291496   0.704821259
+541    0.750524728  -1.375248460
+542   -1.471510603  -1.339916516
+543   -1.170332203  -1.664027284
+544   -0.644407326  -0.529790873
+545   -0.696559932   0.367075974
+546   -1.890763596   1.178408115
+547   -0.442947054  -0.360586508
+548    0.665803880  -0.144091190
+549    0.105489790   0.378596300
+550   -0.346471215  -0.501091551
+551   -0.332188668  -1.629787971
+552    0.410090035  -1.073850622
+553    0.538786149   0.029923602
+554   -0.219448016  -1.543581099
+555    0.350973403  -0.513327812
+556   -0.298392992  -1.471610650
+557    0.861818912  -1.198631642
+558    0.045170071  -1.554820723
+559   -1.198540218   0.244657103
+560    2.183252866   0.015266259
+561    0.255264194   1.343364613
+562   -0.864405736  -1.007203644
+563   -2.099770680  -0.151616531
+564    0.865266146  -0.794501980
+565   -0.043704121   0.421206981
+566   -0.005075368  -0.086999273
+567   -0.327485200  -0.232850190
+568    0.445059391   1.071014393
+569    1.598739005   0.596257698
+570   -0.351659637  -0.225172793
+571    0.462563302   1.896259148
+572   -0.047381791  -0.209485678
+573    0.753633945   0.202993428
+574    2.792056882   1.150683700
+575    0.648904641   1.413901855
+576   -1.895669705  -1.219645181
+577   -1.449303874  -0.467458431
+578    1.078324633  -1.163692080
+579   -1.368109824   0.009121047
+580   -0.844804000   1.651388069
+581   -0.523658552   1.505511730
+582   -1.369010523   0.493996993
+583   -0.300248900   0.882837951
+584   -1.348591659  -0.509648044
+585    0.553012358   0.529199137
+586    1.184281394   1.694713087
+587   -0.018638315  -0.234939796
+588   -1.495735863  -0.334930860
+589   -0.215631291  -2.145251553
+590   -1.506896575  -0.011722700
+591    0.209855898   1.408354661
+592   -0.481770117  -1.328172653
+593    0.424294139   0.272878728
+594    2.765627940  -0.017458158
+595   -1.041207411   0.462495407
+596   -1.472266685   1.106562399
+597   -1.081826889   0.714290279
+598   -0.534403834   0.304617188
+599   -0.148794987  -0.595896013
+600   -1.167957101  -0.601546123
+601    1.734679619   1.396637068
+602    0.570935317  -0.388181418
+603   -0.447141779  -0.157363602
+604    1.223375314   0.430500319
+605    0.389246565   0.287452218
+606   -0.650522400  -0.777296482
+607   -0.625157692   1.190800388
+608    1.528811950  -0.777753942
+609   -0.863451657   1.793413783
+610    0.142954961  -0.227226095
+611   -1.244626932   0.512143201
+612   -1.726415592   0.028264442
+613   -0.815092363   0.497286464
+614   -0.124013416   2.150885984
+615    0.564072446   0.792118101
+616   -0.931787625   1.377608550
+617   -0.603709152   3.568100791
+618   -2.284466082   0.831400019
+619   -2.324544575  -2.995159199
+620    0.439881878  -1.538011723
+621   -0.714895311  -0.723930400
+622   -0.417501930  -0.559035261
+623   -2.324994863   2.635210483
+624    1.892719771  -1.399748087
+625    0.139170454   0.355558358
+626    0.280541363   0.926325318
+627    0.375950326  -0.066387947
+628   -0.349666235  -1.288982512
+629   -1.273126287   0.091095477
+630   -1.672999037  -0.506071682
+631   -1.316178536  -0.697655531
+632    0.233592902  -0.844044091
+633    0.686037156   0.728658796
+634    0.527736591   0.136979348
+635   -0.371315509  -1.059276018
+636   -0.585877320   1.258615973
+637   -0.892552028   1.207010435
+638   -0.291238424  -0.042886371
+639   -1.034582933  -0.806640987
+640    0.217538126   1.374364686
+641    2.705830141   0.476600380
+642   -0.169114162  -2.375133407
+643    0.585941573  -0.130301250
+644   -0.900520632  -0.206981185
+645   -1.178786755  -0.316694551
+646   -0.373327063   0.987230202
+647    2.682360489   0.021298983
+648    0.543032215   0.390725217
+649    1.312139813   0.626753241
+650    0.489590482   1.827196140
+651    0.059906463  -0.715532612
+652   -0.099890138   0.054492976
+653   -0.951433510   0.876962537
+654    0.263539518  -0.182186346
+655    1.364524724  -0.236481952
+656    0.064500289   0.097913638
+657    0.264752126  -0.994030891
+658   -0.250395084   0.347859761
+659   -0.025011769  -0.934670326
+660    0.844223960   1.593042833
+661    0.591988004   1.504447336
+662    1.183136129  -0.736903199
+663    1.035699309  -0.074130148
+664    0.875773869   0.523208336
+665    0.691763562   0.871436777
+666    0.486470644   0.532385900
+667    1.119370992  -0.435639370
+668   -1.339549191   0.367921531
+669   -0.441063550   0.839841105
+670   -0.025667843  -1.286431425
+671   -1.797637789   0.298339867
+672   -0.643572428   1.144048361
+673    0.467677257  -2.536225780
+674    0.012864297   0.575552359
+675   -0.217049618   0.245255296
+676    1.315149763   1.342767444
+677   -0.080017563   1.040420918
+678   -1.557640325   0.296383489
+679   -0.424692604   0.443023984
+680   -1.656259982   1.079396454
+681    0.089565178  -0.627950006
+682   -0.762675918  -0.222546394
+683   -0.336182617  -0.328506406
+684    1.934563180  -0.815425841
+685   -0.048225880   0.371059871
+686    2.107106740   0.063652895
+687    0.035564693   1.116050642
+688    0.564821987  -1.734061532
+689   -0.608881604  -0.745407134
+690   -0.668659069  -0.867569608
+691    1.559122181   2.007833790
+692    1.288474109   0.436976211
+693   -1.342895758  -0.281400126
+694   -1.220036986  -1.280998453
+695    0.705252061   0.741255244
+696   -1.057591313   1.368085428
+697    1.355526996  -0.746512440
+698    0.422336715  -0.442672742
+699    1.472115993   1.978785173
+700    0.110375796   0.858659373
+701    1.162840709   0.011669734
+702   -0.509280322   0.702432457
+703   -0.595741118   1.702361294
+704   -0.699373233  -0.244828597
+705    1.326229586   0.481699743
+706   -0.316786370   0.452141492
+707    1.145348684   0.894292168
+708    0.803955472  -1.325511810
+709    1.093952313  -0.604905123
+710   -1.259585946   0.033907020
+711    1.626756453   0.845787452
+712   -0.176476004  -1.322992288
+713   -0.706049741   1.085928051
+714   -0.625133147  -0.905084543
+715    1.315304767   1.105414771
+716   -0.806370340  -0.689965104
+717   -0.458369978  -0.753518357
+718    0.392736050   0.468927478
+719    0.871615061  -0.949053818
+720   -0.140404093   0.057298611
+721   -1.917315609  -0.062061376
+722    1.482849194  -1.828359339
+723   -0.341810854  -1.245965562
+724   -0.572319571  -0.547638658
+725   -0.781046993  -0.971474847
+726   -0.852568860  -0.737818668
+727   -1.393687265  -0.055587218
+728   -1.247835960  -0.868353754
+729   -1.856552904   1.259286101
+730   -0.178006726  -2.078035917
+731   -0.236266950   1.062710473
+732    0.029058417   1.049550630
+733    0.202736869  -1.215721936
+734    0.629425373   1.142926012
+735   -0.171404321  -2.029625133
+736   -0.041393713  -1.136627917
+737    1.121987326  -0.421165762
+738   -0.621968149   1.205924214
+739    1.506857631  -0.667863520
+740   -0.048142757  -1.109872235
+741   -0.113022100  -0.766319777
+742    0.568654402   1.351097509
+743    0.994620560   0.984974173
+744    1.324922549  -1.378180523
+745    1.321323571  -1.254985161
+746   -0.934367416  -0.411669287
+747    0.818623424  -0.331218093
+748    1.907593641   0.093262020
+749   -0.827202499  -0.722410829
+750    0.098356124   1.479321457
+751    0.244522825  -0.185049957
+752    0.658456380  -0.146919140
+753    0.283691809   0.186886258
+754    0.424534294  -0.258041038
+755   -1.427823673  -0.298349351
+756    0.363560210  -2.344492204
+757   -1.164689489  -1.480627529
+758   -0.376176518  -0.188475215
+759   -0.691872935  -1.323609485
+760   -0.706938859  -1.023767306
+761   -0.585945450   0.187369237
+762    1.361856533  -1.632001199
+763   -0.366973675  -0.126956208
+764   -0.398659576  -1.437659134
+765    0.946478339  -1.754687600
+766   -0.546842808   0.314373636
+767   -0.598647403   0.534373991
+768   -1.063995787   0.606034483
+769    0.387235832  -0.159040249
+770    0.258892518  -0.826272881
+771   -0.186863632  -0.698344836
+772    0.023663699  -1.121825324
+773   -1.245171369  -1.799620848
+774    1.106371369   1.073221035
+775   -1.317724357   0.794182885
+776    1.349236727   0.018111170
+777   -0.415232702   0.695343144
+778   -0.199006992   1.657830184
+779    2.366963319   0.887526688
+780    0.036868587   1.021844799
+781   -0.763354482  -1.441737422
+782   -0.328731034   1.307181979
+783    1.138883384  -1.280172151
+784   -2.191160552  -0.431805402
+785   -1.537448130   0.023679347
+786   -0.930354823   0.632021193
+787    0.121031565  -0.446589510
+788    0.937666470   1.094438107
+789    1.464511290   0.168465262
+790    1.175387557  -1.020944906
+791    0.565604410  -0.408561070
+792    0.880194039  -0.463046490
+793   -0.476496774   0.903628543
+794   -0.093469943  -0.694951225
+795    0.478683582  -0.694561064
+796   -0.072711467   0.113609345
+797    0.474105030  -2.274349468
+798   -0.578559168   0.376604556
+799    0.328163262  -0.467782559
+800   -0.734470572   1.451626470
+801    0.560284749  -1.683009606
+802    0.821008119   0.582163199
+803    0.012795882   0.469619931
+804   -0.643960470   0.687602203
+805   -1.869172080   1.670947674
+806   -0.837421349   0.172163142
+807    0.315308469  -0.666336853
+808   -1.022285709  -0.215696839
+809   -0.113073545   0.005214646
+810   -1.658450430  -1.031693236
+811    0.245907252  -0.849157041
+812    0.420454653   0.903872369
+813    0.781601266  -0.870606425
+814    0.395579498  -0.722761109
+815    0.568294162  -1.630244566
+816    1.107230385  -0.353458353
+817    0.798438665  -1.323505700
+818   -0.348363593   0.639225579
+819    0.594853462  -0.712461015
+820    0.040915372   1.027853203
+821    1.473934504   0.518558299
+822    1.052518310  -0.657383490
+823   -0.804849069   1.550542911
+824   -0.907019286   0.191939756
+825    0.674637991  -1.090200281
+826   -0.113526969   0.165011497
+827   -1.914998199   0.155214248
+828   -1.020325762  -0.494151132
+829   -1.693457769  -0.327059624
+830    0.588609912   2.862478816
+831   -1.002485730  -1.743982673
+832    1.091987080  -0.849303040
+833   -1.381345489  -1.199814557
+834   -0.887209502  -1.035000549
+835   -1.228489555   0.307634773
+836    1.240087595  -1.184815185
+837   -0.092536152  -1.507099024
+838    0.197956094   0.049694342
+839   -0.655898223   0.139205096
+840   -0.959848960   1.879469699
+841   -0.706775510  -0.612191746
+842    0.431107071   0.129598581
+843   -0.418071943   1.145501633
+844    0.516023612  -0.963436477
+845   -2.297507217  -0.495982649
+846    0.859744084   0.246102967
+847   -0.634391302   0.296873942
+848   -0.416506589   2.338569879
+849   -1.102382281  -0.320900115
+850    0.450930083   1.655070756
+851    0.782455034  -1.249432159
+852   -0.082598373  -1.539370430
+853   -1.143142043   0.409558074
+854    0.339531232  -0.011584563
+855   -0.741909909   0.227435504
+856   -1.873820828  -0.254416939
+857    0.167655386   0.338344382
+858    0.044889599   0.468499696
+859    0.247369440  -0.530680268
+860    0.080518877   0.110557034
+861   -0.015982579  -0.931894249
+862   -0.932045953  -0.606456922
+863   -0.900199113   0.448305838
+864    1.148230935  -0.299674770
+865    0.843622435   0.464879391
+866    0.050268504  -1.006158139
+867    2.488405223  -0.775889905
+868    0.583935433  -0.600493260
+869    1.294723268   0.396129602
+870    2.675595801  -0.227088096
+871   -0.081646511  -0.452727671
+872   -0.135443246   0.966242685
+873   -0.955116389  -0.941084684
+874   -0.534731591   0.611714657
+875    1.200767645  -0.024229187
+876   -1.209903818  -0.559479460
+877   -1.085862301  -0.949747567
+878    0.680724525   0.529814625
+879    1.064196497  -0.793202670
+880   -0.303132768   0.691515330
+881    1.199634918   1.479109634
+882    1.000493890  -1.838150373
+883    0.629984557   1.016396617
+884    0.815721449  -0.565400981
+885   -1.002597646   0.459090364
+886    0.851207299  -0.976660852
+887   -1.775598531  -0.206138394
+888   -0.081974086  -0.843497476
+889    0.290595126   0.001698475
+890   -1.344429218  -0.457056029
+891   -0.069109733   0.489285098
+892   -0.814840097  -0.011692721
+893   -0.189919577   0.335746589
+894    0.775595926   1.391631415
+895    0.619109221   0.695918813
+896    0.469856412   0.689369431
+897   -0.500056240   0.338773282
+898    0.408312212  -0.670550230
+899    0.260976054   0.720961528
+900    0.397574680   0.588853796
+901    0.548829122   0.004878941
+902    1.521427434  -1.943497585
+903    0.217344945   0.818125949
+904    1.526425169  -1.046619928
+905    1.222982471  -0.777122238
+906    0.041076798  -0.419567989
+907    1.274983322  -0.601579649
+908   -0.643550054  -0.876000695
+909    0.002893238   0.400113125
+910    0.165720874  -0.640906401
+911    1.602431251   0.093065117
+912   -1.427173529   0.334862783
+913    0.315984847  -0.098715350
+914   -1.411800089  -0.330891268
+915   -0.433900042   1.374611491
+916   -0.547375358   0.114227967
+917    0.658166269  -1.024851570
+918    2.766066682   0.343014438
+919    0.488641064  -1.881814616
+920    0.800370414  -0.510937971
+921    0.446078841  -0.069597800
+922   -1.608825344  -0.493690709
+923    1.564702927  -0.195559691
+924    0.182966059  -0.039526397
+925   -0.094450946  -2.285354316
+926   -0.405938464   0.035513331
+927   -0.323675568  -0.983871194
+928   -1.135017999  -0.828491251
+929    0.221035500   0.382912724
+930   -0.714341149  -0.942589387
+931    0.925863423   0.973658774
+932    0.764398100  -0.216982765
+933   -1.043406470  -0.427932798
+934   -1.080246570   0.448335114
+935   -0.845260244   0.466807914
+936    0.499141690   0.546357655
+937   -1.149929645   2.093681388
+938    0.964401792  -0.073783187
+939    0.005747774  -1.067605793
+940    0.624756114   0.025763003
+941    1.422151564  -0.809101746
+942    1.855754267  -1.249442617
+943    0.855203976   3.170738839
+944    0.658272656  -0.431843462
+945   -0.273942080   1.237155436
+946    0.590273439  -0.546438767
+947    1.767746959  -0.995031334
+948    0.222633021   0.393605902
+949    0.447387811  -0.250679496
+950    0.454532379   0.782947664
+951    0.308181264   1.203680228
+952    0.575196582   1.208984614
+953    0.891889684  -0.098733258
+954    0.348430501  -0.534650365
+955   -0.072904053   0.080235971
+956   -2.318136016   0.438863491
+957    0.411990302  -0.987058172
+958    0.014056756  -0.152668518
+959   -0.908001817   0.803359582
+960    0.486814066  -1.441485366
+961   -1.152449613   1.551107914
+962   -0.102665335  -0.386575678
+963   -0.596767436   0.696651539
+964    1.088060232  -1.421632277
+965    0.873126016  -0.216702235
+966    2.341303324  -1.049711698
+967    2.126286655   1.088216986
+968    1.313156050  -0.985422324
+969    2.152034480   0.511647658
+970    1.500454644   0.095804898
+971   -1.091071915  -0.861015243
+972    1.356668976  -0.667533062
+973   -0.378947890   0.919967786
+974    0.330600057  -0.063456228
+975   -0.668150494  -1.226515597
+976   -0.789328528   1.742946997
+977   -0.326234547  -0.725323801
+978    0.996203809   1.518474835
+979   -0.634843712   1.162681306
+980   -1.632466444  -0.830954018
+981    1.327187323   0.529205574
+982   -0.351735438   0.636705344
+983   -0.276947506   0.025885116
+984   -1.345515035  -0.544433390
+985    0.241796652  -0.095880103
+986   -2.713422202   0.802060182
+987    0.149610764   0.733118886
+988    0.902561922  -0.409385571
+989    0.188502945   1.858704329
+990   -0.039556076   0.506134581
+991    0.992043533  -0.596598453
+992    1.082950851   1.907694858
+993    0.668976734   2.193377067
+994   -0.264961451  -0.524573467
+995   -1.148656108  -0.026815948
+996    0.828342486   1.456647085
+997   -0.608630232  -1.146870905
+998    1.737238586   0.274290298
+999   -2.126947536   0.573930658
+1000   1.098462367  -1.577278453
+
+$runInfoObj$alphaMPP
+[1] 3.629355
+
+$runInfoObj$hyperParams
+$runInfoObj$hyperParams$sigmaTheta
+[1] 2
+
+$runInfoObj$hyperParams$dofTheta
+[1] 7
+
+$runInfoObj$hyperParams$sigmaBeta
+[1] 2
+
+$runInfoObj$hyperParams$dofBeta
+[1] 7
+
+$runInfoObj$hyperParams$aPhi
+[1] 1 1 1 1 1
+
+
+
 > 
 > 
 > 
@@ -660,7 +3667,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1398765364
+Random number seed: 1410381912
 Sweep: 1
 > 
 > 
@@ -671,7 +3678,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     discreteCovs = inputs$discreteCovs,
 +     continuousCovs = inputs$continuousCovs)
-Random number seed: 1398765365
+Random number seed: 1410381913
 Sweep: 1
 > 
 > 
@@ -704,7 +3711,7 @@ Sweep: 1
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames,
 +     hyper=hyp)
-Random number seed: 1398765365
+Random number seed: 1410381913
 Sweep: 1
 > 
 > 
@@ -733,7 +3740,7 @@ Sweep: 1
 +     xModel=inputs$xModel, nSweeps=10, nClusInit=15, 
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, varSelect="Continuous")
-Random number seed: 1398765365
+Random number seed: 1410381913
 Sweep: 1
 > 
 > rho<-summariseVarSelectRho(runInfoObj)
@@ -769,7 +3776,7 @@ Sweep: 1
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  2.832 0.184 4.125 0 0 
+Time elapsed:  3.099 0.244 3.361 0 0 
 > grDevices::dev.off()
 null device 
           1 

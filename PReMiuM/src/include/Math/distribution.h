@@ -43,7 +43,6 @@
 
 #include<Math/mathfunctions.h>
 
-using boost::math::normal_distribution;
 using boost::math::lgamma;
 using std::string;
 
@@ -114,7 +113,7 @@ double logPdfLocationScaleT(const double &x, const double& mu,
 double logPdfTruncatedNormal(const double& x,const double& mean,const double& stdDev,
 								const string& distType, const double& lower,const double& upper){
 
-	normal_distribution<double> normDist(mean,stdDev);
+	boost::math::normal_distribution<double> normDist(mean,stdDev);
 	double pLower,pUpper;
 
 	if(distType.compare("U")==0){

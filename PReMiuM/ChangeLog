@@ -1,3 +1,8 @@
+Changes in version 3.0.31 (2014-10-02)
+
+* Debugged option whichCovariates in plotRiskProfile() for Mixed covariates. 
+
+--------------------------------------------
 Changes in version 3.0.29 (2014-07-22)
 
 * Added survival outcome with random shape parameter nu (global, ie not cluster specific), estimated with an adaptive rejection sampler

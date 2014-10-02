@@ -38,8 +38,8 @@ Dirichlet process Bayesian clustering and functions for the post-processing of i
 \tabular{ll}{
 Package: \tab PReMiuM\cr
 Type: \tab Package\cr
-Version: \tab 3.0.29\cr
-Date: \tab 2014-09-09\cr
+Version: \tab 3.0.30\cr
+Date: \tab 2014-09-11\cr
 License: \tab GPL2\cr
 LazyLoad: \tab yes\cr
 }

@@ -1,7 +1,8 @@
 
-PKG_CPPFLAGS=-I./include #-fsanitize=address  
+PKG_CPPFLAGS=-I./include   
 
-#PKG_CPPFLAGS=-I./include -pedantic -fsanitize=address -fno-omit-frame-pointer -Wall 
+#PKG_CPPFLAGS=-I./include -pedantic -fsanitize=address -fno-omit-frame-pointer -Wall -std=c++11
+
 #CC = gcc-4.8 -std=gnu99 -fsanitize=undefined -fno-omit-frame-pointer -fcatch-undefined-behavior
 #CXX = g++-4.8 -fsanitize=undefined -fno-omit-frame-pointer -fcatch-undefined-behavior
 

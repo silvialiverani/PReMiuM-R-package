@@ -2368,7 +2368,7 @@ void gibbsForNu(mcmcChain<pReMiuMParams>& chain,
 	nTry++;
 	nAccept++;
 
-	double nu = ARSsample(currentParams, model, 0, 1,logNuPostSurvival,rndGenerator);
+	double nu = ARSsampleNu(currentParams, model, 0,logNuPostSurvival,rndGenerator);
 	currentParams.nu(nu);
 
 }
@@ -2443,7 +2443,7 @@ void gibbsForUCAR(mcmcChain<pReMiuMParams>& chain,
 	vector<double> tempU;
 	tempU.resize(nSubjects);
 	for (unsigned int iSub=0; iSub<nSubjects; iSub++){
-		double ui=ARSsample(currentParams, model, iSub, 0,logUiPostPoissonSpatial,rndGenerator);
+		double ui=ARSsampleCAR(currentParams, model, iSub,logUiPostPoissonSpatial,rndGenerator);
 		tempU[iSub]=ui;
 	}
 	double meanU=0;

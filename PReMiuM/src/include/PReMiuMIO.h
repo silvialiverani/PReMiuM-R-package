@@ -1051,7 +1051,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 
 		// Now we can sample. We don't use the priors, but instead look at the number
 		// of people in each category and do a dirichlet sample that takes account of that
-		normal_distribution<double> norm01(0.0,1.0);
+		boost::math::normal_distribution<double> norm01(0.0,1.0);
 		for(unsigned int c=0;c<maxNClusters;c++){
 			for(unsigned int j=0;j<nCovariates;j++){
 				vector<double> dirichParams(nCategories[j]);
@@ -1190,7 +1190,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 
 		// Now we can sample. We don't use the priors, but instead look at the number
 		// of people in each category and do a dirichlet sample that takes account of that
-		normal_distribution<double> norm01(0.0,1.0);
+		boost::math::normal_distribution<double> norm01(0.0,1.0);
 		for(unsigned int c=0;c<maxNClusters;c++){
 			for(unsigned int j=0;j<nDiscreteCovs;j++){
 				vector<double> dirichParams(nCategories[j]);
