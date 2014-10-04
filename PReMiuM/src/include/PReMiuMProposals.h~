@@ -2840,16 +2840,21 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 		}
 		if(includeResponse&&i>=nSubjects){
 			if (predictType.compare("random")==0){
+std::cout<<"ok"<<std::endl;
 				// choose which component of the mixture we are sampling from
 				double u=unifRand(rndGenerator);
 				unsigned int c=0;
 				while(cumPzGivenXy[c]<=u){
 					c++;	
 				}
+std::cout<<c<<" "<<maxNClusters<<std::endl;
 				// draw from the normal distribution of that sample (only for xModel=Normal)
 				// Create a normal random generator
 				randomNormal normRand(0,1);
+std::cout<<expectedTheta[0]<<" "<<currentParams.sigmaSqY()<<normRand(rndGenerator)<<currentParams.theta(c,0)<<std::endl;
+
 				expectedTheta[0]=currentParams.sigmaSqY()*normRand(rndGenerator)+currentParams.theta(c,0);
+std::cout<<"end"<<std::endl;
 			}
 		}		
 		unsigned int zi;

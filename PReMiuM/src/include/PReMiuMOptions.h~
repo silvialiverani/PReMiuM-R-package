@@ -338,8 +338,8 @@ class pReMiuMOptions{
 		}
 
 		/// \brief Set the variable selection type
-		void predictType(const string& predType){
-			_predictType=predType;
+		void predictType(const string& varSelType){
+			_predictType=varSelType;
 		}
 
 

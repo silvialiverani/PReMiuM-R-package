@@ -93,8 +93,7 @@ It returns a number of files in the output directory as well as a list with the 
 \item{yMat}{A matrix of the outcome data, including the offset if the outcome is Poisson, the number of trials if the outcome is Binomial and 0 or 1 for Survival outcome (1 for censored individuals, 0 otherwise).}
 \item{wMat}{A matrix of the fixed effect data.}
 \item{whichLabelSwitch}{The label switching moves that have been run. The options available are moves 1, 2 and 3 ("123"), moves 1 and 2 ("12") and move 3 only ("3"). The moves are described in Hastie et al. (2013).}
-\item{includeCAR}{Logical. Whether a spatial CAR term is included.}
-\item{predictType}{String. Whether a RaoBlackwell or random predictions have been computed.}
+\item{includeCAR}{Logical. Wether a spatial CAR term is included.}
 }
 \section{Authors}{
 David Hastie, Department of Epidemiology and Biostatistics, Imperial College London, UK

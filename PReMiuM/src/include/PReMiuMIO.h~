@@ -253,6 +253,8 @@ pReMiuMOptions processCommandLine(string inputStr){
 						break;
 					}
 					options.predictType(predictType);
+std::cout<<predictType<<std::endl;
+
 				}else{
 					Rprintf("Unknown command line option.\n");
 					wasError=true;
@@ -261,6 +263,7 @@ pReMiuMOptions processCommandLine(string inputStr){
 				currArg++;
 			}
 		}
+std::cout<<options.predictType()<<std::endl;
 	}
 
 	// Return if there was an error
