@@ -6,6 +6,7 @@
 \alias{clusSummaryCategoricalDiscrete}
 \alias{clusSummaryNormalDiscrete}
 \alias{clusSummaryNormalNormal}
+\alias{clusSummaryNormalNormalSpatial}
 \alias{clusSummaryPoissonDiscrete}
 \alias{clusSummaryPoissonNormal}
 \alias{clusSummaryPoissonNormalSpatial}
@@ -22,6 +23,7 @@ clusSummaryBinomialNormal()
 clusSummaryCategoricalDiscrete()
 clusSummaryNormalDiscrete()
 clusSummaryNormalNormal()
+clusSummaryNormalNormalSpatial()
 clusSummaryPoissonDiscrete()
 clusSummaryPoissonNormal()
 clusSummaryPoissonNormalSpatial()
@@ -44,6 +46,8 @@ clusSummaryCategoricalDiscrete generates a dataset with categorical outcome and 
 clusSummaryNormalDiscrete generates a dataset with Normal outcome and discrete covariates.
 
 clusSummaryNormalNormal generates a dataset with Normal outcome and Normal covariates.
+
+clusSummaryNormalNormalSpatial generates a dataset with Normal outcome, Normal covariates and a spatial conditional autoregressive term in the log relative risk.
 
 clusSummaryPoissonDiscrete generates a dataset with Poisson outcome and discrete covariates.
 

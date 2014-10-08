@@ -211,7 +211,7 @@ generateSampleDataFile<-function(clusterSummary){
 			p<-1/(1+exp(-mu))	
 			Y[i]<-sum(runif(nTrials[i])<p)
 		}else if(outcomeType=='Normal'){
-			Y[i]<-rnorm(1,mu,sqrt(sigmaSqY))
+			Y[i]<-rnorm(1,mu+U[i],sqrt(sigmaSqY))
 		}else if (outcomeType=='Categorical'){
 			p<-vector()
 			sumMu<-sum(exp(mu))		
@@ -219,7 +219,7 @@ generateSampleDataFile<-function(clusterSummary){
 			for (kk in 2:nCategoriesY) p[kk]<-exp(mu[kk])/sumMu
 			Y[i]<-which(rmultinom(1,1,p)==1)-1
 		}else if (outcomeType == 'Weibull'){
-			Y[i] <- rweibull(1, shape=shape, scale=(exp(mu))) # create an outcome from the Weibull 
+			Y[i] <- rWEI2(1, exp(mu), shape)         #scale = exp(mu) 
 			if (Y[i] >  censorT){  
 				Y[i] <- censorT 
 				event[i] <- 0
@@ -491,6 +491,31 @@ clusSummaryPoissonNormalSpatial<-function(){
     'nFixedEffects'=2,
     'fixedEffectsCoeffs'=c(-0.05,0.1),
     'offsetLims'=c(0.9,1.1),
+    'missingDataProb'=0.001,
+    'nClusters'=3,
+    'clusterSizes'=c(50,60,40),
+    'includeCAR'=TRUE,
+    'TauCAR'=100,
+    'clusterData'=list(list('theta'=log(10),
+                            'covariateMeans'=c(0,2),
+                            'covariateCovariance'=matrix(c(0.5,0,0,3),nrow=2)),
+                       list('theta'=log(3),
+                            'covariateMeans'=c(3,2),
+                            'covariateCovariance'=matrix(c(1,0,0,1),nrow=2)),
+                       list('theta'=log(0.1),
+                            'covariateMeans'=c(10,-5),
+                            'covariateCovariance'=matrix(c(2,0.7,0.7,1),nrow=2))))
+}
+
+
+clusSummaryNormalNormalSpatial<-function(){
+  list(
+    'outcomeType'='Normal',
+    'covariateType'='Normal',
+    'nCovariates'=2,
+	'sigmaSqY'=1,
+    'nFixedEffects'=2,
+    'fixedEffectsCoeffs'=c(-0.05,0.1),
     'missingDataProb'=0.001,
     'nClusters'=3,
     'clusterSizes'=c(50,60,40),

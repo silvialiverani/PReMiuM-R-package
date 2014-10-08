@@ -240,10 +240,10 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 ### Aliases: clusSummaryBernoulliDiscrete clusSummaryBernoulliNormal
 ###   clusSummaryBernoulliDiscreteSmall clusSummaryBinomialNormal
 ###   clusSummaryCategoricalDiscrete clusSummaryNormalDiscrete
-###   clusSummaryNormalNormal clusSummaryPoissonDiscrete
-###   clusSummaryPoissonNormal clusSummaryPoissonNormalSpatial
-###   clusSummaryVarSelectBernoulliDiscrete clusSummaryBernoulliMixed
-###   clusSummaryWeibullDiscrete
+###   clusSummaryNormalNormal clusSummaryNormalNormalSpatial
+###   clusSummaryPoissonDiscrete clusSummaryPoissonNormal
+###   clusSummaryPoissonNormalSpatial clusSummaryVarSelectBernoulliDiscrete
+###   clusSummaryBernoulliMixed clusSummaryWeibullDiscrete
 ### Keywords: simulation
 
 ### ** Examples

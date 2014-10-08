@@ -2435,20 +2435,46 @@ void gibbsForUCAR(mcmcChain<pReMiuMParams>& chain,
 	pReMiuMParams& currentParams = currentState.parameters();
 	const pReMiuMData& dataset = model.dataset();
 	unsigned int nSubjects=dataset.nSubjects();
+	const string& outcomeType = model.dataset().outcomeType();
+	unsigned int nFixedEffects=dataset.nFixedEffects();
+
 	//Rprintf("TauCAR after update of uCAR is %f \n .", currentParams.TauCAR());
 	nTry++;
 	nAccept++;
-
+	
 	vector<double> tempU;
 	tempU.resize(nSubjects);
-	for (unsigned int iSub=0; iSub<nSubjects; iSub++){
-		double ui=ARSsampleCAR(currentParams, model, iSub,logUiPostPoissonSpatial,rndGenerator);
-		tempU[iSub]=ui;
+	if(outcomeType.compare("Poisson")==0){	
+		for (unsigned int iSub=0; iSub<nSubjects; iSub++){
+			double ui=ARSsampleCAR(currentParams, model, iSub,logUiPostPoissonSpatial,rndGenerator);
+			tempU[iSub]=ui;
+		}
+		double meanU=0;
+		for (unsigned int i=0; i<nSubjects; i++){meanU+=tempU[i];}
+		meanU/=nSubjects;
+		for (unsigned int i=0; i<nSubjects; i++){tempU[i]-=meanU;}
+	} else if(outcomeType.compare("Normal")==0){	
+		for (unsigned int iSub=0; iSub<nSubjects; iSub++){
+			int nNeighi = dataset.nNeighbours(iSub);
+			double sigmaSqUCAR = 1/(1/currentParams.sigmaSqY()+currentParams.TauCAR()*nNeighi);
+			int Zi = currentParams.z(iSub);
+			double betaW = 0.0;
+			for(unsigned int j=0;j<nFixedEffects;j++){
+				betaW+=currentParams.beta(j,0)*dataset.W(iSub,j);
+			}
+			double meanUi=0.0;
+			for (int j = 0; j<nNeighi; j++){
+	        		unsigned int nj = dataset.neighbours(iSub,j);
+	        		double ucarj = currentParams.uCAR(nj-1);
+	        		meanUi+=ucarj;
+			}
+			meanUi/=nNeighi;	
+			double mUCAR = 1/currentParams.sigmaSqY()*(dataset.continuousY(iSub)-currentParams.theta(Zi,0)-betaW)+currentParams.TauCAR()*nNeighi*meanUi;
+			mUCAR = mUCAR * sigmaSqUCAR;
+			randomNormal normRand(mUCAR,sigmaSqUCAR);
+			tempU[iSub]=normRand(rndGenerator);
+		}
 	}
-	double meanU=0;
-	for (unsigned int i=0; i<nSubjects; i++){meanU+=tempU[i];}
-	meanU/=nSubjects;
-	for (unsigned int i=0; i<nSubjects; i++){tempU[i]-=meanU;}
 	currentParams.uCAR(tempU);
 	//Rprintf("uCAR1 equals %f \n", currentParams.uCAR(1));
 }

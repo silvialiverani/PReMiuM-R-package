@@ -80,39 +80,43 @@ Underfull \vbox (badness 3803) has occurred while \output is active [11]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [14]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [15]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (11.78088pt too wide) in paragraph at lines 696--696
+Overfull \hbox (11.78088pt too wide) in paragraph at lines 700--700
  []\T1/zi4/m/n/10 globalParsTrace(runInfoObj, parameters = "nClusters",plotBurn
 In=FALSE,whichBeta=1)[] 
-[16] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [17]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [18]
+[16] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [17] [18]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
-(/usr/share/texlive/texmf-dist/tex/latex/inconsolata/ts1zi4.fd) [19]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [20]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [21]
-Overfull \hbox (16.9809pt too wide) in paragraph at lines 1003--1003
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [19]
+(/usr/share/texlive/texmf-dist/tex/latex/inconsolata/ts1zi4.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [20] [21]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [22]
+Overfull \hbox (16.9809pt too wide) in paragraph at lines 1007--1007
  []\T1/zi4/m/n/9 predictions <- calcPredictions(riskProfileObj,fullSweepPredict
 ions=TRUE,fullSweepLogOR=TRUE)[] 
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [22] [23]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [24] [25]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1154--1155
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [23] [24]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [25]
+Overfull \hbox (0.62779pt too wide) in paragraph at lines 1142--1143
+[]\T1/ptm/m/n/10 This can be set equal to "RaoBlack-well" and "ran-dom". The de
+-fault is RaoBlack-
+[26]
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1160--1161
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1155--1156
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1161--1162
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
-[26] [27] [28] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [29]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1286--1287
+[27] [28] [29] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [30]
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1293--1294
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1286--1287
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1293--1294
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
-[30] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [31]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [32]
+[31] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [32] [33]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
 No file Rd2.ind.
-[33] (./Rd2.aux)
+[34] (./Rd2.aux)
 
 Package rerunfilecheck Warning: File `Rd2.out' has changed.
 (rerunfilecheck)                Rerun to get outlines right
@@ -128,12 +132,12 @@ consolata-zi4r.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr
 are/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (33 pages, 142390 bytes).
+Output written on Rd2.pdf (34 pages, 143037 bytes).
 Transcript written on Rd2.log.
 This is makeindex, version 2.15 [TeX Live 2013] (kpathsea + Thai support).
-Scanning input file Rd2.idx....done (46 entries accepted, 0 rejected).
-Sorting entries....done (278 comparisons).
-Generating output file Rd2.ind....done (97 lines written, 0 warnings).
+Scanning input file Rd2.idx....done (47 entries accepted, 0 rejected).
+Sorting entries....done (292 comparisons).
+Generating output file Rd2.ind....done (99 lines written, 0 warnings).
 Output written in Rd2.ind.
 Transcript written in Rd2.ilg.
 This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian)
@@ -215,7 +219,7 @@ b/texmf/fonts/map/pdftex/updmap/pdftex.map}])
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [14]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [15] [16]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (11.78088pt too wide) in paragraph at lines 696--696
+Overfull \hbox (11.78088pt too wide) in paragraph at lines 700--700
  []\T1/zi4/m/n/10 globalParsTrace(runInfoObj, parameters = "nClusters",plotBurn
 In=FALSE,whichBeta=1)[] 
 [17] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [18]
@@ -224,29 +228,32 @@ In=FALSE,whichBeta=1)[]
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/ts1zi4.fd) [20]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [21]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [22]
-Overfull \hbox (16.9809pt too wide) in paragraph at lines 1003--1003
+Overfull \hbox (16.9809pt too wide) in paragraph at lines 1007--1007
  []\T1/zi4/m/n/9 predictions <- calcPredictions(riskProfileObj,fullSweepPredict
 ions=TRUE,fullSweepLogOR=TRUE)[] 
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [23] [24]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [25] [26]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1154--1155
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [25]
+Overfull \hbox (0.62779pt too wide) in paragraph at lines 1142--1143
+[]\T1/ptm/m/n/10 This can be set equal to "RaoBlack-well" and "ran-dom". The de
+-fault is RaoBlack-
+[26]
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1160--1161
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1155--1156
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1161--1162
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 [27] [28] [29] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [30]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1286--1287
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1293--1294
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1286--1287
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1293--1294
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
-[31] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [32]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [33] (./Rd2.ind
-[34]
+[31] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [32] [33]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) (./Rd2.ind [34]
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
 (Font)              using `T1/zi4/m/n' instead on input line 33.
@@ -271,12 +278,12 @@ m/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb
 xlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/u
 rw/times/utmri8a.pfb>
-Output written on Rd2.pdf (36 pages, 157311 bytes).
+Output written on Rd2.pdf (36 pages, 157907 bytes).
 Transcript written on Rd2.log.
 This is makeindex, version 2.15 [TeX Live 2013] (kpathsea + Thai support).
-Scanning input file Rd2.idx....done (46 entries accepted, 0 rejected).
-Sorting entries....done (278 comparisons).
-Generating output file Rd2.ind....done (97 lines written, 0 warnings).
+Scanning input file Rd2.idx....done (47 entries accepted, 0 rejected).
+Sorting entries....done (292 comparisons).
+Generating output file Rd2.ind....done (99 lines written, 0 warnings).
 Output written in Rd2.ind.
 Transcript written in Rd2.ilg.
 This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian)
@@ -354,11 +361,11 @@ b/texmf/fonts/map/pdftex/updmap/pdftex.map}])
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [6] [7]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [8]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [9] [10] [11]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [12] [13]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [14]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [12] [13] [14]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [15] [16]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (11.78088pt too wide) in paragraph at lines 696--696
+Overfull \hbox (11.78088pt too wide) in paragraph at lines 700--700
  []\T1/zi4/m/n/10 globalParsTrace(runInfoObj, parameters = "nClusters",plotBurn
 In=FALSE,whichBeta=1)[] 
 [17] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [18]
@@ -367,29 +374,32 @@ In=FALSE,whichBeta=1)[]
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/ts1zi4.fd) [20]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [21]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [22]
-Overfull \hbox (16.9809pt too wide) in paragraph at lines 1003--1003
+Overfull \hbox (16.9809pt too wide) in paragraph at lines 1007--1007
  []\T1/zi4/m/n/9 predictions <- calcPredictions(riskProfileObj,fullSweepPredict
 ions=TRUE,fullSweepLogOR=TRUE)[] 
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [23] [24]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [25] [26]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1154--1155
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [25]
+Overfull \hbox (0.62779pt too wide) in paragraph at lines 1142--1143
+[]\T1/ptm/m/n/10 This can be set equal to "RaoBlack-well" and "ran-dom". The de
+-fault is RaoBlack-
+[26]
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1160--1161
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1155--1156
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1161--1162
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 [27] [28] [29] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [30]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1286--1287
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1293--1294
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1286--1287
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1293--1294
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
-[31] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [32]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [33] (./Rd2.ind
-[34]
+[31] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [32] [33]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) (./Rd2.ind [34]
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
 (Font)              using `T1/zi4/m/n' instead on input line 33.
@@ -409,12 +419,12 @@ m/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb
 xlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/u
 rw/times/utmri8a.pfb>
-Output written on Rd2.pdf (36 pages, 157563 bytes).
+Output written on Rd2.pdf (36 pages, 158103 bytes).
 Transcript written on Rd2.log.
 This is makeindex, version 2.15 [TeX Live 2013] (kpathsea + Thai support).
-Scanning input file Rd2.idx....done (46 entries accepted, 0 rejected).
-Sorting entries....done (278 comparisons).
-Generating output file Rd2.ind....done (97 lines written, 0 warnings).
+Scanning input file Rd2.idx....done (47 entries accepted, 0 rejected).
+Sorting entries....done (292 comparisons).
+Generating output file Rd2.ind....done (99 lines written, 0 warnings).
 Output written in Rd2.ind.
 Transcript written in Rd2.ilg.
 This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian)
@@ -492,11 +502,11 @@ b/texmf/fonts/map/pdftex/updmap/pdftex.map}])
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [6] [7]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [8]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [9] [10] [11]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [12] [13]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [14]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [12] [13] [14]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [15] [16]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (11.78088pt too wide) in paragraph at lines 696--696
+Overfull \hbox (11.78088pt too wide) in paragraph at lines 700--700
  []\T1/zi4/m/n/10 globalParsTrace(runInfoObj, parameters = "nClusters",plotBurn
 In=FALSE,whichBeta=1)[] 
 [17] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [18]
@@ -505,29 +515,32 @@ In=FALSE,whichBeta=1)[]
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/ts1zi4.fd) [20]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [21]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [22]
-Overfull \hbox (16.9809pt too wide) in paragraph at lines 1003--1003
+Overfull \hbox (16.9809pt too wide) in paragraph at lines 1007--1007
  []\T1/zi4/m/n/9 predictions <- calcPredictions(riskProfileObj,fullSweepPredict
 ions=TRUE,fullSweepLogOR=TRUE)[] 
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [23] [24]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [25] [26]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1154--1155
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [25]
+Overfull \hbox (0.62779pt too wide) in paragraph at lines 1142--1143
+[]\T1/ptm/m/n/10 This can be set equal to "RaoBlack-well" and "ran-dom". The de
+-fault is RaoBlack-
+[26]
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1160--1161
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1155--1156
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1161--1162
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 [27] [28] [29] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [30]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1286--1287
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1293--1294
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1286--1287
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1293--1294
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
-[31] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [32]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [33] (./Rd2.ind
-[34]
+[31] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [32] [33]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) (./Rd2.ind [34]
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
 (Font)              using `T1/zi4/m/n' instead on input line 33.
@@ -547,8 +560,8 @@ m/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb
 xlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/u
 rw/times/utmri8a.pfb>
-Output written on Rd2.pdf (36 pages, 157558 bytes).
+Output written on Rd2.pdf (36 pages, 158102 bytes).
 Transcript written on Rd2.log.
 Saving output to 'PReMiuM-manual.pdf' ...
 Done
-You may want to clean up by 'rm -rf /tmp/RtmpZgJJvB/Rd2pdf455978ccd7e7'
+You may want to clean up by 'rm -rf /tmp/RtmpOysWCN/Rd2pdf6a9870a74c4a'

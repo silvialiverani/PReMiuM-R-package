@@ -2132,6 +2132,20 @@ double logPYiGivenZiWiNormal(const pReMiuMParams& params, const pReMiuMData& dat
 	return logPdfNormal(dataset.continuousY(i),mu,sqrt(params.sigmaSqY()));
 }
 
+double logPYiGivenZiWiNormalSpatial(const pReMiuMParams& params, const pReMiuMData& dataset,
+						const unsigned int& nFixedEffects,const int& zi,
+						const unsigned int& i){
+
+	double mu;
+	mu=params.theta(zi,0);
+	for(unsigned int j=0;j<nFixedEffects;j++){
+		mu+=params.beta(j,0)*dataset.W(i,j);
+	}
+	mu+=params.uCAR(i);
+
+	return logPdfNormal(dataset.continuousY(i),mu,sqrt(params.sigmaSqY()));
+}
+
 double logPYiGivenZiWiCategorical(const pReMiuMParams& params, const pReMiuMData& dataset,
 						const unsigned int& nFixedEffects,
 						const int& zi,
@@ -2265,7 +2279,11 @@ vector<double> pReMiuMLogPost(const pReMiuMParams& params,
 		}else if(outcomeType.compare("Categorical")==0){
 			logPYiGivenZiWi = &logPYiGivenZiWiCategorical;
 		}else if(outcomeType.compare("Normal")==0){
-			logPYiGivenZiWi = &logPYiGivenZiWiNormal;
+				if (includeCAR){
+					logPYiGivenZiWi = &logPYiGivenZiWiNormalSpatial;
+				}else{
+					logPYiGivenZiWi = &logPYiGivenZiWiNormal;
+				}
 		}else if(outcomeType.compare("Survival")==0){
 			logPYiGivenZiWi = &logPYiGivenZiWiSurvival;
 		}
@@ -2591,7 +2609,11 @@ double logCondPostThetaBeta(const pReMiuMParams& params,
 	}else if(outcomeType.compare("Categorical")==0){
 		logPYiGivenZiWi = &logPYiGivenZiWiCategorical;
 	}else if(outcomeType.compare("Normal")==0){
-		logPYiGivenZiWi = &logPYiGivenZiWiNormal;
+		if (includeCAR){
+			logPYiGivenZiWi = &logPYiGivenZiWiNormalSpatial;
+		}else{
+			logPYiGivenZiWi = &logPYiGivenZiWiNormal;
+		}
 	}else if(outcomeType.compare("Survival")==0){
 		logPYiGivenZiWi = &logPYiGivenZiWiSurvival;
 	}

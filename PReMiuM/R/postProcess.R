@@ -39,7 +39,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 
 	if (extraYVar==TRUE&(yModel=="Categorical"||yModel=="Normal"||yModel=="Survival")) stop("Option extraYVar is only available for Bernoulli, Binomial and Poisson response.")
 
-	if (includeCAR==TRUE&(yModel=="Categorical"||yModel=="Normal"||yModel=="Survival"||yModel=="Bernoulli"||yModel=="Binomial")) stop("Option includeCAR is only available for Poisson response.")
+	if (includeCAR==TRUE&(yModel=="Categorical"||yModel=="Survival"||yModel=="Bernoulli"||yModel=="Binomial")) stop("Option includeCAR is only available for Poisson and Normal response.")
 
 	if (predictType=="random"){
 		if (yModel!="Normal") stop("The option of random predictions is only available for yModel=Normal.")

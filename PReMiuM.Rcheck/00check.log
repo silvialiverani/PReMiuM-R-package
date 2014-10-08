@@ -4,11 +4,9 @@
 * using session charset: UTF-8
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘PReMiuM’ version ‘3.0.29’
-* checking CRAN incoming feasibility ... WARNING
+* this is package ‘PReMiuM’ version ‘3.0.31’
+* checking CRAN incoming feasibility ... NOTE
 Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
-Insufficient package version (submitted: 3.0.29, existing: 3.0.29)
-Days since last update: 1
 * checking package namespace information ... OK
 * checking package dependencies ... NOTE
   No repository set, so cyclic dependency check skipped
@@ -25,7 +23,9 @@ Days since last update: 1
     libs  11.1Mb
 * checking package directory ... OK
 * checking DESCRIPTION meta-information ... OK
-* checking top-level files ... OK
+* checking top-level files ... NOTE
+Non-standard files/directories found at top level:
+  ‘DESCRIPTION~’ ‘NAMESPACE~’
 * checking for left-over files ... OK
 * checking index information ... OK
 * checking package subdirectories ... OK
@@ -58,5 +58,4 @@ Days since last update: 1
 * checking compiled code ... OK
 * checking examples ... OK
 * checking PDF version of manual ... OK
-WARNING: There was 1 warning.
-NOTE: There were 2 notes.
+NOTE: There were 4 notes.
