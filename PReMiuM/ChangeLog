@@ -1,5 +1,7 @@
 Changes in version 3.0.31 (2014-10-02)
 
+* Added option weibullFixedShape parameter which allows clustering of survival curves with specific or global shape parameter of the Weibull distribution
+* Fixed bug: missing theta active among MCMC steps 
 * Added spatial CAR component also for Normal response
 * Added option predictType in profRegr, only available for yModel="Normal". It allows for randomly sampled predictions from the posterior predictive distributions, therefore allowing to estimate the variance. 
 * Debugged option whichCovariates in plotRiskProfile() for Mixed covariates. 

@@ -595,7 +595,8 @@ class pReMiuMParams{
 				const unsigned int& nPredictSubjects,
 				const vector<unsigned int>& nCategories,
 				const unsigned int& nClusInit,
-				const string covariateType){
+				const string covariateType,
+				const bool weibullFixedShape){
 
 			unsigned int nDiscrCovs = 0;
 
@@ -721,6 +722,11 @@ class pReMiuMParams{
 				}
 			}
 			_uCAR.resize(nSubjects);
+			if (weibullFixedShape) {
+				_nu.resize(1);
+			} else {
+				_nu.resize(maxNClusters);
+			}
 		}
 
 		/// \brief Return the number of clusters
@@ -1557,15 +1563,26 @@ class pReMiuMParams{
 			_sigmaSqY=sigmaSqYVal;
 		}
 
-		/// \brief Return the parameter nu
-		double nu() const{
+		/// \brief Return the vector _nu
+		vector<double> nu() const{
 			return _nu;
 		}
 
-		/// \brief Set the parameter nu
-		void nu(const double& nuVal){
+		/// \brief Return the parameter _nu for cluster c
+		double nu(const unsigned int& c ) const{
+			return _nu[c];
+		}
+
+		/// \brief Set the vector nu
+		void nu(vector<double>& nuVal){
 			_nu=nuVal;
 		}
+
+		/// \brief Set the parameter nu for cluster c
+		void nu(const unsigned int& c, double& nuVal){
+			_nu[c]=nuVal;
+		}
+
 
 		/// \brief Return the vector _uCAR
 		vector<double> uCAR() const{
@@ -1972,7 +1989,7 @@ class pReMiuMParams{
 		double _sigmaSqY;
 
 		/// \brief Prior shape parameter for Y model when response is weibull (survival)
-		double _nu;
+		vector<double> _nu;
 
 		/// NOTE: hyper parameters
 		/// \brief The hyper parameter object
@@ -2179,11 +2196,21 @@ double logPYiGivenZiWiSurvival(const pReMiuMParams& params, const pReMiuMData& d
 						const unsigned int& nFixedEffects,const int& zi,
 						const unsigned int& i){
 
+	unsigned int weibullFixedShape=params.nu().size();
+
 	double lambda = params.theta(zi,0);
 	for(unsigned int j=0;j<nFixedEffects;j++){
 		lambda+=params.beta(j,0)*dataset.W(i,j);
 	}
-	return logPdfWeibullCensored(dataset.continuousY(i), params.nu(), exp(lambda), dataset.censoring(i));
+	double nu=0;
+	
+	if (weibullFixedShape==1) {
+		nu=params.nu(0);
+	} else {
+		nu=params.nu(zi);
+	}
+
+	return logPdfWeibullCensored(dataset.continuousY(i), nu, exp(lambda), dataset.censoring(i));
 }
 
 
@@ -2209,6 +2236,7 @@ vector<double> pReMiuMLogPost(const pReMiuMParams& params,
 	vector<unsigned int> nCategories = dataset.nCategories();
 	const pReMiuMHyperParams& hyperParams = params.hyperParams();
 	const bool includeCAR=model.options().includeCAR();
+	const bool weibullFixedShape=model.options().weibullFixedShape();
 
 	// (Augmented) Log Likelihood first
 	// We want p(y,X|z,params,W) = p(y|z=c,W,params)p(X|z=c,params)
@@ -2428,7 +2456,13 @@ vector<double> pReMiuMLogPost(const pReMiuMParams& params,
 		}
 
 		if(outcomeType.compare("Survival")==0){
-			logPrior+=logPdfGamma(params.nu(),hyperParams.shapeNu(),hyperParams.scaleNu());
+			if (weibullFixedShape){
+				logPrior+=logPdfGamma(params.nu(0),hyperParams.shapeNu(),hyperParams.scaleNu());
+			} else {
+				for (unsigned int c=0;c<maxNClusters;c++) {
+					logPrior+=logPdfGamma(params.nu(c),hyperParams.shapeNu(),hyperParams.scaleNu());
+				}
+			}
 		}
 
 		// Prior for TauCAR and UCAR
@@ -2756,7 +2790,7 @@ void logUiPostPoissonSpatial(const pReMiuMParams& params,
 // given \gamma for adaptive rejection sampling
 void logNuPostSurvival(const pReMiuMParams& params,
                                  const mcmcModel<pReMiuMParams,pReMiuMOptions,pReMiuMData>& model,
-                                 const unsigned int& iSub,
+                                 const unsigned int& cluster,
                                  const double& x,
                                  double* Pt_y1, double* Pt_y2){
 
@@ -2766,29 +2800,55 @@ void logNuPostSurvival(const pReMiuMParams& params,
 	unsigned int nSubjects=dataset.nSubjects();
 	const vector<unsigned int> censoring = dataset.censoring();
 	vector<double> y = dataset.continuousY();
+	const bool weibullFixedShape=model.options().weibullFixedShape();
+
 	double y1;
 	double y2;
  	// compute d
 	double dCensored = 0;
-	for (unsigned int i=0;i<nSubjects;i++){
-		dCensored += censoring[i];
-	}	
+	
+	if (weibullFixedShape){
+		for (unsigned int i=0;i<nSubjects;i++){
+			dCensored += censoring[i];
+		}	
+	} else {
+		for (unsigned int i=0;i<nSubjects;i++){
+			int zi=params.z(i);
+			if (zi==(int)cluster) dCensored += censoring[i];
+		}	
+	}
 	// sum of yi^nu
 	double yNu = 0;
 	double yNulogy = 0;
 	for (unsigned int i=0;i<nSubjects;i++){
 		int zi=params.z(i);
-		double lambda = params.theta(zi,0);
-		for(unsigned int j=0;j<nFixedEffects;j++){
-			lambda+=params.beta(j,0)*dataset.W(i,j);
+		if (weibullFixedShape){
+			double lambda = params.theta(zi,0);
+			for(unsigned int j=0;j<nFixedEffects;j++){
+				lambda+=params.beta(j,0)*dataset.W(i,j);
+			}
+			yNulogy += pow(y[i],x) * log(y[i]) * exp(lambda);
+			yNu += pow(y[i],x) * exp(lambda);
+		} else {
+			if (zi==(int)cluster) {
+				double lambda = params.theta(zi,0);
+				for(unsigned int j=0;j<nFixedEffects;j++){
+					lambda+=params.beta(j,0)*dataset.W(i,j);
+				}
+				yNulogy += pow(y[i],x) * log(y[i]) * exp(lambda);
+				yNu += pow(y[i],x) * exp(lambda);
+			}
 		}
-		yNulogy += pow(y[i],x) * log(y[i]) * exp(lambda);
-		yNu += pow(y[i],x) * exp(lambda);
 	}	
 	// sum of di*log yi
 	double dlogY = 0;
 	for (unsigned int i=0;i<nSubjects;i++){
-		dlogY += log(y[i]) * censoring[i];
+		if (weibullFixedShape){
+			dlogY += log(y[i]) * censoring[i];
+		} else {
+			int zi=params.z(i);
+			if (zi==(int)cluster) dlogY += log(y[i]) * censoring[i];
+		}
 	}	
 	y1=dCensored * log(x) - yNu + x * dlogY + (hyperParams.shapeNu()-1) * log(x) - hyperParams.scaleNu() * x;
 	// derivative of y1

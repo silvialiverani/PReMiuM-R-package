@@ -1233,8 +1233,9 @@ void metropolisHastingsForLabels123(mcmcChain<pReMiuMParams>& chain,
 	unsigned int c2=nonEmptyIndices[i2];
 
 	// Check whether we accept the move
-	double logAcceptRatio = ((double)currentParams.workNXInCluster(c2)-(double)currentParams.workNXInCluster(c1))
-								*(currentParams.logPsi(c1)-currentParams.logPsi(c2));
+	double logAcceptRatio = ((double)currentParams.workNXInCluster(c2)-
+		(double)currentParams.workNXInCluster(c1))
+		*(currentParams.logPsi(c1)-currentParams.logPsi(c2));
 
 	if(unifRand(rndGenerator)<exp(logAcceptRatio)){
 //		nAccept++;
@@ -1247,8 +1248,9 @@ void metropolisHastingsForLabels123(mcmcChain<pReMiuMParams>& chain,
 //	nTry++;
 	c1=(unsigned int)maxZ*unifRand(rndGenerator);
 
-	logAcceptRatio=(double)currentParams.workNXInCluster(c1)*log(1-currentParams.v(c1+1))
-							- (double)currentParams.workNXInCluster(c1+1)*log(1-currentParams.v(c1));
+	logAcceptRatio=(double)currentParams.workNXInCluster(c1)*
+		log(1-currentParams.v(c1+1))
+		- (double)currentParams.workNXInCluster(c1+1)*log(1-currentParams.v(c1));
 
 	if(unifRand(rndGenerator)<exp(logAcceptRatio)){
 		nAccept++;
@@ -1297,7 +1299,7 @@ void metropolisHastingsForLabels123(mcmcChain<pReMiuMParams>& chain,
 	logAcceptRatio=(double)(currentParams.workNXInCluster(c1)+currentParams.workNXInCluster(c1+1))*
 					log(exp(currentParams.logPsi(c1))+exp(currentParams.logPsi(c1+1)));
 	logAcceptRatio-=(double)(currentParams.workNXInCluster(c1)+currentParams.workNXInCluster(c1+1))*
-					log(exp(currentParams.logPsi(c1+1))*const1+exp(currentParams.logPsi(c1))*const2);
+					log(exp(currentParams.logPsi(c1))*const1+exp(currentParams.logPsi(c1+1))*const2);
 	logAcceptRatio+=(double)(currentParams.workNXInCluster(c1+1))*log(const1);
 	logAcceptRatio+=(double)(currentParams.workNXInCluster(c1))*log(const2);
 
@@ -1961,6 +1963,35 @@ void gibbsForThetaInActive(mcmcChain<pReMiuMParams>& chain,
 
 }
 
+// Gibbs for nu inactive (for survival case)
+void gibbsForNuInActive(mcmcChain<pReMiuMParams>& chain,
+								unsigned int& nTry,unsigned int& nAccept,
+								const mcmcModel<pReMiuMParams,
+												pReMiuMOptions,
+												pReMiuMData>& model,
+								pReMiuMPropParams& propParams,
+								baseGeneratorType& rndGenerator){
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+	const pReMiuMData& dataset = model.dataset();
+	unsigned int nCategoriesY=dataset.nCategoriesY();
+	const string outcomeType = model.dataset().outcomeType();
+
+	// Find the number of clusters
+	unsigned int maxZ = currentParams.workMaxZi();
+	unsigned int maxNClusters = currentParams.maxNClusters();
+
+	nTry++;
+	nAccept++;
+
+	randomGamma gammaRand(hyperParams.shapeNu(),hyperParams.scaleNu());
+	for(unsigned int c=maxZ+1;c<maxNClusters;c++){
+		double nu=gammaRand(rndGenerator);
+		currentParams.nu(c,nu);
+	}
+}
 
 /*********** BLOCK 4 p(Theta^N|.) **********************************/
 // N=Non-cluster, and Theta contains: beta, rho, omega, lambda, tau_epsilon, uCAR and TauCAR
@@ -2363,12 +2394,22 @@ void gibbsForNu(mcmcChain<pReMiuMParams>& chain,
 	mcmcState<pReMiuMParams>& currentState = chain.currentState();
 	pReMiuMParams& currentParams = currentState.parameters();
 	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+	const bool weibullFixedShape=model.options().weibullFixedShape();
+	// Find the number of clusters
+	unsigned int maxZ = currentParams.workMaxZi();
 
 	nTry++;
 	nAccept++;
 
-	double nu = ARSsampleNu(currentParams, model, 0,logNuPostSurvival,rndGenerator);
-	currentParams.nu(nu);
+	if (weibullFixedShape){
+		double nu = ARSsampleNu(currentParams, model, 0,logNuPostSurvival,rndGenerator);
+		currentParams.nu(0,nu);
+	} else {
+		for (unsigned int c=0;c<maxZ;c++){
+			double nu = ARSsampleNu(currentParams, model, c,logNuPostSurvival,rndGenerator);
+			currentParams.nu(c,nu);
+		}
+	}
 
 }
 

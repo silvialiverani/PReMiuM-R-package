@@ -21,6 +21,7 @@ A list with the following components. This is an object of type riskProfileObj.
 \item{profileStarPhi}{This array is defined as profile and profilePhi, but the values are computed only if a variable selection procedure has been run. The definition of the star profile is given in Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for Bayesian profile regression.}
 \item{profileMu}{This array is the equivalent of the 'profile' above for Normal covariates in case of mixed covariates.}
 \item{profileStarMu}{This array is defined as profile and profileMu, but the values are computed only if a variable selection procedure has been run. The definition of the star profile is given in Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for Bayesian profile regression.}
+\item{nuArray}{For yModel=Survival when weibullFixedShape=FALSE this array contains the sampled values of the shape parameter nu. The first dimension is the number of sweeps, the second is the number of clusters.}
 }
 \section{Authors}{
 David Hastie, Department of Epidemiology and Biostatistics, Imperial College London, UK

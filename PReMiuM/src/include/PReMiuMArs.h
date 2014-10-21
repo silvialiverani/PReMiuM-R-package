@@ -88,7 +88,7 @@ double ARSsampleCAR(pReMiuMParams params,
 
 double ARSsampleNu(pReMiuMParams params,
                  const mcmcModel<pReMiuMParams,pReMiuMOptions,pReMiuMData>& model,
-                 const unsigned int& iSub,
+                 const unsigned int& cluster,
                  void (*evalhxhprimax)(const pReMiuMParams&,const mcmcModel<pReMiuMParams,pReMiuMOptions,pReMiuMData>&, const unsigned int&,const double&, double*, double*),
                  baseGeneratorType& rndGenerator)
 {
@@ -99,20 +99,20 @@ double ARSsampleNu(pReMiuMParams params,
 	int lb, ub;
 	const int m = 20;
 	xTmp.resize(m);
-	ui=params.nu();	
+	ui=params.nu(cluster);	
 	xlb=0.000001;
 	xub=0;
 	lb=1; //true
 	ub=0; //false
-	xTmp[0] = 0.000001;
-	xTmp[1] = 0.000005;
-	xTmp[2] = 0.00001;
+	xTmp[0] = 0.00001;
+	xTmp[1] = 0.00005;
+	xTmp[2] = 0.0001;
 	xTmp[3] = 0.0005;
-	xTmp[4] = 0.0001;
-	xTmp[5] = 0.0005;
-	xTmp[6] = 0.001;
-	xTmp[7] = 0.005;
-	xTmp[8] = 0.01;
+	xTmp[4] = 0.001;
+	xTmp[5] = 0.005;
+	xTmp[6] = 0.01;
+	xTmp[7] = 0.05;
+	xTmp[8] = 0.1;
 	xTmp[9] = 0.5;
 	xTmp[10] = 1;
 	xTmp[11] = 1.1;
@@ -133,7 +133,7 @@ double ARSsampleNu(pReMiuMParams params,
 	double y1=0;
 	double y2=0;
     for (int i=0; i<m; i++){
-        (*evalhxhprimax)(params, model, iSub, x[i], &y1, &y2);
+        (*evalhxhprimax)(params, model, cluster, x[i], &y1, &y2);
         hx[i]=y1;
         hpx[i]=y2;
     }
@@ -152,7 +152,7 @@ double ARSsampleNu(pReMiuMParams params,
         return 0;
     }else{
         double beta=0;
-        sample_( iwv, rwv, &beta,  &ifault, params, model, iSub, evalhxhprimax,rndGenerator );
+        sample_( iwv, rwv, &beta,  &ifault, params, model, cluster, evalhxhprimax,rndGenerator );
         if (ifault!=0){
 	Rprintf("Error in the Adaptive Rejection Sampler");
 		Rprintf("Error in ARS, cannot update nu (survival response)");

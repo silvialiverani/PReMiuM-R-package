@@ -148,7 +148,7 @@ generateSampleDataFile<-function(clusterSummary){
 			beta<-as.matrix(clusterSummary$fixedEffectsCoeffs,nrow=1)
 		}
 	}
-   	if (outcomeType=='Weibull'){
+   	if (outcomeType=='Survival'){
 		shape=clusterSummary$shape # shape parameter of the Weibull - constant across clusters
 		censorT = clusterSummary$censorT # time to censor the outcomes
 		event = clusterSummary$event # indicator variable for whether event has occured (1 = occured, 0 = censored)
@@ -180,8 +180,10 @@ generateSampleDataFile<-function(clusterSummary){
 		}else{        
 			if(i<=subjectsPerCluster[k]){
 				theta<-clusterSummary$clusterData[[k]]$theta
+				if (outcomeType=="Survival") shapeTmp<-clusterSummary$shape[k]
 			}else{
 				theta<-clusterSummary$clusterData[[k+1]]$theta
+				if (outcomeType=="Survival") shapeTmp<-clusterSummary$shape[k+1]
 				k<-k+1
 				subjectsPerCluster[k]<-subjectsPerCluster[k]+subjectsPerCluster[k-1]
 			}
@@ -218,8 +220,8 @@ generateSampleDataFile<-function(clusterSummary){
 			p[1]<-1/sumMu
 			for (kk in 2:nCategoriesY) p[kk]<-exp(mu[kk])/sumMu
 			Y[i]<-which(rmultinom(1,1,p)==1)-1
-		}else if (outcomeType == 'Weibull'){
-			Y[i] <- rWEI2(1, exp(mu), shape)         #scale = exp(mu) 
+		}else if (outcomeType == 'Survival'){
+			Y[i] <- rWEI2(1, exp(mu), shapeTmp)         #scale = exp(mu) 
 			if (Y[i] >  censorT){  
 				Y[i] <- censorT 
 				event[i] <- 0
@@ -269,7 +271,7 @@ generateSampleDataFile<-function(clusterSummary){
 		out$inputData <- outData
 		out$outcomeT <- "outcomeT"
 	}
-	if(clusterSummary$outcomeType=="Weibull"){
+	if(clusterSummary$outcomeType=="Survival"){
 		outData<-data.frame(cbind(outData,event))
 		out$inputData <- outData	
 		colnames(outData) <- c("outcome",covNames,fixEffNames, "event")
@@ -762,13 +764,13 @@ clusSummaryBernoulliNormal<-function(){
 
 clusSummaryWeibullDiscrete<-function(){                 
 	list(
-	'outcomeType'='Weibull',
+	'outcomeType'='Survival',
 	'covariateType'='Discrete',
 	'nCovariates'=5,
 	'nCategories'=c(2,2,3,3,4),
 	'nFixedEffects'=1,                                      
 	'fixedEffectsCoeffs'=c(0),
-	'shape'=1.5,
+	'shape'=c(1,1.5,3),
 	'censorT'=5,                                                                  
 	'missingDataProb'=0,
 	'nClusters'=3,                                      

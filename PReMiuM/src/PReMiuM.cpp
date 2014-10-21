@@ -151,6 +151,9 @@ RcppExport SEXP profRegr(SEXP inputString) {
 	}
 
 	if(options.includeResponse()){
+		// The Metropolis Hastings update for the active theta
+		pReMiuMSampler.addProposal("metropolisHastingsForThetaActive",1.0,1,1,&metropolisHastingsForThetaActive);
+
 		// Adaptive MH for beta
 		if(dataset.nFixedEffects()>0){
 			pReMiuMSampler.addProposal("metropolisHastingsForBeta",1.0,1,1,&metropolisHastingsForBeta);
@@ -166,12 +169,20 @@ RcppExport SEXP profRegr(SEXP inputString) {
 
 		//if spatial random term
 		if (options.includeCAR()){
-		//Adaptive rejection sampling for uCAR
-		pReMiuMSampler.addProposal("gibbsforUCAR", 1.0,1,1,&gibbsForUCAR);
+			//Adaptive rejection sampling for uCAR
+			pReMiuMSampler.addProposal("gibbsforUCAR", 1.0,1,1,&gibbsForUCAR);
 
-		//Gibbs for TauCAR
-		pReMiuMSampler.addProposal("gibbsForTauCAR", 1.0,1,1,&gibbsForTauCAR);
+			//Gibbs for TauCAR
+			pReMiuMSampler.addProposal("gibbsForTauCAR", 1.0,1,1,&gibbsForTauCAR);
 		}
+
+		if(options.outcomeType().compare("Survival")==0){
+			if (!options.weibullFixedShape()) {
+				// Gibbs for shape parameter (cluster specific) of Weibull for survival response model
+				pReMiuMSampler.addProposal("gibbsForNu",1.0,1,1,&gibbsForNu);
+			}
+		}
+
 	}
 
 
@@ -238,20 +249,9 @@ RcppExport SEXP profRegr(SEXP inputString) {
 	if(options.includeResponse()){
 		// The Metropolis Hastings update for the inactive theta
 		pReMiuMSampler.addProposal("gibbsForThetaInActive",1.0,1,1,&gibbsForThetaInActive);
-	}
+		if(options.outcomeType().compare("Survival")==0&&!options.weibullFixedShape()) {
+			pReMiuMSampler.addProposal("gibbsForNuInActive",1.0,1,1,&gibbsForNuInActive);
 
-	if(options.includeResponse()){
-		// Adaptive MH for beta
-		if(dataset.nFixedEffects()>0){
-			pReMiuMSampler.addProposal("metropolisHastingsForBeta",1.0,1,1,&metropolisHastingsForBeta);
-		}
-
-		if(options.responseExtraVar()){
-			// Adaptive MH for lambda
-			pReMiuMSampler.addProposal("metropolisHastingsForLambda",1.0,1,1,&metropolisHastingsForLambda);
-
-			// Gibbs for tauEpsilon
-			pReMiuMSampler.addProposal("gibbsForTauEpsilon",1.0,1,1,&gibbsForTauEpsilon);
 		}
 	}
 
@@ -264,14 +264,19 @@ RcppExport SEXP profRegr(SEXP inputString) {
 		pReMiuMSampler.addProposal("metropolisHastingsForRhoOmega",1.0,1,firstSweep,&metropolisHastingsForRhoOmega);
 	}
 
-	if(options.outcomeType().compare("Normal")==0){
-		// Gibbs for sigmaSqY for Normal response model
-		pReMiuMSampler.addProposal("gibbsForSigmaSqY",1.0,1,1,&gibbsForSigmaSqY);
-	}
 
-	if(options.outcomeType().compare("Survival")==0){
-		// Gibbs for shape parameter of Weibull for survival response model
-		pReMiuMSampler.addProposal("gibbsForNu",1.0,1,1,&gibbsForNu);
+	if(options.includeResponse()){
+		if(options.outcomeType().compare("Normal")==0){
+			// Gibbs for sigmaSqY for Normal response model
+			pReMiuMSampler.addProposal("gibbsForSigmaSqY",1.0,1,1,&gibbsForSigmaSqY);
+		}
+
+		if(options.outcomeType().compare("Survival")==0){
+			if (options.weibullFixedShape()) {
+			// Gibbs for shape parameter of Weibull for survival response model
+			pReMiuMSampler.addProposal("gibbsForNu",1.0,1,1,&gibbsForNu);
+			}
+		}
 	}
 
 	// Gibbs update for the allocation parameters

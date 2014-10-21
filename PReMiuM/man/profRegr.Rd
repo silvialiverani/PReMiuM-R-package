@@ -11,13 +11,13 @@ profRegr(covNames, fixedEffectsNames, outcome="outcome",
         sampler="SliceDependent", alpha=-2, dPitmanYor = 0, excludeY=FALSE, 
         extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE,
         run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123",
-	includeCAR=FALSE, neighboursFile="Neighbours.txt")
+	includeCAR=FALSE, neighboursFile="Neighbours.txt",weibullFixedShape=TRUE)
 }
 \arguments{
 \item{covNames}{A vector of strings of the covariate names as by the column names in the data argument.}
 \item{fixedEffectsNames}{A vector of strings of the fixed effect names as by the column names in the data argument. Each fixed effect must be of class 'numeric'. If a fixed effect is of class 'character', an error message will appear and the fixed effect will need to be recoded as numeric.}
 \item{outcome}{A string of column of the data argument that contains the outcome. The outcome cannot have missing values - you could consider predicting the value of the outcome for those subjects for which it has not been observed.}
-\item{outcomeT}{A string of column of the data argument that contains the offset (for Poisson outcome) or the number of trials (for Binomial outcome).}
+\item{outcomeT}{A string of column of the data argument that contains the offset (for Poisson outcome) or the number of trials (for Binomial outcome) or censoring for Survival reponse (coded as 0 or 1).}
 \item{data}{A data frame which has as columns the outcome, the covariates, the fixed effects if any and the offset (for Poisson outcome) or the number of trials (for Binomial outcome) or censoring (for Survival outcome). The outcome cannot have missing values - you could consider predicting the value of the outcome for those subjects for which it has not been observed. For Survival response censoring must be coded as 0 if the event has not occurred (ie, there has been censoring) and 1 if the event has occurred (no censoring has taken place).}
 \item{output}{Path to folder to save all output files. The covariates can have missing values, which must be coded as 'NA'. There cannot be missing values in the fixed effects - if there are, use an imputation method before using profile regression.}
 \item{hyper}{Object of type setHyperparams with hyperparameters specifications. This is optional, default values are provided for all hyperparameters. See ?setHyperparams for details.}
@@ -60,6 +60,7 @@ See ?calcPredictions for more details and examples. For Normal response,
 \item{whichLabelSwitch}{The label switching moves to run. The options available are moves 1, 2 and 3 ("123"), moves 1 and 2 ("12") and move 3 only ("3"). The moves are described in Hastie et al. (2013). Note that the third label switching move is only available for Dirichlet process priors, so it will not be run if dPitmanYor>0. Therefore setting dPitmanYor to a value greater than zero will forse whichLabelSwitch=12.}
 \item{includeCAR}{A boolean specifying wether a conditional autoregressive term should be introduced within the model, to take into account possible spatial correlation within residuals. Only for Poisson and Normal response models.}
 \item{neighboursFile}{The file name of the file specifying neighbourhood graph. It should have the same structure than neighbourhood graph files used in the "INLA" package, and can be produced from a nb object of package "spdep", by the function "nb2INLA" of package "spdep". See ?nb2INLA for details.}
+\item{weibullFixedShape}{This parameter controls whether the shape parameter of the Weibull distribution (for yModel=Survival only) is a global parameter (fixed) or cluster specific. It is equal to TRUE by default.}
 }
 
 \value{
@@ -95,6 +96,7 @@ It returns a number of files in the output directory as well as a list with the 
 \item{whichLabelSwitch}{The label switching moves that have been run. The options available are moves 1, 2 and 3 ("123"), moves 1 and 2 ("12") and move 3 only ("3"). The moves are described in Hastie et al. (2013).}
 \item{includeCAR}{Logical. Whether a spatial CAR term is included.}
 \item{predictType}{String. Whether a RaoBlackwell or random predictions have been computed.}
+\item{weibullFixedShape}{Logical. Whether the shape parameter of the Weibull distribution for the survival response is fixed or cluster specific.}
 }
 \section{Authors}{
 David Hastie, Department of Epidemiology and Biostatistics, Imperial College London, UK
