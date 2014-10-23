@@ -1991,6 +1991,7 @@ void gibbsForNuInActive(mcmcChain<pReMiuMParams>& chain,
 		double nu=gammaRand(rndGenerator);
 		currentParams.nu(c,nu);
 	}
+
 }
 
 /*********** BLOCK 4 p(Theta^N|.) **********************************/
@@ -2410,7 +2411,6 @@ void gibbsForNu(mcmcChain<pReMiuMParams>& chain,
 			currentParams.nu(c,nu);
 		}
 	}
-
 }
 
 
@@ -2589,6 +2589,7 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 	vector<vector<double> > logPXiGivenZi;
 	logPXiGivenZi.resize(nSubjects+nPredictSubjects);
 
+	if(maxNClusters>150) Rprintf("More than 150 clusters are requested, which is not allowed. Reduce the number of initial clusters using the option nClusInit in profRegr(). Alternatively the maximum number of clusters allowed can be changed in the C++ code.");
 
 	if(covariateType.compare("Discrete")==0){
 		for(unsigned int i=0;i<nSubjects;i++){
@@ -2607,7 +2608,6 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 				}
 			}
 		}
-
 		// For the predictive subjects we do not count missing data
 		for(unsigned int i=nSubjects;i<nSubjects+nPredictSubjects;i++){
 			logPXiGivenZi[i].resize(maxNClusters,0);
@@ -2622,7 +2622,6 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 				}
 			}
 		}
-
 	}else if(covariateType.compare("Normal")==0){
 		for(unsigned int i=0;i<nSubjects;i++){
 			logPXiGivenZi[i].resize(maxNClusters,0.0);
@@ -2784,7 +2783,6 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 	double (*logPYiGivenZiWi)(const pReMiuMParams&, const pReMiuMData&,
 											const unsigned int&,const int&,
 											const unsigned int&)=NULL;
-
 	if(includeResponse){
 		if(!responseExtraVar){
 			if(outcomeType.compare("Bernoulli")==0){

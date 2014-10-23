@@ -601,13 +601,13 @@ class pReMiuMParams{
 			unsigned int nDiscrCovs = 0;
 
 			// Initially make the maximum number of clusters  the bigger or
-			// the initial number of clusters and 100.
+			// the initial number of clusters and 150.
 			// This is only used for initial memory allocation
 			// And will ensure that at this initial time sufficient
 			// space is allocated to prevent future allocations
-			unsigned int maxNClusters = 100;
+			unsigned int maxNClusters = 150;
 
-			if(nClusInit>100){
+			if(nClusInit>150){
 				maxNClusters=nClusInit;
 			}
 			_maxNClusters = maxNClusters;

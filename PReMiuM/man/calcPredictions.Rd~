@@ -4,8 +4,7 @@
 \description{Calculates the predictions.}
 \usage{
 calcPredictions(riskProfObj, predictResponseFileName=NULL,
-    doRaoBlackwell=F, fullSweepPredictions=F, fullSweepLogOR=F,
-    fullSweepHazardRatio=F)
+    doRaoBlackwell=F, fullSweepPredictions=F, fullSweepLogOR=F)
 }
 \arguments{
 \item{riskProfObj}{Object of type riskProfObj.}
@@ -13,7 +12,6 @@ calcPredictions(riskProfObj, predictResponseFileName=NULL,
 \item{doRaoBlackwell}{By default this is set to FALSE. If it is set to TRUE then Rao-Blackwell predictions are computed.}
 \item{fullSweepPredictions}{By default this is set to FALSE. If it is set to TRUE then a prediction is computed for each sweep.}
 \item{fullSweepLogOR}{By default this is set to FALSE. If it is set to TRUE then a prediction log OR is computed for each sweep.}
-\item{fullSweepHazardRatio}{By default this is set to FALSE. If it is set to TRUE then a prediction hazard ratio is computed for each sweep, only for Survival response.}
 }
 \section{Details}{
 This functions computes predicted responses, for various prediction scenarios. It is assumed that the predictive
@@ -45,7 +43,6 @@ The output is a list with the following elements.
 \item{doRaoBlackwell}{This is set to TRUE if it has done Rao-Blackwell predictions, and FALSE otherwise.}
 \item{predictedYPerSweep}{This array has the first dimension equivalent to the number of sweeps and the second dimension as large as the number of predictions requested by the user. It contains the predicted values per sweep.}
 \item{logORPerSweep}{This array has the first dimension equivalent to the number of sweeps and the second dimension as large as the number of predictions requested by the user. It contains the predicted log OR values per sweep (not available for Poisson and Normal outcome).}
-\item{fullHR}{This array has the first dimension equivalent to the number of sweeps and the second dimension as large as the number of predictions requested by the user. It contains the predicted hazard ratio values per sweep (only for Survival outcome).}
 }
 \section{Authors}{
 David Hastie, Department of Epidemiology and Biostatistics, Imperial College London, UK

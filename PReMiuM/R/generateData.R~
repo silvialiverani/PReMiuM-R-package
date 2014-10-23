@@ -782,7 +782,7 @@ clusSummaryWeibullDiscrete<-function(){
 			c(0.8,0.1,0.1),
 			c(0.8,0.1,0.1),
 			rep(0.25,4))),
-		list('theta'=1.25,            
+		list('theta'2.25,            
 		'covariateProbs'=list(c(0.8,0.2),
 			c(0.1,0.8),
 			c(0.1,0.1,0.8),

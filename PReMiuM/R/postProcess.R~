@@ -1854,7 +1854,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 	
 
 # Calculate predictions, and if possible assess predictive performance
-calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwell=F, fullSweepPredictions=F,fullSweepLogOR=F,fullSweepHazardRatio=F){
+calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwell=F, fullSweepPredictions=F,fullSweepLogOR=F,fullSweepHazardRatio=FALSE){
 
 	riskProfClusObj=NULL
 	clusObjRunInfoObj=NULL
