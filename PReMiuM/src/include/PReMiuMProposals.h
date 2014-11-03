@@ -786,6 +786,7 @@ void gibbsForVActive(mcmcChain<pReMiuMParams>& chain,
 		currentParams.logPsi(c,tmp+log(vVal));
 		tmp += log(1-vVal);
 	}
+
 }
 
 // Moves for updating the Theta which are active i.e. Theta_c where c<=Z_max
@@ -803,6 +804,7 @@ void updateForPhiActive(mcmcChain<pReMiuMParams>& chain,
 	mcmcState<pReMiuMParams>& currentState = chain.currentState();
 	pReMiuMParams& currentParams = currentState.parameters();
 	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+
 
 	const pReMiuMData& dataset = model.dataset();
 	string varSelectType = model.options().varSelectType();
@@ -1133,6 +1135,7 @@ void metropolisHastingsForThetaActive(mcmcChain<pReMiuMParams>& chain,
 	pReMiuMParams& currentParams = currentState.parameters();
 	const string outcomeType = model.dataset().outcomeType();
 	unsigned int nCategoriesY = currentParams.nCategoriesY();
+
 
 	// Find the number of clusters
 	unsigned int maxZ = currentParams.workMaxZi();
@@ -1941,8 +1944,6 @@ void gibbsForThetaInActive(mcmcChain<pReMiuMParams>& chain,
 	unsigned int nCategoriesY=dataset.nCategoriesY();
 	const string outcomeType = model.dataset().outcomeType();
 
-
-
 	// Find the number of clusters
 	unsigned int maxZ = currentParams.workMaxZi();
 	unsigned int maxNClusters = currentParams.maxNClusters();
@@ -1979,6 +1980,10 @@ void gibbsForNuInActive(mcmcChain<pReMiuMParams>& chain,
 	unsigned int nCategoriesY=dataset.nCategoriesY();
 	const string outcomeType = model.dataset().outcomeType();
 
+
+	unsigned int nSubjects = currentParams.nSubjects();
+	unsigned int nCovariates = currentParams.nCovariates();
+
 	// Find the number of clusters
 	unsigned int maxZ = currentParams.workMaxZi();
 	unsigned int maxNClusters = currentParams.maxNClusters();
@@ -1991,7 +1996,6 @@ void gibbsForNuInActive(mcmcChain<pReMiuMParams>& chain,
 		double nu=gammaRand(rndGenerator);
 		currentParams.nu(c,nu);
 	}
-
 }
 
 /*********** BLOCK 4 p(Theta^N|.) **********************************/
@@ -2490,10 +2494,6 @@ void gibbsForUCAR(mcmcChain<pReMiuMParams>& chain,
 			double ui=ARSsampleCAR(currentParams, model, iSub,logUiPostPoissonSpatial,rndGenerator);
 			tempU[iSub]=ui;
 		}
-		double meanU=0;
-		for (unsigned int i=0; i<nSubjects; i++){meanU+=tempU[i];}
-		meanU/=nSubjects;
-		for (unsigned int i=0; i<nSubjects; i++){tempU[i]-=meanU;}
 	} else if(outcomeType.compare("Normal")==0){	
 		for (unsigned int iSub=0; iSub<nSubjects; iSub++){
 			int nNeighi = dataset.nNeighbours(iSub);
@@ -2510,12 +2510,16 @@ void gibbsForUCAR(mcmcChain<pReMiuMParams>& chain,
 	        		meanUi+=ucarj;
 			}
 			meanUi/=nNeighi;	
-			double mUCAR = 1/currentParams.sigmaSqY()*(dataset.continuousY(iSub)-currentParams.theta(Zi,0)-betaW)+currentParams.TauCAR()*nNeighi*meanUi;
+			double mUCAR = 1/currentParams.sigmaSqY()*(-dataset.continuousY(iSub)+currentParams.theta(Zi,0)+betaW)+currentParams.TauCAR()*nNeighi*meanUi;
 			mUCAR = mUCAR * sigmaSqUCAR;
-			randomNormal normRand(mUCAR,sigmaSqUCAR);
-			tempU[iSub]=normRand(rndGenerator);
+			randomNormal normRand(0,1);
+			tempU[iSub]=sigmaSqUCAR*normRand(rndGenerator)+mUCAR;
 		}
 	}
+	double meanU=0.0;
+	for (unsigned int i=0; i<nSubjects; i++){meanU+=tempU[i];}
+	meanU/=nSubjects;
+	for (unsigned int i=0; i<nSubjects; i++){tempU[i]-=meanU;}
 	currentParams.uCAR(tempU);
 	//Rprintf("uCAR1 equals %f \n", currentParams.uCAR(1));
 }
@@ -2588,8 +2592,6 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 	// Compute the allocation probabilities in terms of the unique vectors
 	vector<vector<double> > logPXiGivenZi;
 	logPXiGivenZi.resize(nSubjects+nPredictSubjects);
-
-	if(maxNClusters>150) Rprintf("More than 150 clusters are requested, which is not allowed. Reduce the number of initial clusters using the option nClusInit in profRegr(). Alternatively the maximum number of clusters allowed can be changed in the C++ code.");
 
 	if(covariateType.compare("Discrete")==0){
 		for(unsigned int i=0;i<nSubjects;i++){

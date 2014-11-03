@@ -605,9 +605,9 @@ class pReMiuMParams{
 			// This is only used for initial memory allocation
 			// And will ensure that at this initial time sufficient
 			// space is allocated to prevent future allocations
-			unsigned int maxNClusters = 150;
+			unsigned int maxNClusters = 100;
 
-			if(nClusInit>150){
+			if(nClusInit>100){
 				maxNClusters=nClusInit;
 			}
 			_maxNClusters = maxNClusters;
@@ -753,6 +753,7 @@ class pReMiuMParams{
 				_logPsi.resize(nClus);
 				_v.resize(nClus);
 				_theta.resize(nClus);
+				if (_nu.size()>1) _nu.resize(nClus);
 				for (unsigned int c=0;c<nClus;c++){
 					_theta[c].resize(nCategoriesY);
 				}

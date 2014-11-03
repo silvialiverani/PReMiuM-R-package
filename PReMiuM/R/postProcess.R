@@ -198,7 +198,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	}
 
 	# write prediction file
-	if (!missing(predict)&(includeCAR)) stop ("Predictions are not available with spatial effect.")
+#	if (!missing(predict)&(includeCAR)) stop ("Predictions are not available with spatial effect.")
 	if (!missing(predict)) {
 		nPreds<-dim(predict)[1]
 		write(nPreds, paste(output,"_predict.txt",sep=""),ncolumns=1)
@@ -684,7 +684,7 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 	yModel=NULL
 	wMat=NULL
 	yMat=NULL
-
+	weibullFixedShape=NULL
 
 	for (i in 1:length(clusObj)) assign(names(clusObj)[i],clusObj[[i]])
 	for (i in 1:length(clusObjRunInfoObj)) assign(names(clusObjRunInfoObj)[i],clusObjRunInfoObj[[i]])
@@ -864,7 +864,7 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 				currTheta<-matrix(currThetaVector,ncol=nCategoriesY,byrow=T)
 				if (yModel=="Survival"&&!weibullFixedShape){
 					currNuVector<-scan(nuFile,what=double(),skip=skipVal,n=currMaxNClusters,quiet=T)
-					currNu<-matrix(currNuVector,byrow=T)
+					currNu<-c(currNuVector)
 				}
 			}
 			if(nFixedEffects>0){
@@ -906,7 +906,7 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 				}else if(yModel=="Survival"){
 					currRisk<-exp(currLambda)
 					if (!weibullFixedShape){
-						currNuVector<-currNu[currZ[optAlloc[[c]]],]
+						currNuVector<-currNu[currZ[optAlloc[[c]]]]
 					}
 				}
 				riskArray[sweep-firstLine+1,c,]<-apply(currRisk,2,mean)
@@ -1150,7 +1150,11 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 	meanSigma=NULL
 	lowerSigma=NULL
 	upperSigma=NULL
-
+	weibullFixedShape=NULL
+	nu=NULL
+	meanNu=NULL
+	lowerNu=NULL
+	upperNu=NULL	
 
 	for (i in 1:length(riskProfObj)) assign(names(riskProfObj)[i],riskProfObj[[i]])
 	for (i in 1:length(riskProfClusObj)) assign(names(riskProfClusObj)[i],riskProfClusObj[[i]])
@@ -1870,7 +1874,7 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 	fileStem=NULL
 	nCategoriesY=NULL
 	nSubjects=NULL
-
+	weibullFixedShape=NULL
 	
 	for (i in 1:length(riskProfObj)) assign(names(riskProfObj)[i],riskProfObj[[i]])
 	for (i in 1:length(riskProfClusObj)) assign(names(riskProfClusObj)[i],riskProfClusObj[[i]])
@@ -1888,6 +1892,10 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 		if (fullSweepHazardRatio==T){
 			fullSweepHazardRatio=F
 			cat("Hazard ratio makes sense for Survival response only\n")
+		}
+		if (!weibullFixedShape){
+			doRaoBlackwell=F
+			cat("For Survival response with cluster specific shape parameter Rao-Blackwell predictions are not possible.\n")
 		}
 	}
 	
@@ -1986,7 +1994,7 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 		nClustersFile<-file(nClustersFileName,open="r")
 		if (yModel=="Survival"&&!weibullFixedShape){
 			nuFileName<-file.path(directoryPath,paste(fileStem,'_nu.txt',sep=''))
-			nuFile<-file(nClustersFileName,open="r")
+			nuFile<-file(nuFileName,open="r")
 			nuArrayPred<-array(0,dim=c(nSamples,nPredictSubjects))
 		}
 		# initialise theta and beta arrays
@@ -2011,7 +2019,8 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 				if (yModel=="Survival"&&!weibullFixedShape) currNu<-scan(nuFile,what=double(),skip=skipVal,n=currNClusters,quiet=T)
 			}
 			thetaArray[sweep-firstLine+1,,]<-as.matrix(currTheta[currZ,],ncol=nCategoriesY)
-			if (yModel=="Survival"&&!weibullFixedShape) nuArrayPred[sweep-firstLine+1,]<-as.matrix(currNu[currZ,],ncol=1)
+			if (yModel=="Survival"&&!weibullFixedShape) nuArrayPred[sweep-firstLine+1,]<-as.vector(currNu[currZ])
+
 		}
 		close(zFile)
 		close(thetaFile)
@@ -2054,7 +2063,8 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 		}else if(yModel=='Normal'){
 			predictedY[sweep,,]<-lambda
 		}else if(yModel=='Survival'){
-			predictedY[sweep,,]<-1/sqrt(exp(lambda))*ifelse(weibullFixedShape,gamma(1+1/nu),gamma(1+1/nuArray[sweep,,]))
+			if (!weibullFixedShape) nu<-nuArrayPred[sweep,]
+			predictedY[sweep,,]<-1/((exp(lambda))^(1/nu))*gamma(1+1/nu)
 		}else if(yModel=="Categorical"){
 			predictedY[sweep,,]<-exp(lambda)/rowSums(exp(lambda))
 		}
@@ -2789,6 +2799,7 @@ plotPredictions<-function(outfile,runInfoObj,predictions,logOR=FALSE){
 	yModel=NULL
 	xModel=NULL
 	logOddsRatio=NULL
+	weibullFixedShape=NULL
 
 	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 
@@ -2835,3 +2846,13 @@ plotPredictions<-function(outfile,runInfoObj,predictions,logOR=FALSE){
 	output<-dev.off()
 }
 
+.onAttach <- function(...) {
+#	message("I need to collect case studies of the usage of the package PReMiuM. I would really appreciate if you could email me at liveranis@gmail.com if you use the package.")
+# I need to collect case studies of the impact of my work (including developing and maintaining the package PReMiuM). I would really appreciate if you could email me at liveranis@gmail.com if you use the package.\n 
+	packageStartupMessage("Help support the development of PReMiuM: please email me to tell me that you are using it and what you find it useful for. Email me at liveranis@gmail.com. Thank you, Silvia")
+}
+
+#.onLoad <- function(...) {
+#	message("message from .onLoad via message")
+#	packageStartupMessage("message from .onLoad via packageStartupMessage\n")
+#}

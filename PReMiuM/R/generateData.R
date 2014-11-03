@@ -221,7 +221,7 @@ generateSampleDataFile<-function(clusterSummary){
 			for (kk in 2:nCategoriesY) p[kk]<-exp(mu[kk])/sumMu
 			Y[i]<-which(rmultinom(1,1,p)==1)-1
 		}else if (outcomeType == 'Survival'){
-			Y[i] <- rWEI2(1, exp(mu), shapeTmp)         #scale = exp(mu) 
+			Y[i] <-rWEI2(1, exp(mu), shapeTmp)  #rweibull(1,exp(mu),shapeTmp)         #scale = exp(mu) 
 			if (Y[i] >  censorT){  
 				Y[i] <- censorT 
 				event[i] <- 0
@@ -770,25 +770,25 @@ clusSummaryWeibullDiscrete<-function(){
 	'nCategories'=c(2,2,3,3,4),
 	'nFixedEffects'=1,                                      
 	'fixedEffectsCoeffs'=c(0),
-	'shape'=c(1,1.5,3),
-	'censorT'=5,                                                                  
+	'shape'=c(2,2.4,3),
+	'censorT'=50,                                                                  
 	'missingDataProb'=0,
 	'nClusters'=3,                                      
 	'clusterSizes'=c(250,250,250),
 	'includeCAR'=FALSE,
-	'clusterData'=list(list('theta'=4.6,                   
+	'clusterData'=list(list('theta'=log(0.01),                   
 		'covariateProbs'=list(c(0.8,0.2),
 			c(0.8,0.2),
 			c(0.8,0.1,0.1),
 			c(0.8,0.1,0.1),
 			rep(0.25,4))),
-		list('theta'=1.25,            
+		list('theta'=log(0.001),            
 		'covariateProbs'=list(c(0.8,0.2),
-			c(0.1,0.8),
+			c(0.2,0.8),
 			c(0.1,0.1,0.8),
 			c(0.1,0.8,0.1),
 			rep(0.25,4))),
-		list('theta'= 0.3,  
+		list('theta'= log(0.005),  
 		'covariateProbs'=list(c(0.2,0.8),
 			c(0.2,8),
 			c(0.1,0.1,0.8),
