@@ -33,8 +33,7 @@ Type 'q()' to quit R.
 > 
 > ### * </HEADER>
 > library('PReMiuM')
-I need to collect case studies of the impact of my work (including developing and maintaining the package PReMiuM). I would really appreciate if you could email me at liveranis@gmail.com if you use the package.
- Help support the development of PReMiuM: please share what you are using it for to support further funding application. Email me at liveranis@gmail.com. Thank you, Silvia
+Help support the development of PReMiuM: please email me to tell me that you are using it and what you find it useful for. Email me at liveranis@gmail.com. Thank you, Silvia
 > 
 > base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
 > cleanEx()
@@ -118,7 +117,7 @@ I need to collect case studies of the impact of my work (including developing an
 > runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
 +     nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
 +     covNames=inputs$covNames,nClusInit=15)
-Random number seed: 1414508864
+Random number seed: 1415053224
 Sweep: 1
 > 
 > dissimObj<-calcDissimilarityMatrix(runInfoObj)
@@ -331,7 +330,7 @@ Stage 2:1 samples out of 10
 +  nSweeps=10, nBurn=20, data=inputs$inputData, output="output", nFilter=3,
 +  covNames=inputs$covNames,nClusInit=15,reportBurnIn=FALSE,
 +  fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1414508864
+Random number seed: 1415053224
 Sweep: 1
 > 
 > # plot trace for alpha
@@ -439,12 +438,12 @@ Sweep: 1
 +          nBurn=10, data=inputs$inputData, output="output", 
 +          covNames = inputs$covNames, nClusInit=15,
 +          fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1414508865
+Random number seed: 1415053225
 Sweep: 1
 > 
 > margModelPosterior(runInfoObj)
 $meanMargModPost
-[1] -3962.724
+[1] -4143.148
 
 $runInfoObj
 $runInfoObj$directoryPath
@@ -3553,7 +3552,7 @@ $runInfoObj$wMat
 1000   1.098462367  -1.577278453
 
 $runInfoObj$alphaMPP
-[1] 2.73966
+[1] 2.22553
 
 $runInfoObj$hyperParams
 $runInfoObj$hyperParams$sigmaTheta
@@ -3675,7 +3674,7 @@ $runInfoObj$hyperParams$aPhi
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1414508866
+Random number seed: 1415053226
 Sweep: 1
 > 
 > 
@@ -3686,7 +3685,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     discreteCovs = inputs$discreteCovs,
 +     continuousCovs = inputs$continuousCovs)
-Random number seed: 1414508866
+Random number seed: 1415053226
 Sweep: 1
 > 
 > 
@@ -3719,7 +3718,7 @@ Sweep: 1
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames,
 +     hyper=hyp)
-Random number seed: 1414508866
+Random number seed: 1415053227
 Sweep: 1
 > 
 > 
@@ -3748,7 +3747,7 @@ Sweep: 1
 +     xModel=inputs$xModel, nSweeps=10, nClusInit=15, 
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, varSelect="Continuous")
-Random number seed: 1414508867
+Random number seed: 1415053227
 Sweep: 1
 > 
 > rho<-summariseVarSelectRho(runInfoObj)
@@ -3784,7 +3783,7 @@ Sweep: 1
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  3.4 0.244 3.648 0 0 
+Time elapsed:  3.646 0.288 3.967 0 0 
 > grDevices::dev.off()
 null device 
           1 

@@ -766,6 +766,14 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 			betaFile<-file(betaFileName,open="r")
 		}
 	}
+	if (yModel=="Survival"){
+		if (weibullFixedShape){
+			nuFileName<-file.path(directoryPath,paste(fileStem,'_nu.txt',sep=''))
+			nuFile<-file(nuFileName,open="r")
+			nu<-(read.table(nuFile)[,1])
+			close(nuFile)
+		}
+	} 
 	
 	# Restrict to sweeps after burn in
 	firstLine<-ifelse(reportBurnIn,nBurn/nFilter+2,1)
@@ -904,10 +912,13 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 					currRisk<-matrix(0,ncol=length(optAlloc[[c]]),nrow=nCategoriesY)
 					currRisk<-exp(currLambda)/rowSums(exp(currLambda))
 				}else if(yModel=="Survival"){
-					currRisk<-exp(currLambda)
 					if (!weibullFixedShape){
 						currNuVector<-currNu[currZ[optAlloc[[c]]]]
+					} else {
+						currNuVector<-nu[sweep]
 					}
+					currRisk<-1/((exp(currLambda))^(1/currNuVector))*gamma(1+1/currNuVector)
+
 				}
 				riskArray[sweep-firstLine+1,c,]<-apply(currRisk,2,mean)
 				thetaArray[sweep-firstLine+1,c,]<-apply(as.matrix(currTheta[currZ[optAlloc[[c]]],],ncol=nCategoriesY),2,mean)
@@ -1366,6 +1377,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 		ifelse(empiricals<rep(meanEmpirical,nClusters),"low","avg"))
 	}
 
+
 	if(is.null(whichClusters)){
 		whichClusters<-1:nClusters
 	}
@@ -1461,42 +1473,42 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			plotObj<-plotObj+theme(plot.margin=unit(c(0.5,0.15,0.5,0.15),'lines'))+
 				theme(plot.margin=unit(c(0,0,0,0),'lines'))
 			print(plotObj,vp=viewport(layout.pos.row=1:6,layout.pos.col=2))
-		}else if (yModel=="Survival"&&!weibullFixedShape){
-			rownames(riskDF)<-seq(1,nrow(riskDF),by=1)
-
-			# Create the risk plot
-			plotObj<-ggplot(riskDF)
-			plotObj<-plotObj+geom_hline(aes(x=as.factor(cluster),y=risk,yintercept=meanRisk))
-			plotObj<-plotObj+geom_boxplot(aes(x=as.factor(cluster),y=risk,fill=as.factor(fillColor)),outlier.size=0.5)
-			plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=lowerRisk,colour=as.factor(fillColor)),size=1.5)
-			plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=upperRisk,colour=as.factor(fillColor)),size=1.5)
-			plotObj<-plotObj+scale_fill_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
-				scale_colour_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
-				theme(legend.position="none")+
-				labs(x="Cluster",y=ifelse(showRelativeRisk,'RR',
-				ifelse(yModel=="Categorical"||yModel=="Bernoulli"||yModel=="Binomial","Probability","E[Y]")))
-			plotObj<-plotObj+theme(axis.title.y=element_text(size=10,angle=90),axis.title.x=element_text(size=10))
-			plotObj<-plotObj+labs(title=ifelse(showRelativeRisk,'Relative Risk','Risk'),plot.title=element_text(size=10))
-			# Margin order is (top,right,bottom,left)
-			plotObj<-plotObj+theme(plot.margin=unit(c(0,0,0,0),'lines'))+theme(plot.margin=unit(c(0.5,0.15,0.5,0.15),'lines'))
-			print(plotObj,vp=viewport(layout.pos.row=1:3,layout.pos.col=2))
-
-			rownames(nuDF)<-seq(1,nrow(nuDF),by=1)
-			# Create the nu plot
-			plotObj<-ggplot(nuDF)
-			plotObj<-plotObj+geom_hline(aes(x=as.factor(cluster),y=nu,yintercept=meanNu))
-			plotObj<-plotObj+geom_boxplot(aes(x=as.factor(cluster),y=nu,fill=as.factor(fillColor)),outlier.size=0.5)
-			plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=lowerNu,colour=as.factor(fillColor)),size=1.5)
-			plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=upperNu,colour=as.factor(fillColor)),size=1.5)
-			plotObj<-plotObj+scale_fill_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
-				scale_colour_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
-				theme(legend.position="none")+
-				labs(x="Cluster",y="Shape Parameter")
-			plotObj<-plotObj+theme(axis.title.y=element_text(size=10,angle=90),axis.title.x=element_text(size=10))
-			plotObj<-plotObj+labs(title="",plot.title=element_text(size=10))
-			# Margin order is (top,right,bottom,left)
-			plotObj<-plotObj+theme(plot.margin=unit(c(0,0,0,0),'lines'))+theme(plot.margin=unit(c(0.5,0.15,0.5,0.15),'lines'))
-			print(plotObj,vp=viewport(layout.pos.row=4:6,layout.pos.col=2))
+#		}else if (yModel=="Survival"&&!weibullFixedShape){
+#			rownames(riskDF)<-seq(1,nrow(riskDF),by=1)
+#
+#			# Create the risk plot
+#			plotObj<-ggplot(riskDF)
+#			plotObj<-plotObj+geom_hline(aes(x=as.factor(cluster),y=risk,yintercept=meanRisk))
+#			plotObj<-plotObj+geom_boxplot(aes(x=as.factor(cluster),y=risk,fill=as.factor(fillColor)),outlier.size=0.5)
+#			plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=lowerRisk,colour=as.factor(fillColor)),size=1.5)
+#			plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=upperRisk,colour=as.factor(fillColor)),size=1.5)
+#			plotObj<-plotObj+scale_fill_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
+#				scale_colour_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
+#				theme(legend.position="none")+
+#				labs(x="Cluster",y=ifelse(showRelativeRisk,'RR',
+#				ifelse(yModel=="Categorical"||yModel=="Bernoulli"||yModel=="Binomial","Probability","E[Y]")))
+#			plotObj<-plotObj+theme(axis.title.y=element_text(size=10,angle=90),axis.title.x=element_text(size=10))
+#			plotObj<-plotObj+labs(title=ifelse(showRelativeRisk,'Relative Risk','Risk'),plot.title=element_text(size=10))
+#			# Margin order is (top,right,bottom,left)
+#			plotObj<-plotObj+theme(plot.margin=unit(c(0,0,0,0),'lines'))+theme(plot.margin=unit(c(0.5,0.15,0.5,0.15),'lines'))
+#			print(plotObj,vp=viewport(layout.pos.row=1:3,layout.pos.col=2))
+#
+#			rownames(nuDF)<-seq(1,nrow(nuDF),by=1)
+#			# Create the nu plot
+#			plotObj<-ggplot(nuDF)
+#			plotObj<-plotObj+geom_hline(aes(x=as.factor(cluster),y=nu,yintercept=meanNu))
+#			plotObj<-plotObj+geom_boxplot(aes(x=as.factor(cluster),y=nu,fill=as.factor(fillColor)),outlier.size=0.5)
+#			plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=lowerNu,colour=as.factor(fillColor)),size=1.5)
+#			plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=upperNu,colour=as.factor(fillColor)),size=1.5)
+#			plotObj<-plotObj+scale_fill_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
+#				scale_colour_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
+#				theme(legend.position="none")+
+#				labs(x="Cluster",y="Shape Parameter")
+#			plotObj<-plotObj+theme(axis.title.y=element_text(size=10,angle=90),axis.title.x=element_text(size=10))
+#			plotObj<-plotObj+labs(title="",plot.title=element_text(size=10))
+#			# Margin order is (top,right,bottom,left)
+#			plotObj<-plotObj+theme(plot.margin=unit(c(0,0,0,0),'lines'))+theme(plot.margin=unit(c(0.5,0.15,0.5,0.15),'lines'))
+#			print(plotObj,vp=viewport(layout.pos.row=4:6,layout.pos.col=2))
 		} else {
 			rownames(riskDF)<-seq(1,nrow(riskDF),by=1)
 
