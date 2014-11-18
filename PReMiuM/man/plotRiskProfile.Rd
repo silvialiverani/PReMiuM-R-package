@@ -5,7 +5,7 @@
 \usage{
 plotRiskProfile(riskProfObj, outFile, showRelativeRisk=F, 
     orderBy=NULL, whichClusters=NULL, 
-    whichCovariates=NULL, useProfileStar=F)
+    whichCovariates=NULL, useProfileStar=F,riskLim=NULL)
 }
 \arguments{
 \item{riskProfObj}{An object of type riskProfObj.}
@@ -15,6 +15,7 @@ plotRiskProfile(riskProfObj, outFile, showRelativeRisk=F,
 \item{whichClusters}{Either a vector of indeces that corresponds to the clusters that are to be displayed. The length of this vector must be greater than 1. The default is that all clusters are shown.}
 \item{whichCovariates}{Either a vector of indeces or a vector of strings that corresponds to the covariates that are to be displayed. The length of this vector must be greater than 1. The default is that all covariates are shown.}
 \item{useProfileStar}{To be set equal to TRUE only if a variable selection procedure has been run. The definition of the star profile is given in Liverani, S., Hastie, D. I. and Richardson, S. (2013) PReMiuM: An R package for Bayesian profile regression.}
+\item{riskLim}{Limits of the y-axis for the plot of the boxplots for the response variable. The default is NULL. If the riskLim are provided, they should be a vector of length 2. }
 }
 \value{
 This function creates a png plot saved in the path given by outFile. All clusters are visually displayed together.

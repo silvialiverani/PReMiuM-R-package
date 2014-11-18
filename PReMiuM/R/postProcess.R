@@ -1133,7 +1133,7 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 		
 
 # Plot output values
-plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,whichClusters=NULL,whichCovariates=NULL,useProfileStar=F){
+plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,whichClusters=NULL,whichCovariates=NULL,useProfileStar=F,riskLim=NULL){
 
 	riskProfClusObj=NULL
 	clusObjRunInfoObj=NULL
@@ -1516,6 +1516,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			plotObj<-ggplot(riskDF)
 			plotObj<-plotObj+geom_hline(aes(x=as.factor(cluster),y=risk,yintercept=meanRisk))
 			plotObj<-plotObj+geom_boxplot(aes(x=as.factor(cluster),y=risk,fill=as.factor(fillColor)),outlier.size=0.5)
+			if (!is.null(riskLim)) plotObj<-plotObj+coord_cartesian(ylim = riskLim)
 			plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=lowerRisk,colour=as.factor(fillColor)),size=1.5)
 			plotObj<-plotObj+geom_point(aes(x=as.factor(cluster),y=upperRisk,colour=as.factor(fillColor)),size=1.5)
 			plotObj<-plotObj+scale_fill_manual(values = c(high ="#CC0033",low ="#0066CC", avg ="#33CC66"))+
