@@ -1,5 +1,5 @@
 * using log directory ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
-* using R version 3.1.1 (2014-07-10)
+* using R version 3.1.2 (2014-10-31)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
@@ -56,4 +56,5 @@ Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
 * checking compiled code ... OK
 * checking examples ... OK
 * checking PDF version of manual ... OK
+* DONE
 NOTE: There were 3 notes.

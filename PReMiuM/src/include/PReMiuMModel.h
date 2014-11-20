@@ -461,6 +461,19 @@ class pReMiuMHyperParams{
 		void rateTauCAR(const double& b){
 			_rateTauCAR = b;
 		}
+
+		vector<double> initAlloc() const{
+			return _initAlloc;
+		}
+
+		void initAlloc(const vector<double>& c){
+			_initAlloc = c;
+		}
+
+		double initAlloc(const unsigned int& j) const{
+			return _initAlloc[j];
+		}
+
 		// Copy operator
 		pReMiuMHyperParams& operator=(const pReMiuMHyperParams& hyperParams){
 			_shapeAlpha = hyperParams.shapeAlpha();
@@ -493,6 +506,7 @@ class pReMiuMHyperParams{
 			_truncationEps = hyperParams.truncationEps();
 			_shapeTauCAR = hyperParams.shapeTauCAR();
 			_rateTauCAR = hyperParams.rateTauCAR();
+			_initAlloc = hyperParams.initAlloc();
 			return *this;
 		}
 
@@ -570,6 +584,9 @@ class pReMiuMHyperParams{
 		// we use the inverse scale parameterisation so that E[tauCAR] = shape/rate
 		double _shapeTauCAR;
 		double _rateTauCAR;
+
+		// Initial allocations 
+		vector<double> _initAlloc;
 
 };
 

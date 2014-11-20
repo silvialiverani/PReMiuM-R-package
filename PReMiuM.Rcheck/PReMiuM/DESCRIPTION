@@ -14,4 +14,4 @@ Imports: Rcpp (>= 0.11), ggplot2 (>= 0.9.2.1), cluster, plotrix (>=
         3.5), gamlss.dist (>= 4.3-1)
 LinkingTo: Rcpp, RcppEigen (>= 0.3), BH (>= 1.54)
 SystemRequirements: GNU make
-Built: R 3.1.1; x86_64-pc-linux-gnu; 2014-11-03 22:19:25 UTC; unix
+Built: R 3.1.2; x86_64-pc-linux-gnu; 2014-11-20 21:05:04 UTC; unix

@@ -11,7 +11,8 @@ profRegr(covNames, fixedEffectsNames, outcome="outcome",
         sampler="SliceDependent", alpha=-2, dPitmanYor = 0, excludeY=FALSE, 
         extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE,
         run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123",
-	includeCAR=FALSE, neighboursFile="Neighbours.txt",weibullFixedShape=TRUE)
+	includeCAR=FALSE, neighboursFile="Neighbours.txt",
+	weibullFixedShape=TRUE)
 }
 \arguments{
 \item{covNames}{A vector of strings of the covariate names as by the column names in the data argument.}

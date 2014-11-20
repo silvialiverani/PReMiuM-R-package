@@ -353,6 +353,13 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		if (!is.null(hyper$scaleNu)){
 			write(paste("scaleNu=",hyper$scaleNu,sep=""),hyperFile,append=T)
 		}
+		if (!is.null(hyper$initAlloc)){
+			write(paste("initAlloc=",paste(hyper$initAlloc,collapse=" ")," ",sep=""),hyperFile,append=T)
+			if(sum(is.wholenumber(hyper$initAlloc))!=nSubjects) stop("The vector initAlloc has not been initialised properly: the vector must contain integers and have as many elements as there are observations in the dataset (nSubjects).")
+			nClusInit<-max(hyper$initAlloc)
+
+				
+		}
 	}
 
 	if (weibullFixedShape) inputString<-paste(inputString," --weibullFixedShape",sep="")
@@ -2556,7 +2563,7 @@ margModelPosterior<-function(runInfoObj,allocation){
 setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,aPhi=NULL,mu0=NULL,Tau0=NULL,R0=NULL,
 	kappa0=NULL,muTheta=NULL,sigmaTheta=NULL,dofTheta=NULL,muBeta=NULL,sigmaBeta=NULL,dofBeta=NULL,
 	shapeTauEpsilon=NULL,rateTauEpsilon=NULL,aRho=NULL,bRho=NULL,atomRho=NULL,shapeSigmaSqY=NULL,scaleSigmaSqY=NULL,
-	rSlice=NULL,truncationEps=NULL,shapeTauCAR=NULL,rateTauCAR=NULL,shapeNu=NULL,scaleNu=NULL){
+	rSlice=NULL,truncationEps=NULL,shapeTauCAR=NULL,rateTauCAR=NULL,shapeNu=NULL,scaleNu=NULL,initAlloc=NULL){
 	out<-list()
 	if (!is.null(shapeAlpha)){
 		out$shapeAlpha<-shapeAlpha
@@ -2635,6 +2642,9 @@ setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,aPhi=NULL,mu0=NULL,Tau0=
 	}
 	if (!is.null(scaleNu)){
 		out$scaleNu<-scaleNu
+	}
+	if (!is.null(initAlloc)){
+		out$initAlloc<-initAlloc
 	}
 	return(out)
 }
@@ -2862,7 +2872,7 @@ plotPredictions<-function(outfile,runInfoObj,predictions,logOR=FALSE){
 .onAttach <- function(...) {
 #	message("I need to collect case studies of the usage of the package PReMiuM. I would really appreciate if you could email me at liveranis@gmail.com if you use the package.")
 # I need to collect case studies of the impact of my work (including developing and maintaining the package PReMiuM). I would really appreciate if you could email me at liveranis@gmail.com if you use the package.\n 
-	packageStartupMessage("Help support the development of PReMiuM: please email me to tell me that you are using it and what you find it useful for. Email me at liveranis@gmail.com. Thank you, Silvia")
+	packageStartupMessage("Help support the development of PReMiuM: please share how PReMiuM is helping your work. Visit http://www.silvialiverani.com/support-premium/ or email liveranis@gmail.com.")
 }
 
 #.onLoad <- function(...) {

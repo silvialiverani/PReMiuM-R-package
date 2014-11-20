@@ -15,7 +15,8 @@ setHyperparams(shapeAlpha=NULL,rateAlpha=NULL,
      sigmaBeta=NULL,dofBeta=NULL,shapeTauEpsilon=NULL,
      rateTauEpsilon=NULL,aRho=NULL,bRho=NULL,atomRho=NULL,shapeSigmaSqY=NULL,
      scaleSigmaSqY=NULL,rSlice=NULL,truncationEps=NULL,
-     shapeTauCAR=NULL,rateTauCAR=NULL,shapeNu=NULL,scaleNu=NULL)
+     shapeTauCAR=NULL,rateTauCAR=NULL,shapeNu=NULL,scaleNu=NULL,
+     initAlloc=NULL)
 }
 \arguments{
 
@@ -45,6 +46,7 @@ setHyperparams(shapeAlpha=NULL,rateAlpha=NULL,
 \item{rateTauCAR}{Inverse-scale (rate) parameter for gamma distribution for precision TauCAR of spatial CAR term (only used if a spatial term is included i.e. includeCAR argument is TRUE, default=0.001)}
 \item{shapeNu}{Shape parameter of Gamma prior for the shape parameter of the Weibull for survival response (only used in the Survival response model, default = 2.5)}
 \item{scaleNu}{Scale parameter of Gamma prior for the shape parameter of the Weibull for survival response  (only used in the Survival response model, default = 1)}
+\item{initAlloc}{Vector of the initial allocation of the individuals to clusters. This is NULL by default, which implies a random start. Useful for starting the MCMC from a specific partition. Note that if this overwrites the option nClusInit in the function profRegr: nClusInit is set equal to the maximum value in initAlloc. }
 }
 
 \value{

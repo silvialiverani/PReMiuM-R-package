@@ -817,6 +817,23 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 			string tmpStr = inString.substr(pos,inString.size()-pos);
 			double rateTauCAR = (double)atof(tmpStr.c_str());
 			hyperParams.rateTauCAR(rateTauCAR);
+		}else if(inString.find("initAlloc")==0){
+			size_t pos = inString.find("=")+1;
+			string tmpStr = inString.substr(pos,inString.size()-pos);
+			vector<double> initAl;
+			while(tmpStr.find(" ")!=string::npos){
+				pos = tmpStr.find(" ");
+				if(pos==(tmpStr.size()-1)){
+					string elem = tmpStr.substr(0,pos);
+					initAl.push_back((double)atof(elem.c_str()));
+					tmpStr = tmpStr.substr(pos+1,tmpStr.size());
+					break;
+				}
+				string elem = tmpStr.substr(0,pos);
+				initAl.push_back((double)atof(elem.c_str()));
+				tmpStr = tmpStr.substr(pos+1,tmpStr.size());
+			}
+			hyperParams.initAlloc(initAl);
 		}
 
 	}
@@ -928,18 +945,31 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 	unsigned int maxZ=0;
 
 	params.workNClusInit(nClusInit);
-	for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
-		int c=(int) nClusInit*unifRand(rndGenerator);
-		params.z(i,c,covariateType);
-		if(c>(int)maxZ){
-			maxZ=c;
+	if (hyperParams.initAlloc().empty()){
+		for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
+			int c=(int) nClusInit*unifRand(rndGenerator);
+			params.z(i,c,covariateType);
+			if(c>(int)maxZ){
+				maxZ=c;
+			}
+			if(i<nSubjects){
+				nXInCluster[c]++;
+			}
 		}
-		if(i<nSubjects){
-
-			nXInCluster[c]++;
-
+	} else {
+		for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
+			int c = hyperParams.initAlloc(i);
+			params.z(i,c,covariateType);
+			if(c>(int)maxZ){
+				maxZ=c;
+			}
+			if(i<nSubjects){
+				nXInCluster[c]++;
+			}
 		}
 	}
+
+
 	params.workNXInCluster(nXInCluster);
 	params.workMaxZi(maxZ);
 
