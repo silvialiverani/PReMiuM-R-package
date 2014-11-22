@@ -109,6 +109,9 @@ Aurore J. Lavigne, Department of Epidemiology and Biostatistics, Imperial Colleg
 Lamiae Azizi, MRC Biostatistics Unit, Cambridge, UK
 
 Maintainer: Silvia Liverani <liveranis@gmail.com>
+
+The R package PReMiuM is supported through research grants. One key requirement of such funding applications is the ability to demonstrate the impact of the work we seek funding for can. Whatever you are using PReMiuM for, it would be very helpful for us to learn about our users, to tailor our future methodological developments to your needs. Please email us at liveranis@gmail.com or visit http://www.silvialiverani.com/support-premium/. 
+
 }
 \references{
 

@@ -117,7 +117,7 @@ Help support the development of PReMiuM: please share how PReMiuM is helping you
 > runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
 +     nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
 +     covNames=inputs$covNames,nClusInit=15)
-Random number seed: 1416517558
+Random number seed: 1416665620
 Sweep: 1
 > 
 > dissimObj<-calcDissimilarityMatrix(runInfoObj)
@@ -330,7 +330,7 @@ Stage 2:1 samples out of 10
 +  nSweeps=10, nBurn=20, data=inputs$inputData, output="output", nFilter=3,
 +  covNames=inputs$covNames,nClusInit=15,reportBurnIn=FALSE,
 +  fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1416517559
+Random number seed: 1416665621
 Sweep: 1
 > 
 > # plot trace for alpha
@@ -438,12 +438,12 @@ Sweep: 1
 +          nBurn=10, data=inputs$inputData, output="output", 
 +          covNames = inputs$covNames, nClusInit=15,
 +          fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1416517559
+Random number seed: 1416665621
 Sweep: 1
 > 
 > margModelPosterior(runInfoObj)
 $meanMargModPost
-[1] -3940.538
+[1] -3995.042
 
 $runInfoObj
 $runInfoObj$directoryPath
@@ -3552,7 +3552,7 @@ $runInfoObj$wMat
 1000   1.098462367  -1.577278453
 
 $runInfoObj$alphaMPP
-[1] 1.75431
+[1] 2.31258
 
 $runInfoObj$hyperParams
 $runInfoObj$hyperParams$sigmaTheta
@@ -3674,7 +3674,7 @@ $runInfoObj$hyperParams$aPhi
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1416517560
+Random number seed: 1416665622
 Sweep: 1
 > 
 > 
@@ -3685,7 +3685,7 @@ Sweep: 1
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     discreteCovs = inputs$discreteCovs,
 +     continuousCovs = inputs$continuousCovs)
-Random number seed: 1416517561
+Random number seed: 1416665623
 Sweep: 1
 > 
 > 
@@ -3718,7 +3718,7 @@ Sweep: 1
 +     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
 +     fixedEffectsNames = inputs$fixedEffectNames,
 +     hyper=hyp)
-Random number seed: 1416517561
+Random number seed: 1416665623
 Sweep: 1
 > 
 > 
@@ -3747,7 +3747,7 @@ Sweep: 1
 +     xModel=inputs$xModel, nSweeps=10, nClusInit=15, 
 +     nBurn=20, data=inputs$inputData, output="output", 
 +     covNames = inputs$covNames, varSelect="Continuous")
-Random number seed: 1416517561
+Random number seed: 1416665624
 Sweep: 1
 > 
 > rho<-summariseVarSelectRho(runInfoObj)
@@ -3783,7 +3783,7 @@ Sweep: 1
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  3.702 0.383 4.104 0 0 
+Time elapsed:  3.683 0.343 4.036 0 0 
 > grDevices::dev.off()
 null device 
           1 

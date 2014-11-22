@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.3.8)  20 NOV 2014 21:06
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.3.8)  22 NOV 2014 14:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -706,7 +706,7 @@ File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 ) [2]
-LaTeX Font Info:    Try loading font information for TS1+ptm on input line 62.
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 64.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
@@ -738,7 +738,7 @@ File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 )
-Overfull \hbox (11.78088pt too wide) in paragraph at lines 704--704
+Overfull \hbox (11.78088pt too wide) in paragraph at lines 709--709
  []\T1/zi4/m/n/10 globalParsTrace(runInfoObj, parameters = "nClusters",plotBurn
 In=FALSE,whichBeta=1)[] 
  []
@@ -752,7 +752,7 @@ File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 )
-LaTeX Font Info:    Try loading font information for TS1+zi4 on input line 869.
+LaTeX Font Info:    Try loading font information for TS1+zi4 on input line 874.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/ts1zi4.fd
@@ -764,7 +764,7 @@ File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 ) [22]
-Overfull \hbox (16.9809pt too wide) in paragraph at lines 1011--1011
+Overfull \hbox (16.9809pt too wide) in paragraph at lines 1016--1016
  []\T1/zi4/m/n/9 predictions <- calcPredictions(riskProfileObj,fullSweepPredict
 ions=TRUE,fullSweepLogOR=TRUE)[] 
  []
@@ -775,19 +775,19 @@ File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 ) [25]
-Overfull \hbox (0.62779pt too wide) in paragraph at lines 1148--1149
+Overfull \hbox (0.62779pt too wide) in paragraph at lines 1153--1154
 []\T1/ptm/m/n/10 This can be set equal to "RaoBlack-well" and "ran-dom". The de
 -fault is RaoBlack-
  []
 
 [26] [27]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1166--1167
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1171--1172
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
  []
 
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1167--1168
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1172--1173
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
  []
@@ -795,13 +795,13 @@ names, if xModel="Mixed".
 [28] [29] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 ) [30] [31]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1302--1303
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1310--1311
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
  []
 
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1302--1303
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1310--1311
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
  []
@@ -825,11 +825,11 @@ LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
 ] [37
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1446.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1446.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1454.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1454.
  (./Rd2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1446.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1446.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1454.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1454.
 
 Package rerunfilecheck Info: File `Rd2.out' has not changed.
 (rerunfilecheck)             Checksum: 3C2B4C9DD03BAC3676700DA29C63D797;1311.
@@ -837,7 +837,7 @@ Package rerunfilecheck Info: File `Rd2.out' has not changed.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1446.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1454.
  ) 
 Here is how much of TeX's memory you used:
  6621 strings out of 495028
@@ -846,7 +846,7 @@ Here is how much of TeX's memory you used:
  9466 multiletter control sequences out of 15000+600000
  41277 words of font info for 51 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 38i,6n,34p,1039b,590s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,6n,34p,1447b,590s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/inconsolata/i4-ts1.enc}{/usr/s
 hare/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/share/texlive/texmf-d
 ist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}</usr/share/texlive/texmf-dist/font
@@ -856,7 +856,7 @@ type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/ti
 mes/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
 </usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/tex
 live/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (37 pages, 159923 bytes).
+Output written on Rd2.pdf (37 pages, 161124 bytes).
 PDF statistics:
  569 PDF objects out of 1000 (max. 8388607)
  517 compressed objects within 6 object streams

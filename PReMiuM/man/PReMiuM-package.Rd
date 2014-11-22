@@ -39,13 +39,15 @@ Dirichlet process Bayesian clustering and functions for the post-processing of i
 Package: \tab PReMiuM\cr
 Type: \tab Package\cr
 Version: \tab 3.0.31\cr
-Date: \tab 2014-10-21\cr
+Date: \tab 2014-11-22\cr
 License: \tab GPL2\cr
 LazyLoad: \tab yes\cr
 }
 
 Program to implement Dirichlet Process Bayesian Clustering as described in
 Liverani et al. 2014. This is a package for Bayesian clustering using a Dirichlet process mixture model. This model is an alternative to regression models, non-parametrically linking a response vector to covariate data through cluster membership. The package allows Bernoulli, Binomial, Poisson, Normal, survival and categorical response, as well as Normal and discrete covariates. It also allows for fixed effects in the response model, where a spatial CAR (conditional autoregressive) term can be also included. Additionally, predictions may be made for the response, and missing values for the covariates are handled. Several samplers and label switching moves are implemented along with diagnostic tools to assess convergence. A number of R functions for post-processing of the output are also provided. In addition to fitting mixtures, it may additionally be of interest to determine which covariates actively drive the mixture components. This is implemented in the package as variable selection. 
+
+The R package PReMiuM is supported through research grants. One key requirement of such funding applications is the ability to demonstrate the impact of the work we seek funding for can. Whatever you are using PReMiuM for, it would be very helpful for us to learn about our users, to tailor our future methodological developments to your needs. Please email us at liveranis@gmail.com or visit http://www.silvialiverani.com/support-premium/. 
 
 }
 \section{Authors}{
@@ -59,6 +61,9 @@ Maintainer: Silvia Liverani <liveranis@gmail.com>
 }
 \section{Acknowledgements}{
 Silvia Liverani thanks The Leverhulme Trust for financial support. 
+
+The R package PReMiuM is supported through research grants. One key requirement of such funding applications is the ability to demonstrate the impact of the work we seek funding for can. Whatever you are using PReMiuM for, it would be very helpful for us to learn about our users, to tailor our future methodological developments to your needs. Please email us at liveranis@gmail.com or visit http://www.silvialiverani.com/support-premium/. 
+
 }
 \references{
 Molitor J, Papathomas M, Jerrett M and Richardson S. (2010) Bayesian Profile Regression with an Application to the National Survey of Children's Health, Biostatistics 11: 484-498.
