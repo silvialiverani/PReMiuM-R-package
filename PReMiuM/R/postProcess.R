@@ -2284,8 +2284,8 @@ margModelPosterior<-function(runInfoObj,allocation){
 	runInfoObj$hyperParams <- hyperParams
 
 	# read first allocation iteration after burnin
-	firstLine<-ifelse(reportBurnIn,nBurn/nFilter+2,1)
-	skipLines<-ifelse(reportBurnIn,nBurn/nFilter+1,0)
+	firstLine<-ifelse(reportBurnIn,nBurn/nFilter+1,1)
+	skipLines<-ifelse(reportBurnIn,nBurn/nFilter,0)
 	lastLine<-(nSweeps+ifelse(reportBurnIn,nBurn+1,0))/nFilter	
 
 	# open allocation file
