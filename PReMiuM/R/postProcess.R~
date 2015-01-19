@@ -772,11 +772,13 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F){
 			betaFileName <-file.path(directoryPath,paste(fileStem,'_beta.txt',sep=''))
 			betaFile<-file(betaFileName,open="r")
 		}
-		if (yModel=="Survival"&&weibullFixedShape){
-				nuFileName<-file.path(directoryPath,paste(fileStem,'_nu.txt',sep=''))
-				nuFile<-file(nuFileName,open="r")
-				nu<-(read.table(nuFile)[,1])
-				close(nuFile)
+	}
+	if (yModel=="Survival"){
+		if (weibullFixedShape){
+			nuFileName<-file.path(directoryPath,paste(fileStem,'_nu.txt',sep=''))
+			nuFile<-file(nuFileName,open="r")
+			nu<-(read.table(nuFile)[,1])
+			close(nuFile)
 		}
 	} 
 	

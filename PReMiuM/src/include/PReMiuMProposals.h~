@@ -1159,7 +1159,6 @@ void metropolisHastingsForThetaActive(mcmcChain<pReMiuMParams>& chain,
 			double thetaProp = thetaOrig +stdDev*normRand(rndGenerator);
 			currentParams.theta(c,k,thetaProp);
 			double propCondLogPost = logCondPostThetaBeta(currentParams,model);
-std::cout<<propCondLogPost<<std::endl;
 			double logAcceptRatio = propCondLogPost - currentCondLogPost;
 			if(unifRand(rndGenerator)<exp(logAcceptRatio)){
 				nAccept++;
