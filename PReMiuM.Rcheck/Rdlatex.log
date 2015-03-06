@@ -4,7 +4,7 @@ This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian)
  restricted \write18 enabled.
 entering extended mode
 LaTeX2e <2011/06/27>
-Babel <3.9h> and hyphenation patterns for 2 languages loaded.
+Babel <3.9h> and hyphenation patterns for 78 languages loaded.
 (./Rd2.tex
 (/usr/share/texlive/texmf-dist/tex/latex/base/book.cls
 Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
@@ -78,7 +78,7 @@ No file Rd2.aux.
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [14]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [15] [16]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (11.78088pt too wide) in paragraph at lines 709--709
+Overfull \hbox (11.78088pt too wide) in paragraph at lines 711--711
  []\T1/zi4/m/n/10 globalParsTrace(runInfoObj, parameters = "nClusters",plotBurn
 In=FALSE,whichBeta=1)[] 
 [17] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [18]
@@ -87,28 +87,28 @@ In=FALSE,whichBeta=1)[]
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/ts1zi4.fd) [20]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [21]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [22]
-Overfull \hbox (16.9809pt too wide) in paragraph at lines 1016--1016
+Overfull \hbox (16.9809pt too wide) in paragraph at lines 1018--1018
  []\T1/zi4/m/n/9 predictions <- calcPredictions(riskProfileObj,fullSweepPredict
 ions=TRUE,fullSweepLogOR=TRUE)[] 
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [23] [24]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [25]
-Overfull \hbox (0.62779pt too wide) in paragraph at lines 1153--1154
+Overfull \hbox (0.62779pt too wide) in paragraph at lines 1155--1156
 []\T1/ptm/m/n/10 This can be set equal to "RaoBlack-well" and "ran-dom". The de
 -fault is RaoBlack-
 [26] [27]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1171--1172
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1173--1174
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1172--1173
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1174--1175
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 [28] [29] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [30] [31]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1310--1311
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1312--1313
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1310--1311
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1312--1313
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
 [32] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [33]
@@ -130,7 +130,7 @@ consolata-zi4r.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr
 are/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (35 pages, 145473 bytes).
+Output written on Rd2.pdf (35 pages, 145498 bytes).
 Transcript written on Rd2.log.
 This is makeindex, version 2.15 [TeX Live 2013] (kpathsea + Thai support).
 Scanning input file Rd2.idx....done (47 entries accepted, 0 rejected).
@@ -142,7 +142,7 @@ This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian)
  restricted \write18 enabled.
 entering extended mode
 LaTeX2e <2011/06/27>
-Babel <3.9h> and hyphenation patterns for 2 languages loaded.
+Babel <3.9h> and hyphenation patterns for 78 languages loaded.
 (./Rd2.tex
 (/usr/share/texlive/texmf-dist/tex/latex/base/book.cls
 Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
@@ -217,7 +217,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active [12]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [15]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [16]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (11.78088pt too wide) in paragraph at lines 709--709
+Overfull \hbox (11.78088pt too wide) in paragraph at lines 711--711
  []\T1/zi4/m/n/10 globalParsTrace(runInfoObj, parameters = "nClusters",plotBurn
 In=FALSE,whichBeta=1)[] 
 [17] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [18]
@@ -226,28 +226,28 @@ In=FALSE,whichBeta=1)[]
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/ts1zi4.fd) [20]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [21]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [22]
-Overfull \hbox (16.9809pt too wide) in paragraph at lines 1016--1016
+Overfull \hbox (16.9809pt too wide) in paragraph at lines 1018--1018
  []\T1/zi4/m/n/9 predictions <- calcPredictions(riskProfileObj,fullSweepPredict
 ions=TRUE,fullSweepLogOR=TRUE)[] 
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [23] [24]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [25]
-Overfull \hbox (0.62779pt too wide) in paragraph at lines 1153--1154
+Overfull \hbox (0.62779pt too wide) in paragraph at lines 1155--1156
 []\T1/ptm/m/n/10 This can be set equal to "RaoBlack-well" and "ran-dom". The de
 -fault is RaoBlack-
 [26] [27]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1171--1172
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1173--1174
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1172--1173
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1174--1175
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 [28] [29] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [30] [31]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1310--1311
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1312--1313
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1310--1311
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1312--1313
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
 [32] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [33]
@@ -277,7 +277,7 @@ m/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb
 xlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/u
 rw/times/utmri8a.pfb>
-Output written on Rd2.pdf (37 pages, 160710 bytes).
+Output written on Rd2.pdf (37 pages, 160725 bytes).
 Transcript written on Rd2.log.
 This is makeindex, version 2.15 [TeX Live 2013] (kpathsea + Thai support).
 Scanning input file Rd2.idx....done (47 entries accepted, 0 rejected).
@@ -289,7 +289,7 @@ This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian)
  restricted \write18 enabled.
 entering extended mode
 LaTeX2e <2011/06/27>
-Babel <3.9h> and hyphenation patterns for 2 languages loaded.
+Babel <3.9h> and hyphenation patterns for 78 languages loaded.
 (./Rd2.tex
 (/usr/share/texlive/texmf-dist/tex/latex/base/book.cls
 Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
@@ -364,7 +364,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active [12]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [15]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [16]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (11.78088pt too wide) in paragraph at lines 709--709
+Overfull \hbox (11.78088pt too wide) in paragraph at lines 711--711
  []\T1/zi4/m/n/10 globalParsTrace(runInfoObj, parameters = "nClusters",plotBurn
 In=FALSE,whichBeta=1)[] 
 [17] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [18]
@@ -373,28 +373,28 @@ In=FALSE,whichBeta=1)[]
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/ts1zi4.fd) [20]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [21]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [22]
-Overfull \hbox (16.9809pt too wide) in paragraph at lines 1016--1016
+Overfull \hbox (16.9809pt too wide) in paragraph at lines 1018--1018
  []\T1/zi4/m/n/9 predictions <- calcPredictions(riskProfileObj,fullSweepPredict
 ions=TRUE,fullSweepLogOR=TRUE)[] 
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [23] [24]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [25]
-Overfull \hbox (0.62779pt too wide) in paragraph at lines 1153--1154
+Overfull \hbox (0.62779pt too wide) in paragraph at lines 1155--1156
 []\T1/ptm/m/n/10 This can be set equal to "RaoBlack-well" and "ran-dom". The de
 -fault is RaoBlack-
 [26] [27]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1171--1172
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1173--1174
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1172--1173
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1174--1175
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 [28] [29] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [30] [31]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1310--1311
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1312--1313
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1310--1311
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1312--1313
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
 [32] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [33]
@@ -419,8 +419,8 @@ m/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb
 xlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/u
 rw/times/utmri8a.pfb>
-Output written on Rd2.pdf (37 pages, 161174 bytes).
+Output written on Rd2.pdf (37 pages, 161191 bytes).
 Transcript written on Rd2.log.
 Saving output to 'PReMiuM-manual.pdf' ...
 Done
-You may want to clean up by 'rm -rf /tmp/Rtmp13xv2f/Rd2pdf58642348d28a'
+You may want to clean up by 'rm -rf /tmp/Rtmp0tkd9C/Rd2pdf2b655edf0207'

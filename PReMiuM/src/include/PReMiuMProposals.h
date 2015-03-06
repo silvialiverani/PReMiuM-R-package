@@ -1159,7 +1159,6 @@ void metropolisHastingsForThetaActive(mcmcChain<pReMiuMParams>& chain,
 			double thetaProp = thetaOrig +stdDev*normRand(rndGenerator);
 			currentParams.theta(c,k,thetaProp);
 			double propCondLogPost = logCondPostThetaBeta(currentParams,model);
-std::cout<<propCondLogPost<<std::endl;
 			double logAcceptRatio = propCondLogPost - currentCondLogPost;
 			if(unifRand(rndGenerator)<exp(logAcceptRatio)){
 				nAccept++;
@@ -1764,7 +1763,7 @@ void gibbsForPhiInActive(mcmcChain<pReMiuMParams>& chain,
 	// Find the number of covariates
 	unsigned int nCovariates = 0;
 	if(model.options().covariateType().compare("Mixed")==0){
-		nCovariates = currentParams.nContinuousCovs();
+		nCovariates = currentParams.nDiscreteCovs();
 	} else {
 		nCovariates = currentParams.nCovariates();
 	}
@@ -1786,8 +1785,6 @@ void gibbsForPhiInActive(mcmcChain<pReMiuMParams>& chain,
 			currentParams.logPhi(c,j,proposedLogPhi);
 		}
 	}
-
-
 }
 
 
@@ -2914,10 +2911,10 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 				while(cumPzGivenXy[c]<=u){
 					c++;	
 				}
-				// draw from the normal distribution of that sample (only for xModel=Normal)
+				// draw from the normal distribution of that sample (only for yModel=Normal)
 				// Create a normal random generator
 				randomNormal normRand(0,1);
-				expectedTheta[0]=currentParams.sigmaSqY()*normRand(rndGenerator)+currentParams.theta(c,0);
+				expectedTheta[0]=sqrt(currentParams.sigmaSqY())*normRand(rndGenerator)+currentParams.theta(c,0);
 			}
 		}		
 		unsigned int zi;

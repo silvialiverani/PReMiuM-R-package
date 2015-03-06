@@ -1763,14 +1763,14 @@ void gibbsForPhiInActive(mcmcChain<pReMiuMParams>& chain,
 	// Find the number of covariates
 	unsigned int nCovariates = 0;
 	if(model.options().covariateType().compare("Mixed")==0){
-		nCovariates = currentParams.nContinuousCovs();
+		nCovariates = currentParams.nDiscreteCovs();
 	} else {
 		nCovariates = currentParams.nCovariates();
 	}
 
 	nTry++;
 	nAccept++;
-
+std::cout<<"okPhiInactive2"<<std::endl;
 	for(unsigned int c=maxZ+1;c<maxNClusters;c++){
 		// Loop over the covariates
 		for(unsigned int j=0;j<nCovariates;j++){
@@ -1786,7 +1786,7 @@ void gibbsForPhiInActive(mcmcChain<pReMiuMParams>& chain,
 		}
 	}
 
-
+std::cout<<"okPhiInactive3"<<std::endl;
 }
 
 
@@ -2913,10 +2913,10 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 				while(cumPzGivenXy[c]<=u){
 					c++;	
 				}
-				// draw from the normal distribution of that sample (only for xModel=Normal)
+				// draw from the normal distribution of that sample (only for yModel=Normal)
 				// Create a normal random generator
 				randomNormal normRand(0,1);
-				expectedTheta[0]=currentParams.sigmaSqY()*normRand(rndGenerator)+currentParams.theta(c,0);
+				expectedTheta[0]=sqrt(currentParams.sigmaSqY())*normRand(rndGenerator)+currentParams.theta(c,0);
 			}
 		}		
 		unsigned int zi;
