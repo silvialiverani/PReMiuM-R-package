@@ -976,6 +976,7 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F,proportionalHazard
 						array(currNullPhi[rep(1,length(optAlloc[[c]])),,],
 						dim=c(length(optAlloc[[c]]),dim(currNullPhi)[2],
 						dim(currNullPhi)[3])),2:3,mean))
+
 				}
 			}
 		}else if(xModel=='Normal'){
@@ -1045,21 +1046,24 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F,proportionalHazard
 					dim=c(length(optAlloc[[c]]),
 					dim(currPhi)[2],dim(currPhi)[3])),2:3,mean))
 				if(varSelect){
-					phiStarArray[sweep-firstLine+1,c,,]<-t(apply(array(currGamma[currZ[optAlloc[[c]]],,],
-						dim=c(length(optAlloc[[c]]),dim(currGamma)[2],
-						dim(currGamma)[3]))*array(currPhi[currZ[optAlloc[[c]]],,],
+					currGammaD<-array(currGamma[,,1:nDiscreteCovs],dim=c(currMaxNClusters,maxNCategories,nDiscreteCovs))
+					phiStarArray[sweep-firstLine+1,c,,]<-t(apply(array(currGammaD[currZ[optAlloc[[c]]],,],
+						dim=c(length(optAlloc[[c]]),dim(currGammaD)[2],
+						dim(currGammaD)[3]))*array(currPhi[currZ[optAlloc[[c]]],,],
 						dim=c(length(optAlloc[[c]]),dim(currPhi)[2],dim(currPhi)[3]))+
-						(1-array(currGamma[currZ[optAlloc[[c]]],,],
-						dim=c(length(optAlloc[[c]]),dim(currGamma)[2],dim(currGamma)[3])))*
+						(1-array(currGammaD[currZ[optAlloc[[c]]],,],
+						dim=c(length(optAlloc[[c]]),dim(currGammaD)[2],dim(currGammaD)[3])))*
 						array(currNullPhi[rep(1,length(optAlloc[[c]])),,],
 						dim=c(length(optAlloc[[c]]),dim(currNullPhi)[2],
 						dim(currNullPhi)[3])),2:3,mean))
 				}
 				muArray[sweep-firstLine+1,c,]<-apply(matrix(currMu[currZ[optAlloc[[c]]],],ncol=nContinuousCovs),2,mean)
 				if(varSelect){
-					muStarArray[sweep-firstLine+1,c,]<-apply(matrix(currGamma[currZ[optAlloc[[c]]],],
+					currGammaC<-array(currGamma[,1,(nDiscreteCovs+1):nCovariates],
+						dim=c(currMaxNClusters,nContinuousCovs))
+					muStarArray[sweep-firstLine+1,c,]<-apply(matrix(currGammaC[currZ[optAlloc[[c]]],],
 						ncol=nContinuousCovs)*matrix(currMu[currZ[optAlloc[[c]]],],ncol=nContinuousCovs)+
-						matrix(1-currGamma[currZ[optAlloc[[c]]],],ncol=nContinuousCovs)*
+						matrix(1-currGammaC[currZ[optAlloc[[c]]],],ncol=nContinuousCovs)*
 						matrix(currNullMu[rep(1,length(optAlloc[[c]])),],ncol=nContinuousCovs),2,mean)
 				}
 			}
