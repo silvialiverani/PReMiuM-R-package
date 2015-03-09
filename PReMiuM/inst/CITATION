@@ -1,17 +1,23 @@
-citHeader("To cite package 'PReMiuM' in publications use:")
+citHeader("To cite PReMiuM in publications use:")
 
-year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date, perl = TRUE)
-vers <- paste("R package version", meta$Version)
+citEntry(entry = "Article",
+  title        = "{PReMiuM}: An {R} Package for Profile Regression Mixture Models Using Dirichlet Processes",
+  author       = personList(as.person("Silvia Liverani"),
+                   as.person("David I. Hastie"),
+                   as.person("Lamiae Azizi"),
+                   as.person("Michail Papathomas"),
+                   as.person("Sylvia Richardson")),
+  journal      = "Journal of Statistical Software",
+  year         = "2015",
+  volume       = "64",
+  number       = "7",
+  pages        = "1--30",
+  url          = "http://www.jstatsoft.org/v64/i07/",
 
-bibentry(bibtype="Manual",
-         title = "PReMiuM: An R package for Profile Regression Mixture Models using Dirichlet Processes",
-         author = personList(as.person("Silvia Liverani"),
-                             as.person("David I. Hastie"),
-                             as.person("Lamiae Azizi"),
-			     as.person("Michail Papathomas"),
-                             as.person("Sylvia Richardson")),
-         year = year,
-         note = vers,
-	 url      = "http://uk.arxiv.org/abs/1303.2836")
-
+  textVersion  =
+  paste("Silvia Liverani, David I. Hastie, Lamiae Azizi, Michail Papathomas, Sylvia Richardson (2015).",
+        "PReMiuM: An R Package for Profile Regression Mixture Models Using Dirichlet Processes.",
+        "Journal of Statistical Software, 64(7), 1-30.",
+        "URL http://www.jstatsoft.org/v64/i07/.")
+)
 
