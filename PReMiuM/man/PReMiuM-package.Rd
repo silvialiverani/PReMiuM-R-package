@@ -38,8 +38,8 @@ Dirichlet process Bayesian clustering and functions for the post-processing of i
 \tabular{ll}{
 Package: \tab PReMiuM\cr
 Type: \tab Package\cr
-Version: \tab 3.0.31\cr
-Date: \tab 2014-11-22\cr
+Version: \tab 3.0.33\cr
+Date: \tab 2015-03-13\cr
 License: \tab GPL2\cr
 LazyLoad: \tab yes\cr
 }
@@ -72,11 +72,12 @@ Papathomas M, Molitor J, Richardson S. et al (2011) Examining the joint effect o
 
 Hastie, D. I., Liverani, S., Azizi, L., Richardson, S. and Stucker I. (2013) A semi-parametric approach to estimate risk functions associated with multi-dimensional exposure profiles: application to smoking and lung cancer. \emph{BMC Medical Research Methodology}. 13 (1), 129.
 
-Molitor, J., Brown, I. J., Papathomas, M., Molitor, N., Liverani, S., Chan, Q., Richardson, S., Van Horn, L., Daviglus, M. L., Stamler, J. and Elliott, P. (2013) Blood pressure differences associated with DASH-like lower sodium compared with typical American higher sodium nutrient profile: INTERMAP USA. \emph{Submitted}.
+Molitor, J., Brown, I. J., Papathomas, M., Molitor, N., Liverani, S., Chan, Q., Richardson, S., Van Horn, L., Daviglus, M. L., Stamler, J. and Elliott, P. (2014) Blood pressure differences associated with DASH-like lower sodium compared with typical American higher sodium nutrient profile: INTERMAP USA.
+Hypertension 64 (6), 1198-1204. Available at http://www.ncbi.nlm.nih.gov/pubmed/25201893
 
-Hastie, D. I., Liverani, S. and Richardson, S. (2014) Sampling from Dirichlet process mixture models with unknown concentration parameter: Mixing issues in large data implementations. \emph{Forthcoming in Statistics \& Computing}. Available at http://uk.arxiv.org/abs/1304.1778
+Silvia Liverani, David I. Hastie, Lamiae Azizi, Michail Papathomas, Sylvia Richardson (2015). PReMiuM: An R Package for Profile Regression Mixture Models Using Dirichlet Processes. Journal of Statistical Software, 64(7), 1-30. URL http://www.jstatsoft.org/v64/i07/.
 
-Liverani, S., Hastie, D. I., Azizi, L., Papathomas, M. and Richardson, S. (2014) PReMiuM: An R package for Profile Regression Mixture Models using Dirichlet Processes. \emph{Forthcoming in the Journal of Statistical Software}. Available at http://uk.arxiv.org/abs/1303.2836
+Hastie, D. I., Liverani, S. and Richardson, S. (2014) Sampling from Dirichlet process mixture models with unknown concentration parameter: Mixing issues in large data implementations. \emph{Forthcoming in the Statistics \& Computing}. Available at http://link.springer.com/article/10.1007%2Fs11222-014-9471-3
 
 }
 

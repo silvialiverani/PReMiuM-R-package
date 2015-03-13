@@ -1,4 +1,11 @@
-Changes in version 3.0.31 (2014-10-02)
+Changes in version 3.0.33 (2015-03-13)
+
+* Added updated reference to Journal for Statistical Software
+* Fixed bugs for mixed covariates and variable selection
+* Fixed memory leak for xModel=Mixed
+
+--------------------------------------------
+Changes in version 3.0.32 (2014-10-02)
 
 * Added message to encourage users to get in touch to let us know about the impact of the package for funding application purposes
 * Added option weibullFixedShape parameter which allows clustering of survival curves with specific or global shape parameter of the Weibull distribution

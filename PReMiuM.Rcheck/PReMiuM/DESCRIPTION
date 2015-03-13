@@ -1,11 +1,11 @@
 Package: PReMiuM
 Type: Package
 Title: Dirichlet Process Bayesian Clustering, Profile Regression
-Version: 3.0.31
-Date: 2014-11-22
+Version: 3.0.33
+Date: 2015-01-14
 Author: David I. Hastie <david.hastie@rsimony.com>, Silvia Liverani <liveranis@gmail.com> and Sylvia Richardson <sylvia.richardson@mrc-bsu.cam.ac.uk> with contributions from Aurore J. Lavigne, Lucy Leigh, Lamiae Azizi
 Maintainer: Silvia Liverani <liveranis@gmail.com>
-Description: Bayesian clustering using a Dirichlet process mixture model. This model is an alternative to regression models, non-parametrically linking a response vector to covariate data through cluster membership. The package allows Bernoulli, Binomial, Poisson, Normal, survival and categorical response, as well as Normal and discrete covariates. It also allows for fixed effects in the response model, where a spatial CAR (conditional autoregressive) term can be also included. Additionally, predictions may be made for the response, and missing values for the covariates are handled. Several samplers and label switching moves are implemented along with diagnostic tools to assess convergence. A number of R functions for post-processing of the output are also provided. In addition to fitting mixtures, it may additionally be of interest to determine which covariates actively drive the mixture components. This is implemented in the package as variable selection. The R package PReMiuM is supported through research grants. One key requirement of such funding applications is the ability to demonstrate the impact of the work we seek funding for can. Whatever you are using PReMiuM for, it would be very helpful for us to learn about our users, to tailor our future methodological developments to your needs. Please email us at liveranis@gmail.com or visit the URL below.
+Description: Bayesian clustering using a Dirichlet process mixture model. This model is an alternative to regression models, non-parametrically linking a response vector to covariate data through cluster membership. The package allows Bernoulli, Binomial, Poisson, Normal, survival and categorical response, as well as Normal and discrete covariates. It also allows for fixed effects in the response model, where a spatial CAR (conditional autoregressive) term can be also included. Additionally, predictions may be made for the response, and missing values for the covariates are handled. Several samplers and label switching moves are implemented along with diagnostic tools to assess convergence. A number of R functions for post-processing of the output are also provided. In addition to fitting mixtures, it may additionally be of interest to determine which covariates actively drive the mixture components. This is implemented in the package as variable selection. 
 URL: http://www.silvialiverani.com/software/
 License: GPL-2
 LazyLoad: yes
@@ -14,4 +14,5 @@ Imports: Rcpp (>= 0.11), ggplot2 (>= 0.9.2.1), cluster, plotrix (>=
         3.5), gamlss.dist (>= 4.3-1)
 LinkingTo: Rcpp, RcppEigen (>= 0.3), BH (>= 1.54)
 SystemRequirements: GNU make
-Built: R 3.1.2; x86_64-pc-linux-gnu; 2014-12-18 16:41:38 UTC; unix
+Packaged: 2015-03-13 12:57:04 UTC; root
+Built: R 3.1.1; x86_64-pc-linux-gnu; 2015-03-13 13:03:44 UTC; unix
