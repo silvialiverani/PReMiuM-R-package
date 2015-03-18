@@ -1,5 +1,11 @@
-Changes in version 3.0.33 (2015-03-13)
+Changes in version 3.1.1 (2015-03-18)
 
+* Updated citation file
+
+--------------------------------------------
+Changes in version 3.1.0 (2015-03-13)
+
+* Released with the publication of the Journal for Statistical Software
 * Added updated reference to Journal for Statistical Software
 * Fixed bugs for mixed covariates and variable selection
 * Fixed memory leak for xModel=Mixed
