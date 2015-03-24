@@ -369,7 +369,6 @@ void importPReMiuMData(const string& fitFilename,const string& predictFilename, 
 		for(unsigned int j=0;j<nCovariates;j++){
 			inputFile >> nCategories[j];
 		}
-
 	}else if(covariateType.compare("Normal")==0){
 		for(unsigned int j=0;j<nCovariates;j++){
 			nCategories[j]=0;
@@ -943,7 +942,6 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 
 	vector<unsigned int> nXInCluster(maxNClusters,0);
 	unsigned int maxZ=0;
-
 	params.workNClusInit(nClusInit);
 	if (hyperParams.initAlloc().empty()){
 		for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
@@ -968,7 +966,6 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 			}
 		}
 	}
-
 
 	params.workNXInCluster(nXInCluster);
 	params.workMaxZi(maxZ);

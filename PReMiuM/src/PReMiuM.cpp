@@ -300,7 +300,6 @@ RcppExport SEXP profRegr(SEXP inputString) {
 	unsigned int maxNClusters = pReMiuMSampler.chain().currentState().parameters().maxNClusters();
 	/* ---------- Run the sampler --------- */
 	// Note: in this function the output gets written
-
 	pReMiuMSampler.run();
 
 	/* -- End the clock time and write the full run details to log file --*/
