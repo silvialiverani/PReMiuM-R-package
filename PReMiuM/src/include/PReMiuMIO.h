@@ -256,6 +256,9 @@ pReMiuMOptions processCommandLine(string inputStr){
 					options.predictType(predictType);
 				}else if(inString.find("--weibullFixedShape")!=string::npos){
 					options.weibullFixedShape(true);
+		                }else if(inString.find("--useNormInvWhishPrior")!=string::npos){
+					options.useNormInvWishPrior(true);
+
 				}else{
 					Rprintf("Unknown command line option.\n");
 					wasError=true;
@@ -716,6 +719,11 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 			string tmpStr = inString.substr(pos,inString.size()-pos);
 			unsigned int kappa0 = (unsigned int)atoi(tmpStr.c_str());
 			hyperParams.kappa0(kappa0);
+		}else if(inString.find("nu0")==0){
+			size_t pos = inString.find("=")+1;
+			string tmpStr = inString.substr(pos,inString.size()-pos);
+			double nu0 = (double)atof(tmpStr.c_str());
+			hyperParams.nu0(nu0);
 		}else if(inString.find("muTheta")==0){
 			size_t pos = inString.find("=")+1;
 			string tmpStr = inString.substr(pos,inString.size()-pos);
@@ -2222,6 +2230,7 @@ string storeLogFileData(const pReMiuMOptions& options,
 		tmpStr << "R0: "  << endl;
 		tmpStr << hyperParams.R0() << endl;
 		tmpStr << "kappa0: " << hyperParams.kappa0() << endl;
+		tmpStr << "nu0: " << hyperParams.nu0() << endl;
 	}
 
 	tmpStr << "muTheta: " << hyperParams.muTheta() << endl;

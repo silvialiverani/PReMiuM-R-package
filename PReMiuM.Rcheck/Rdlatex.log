@@ -108,11 +108,11 @@ Overfull \hbox (19.17761pt too wide) in paragraph at lines 1175--1176
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 [28] [29] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [30] [31]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1313--1314
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1316--1317
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1313--1314
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1316--1317
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
 [32] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [33]
@@ -134,7 +134,7 @@ consolata-zi4r.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr
 are/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (35 pages, 145138 bytes).
+Output written on Rd2.pdf (35 pages, 145787 bytes).
 Transcript written on Rd2.log.
 This is makeindex, version 2.15 [TeX Live 2013] (kpathsea + Thai support).
 Scanning input file Rd2.idx....done (47 entries accepted, 0 rejected).
@@ -251,11 +251,11 @@ Overfull \hbox (19.17761pt too wide) in paragraph at lines 1175--1176
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 [28] [29] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [30] [31]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1313--1314
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1316--1317
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1313--1314
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1316--1317
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
 [32] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [33]
@@ -285,7 +285,7 @@ m/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb
 xlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/u
 rw/times/utmri8a.pfb>
-Output written on Rd2.pdf (37 pages, 160121 bytes).
+Output written on Rd2.pdf (37 pages, 160751 bytes).
 Transcript written on Rd2.log.
 This is makeindex, version 2.15 [TeX Live 2013] (kpathsea + Thai support).
 Scanning input file Rd2.idx....done (47 entries accepted, 0 rejected).
@@ -402,11 +402,11 @@ Overfull \hbox (19.17761pt too wide) in paragraph at lines 1175--1176
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 [28] [29] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [30] [31]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1313--1314
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1316--1317
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1313--1314
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1316--1317
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
 [32] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [33]
@@ -431,8 +431,8 @@ m/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb
 xlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/u
 rw/times/utmri8a.pfb>
-Output written on Rd2.pdf (37 pages, 160577 bytes).
+Output written on Rd2.pdf (37 pages, 161200 bytes).
 Transcript written on Rd2.log.
 Saving output to 'PReMiuM-manual.pdf' ...
 Done
-You may want to clean up by 'rm -rf /tmp/RtmpiFNQiN/Rd2pdf279e38cda418'
+You may want to clean up by 'rm -rf /tmp/RtmpZhw0is/Rd2pdf112821020901'

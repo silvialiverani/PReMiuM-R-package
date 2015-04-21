@@ -12,14 +12,14 @@ profRegr(covNames, fixedEffectsNames, outcome="outcome",
         extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE,
         run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123",
 	includeCAR=FALSE, neighboursFile="Neighbours.txt",
-	weibullFixedShape=TRUE)
+	weibullFixedShape=TRUE, useNormInvWishPrior=FALSE)
 }
 \arguments{
-\item{covNames}{A vector of strings of the covariate names as by the column names in the data argument.}
-\item{fixedEffectsNames}{A vector of strings of the fixed effect names as by the column names in the data argument. Each fixed effect must be of class 'numeric'. If a fixed effect is of class 'character', an error message will appear and the fixed effect will need to be recoded as numeric.}
-\item{outcome}{A string of column of the data argument that contains the outcome. The outcome cannot have missing values - you could consider predicting the value of the outcome for those subjects for which it has not been observed.}
-\item{outcomeT}{A string of column of the data argument that contains the offset (for Poisson outcome) or the number of trials (for Binomial outcome) or censoring for Survival reponse (coded as 0 or 1).}
-\item{data}{A data frame which has as columns the outcome, the covariates, the fixed effects if any and the offset (for Poisson outcome) or the number of trials (for Binomial outcome) or censoring (for Survival outcome). The outcome cannot have missing values - you could consider predicting the value of the outcome for those subjects for which it has not been observed. For Survival response censoring must be coded as 0 if the event has not occurred (ie, there has been censoring) and 1 if the event has occurred (no censoring has taken place).}
+\item{covNames}{A vector of strings of the covariate names as by the column names in the data argument. The names of the covariates cannot include space characters.}
+\item{fixedEffectsNames}{A vector of strings of the fixed effect names as by the column names in the data argument. Each fixed effect must be of class 'numeric'. If a fixed effect is of class 'character', an error message will appear and the fixed effect will need to be recoded as numeric. The names of the fixed effects cannot include space characters.}
+\item{outcome}{A string of column of the data argument that contains the outcome. The outcome cannot have missing values - you could consider predicting the value of the outcome for those subjects for which it has not been observed. The name cannot include space characters.}
+\item{outcomeT}{A string of column of the data argument that contains the offset (for Poisson outcome) or the number of trials (for Binomial outcome) or censoring for Survival reponse (coded as 0 or 1). The name cannot include space characters.}
+\item{data}{A data frame which has as columns the outcome, the covariates, the fixed effects if any and the offset (for Poisson outcome) or the number of trials (for Binomial outcome) or censoring (for Survival outcome). The outcome cannot have missing values - you could consider predicting the value of the outcome for those subjects for which it has not been observed. For Survival response censoring must be coded as 0 if the event has not occurred (ie, there has been censoring) and 1 if the event has occurred (no censoring has taken place). The names of the columns cannot include space characters.}
 \item{output}{Path to folder to save all output files. The covariates can have missing values, which must be coded as 'NA'. There cannot be missing values in the fixed effects - if there are, use an imputation method before using profile regression.}
 \item{hyper}{Object of type setHyperparams with hyperparameters specifications. This is optional, default values are provided for all hyperparameters. See ?setHyperparams for details.}
 \item{predict}{Data frame containing the predictive scenarios. This is only required if predictions are requested. 
@@ -62,6 +62,8 @@ See ?calcPredictions for more details and examples. For Normal response,
 \item{includeCAR}{A boolean specifying wether a conditional autoregressive term should be introduced within the model, to take into account possible spatial correlation within residuals. Only for Poisson and Normal response models.}
 \item{neighboursFile}{The file name of the file specifying neighbourhood graph. It should have the same structure than neighbourhood graph files used in the "INLA" package, and can be produced from a nb object of package "spdep", by the function "nb2INLA" of package "spdep". See ?nb2INLA for details.}
 \item{weibullFixedShape}{This parameter controls whether the shape parameter of the Weibull distribution (for yModel=Survival only) is a global parameter (fixed) or cluster specific. It is equal to TRUE by default.}
+\item{useNormInvWishPrior}{By default this variable equals FALSE. When this variable equals TRUE, the conjugate Normal-inverse-Wishart prior is used rather
+than the independant normal and inverse Whishart priors.}
 }
 
 \value{

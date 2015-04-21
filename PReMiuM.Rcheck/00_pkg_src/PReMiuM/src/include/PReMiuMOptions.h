@@ -87,6 +87,7 @@ class pReMiuMOptions{
 			_neighbourFileName="Neighbour.txt";
 			_predictType ="RaoBlackwell";
 			_weibullFixedShape=false;
+			_useNormInvWishPrior=false;
 		};
 
 		/// \brief Default destructor
@@ -353,6 +354,16 @@ class pReMiuMOptions{
 			_weibullFixedShape=fixedShape;
 		}
 
+		/// \brief Return whether we are including response
+		bool useNormInvWishPrior() const{
+			return _useNormInvWishPrior;
+		}
+
+		/// \brief Set whether we are including the response
+		void useNormInvWishPrior(const bool& useNIWP){
+			_useNormInvWishPrior=useNIWP;
+		}
+
 		// Copy operator
 		pReMiuMOptions& operator=(const pReMiuMOptions& options){
 
@@ -382,6 +393,7 @@ class pReMiuMOptions{
 			_neighbourFileName=options.neighbourFileName();
 			_predictType=options.predictType();
 			_weibullFixedShape=options.weibullFixedShape();
+			_useNormInvWishPrior=options.useNormInvWishPrior();
 			return *this;
 		}
 
@@ -439,6 +451,8 @@ class pReMiuMOptions{
 		string _predictType;
 		// For Survival response, whether the weibull shape parameter is fixed or cluster specific
 		bool _weibullFixedShape;
+		// Whether the conjugated Normal Inverse Whishart prior is used instead of the independent Normal and inverse Whisharts priors
+		bool _useNormInvWishPrior;
 };
 
 #endif // DIPBACOPTIONS_H_

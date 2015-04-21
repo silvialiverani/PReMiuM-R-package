@@ -10,8 +10,8 @@ file is not provided, all hyperparameters will take their default values.
 }
 \usage{
 setHyperparams(shapeAlpha=NULL,rateAlpha=NULL,
-     aPhi=NULL,mu0=NULL,Tau0=NULL,R0=NULL,
-     kappa0=NULL,muTheta=NULL,sigmaTheta=NULL,dofTheta=NULL,muBeta=NULL,
+     aPhi=NULL,mu0=NULL,Tau0=NULL,R0=NULL,kappa0=NULL,
+     nu0=NULL,muTheta=NULL,sigmaTheta=NULL,dofTheta=NULL,muBeta=NULL,
      sigmaBeta=NULL,dofBeta=NULL,shapeTauEpsilon=NULL,
      rateTauEpsilon=NULL,aRho=NULL,bRho=NULL,atomRho=NULL,shapeSigmaSqY=NULL,
      scaleSigmaSqY=NULL,rSlice=NULL,truncationEps=NULL,
@@ -27,6 +27,7 @@ setHyperparams(shapeAlpha=NULL,rateAlpha=NULL,
 \item{Tau0}{The precision matrix for mu_c in the Normal covariate case (only used in Normal covariate case, default=inverse of diagonal matrix with elements equal to squareof empirical range for each covariate)}
 \item{R0}{The matrix parameter for the Wishart distribution for Tau_c (only used in Normal covariate case, default=1/nCovariates * inverse of empirical covariance matrix)}
 \item{kappa0}{The degrees of freedom parameter for the Wishart distribution for Tau_c (only used in Normal covariate case, default=nCovariates).}
+\item{nu0}{Hyperparameter for the conjugate Normal inverse Wishart prior for Normal covariates. The Normal distribution of mu_c has covariance Sigma_c/nu0. The default value is 0.01. The other hyperparameters for this parametrisation are re-used from the independant priors. This hyperparameter is only useful when the option useNormInvWishPrior=TRUE in the function profRegr().}
 \item{muTheta}{The location parameter for the t-Distribution for theta_c (only used if response included in model, default=0)}
 \item{sigmaTheta}{The scale parameter for the t-Distribution for theta_c (only used if response included in model, default=2.5)}
 \item{dofTheta}{The degrees of freedom parameter for the t-Distribution for theta_c (only used if response included in model, default=7)}

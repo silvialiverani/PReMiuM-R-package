@@ -1,6 +1,8 @@
 Changes in version 3.1.1 (2015-03-18)
 
 * Updated citation file
+* Fixed bug in p(Z) for marginal model posterior
+* Added conjugate Normal inverse Whishart prior for Normal covariates (Aurore Lavigne)
 
 --------------------------------------------
 Changes in version 3.1.0 (2015-03-13)

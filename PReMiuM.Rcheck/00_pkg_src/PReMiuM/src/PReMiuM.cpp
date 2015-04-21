@@ -120,7 +120,13 @@ RcppExport SEXP profRegr(SEXP inputString) {
 	}else if(options.covariateType().compare("Normal")==0){
 		// Need to add the proposals for the normal case
 		// Update for the active mu parameters
+		if (options.useNormInvWishPrior()){
+		// If Inverse Normal Inverse Wishart Prior is used
+		pReMiuMSampler.addProposal("gibbsForMuActiveNIWP",1.0,1,1,&gibbsForMuActiveNIWP);
+		}else{
+		// If independant Normal and Inverse Wishart priors are used
 		pReMiuMSampler.addProposal("gibbsForMuActive",1.0,1,1,&gibbsForMuActive);
+		}
 
 		// Update for the active Sigma parameters
 		pReMiuMSampler.addProposal("gibbsForTauActive",1.0,1,1,&gibbsForTauActive);
@@ -132,7 +138,14 @@ RcppExport SEXP profRegr(SEXP inputString) {
 
 		// Need to add the proposals for the normal case
 		// Update for the active mu parameters
+		if (options.useNormInvWishPrior()){
+		// If Inverse Normal Inverse Wishart Prior is used
+		pReMiuMSampler.addProposal("gibbsForMuActiveNIWP",1.0,1,1,&gibbsForMuActiveNIWP);
+		}else{
+		// If independant Normal and Inverse Wishart priors are used
 		pReMiuMSampler.addProposal("gibbsForMuActive",1.0,1,1,&gibbsForMuActive);
+		}
+
 
 		// Update for the active Sigma parameters
 		pReMiuMSampler.addProposal("gibbsForTauActive",1.0,1,1,&gibbsForTauActive);
@@ -216,7 +229,14 @@ RcppExport SEXP profRegr(SEXP inputString) {
 	}else if(options.covariateType().compare("Normal")==0){
 		// Need to add the proposals for the normal case
 		// Update for the active mu parameters
+		if (options.useNormInvWishPrior()){
+		// If Inverse Normal Inverse Wishart Prior is used
+		pReMiuMSampler.addProposal("gibbsForMuInActiveNIWP",1.0,1,1,&gibbsForMuInActiveNIWP);
+		}else{
+		// If independant Normal and Inverse Wishart priors are used
 		pReMiuMSampler.addProposal("gibbsForMuInActive",1.0,1,1,&gibbsForMuInActive);
+		}
+
 
 		// Update for the active Sigma parameters
 		pReMiuMSampler.addProposal("gibbsForTauInActive",1.0,1,1,&gibbsForTauInActive);
@@ -229,7 +249,14 @@ RcppExport SEXP profRegr(SEXP inputString) {
 
 		// Need to add the proposals for the normal case
 		// Update for the active mu parameters
+		if (options.useNormInvWishPrior()){
+		// If Inverse Normal Inverse Wishart Prior is used
+		pReMiuMSampler.addProposal("gibbsForMuInActiveNIWP",1.0,1,1,&gibbsForMuInActiveNIWP);
+		}else{
+		// If independant Normal and Inverse Wishart priors are used
 		pReMiuMSampler.addProposal("gibbsForMuInActive",1.0,1,1,&gibbsForMuInActive);
+		}
+
 
 		// Update for the active Sigma parameters
 		pReMiuMSampler.addProposal("gibbsForTauInActive",1.0,1,1,&gibbsForTauInActive);
@@ -300,7 +327,6 @@ RcppExport SEXP profRegr(SEXP inputString) {
 	unsigned int maxNClusters = pReMiuMSampler.chain().currentState().parameters().maxNClusters();
 	/* ---------- Run the sampler --------- */
 	// Note: in this function the output gets written
-
 	pReMiuMSampler.run();
 
 	/* -- End the clock time and write the full run details to log file --*/

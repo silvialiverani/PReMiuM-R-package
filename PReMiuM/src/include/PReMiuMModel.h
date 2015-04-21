@@ -184,6 +184,7 @@ class pReMiuMHyperParams{
 				_R0=R;
 				_workLogDetR0=log(R.determinant());
 				_kappa0 = nContCovs;
+				_nu0=0.01;
 			}
 			_muTheta = 0.0;
 			_sigmaTheta = 2.5;
@@ -287,6 +288,16 @@ class pReMiuMHyperParams{
 		/// \brief Set the hyper parameter kappa0
 		void kappa0(const unsigned int& k0){
 			_kappa0 = k0;
+		}
+
+		/// \brief Return the hyper parameter nu0
+		const double& nu0() const{
+			return _nu0;
+		}
+
+		/// \brief Set the hyper parameter nu0
+		void nu0(const double& n0){
+			_nu0 = n0;
 		}
 
 		double muTheta() const{
@@ -483,6 +494,7 @@ class pReMiuMHyperParams{
 			_Tau0 = hyperParams.Tau0();
 			_R0 = hyperParams.R0();
 			_kappa0 = hyperParams.kappa0();
+			_nu0 = hyperParams.nu0();
 			_muTheta = hyperParams.muTheta();
 			_sigmaTheta = hyperParams.sigmaTheta();
 			_dofTheta = hyperParams.dofTheta();
@@ -522,9 +534,10 @@ class pReMiuMHyperParams{
 		vector<double> _aPhi;
 
 		// Hyper parameters for prior for mu (for Normal covariates)
-		// Prior is mu ~ N(mu0,inv(Tau0))
+		// Prior is mu ~ N(mu0,inv(Tau0)) or Prior is mu ~ N(mu0,inv(Tau)/nu0) if the Normal inverse Wishart prior is chosen
 		VectorXd _mu0;
 		MatrixXd _Tau0;
+		double _nu0;
 
 		// Hyper parameters for prior of Tau (for Normal covariates)
 		// Prior is Tau ~ Wishart(R0,kappa0) (which has mean R0*kappa0).
@@ -2254,6 +2267,7 @@ vector<double> pReMiuMLogPost(const pReMiuMParams& params,
 	const pReMiuMHyperParams& hyperParams = params.hyperParams();
 	const bool includeCAR=model.options().includeCAR();
 	const bool weibullFixedShape=model.options().weibullFixedShape();
+	const bool useNormInvWishPrior=model.options().useNormInvWishPrior();
 
 	// (Augmented) Log Likelihood first
 	// We want p(y,X|z,params,W) = p(y|z=c,W,params)p(X|z=c,params)
@@ -2382,9 +2396,12 @@ vector<double> pReMiuMLogPost(const pReMiuMParams& params,
 		// Add in the prior for mu_c and Sigma_c for each c
 		for(unsigned int c=0;c<maxNClusters;c++){
 			if(params.workNXInCluster(c)>0){
-				logPrior+=logPdfMultivarNormal(nCovariates,params.mu(c),hyperParams.mu0(),hyperParams.workSqrtTau0(),hyperParams.workLogDetTau0());
+				if (useNormInvWishPrior){
+					logPrior+=logPdfMultivarNormal(nCovariates,params.mu(c),hyperParams.mu0(),hyperParams.nu0()*params.Tau(c),nCovariates*hyperParams.nu0()+params.workLogDetTau(c));
+				}else{
+					logPrior+=logPdfMultivarNormal(nCovariates,params.mu(c),hyperParams.mu0(),hyperParams.workSqrtTau0(),hyperParams.workLogDetTau0());
+				}
 				logPrior+=logPdfWishart(nCovariates,params.Tau(c),params.workLogDetTau(c),hyperParams.workInverseR0(),hyperParams.workLogDetR0(),(double)hyperParams.kappa0());
-
 			}
 		}
 	}else if(covariateType.compare("Mixed")==0){
@@ -2399,7 +2416,11 @@ vector<double> pReMiuMLogPost(const pReMiuMParams& params,
 					}
 					logPrior+=logPdfDirichlet(params.logPhi(c,j),dirichParams,true);
 				}
-				logPrior+=logPdfMultivarNormal(nContinuousCov,params.mu(c),hyperParams.mu0(),hyperParams.workSqrtTau0(),hyperParams.workLogDetTau0());
+				if (useNormInvWishPrior){
+					logPrior+=logPdfMultivarNormal(nContinuousCov,params.mu(c),hyperParams.mu0(),hyperParams.nu0()*params.Tau(c),nContinuousCov*hyperParams.nu0()+params.workLogDetTau(c));
+				}else{
+					logPrior+=logPdfMultivarNormal(nContinuousCov,params.mu(c),hyperParams.mu0(),hyperParams.workSqrtTau0(),hyperParams.workLogDetTau0());
+				}
 				logPrior+=logPdfWishart(nContinuousCov,params.Tau(c),params.workLogDetTau(c),hyperParams.workInverseR0(),hyperParams.workLogDetR0(),(double)hyperParams.kappa0());
 			}
 		}

@@ -274,7 +274,7 @@ SEXP pZpX(SEXP nClusters, SEXP nCategories,SEXP aPhi, SEXP n,SEXP nCovariates,SE
 	for (unsigned int i=0; i< nCatK.size();i++){
 		out = out + LogGamma(nCatK[i]); 
 	}
-	out = out + nC * log(a) + LogGamma(nSj+1);
+	out = out + nC * log(a) + LogGamma(nSj+1) + LogGamma(a)-LogGamma(a+nSj);
 
 	vector<double> counts(nSj,0);
 	for (unsigned int i=0;i<nC;i++){
@@ -282,7 +282,7 @@ SEXP pZpX(SEXP nClusters, SEXP nCategories,SEXP aPhi, SEXP n,SEXP nCovariates,SE
 	}
 
 	for (unsigned int i=0;i<nSj;i++){
-		out = out -log(a+i)-counts[i] * log(i+1.0)-LogGamma(counts[i]+1);
+		out = out -counts[i] * log(i+1.0)-LogGamma(counts[i]+1);
 	}
 
 	return Rcpp::wrap(out);

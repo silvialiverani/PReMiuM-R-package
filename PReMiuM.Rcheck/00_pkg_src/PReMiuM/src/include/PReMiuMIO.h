@@ -256,6 +256,9 @@ pReMiuMOptions processCommandLine(string inputStr){
 					options.predictType(predictType);
 				}else if(inString.find("--weibullFixedShape")!=string::npos){
 					options.weibullFixedShape(true);
+		                }else if(inString.find("--useNormInvWhishPrior")!=string::npos){
+					options.useNormInvWishPrior(true);
+
 				}else{
 					Rprintf("Unknown command line option.\n");
 					wasError=true;
@@ -369,7 +372,6 @@ void importPReMiuMData(const string& fitFilename,const string& predictFilename, 
 		for(unsigned int j=0;j<nCovariates;j++){
 			inputFile >> nCategories[j];
 		}
-
 	}else if(covariateType.compare("Normal")==0){
 		for(unsigned int j=0;j<nCovariates;j++){
 			nCategories[j]=0;
@@ -717,6 +719,11 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 			string tmpStr = inString.substr(pos,inString.size()-pos);
 			unsigned int kappa0 = (unsigned int)atoi(tmpStr.c_str());
 			hyperParams.kappa0(kappa0);
+		}else if(inString.find("nu0")==0){
+			size_t pos = inString.find("=")+1;
+			string tmpStr = inString.substr(pos,inString.size()-pos);
+			double nu0 = (double)atof(tmpStr.c_str());
+			hyperParams.nu0(nu0);
 		}else if(inString.find("muTheta")==0){
 			size_t pos = inString.find("=")+1;
 			string tmpStr = inString.substr(pos,inString.size()-pos);
@@ -943,7 +950,6 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 
 	vector<unsigned int> nXInCluster(maxNClusters,0);
 	unsigned int maxZ=0;
-
 	params.workNClusInit(nClusInit);
 	if (hyperParams.initAlloc().empty()){
 		for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
@@ -968,7 +974,6 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 			}
 		}
 	}
-
 
 	params.workNXInCluster(nXInCluster);
 	params.workMaxZi(maxZ);
@@ -2225,6 +2230,7 @@ string storeLogFileData(const pReMiuMOptions& options,
 		tmpStr << "R0: "  << endl;
 		tmpStr << hyperParams.R0() << endl;
 		tmpStr << "kappa0: " << hyperParams.kappa0() << endl;
+		tmpStr << "nu0: " << hyperParams.nu0() << endl;
 	}
 
 	tmpStr << "muTheta: " << hyperParams.muTheta() << endl;
