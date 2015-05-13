@@ -63,7 +63,7 @@ See ?calcPredictions for more details and examples. For Normal response,
 \item{neighboursFile}{The file name of the file specifying neighbourhood graph. It should have the same structure than neighbourhood graph files used in the "INLA" package, and can be produced from a nb object of package "spdep", by the function "nb2INLA" of package "spdep". See ?nb2INLA for details.}
 \item{weibullFixedShape}{This parameter controls whether the shape parameter of the Weibull distribution (for yModel=Survival only) is a global parameter (fixed) or cluster specific. It is equal to TRUE by default.}
 \item{useNormInvWishPrior}{By default this variable equals FALSE. When this variable equals TRUE, the conjugate Normal-inverse-Wishart prior is used rather
-than the independant normal and inverse Whishart priors.}
+than the independant normal and inverse Whishart priors. If this prior is used, variable selection cannot be used as it has not been implemented.}
 }
 
 \value{

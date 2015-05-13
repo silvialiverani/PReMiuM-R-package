@@ -45,6 +45,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		if (yModel!="Normal") stop("The option of random predictions is only available for yModel=Normal.")
 	}
 
+	if (useNormInvWishPrior==TRUE && !varSelectType=="None") stop("Variable selection is not available for Normal-inverse-Wishart prior for Normal covariates.")
+
 	# open file to write output
 	fileName<-paste(output,"_input.txt",sep="")
 	# make big data matrix with outcome, covariates and fixed effects	
@@ -1738,7 +1740,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 				"lowerProb"=c(),"upperProb"=c(),"fillColor"=c())
 			for(k in 1:nCategories[j]){
 				if (nDiscreteCovs==1) {
-					probMat<-profilePhi[,meanSortIndex,k]
+					probMat<-profilePhi[,meanSortIndex,1,k]
 				} else {
 					probMat<-profilePhi[,meanSortIndex,j,k]
 				}
