@@ -3100,6 +3100,7 @@ void updateMissingPReMiuMData(baseGeneratorType& rndGenerator,
 	unsigned int nContinuousCovs = dataset.nContinuousCovs();
 	vector<unsigned int> nCategories = params.nCategories();
 	string covariateType = options.covariateType();
+	unsigned int& nPredictSubjects=dataset.nPredictSubjects();
 
 	// Define a uniform random number generator
 	randomUniform unifRand(0,1);
@@ -3108,8 +3109,9 @@ void updateMissingPReMiuMData(baseGeneratorType& rndGenerator,
 	// to and then sample for the appropriate
 	if(covariateType.compare("Discrete")==0){
 		// We don't update the predictive subjects as their X values which
-		// were missing are not used anywhere
-		for(unsigned int i=0;i<nSubjects;i++){
+		// were missing are not used anywhere 
+		// change: we now compute them because we are interested in looking at their posterior predictive distributions
+		for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
 			int zi = params.z(i);
 			for(unsigned int j=0;j<nCovariates;j++){
 				if(dataset.missingX(i,j)){
@@ -3141,7 +3143,7 @@ void updateMissingPReMiuMData(baseGeneratorType& rndGenerator,
 			}
 		}
 	}else if(covariateType.compare("Normal")==0){
-		for(unsigned int i=0;i<nSubjects;i++){
+		for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
 			// Check if there is anything to do
 			if(dataset.nContinuousCovariatesNotMissing(i)<nCovariates){
 				int zi = params.z(i);
@@ -3163,7 +3165,7 @@ void updateMissingPReMiuMData(baseGeneratorType& rndGenerator,
 		// Discrete part of mixed type covariates
 		// We don't update the predictive subjects as their X values which
 		// were missing are not used anywhere
-		for(unsigned int i=0;i<nSubjects;i++){
+		for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
 			int zi = params.z(i);
 			for(unsigned int j=0;j<nDiscreteCovs;j++){
 				if(dataset.missingX(i,j)){
@@ -3196,7 +3198,7 @@ void updateMissingPReMiuMData(baseGeneratorType& rndGenerator,
 		}
 
 		// Normal part of mixed type covariates
-		for(unsigned int i=0;i<nSubjects;i++){
+		for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
 			// Check if there is anything to do
 			if(dataset.nContinuousCovariatesNotMissing(i)<nContinuousCovs){
 				int zi = params.z(i);

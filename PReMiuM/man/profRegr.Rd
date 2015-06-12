@@ -70,7 +70,7 @@ than the independant normal and inverse Whishart priors. If this prior is used, 
 Once the C++ has completed the output from fitting the regression is stored in a number of text files in the directory specified. Files are produced
 containing the MCMC traces for all of the values of interest, along with a log file and files for monitoring the acceptance rates of the adaptive Metropolis Hastings moves.
 
-It returns a number of files in the output directory as well as a list with the following elements. This an object of type runInfoObj.
+It returns a number of files in the output directory as well as a list with the following elements. This an object of type runInfoObj. The files that are produced in the output directory are described below. 
 \item{directoryPath}{String. Directory path of the output files.}
 \item{fileStem}{String. The }
 \item{inputFileName}{String. Location and file name of input dataset as created by this function for the C++ routines}
@@ -100,6 +100,31 @@ It returns a number of files in the output directory as well as a list with the 
 \item{includeCAR}{Logical. Whether a spatial CAR term is included.}
 \item{predictType}{String. Whether a RaoBlackwell or random predictions have been computed.}
 \item{weibullFixedShape}{Logical. Whether the shape parameter of the Weibull distribution for the survival response is fixed or cluster specific.}
+
+These are the files produced in the output directory. We refer to Liverani et al. (2015) 
+
+\item{_alpha.txt}{If alpha is random, each row is a draw from a posterior distribution of alpha (including burn in if reportBurnIn=TRUE).}
+
+\item{_beta.txt}{If fixed effects are included, this file provides the draws from the posterior distribution of the beta parameters at each sweep. Each row represents the vector of beta's at each sweep (including burn in if reportBurnIn=TRUE).}
+
+\item{_hyper.txt}{Internal file to communicate between R and C++ the values of the hyperparamters.}
+
+\item{_input_txt}{Internal file to communicate the data between R and C++.}
+
+\item{_log.txt}{This file logs some information about the run, such as what variables were included, which hyperparameters were used, the seed of the random numbers, the acceptance rates of the MCMC moves that were included in the run.}
+
+\item{_logPost.txt}{This file report the logPosterior, the logLikelihood and logPrior for the model fit at each sweep (including burn in if reportBurnIn=TRUE).}
+
+\item{_nClusters.txt}{This file includes the number of clusters at each sweep. Each row represents a sweep (including burn in if reportBurnIn=TRUE) and each element in the rows is the number of clusters per sweep. This includes the number of empty clusters, if any.}
+
+\item{_nMembers.txt}{This file includes the number of observations in each cluster at each sweep. Each row represents a sweep (including burn in if reportBurnIn=TRUE) and each element in the rows is the number of observations in each cluster per sweep. The last number in each row is the total number of observations, computed as the sum of the elements in the row as a check that all observations have been assigned to a cluster.}
+
+\item{_theta.xt}{This file includes the value of theta (cluster specific parameter for the response variable) for each cluster at each sweep. Each row represents a sweep (including burn in if reportBurnIn=TRUE) and each element in the rows is the value of theta for each cluster at that sweep. The thetas provided her are in the same order as the clusters in _nMembers.txt and they are drawn from the prior when they correspond to empty clusters.}
+
+\item{_z.txt}{This file includes the cluster membership for each observation at each sweep. Each row represents a sweep (including burn in if reportBurnIn=TRUE) and each element in the rows is the cluster membership for each of the observations, ordered as they are provided to profRegr in the dataframe.}
+
+There are more files that can be in the output, depending on which options are used in profRegr. The file _mu.txt for example reports the mean for xModel=Normal, _phi.txt reports the multinomial probabilities for xModel=Discrete, _rho.txt reports the paramters for variable selection, etc. The files usually report one line for each sweep (including burn in if reportBurnIn=TRUE). See Liverani et al. (2015) for more details of the parameters. 
+
 }
 \section{Authors}{
 David Hastie, Department of Epidemiology and Biostatistics, Imperial College London, UK
