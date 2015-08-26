@@ -195,7 +195,6 @@ RcppExport SEXP profRegr(SEXP inputString) {
 				pReMiuMSampler.addProposal("gibbsForNu",1.0,1,1,&gibbsForNu);
 			}
 		}
-
 	}
 
 

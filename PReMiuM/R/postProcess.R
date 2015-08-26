@@ -1461,7 +1461,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 				"lowerProb"=c(),"upperProb"=c(),"fillColor"=c())
 			for(k in 1:nCategoriesY){
 		
-				probMat<-risk[,meanSortIndex,k]
+				probMat<-risk[,,k]
 				nPoints<-nrow(probMat)
 				probMeans<-apply(probMat,2,mean)
 				probMean<-sum(probMeans*clusterSizes)/sum(clusterSizes)

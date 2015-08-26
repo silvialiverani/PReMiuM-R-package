@@ -2558,8 +2558,6 @@ void gibbsForTauCAR(mcmcChain<pReMiuMParams>& chain,
 						pReMiuMPropParams& propParams,
 						baseGeneratorType& rndGenerator){
 
-
-
 	mcmcState<pReMiuMParams>& currentState = chain.currentState();
 	pReMiuMParams& currentParams = currentState.parameters();
 	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
@@ -2590,6 +2588,7 @@ void gibbsForTauCAR(mcmcChain<pReMiuMParams>& chain,
 
 	a+=(double)(nSubjects-1)/2.0;
 	b+=sumCAR/2.0;
+
 
 	// Boost uses shape and scale parameterisation
 	randomGamma gammaRand(a,1.0/b);
@@ -2723,7 +2722,6 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 	// Compute the allocation probabilities in terms of the unique vectors
 	vector<vector<double> > logPXiGivenZi;
 	logPXiGivenZi.resize(nSubjects+nPredictSubjects);
-
 	if(covariateType.compare("Discrete")==0){
 		for(unsigned int i=0;i<nSubjects;i++){
 			logPXiGivenZi[i].resize(maxNClusters,0);
@@ -2755,6 +2753,7 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 				}
 			}
 		}
+
 	}else if(covariateType.compare("Normal")==0){
 		for(unsigned int i=0;i<nSubjects;i++){
 			logPXiGivenZi[i].resize(maxNClusters,0.0);
@@ -2912,7 +2911,6 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 		}
 
 	}
-
 	double (*logPYiGivenZiWi)(const pReMiuMParams&, const pReMiuMData&,
 											const unsigned int&,const int&,
 											const unsigned int&)=NULL;
@@ -3085,7 +3083,6 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 
 	currentParams.workNXInCluster(nMembers);
 	currentParams.workMaxZi(maxZ);
-
 }
 
 
@@ -3111,7 +3108,7 @@ void updateMissingPReMiuMData(baseGeneratorType& rndGenerator,
 		// We don't update the predictive subjects as their X values which
 		// were missing are not used anywhere 
 		// change: we now compute them because we are interested in looking at their posterior predictive distributions
-		for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
+		for(unsigned int i=0;i<nSubjects;i++){
 			int zi = params.z(i);
 			for(unsigned int j=0;j<nCovariates;j++){
 				if(dataset.missingX(i,j)){
@@ -3143,7 +3140,7 @@ void updateMissingPReMiuMData(baseGeneratorType& rndGenerator,
 			}
 		}
 	}else if(covariateType.compare("Normal")==0){
-		for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
+		for(unsigned int i=0;i<nSubjects;i++){
 			// Check if there is anything to do
 			if(dataset.nContinuousCovariatesNotMissing(i)<nCovariates){
 				int zi = params.z(i);
@@ -3165,7 +3162,7 @@ void updateMissingPReMiuMData(baseGeneratorType& rndGenerator,
 		// Discrete part of mixed type covariates
 		// We don't update the predictive subjects as their X values which
 		// were missing are not used anywhere
-		for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
+		for(unsigned int i=0;i<nSubjects;i++){
 			int zi = params.z(i);
 			for(unsigned int j=0;j<nDiscreteCovs;j++){
 				if(dataset.missingX(i,j)){
@@ -3198,7 +3195,7 @@ void updateMissingPReMiuMData(baseGeneratorType& rndGenerator,
 		}
 
 		// Normal part of mixed type covariates
-		for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
+		for(unsigned int i=0;i<nSubjects;i++){
 			// Check if there is anything to do
 			if(dataset.nContinuousCovariatesNotMissing(i)<nContinuousCovs){
 				int zi = params.z(i);
