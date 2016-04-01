@@ -364,10 +364,10 @@
 	y12 = *y1 + *yp1 * (*x2 - *x1);
 	y21 = *y2 + *yp2 * (*x1 - *x2);
 	if (y21 < *y1 || y12 < *y2) {
-	//      REprintf("\nTrap: non-logcocavity detected by ARS intersection_ function\ny21=%15.15e, y12=%15.15e\n", y21, y12);
-	//      REprintf("*x1=%15.10e, *x2=%15.10e, *y1=%15.15e, *y2=%15.15e, *yp1=%15.10e, *yp2=%15.10e\n", *x1, *x2, *y1, *y2, *yp1, *yp2);
-	//      if (y21 < *y1) REprintf("y21 < *y1\n");
-	//      if (y12 < *y2) REprintf("y12 < *y2\n");
+	      REprintf("\nTrap: non-logcocavity detected by ARS intersection_ function\ny21=%15.15e, y12=%15.15e\n", y21, y12);
+	      REprintf("*x1=%15.10e, *x2=%15.10e, *y1=%15.15e, *y2=%15.15e, *yp1=%15.10e, *yp2=%15.10e\n", *x1, *x2, *y1, *y2, *yp1, *yp2);
+	      if (y21 < *y1) REprintf("y21 < *y1\n");
+	      if (y12 < *y2) REprintf("y12 < *y2\n");
 	*ifault = 5;
 	return;
 	}
@@ -460,7 +460,7 @@
 	/* insert x(n) below x(ilow) */
 	/*   test for non-concavity */
 		if (hpx[*ilow] > hpx[*n]) {
-	//	  REprintf("Trap: non-logcocavity detected by ARS update_ function\nhpx[*ilow]=%e, hpx[*n]=%e\n", hpx[*ilow], hpx[*n]);
+		  REprintf("Trap: non-logcocavity detected by ARS update_ function\nhpx[*ilow]=%e, hpx[*n]=%e\n", hpx[*ilow], hpx[*n]);
 		*ifault = 5;
 		}
 		ipt[*n] = *ilow;
@@ -485,7 +485,7 @@
 	/* insert above x(ihigh) */
 	/*   test for non-concavity */
 		if (hpx[i__] < hpx[*n]) {
-	//   	        REprintf("Trap: non-logcocavity detected by ARS update_ function\nhpx[i__]=%e, hpx[*n]=%e\n", hpx[i__], hpx[*n]);
+	   	        REprintf("Trap: non-logcocavity detected by ARS update_ function\nhpx[i__]=%e, hpx[*n]=%e\n", hpx[i__], hpx[*n]);
 			*ifault = 5;
 		}
 		*ihigh = *n;
@@ -503,7 +503,7 @@
 	/* insert x(n) between x(j) and x(i) */
 	/*   test for non-concavity */
 		if (hpx[j] < hpx[*n] || hpx[i__] > hpx[*n]) {
-	//	      REprintf("Trap: non-logcocavity detected by ARS update_ function\nhpx[j]=%e, hpx[i__]=%e, hpx[*n]=%e\n", hpx[j], hpx[i__], hpx[*n]);
+		      REprintf("Trap: non-logcocavity detected by ARS update_ function\nhpx[j]=%e, hpx[i__]=%e, hpx[*n]=%e\n", hpx[j], hpx[i__], hpx[*n]);
 		*ifault = 5;
 		}
 		ipt[j] = *n;

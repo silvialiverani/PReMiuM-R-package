@@ -1,0 +1,88 @@
+Changes in version 3.1.2 (2015-08-26)
+
+* Fixed bug in order of clusters plotted for yModel=Categorical in plotRiskProfile
+* Fixed bug for predictions introduced in previous release
+
+--------------------------------------------
+Changes in version 3.1.1 (2015-03-18)
+
+* Added description of output files in the manual
+* Fixed bug in the function plotRiskProfile for xModel="Mixed" when only one Discrete covariate is provided
+* Updated citation file
+* Fixed bug in p(Z) for marginal model posterior
+* Added conjugate Normal inverse Whishart prior for Normal covariates (Aurore Lavigne)
+
+--------------------------------------------
+Changes in version 3.1.0 (2015-03-13)
+
+* Released with the publication of the Journal for Statistical Software
+* Added updated reference to Journal for Statistical Software
+* Fixed bugs for mixed covariates and variable selection
+* Fixed memory leak for xModel=Mixed
+
+--------------------------------------------
+Changes in version 3.0.32 (2014-10-02)
+
+* Added message to encourage users to get in touch to let us know about the impact of the package for funding application purposes
+* Added option weibullFixedShape parameter which allows clustering of survival curves with specific or global shape parameter of the Weibull distribution
+* Fixed bug: missing theta active among MCMC steps 
+* Added spatial CAR component also for Normal response
+* Added option predictType in profRegr, only available for yModel="Normal". It allows for randomly sampled predictions from the posterior predictive distributions, therefore allowing to estimate the variance. 
+* Debugged option whichCovariates in plotRiskProfile() for Mixed covariates. 
+
+--------------------------------------------
+Changes in version 3.0.29 (2014-07-22)
+
+* Added survival outcome with random shape parameter nu (global, ie not cluster specific), estimated with an adaptive rejection sampler
+
+--------------------------------------------
+Changes in version 3.0.27 (2013-05-22)
+
+* Fixed bug in data generation for Poisson and Binomial with no fixed effects
+* Added spatial term (conditional autoregressive term) in the model specification to take into account spatial correlation
+* Spatial model only available for Poisson response
+* Added functions for simulated spatial data mapforGeneratedData()
+
+--------------------------------------------
+Changes in version 3.0.25 (2014-04-24)
+
+* Update to boost 1.54 (package BH >= 1.54) which removes the warning message
+* Removed warning message in plotPredictions function 
+* Removed BOOSTLIB command from Makevars.win 
+
+--------------------------------------------
+Changes in version 3.0.24 (2014-04-04)
+
+* Removed the hyperparameter useReciprocalNCatsPhi
+
+--------------------------------------------
+Changes in version 3.0.23 (2014-04-01)
+
+* Removed boost library from the package and added LinkingTo package BH
+* Added parameter for Bernoulli for sparsity inducing prior in variable selection
+* Added function for plotting heatmap of dissimilarity matrix
+* Added function to plot trace of mcmc for some global parameters 
+* Added first Weibull model for survival response
+* Added Pitman-Yor process prior (two parameter prior)
+
+--------------------------------------------
+Changes in version 3.0.16 (2013-03-15)
+
+* Added ChangeLog
+* Improved description of variable selection option in profRegr.
+* I have set an error message for inappropriate usage of profRegr.
+* Updated references in manual pages.
+* Fixed a couple of things to pass --check cleanly.
+* Fix in calcDissimilarityMatrix: indeces have been changed to unsigned long int to allow for bigger dissimilarity matrices to be handled. Also, added option onlyLS in calcDissimilarityMatrix to restrict the function calcOptimalClustering to do the calculations for the optimal partition by least squares only (not using PAM). When onlyLS=TRUE the dissimilarity matrix is not copied from C++ to R (and therefore avoids memory problems).
+* Added the citation file in the R package. Added within the new folder inst.
+* Changed help files to reflect the changes in the predictions and made minor fix to complete dealing with prediction bug.
+* Fixed a variety of bugs in predictions. Fixed mea (mean absolute error). Added fullPredictFile to profRegr output.
+* Fixed a bug in calcPredictions - the link to the prediction file was missing. Also added the computation of the mean absolute error to calcPredictions.
+
+--------------------------------------------
+Changes in version 3.0.15 (2013-01-30)
+
+* Added boost library back in. Need to check package BH as it provides a suitable alternative. Unfortunately they don't provide the necessary header files at the moment.
+* Removed Eigen library and LinkedTo RcppEigen.
+
+

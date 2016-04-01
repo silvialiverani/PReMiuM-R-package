@@ -106,7 +106,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		for (k in 1:nCovariates){
 			tmpCov<-dataMatrix[,(1+k)]
 			xLevels[k]<-length(levels(as.factor(tmpCov)))	
-			if (!(min(tmpCov,na.rm=TRUE)==0&&max(tmpCov,na.rm=TRUE)==(xLevels[k]-1)&&sum(!is.wholenumber(tmpCov[!is.na(tmpCov)]))==0)) {
+			if(is.factor(tmpCov)){
 				print(paste("Recoding of covariate ",colnames(dataMatrix)[k+1]," as follows",sep=""))
 				tmpCovFactor<-as.factor(tmpCov)
 				tmpLevels<-levels(tmpCovFactor)
@@ -114,6 +114,17 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 				levels(tmpCovFactor)<-c(0:(xLevels[k]-1))	
 				dataMatrix[,(1+k)]<-tmpCovFactor
 				dataMatrix[,(1+k)]<-as.numeric(levels(dataMatrix[,(1+k)]))[as.integer(dataMatrix[,(1+k)])]
+
+			} else {
+				if (!(min(tmpCov,na.rm=TRUE)==0&&max(tmpCov,na.rm=TRUE)==(xLevels[k]-1)&&sum(!is.wholenumber(tmpCov[!is.na(tmpCov)]))==0)) {
+					print(paste("Recoding of covariate ",colnames(dataMatrix)[k+1]," as follows",sep=""))
+					tmpCovFactor<-as.factor(tmpCov)
+					tmpLevels<-levels(tmpCovFactor)
+					print(paste("Replacing level ",levels(tmpCovFactor)," with ",c(0:(xLevels[k]-1)),sep=""))
+					levels(tmpCovFactor)<-c(0:(xLevels[k]-1))	
+					dataMatrix[,(1+k)]<-tmpCovFactor
+					dataMatrix[,(1+k)]<-as.numeric(levels(dataMatrix[,(1+k)]))[as.integer(dataMatrix[,(1+k)])]
+				}
 			}
 		}
 	} else 	if (xModel=="Mixed"){
@@ -121,7 +132,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		for (k in 1:nDiscreteCovs){
 			tmpCov<-dataMatrix[,(1+k)]
 			xLevels[k]<-length(levels(as.factor(tmpCov)))	
-			if (!(min(tmpCov,na.rm=TRUE)==0&&max(tmpCov,na.rm=TRUE)==(xLevels[k]-1)&&sum(!is.wholenumber(tmpCov[!is.na(tmpCov)]))==0)) {
+			if(is.factor(tmpCov)){
 				print(paste("Recoding of covariate number ",colnames(dataMatrix)[k+1]," as follows",sep=""))
 				tmpCovFactor<-as.factor(tmpCov)
 				tmpLevels<-levels(tmpCovFactor)
@@ -129,6 +140,16 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 				levels(tmpCovFactor)<-c(0:(xLevels[k]-1))	
 				dataMatrix[,(1+k)]<-tmpCovFactor
 				dataMatrix[,(1+k)]<-as.numeric(levels(dataMatrix[,(1+k)]))[as.integer(dataMatrix[,(1+k)])]
+			} else {
+				if (!(min(tmpCov,na.rm=TRUE)==0&&max(tmpCov,na.rm=TRUE)==(xLevels[k]-1)&&sum(!is.wholenumber(tmpCov[!is.na(tmpCov)]))==0)) {
+					print(paste("Recoding of covariate number ",colnames(dataMatrix)[k+1]," as follows",sep=""))
+					tmpCovFactor<-as.factor(tmpCov)
+					tmpLevels<-levels(tmpCovFactor)
+					print(paste("Replacing level ",levels(tmpCovFactor)," with ",c(0:(xLevels[k]-1)),sep=""))
+					levels(tmpCovFactor)<-c(0:(xLevels[k]-1))	
+					dataMatrix[,(1+k)]<-tmpCovFactor
+					dataMatrix[,(1+k)]<-as.numeric(levels(dataMatrix[,(1+k)]))[as.integer(dataMatrix[,(1+k)])]
+				}
 			}
 		}
 	} else {
@@ -268,7 +289,15 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	#if (dPitmanYor>0&sampler=="Truncated") print("Note that for the Pitman-Yor process prior there might be en error when using the Truncated sampler. This is due to the way that the bound on the number of clusters is computed.")
 
 	#check entries for spatial CAR term
-	if (includeCAR&file.exists(neighboursFile)==FALSE) stop("You must enter a valid file for neighbourhood structure.") 
+	if (includeCAR){
+		if(file.exists(neighboursFile)==FALSE) stop("A valid file for neighbourhood structure must be included for the spatial model.") 
+		islands<-readLines(neighboursFile)
+		get_neigh_number<-function(dat){
+			strsplit(dat," ")[[1]][2]
+		}
+		n_neighbours<-lapply(islands,get_neigh_number)
+		if(0 %in% n_neighbours) stop("There cannot be areas without neighbours in the neighboursFile.")
+	}
  
 	inputString<-paste("PReMiuM --input=",fileName," --output=",output," --xModel=",xModel," --yModel=",yModel," --varSelect=",varSelectType," --whichLabelSwitch=",whichLabelSwitch," --predType=",predictType,sep="")
 
@@ -1792,7 +1821,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			profileDF<-data.frame("mu"=c(),"cluster"=c(),"muMean"=c(),
 				"lowerMu"=c(),"upperMu"=c(),"fillColor"=c())
 			if (nContinuousCovs==1){
-				muMat<-profileMu[,meanSortIndex]
+				muMat<-profileMu[,meanSortIndex,1]
 			} else {
 				muMat<-profileMu[,meanSortIndex,(j-nDiscreteCovs)]
 			}
@@ -1844,7 +1873,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			profileDF<-data.frame("sigma"=c(),"cluster"=c(),"sigmaMean"=c(),
 				"lowerSigma"=c(),"upperSigma"=c(),"fillColor"=c())
 			if (nContinuousCovs==1){
-				sigmaMat<-profileStdDev[,meanSortIndex]
+				sigmaMat<-profileStdDev[,meanSortIndex,1,1]
 			} else {
 				sigmaMat<-profileStdDev[,meanSortIndex,(j-nDiscreteCovs),(j-nDiscreteCovs)]
 			}
@@ -2883,7 +2912,7 @@ plotPredictions<-function(outfile,runInfoObj,predictions,logOR=FALSE){
 	
 	denObj<-vector(mode="list")
 	for(i in 1:nPredictSubjects){
-		denObj[[i]]<-density(na.omit(preds[,i]),bw=0.8)
+		denObj[[i]]<-density(na.omit(preds[,i]))#,bw=0.8) # removed over smoothing of predictions
 	}
 	
 	for(k in 1:nPredictSubjects){

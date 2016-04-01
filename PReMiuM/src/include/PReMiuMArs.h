@@ -93,41 +93,24 @@ double ARSsampleNu(pReMiuMParams params,
                  baseGeneratorType& rndGenerator)
 {
 	//initialise sampler
-	const int ns=100;
+	const int ns=10;
 	vector<double> xTmp;
 	double ui=0, xlb, xub;
 	int lb, ub;
-	const int m = 20;
+	const int m = 5;
 	xTmp.resize(m);
 	ui=params.nu(cluster);	
 	xlb=0.000001;
-	xub=0;
+	xub=100;
 	lb=1; //true
-	ub=0; //false
-	xTmp[0] = 0.00001;
-	xTmp[1] = 0.00005;
-	xTmp[2] = 0.0001;
-	xTmp[3] = 0.0005;
-	xTmp[4] = 0.001;
-	xTmp[5] = 0.005;
-	xTmp[6] = 0.01;
-	xTmp[7] = 0.05;
-	xTmp[8] = 0.1;
-	xTmp[9] = 0.5;
-	xTmp[10] = 1;
-	xTmp[11] = 1.1;
-	xTmp[12] = 1.5;
-	xTmp[13] = 2;
-	xTmp[14] = 2.5;
-	xTmp[15] = 3;
-	xTmp[16] = 5;
-	xTmp[17] = 10;
-	xTmp[18] = 50;
-	xTmp[19] = ui;
+	ub=1; //false
+	xTmp[0] = xlb;
+        xTmp[1] = ui+0.1;
+        xTmp[2] = ui+0.5;
+        xTmp[3] = ui+2;
+        xTmp[4] = ui+5;
 // can try to remove some of these points on the x axis to improve efficiency
-
 	double* x = &xTmp[0];
-
 	double hx[m];
 	double hpx[m];
 	double y1=0;

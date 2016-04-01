@@ -2536,7 +2536,6 @@ void gibbsForNu(mcmcChain<pReMiuMParams>& chain,
 
 	nTry++;
 	nAccept++;
-
 	if (weibullFixedShape){
 		double nu = ARSsampleNu(currentParams, model, 0,logNuPostSurvival,rndGenerator);
 		currentParams.nu(0,nu);
@@ -2640,10 +2639,10 @@ void gibbsForUCAR(mcmcChain<pReMiuMParams>& chain,
 	        		meanUi+=ucarj;
 			}
 			meanUi/=nNeighi;	
-			double mUCAR = 1/currentParams.sigmaSqY()*(-dataset.continuousY(iSub)+currentParams.theta(Zi,0)+betaW)+currentParams.TauCAR()*nNeighi*meanUi;
+			double mUCAR = 1/currentParams.sigmaSqY()*(dataset.continuousY(iSub)-currentParams.theta(Zi,0)-betaW)+currentParams.TauCAR()*nNeighi*meanUi;
 			mUCAR = mUCAR * sigmaSqUCAR;
 			randomNormal normRand(0,1);
-			tempU[iSub]=sigmaSqUCAR*normRand(rndGenerator)+mUCAR;
+			tempU[iSub]=sqrt(sigmaSqUCAR)*normRand(rndGenerator)+mUCAR;
 		}
 	}
 	double meanU=0.0;

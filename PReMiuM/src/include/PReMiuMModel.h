@@ -2887,10 +2887,11 @@ void logNuPostSurvival(const pReMiuMParams& params,
 			int zi=params.z(i);
 			if (zi==(int)cluster) dlogY += log(y[i]) * censoring[i];
 		}
-	}	
+	}
 	y1=dCensored * log(x) - yNu + x * dlogY + (hyperParams.shapeNu()-1) * log(x) - hyperParams.scaleNu() * x;
 	// derivative of y1
 	y2=dCensored / x - yNulogy + dlogY + (hyperParams.shapeNu()-1) / x - hyperParams.scaleNu();
+
 	*Pt_y1=y1;
 	*Pt_y2=y2;
 }

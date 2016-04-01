@@ -52,10 +52,10 @@ expon_(const double *x, const double *emax)            /* exponential without un
 	y12 = *y1 + *yp1 * (*x2 - *x1);
 	y21 = *y2 + *yp2 * (*x1 - *x2);
 	if (y21 < *y1 || y12 < *y2) {
-	//      REprintf("\nTrap: non-logcocavity detected by ARS intersection_ function\ny21=%15.15e, y12=%15.15e\n", y21, y12);
-	//      REprintf("*x1=%15.10e, *x2=%15.10e, *y1=%15.15e, *y2=%15.15e, *yp1=%15.10e, *yp2=%15.10e\n", *x1, *x2, *y1, *y2, *yp1, *yp2);
-	//      if (y21 < *y1) REprintf("y21 < *y1\n");
-	//      if (y12 < *y2) REprintf("y12 < *y2\n");
+	      REprintf("\nTrap: non-logcocavity detected by ARS intersection_ function\ny21=%15.15e, y12=%15.15e\n", y21, y12);
+	      REprintf("*x1=%15.10e, *x2=%15.10e, *y1=%15.15e, *y2=%15.15e, *yp1=%15.10e, *yp2=%15.10e\n", *x1, *x2, *y1, *y2, *yp1, *yp2);
+	      if (y21 < *y1) REprintf("y21 < *y1\n");
+	      if (y12 < *y2) REprintf("y12 < *y2\n");
 	*ifault = 5;
 	return;
 	}
@@ -142,6 +142,8 @@ expon_(const double *x, const double *emax)            /* exponential without un
 	--scum;
 	--ipt;
 
+x[0]=0.00001;
+
 	/* Function Body */
 	++(*n);
 	/* update z,huz and ipt */
@@ -155,6 +157,7 @@ expon_(const double *x, const double *emax)            /* exponential without un
 		ipt[*n] = *ilow;
 		intersection_(&x[*n],      &hx[*n],  &hpx[*n], &x[*ilow], &hx[*ilow],
 			&hpx[*ilow], &z__[*n], &huz[*n], eps,       ifault);
+
 		if (*ifault != 0) {
 		return;
 		}
@@ -163,6 +166,7 @@ expon_(const double *x, const double *emax)            /* exponential without un
 		}
 		*ilow = *n;
 	} else {
+
 		i__ = *ilow;
 		j = i__;
 	/* find where to insert x(n) */
@@ -174,7 +178,7 @@ expon_(const double *x, const double *emax)            /* exponential without un
 	/* insert above x(ihigh) */
 	/*   test for non-concavity */
 		if (hpx[i__] < hpx[*n]) {
-	//   	        REprintf("Trap: non-logcocavity detected by ARS update_ function\nhpx[i__]=%e, hpx[*n]=%e\n", hpx[i__], hpx[*n]);
+	   	        REprintf("Trap: non-logcocavity detected by ARS update_ function\nhpx[i__]=%e, hpx[*n]=%e\n", hpx[i__], hpx[*n]);
 			*ifault = 5;
 		}
 		*ihigh = *n;
@@ -192,7 +196,7 @@ expon_(const double *x, const double *emax)            /* exponential without un
 	/* insert x(n) between x(j) and x(i) */
 	/*   test for non-concavity */
 		if (hpx[j] < hpx[*n] || hpx[i__] > hpx[*n]) {
-	//	      REprintf("Trap: non-logcocavity detected by ARS update_ function\nhpx[j]=%e, hpx[i__]=%e, hpx[*n]=%e\n", hpx[j], hpx[i__], hpx[*n]);
+		      REprintf("Trap: non-logcocavity detected by ARS update_ function\nhpx[j]=%e, hpx[i__]=%e, hpx[*n]=%e\n", hpx[j], hpx[i__], hpx[*n]);
 		*ifault = 5;
 		}
 		ipt[j] = *n;
