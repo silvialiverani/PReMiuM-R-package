@@ -1,5 +1,13 @@
+Changes in version 3.1.2 (2015-08-26)
+
+* Fixed bug in order of clusters plotted for yModel=Categorical in plotRiskProfile
+* Fixed bug for predictions introduced in previous release
+
+--------------------------------------------
 Changes in version 3.1.1 (2015-03-18)
 
+* Added description of output files in the manual
+* Fixed bug in the function plotRiskProfile for xModel="Mixed" when only one Discrete covariate is provided
 * Updated citation file
 * Fixed bug in p(Z) for marginal model posterior
 * Added conjugate Normal inverse Whishart prior for Normal covariates (Aurore Lavigne)

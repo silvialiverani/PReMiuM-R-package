@@ -27,7 +27,7 @@ profRegr(covNames, fixedEffectsNames, outcome="outcome",
 At each iteration the predictive subjects are assigned to one of the current
 clusters according to their covariate profiles (but ignoring missing values), or
 their Rao Blackwellised estimate of theta is recorded (a weighted average of all
-theta, weighted by the probability of allocation into each cluster. For Normal response they can also be randomly allocated. See also the option predictType below.
+theta, weighted by the probability of allocation into each cluster. For Normal and Quantile response they can also be randomly allocated. See also the option predictType below.
 
 The predictive subjects have no impact on the likelihood and so do not determine
 the clustering or parameters at each iteration. The predictive allocations are
@@ -36,9 +36,9 @@ then be processed in the post processing to create a dissimilarity matrix with
 the fitting subjects. The post procesing function calcPredictions will create
 predicted response values for these subjects.
 
-See ?calcPredictions for more details and examples. For Normal response, 
+See ?calcPredictions for more details and examples. 
 }
-\item{predictType}{This can be set equal to "RaoBlackwell" and "random". The default is RaoBlackwell. The random option can only be used for Normal response, where the estimated variance of the clusters is considered and the predictive subjects are randomly assigned to a mixture component and then are also randomly sampled within that component.}
+\item{predictType}{This can be set equal to "RaoBlackwell" and "random". The default is RaoBlackwell. The random option can only be used for Normal and Quantile response, where the estimated variance of the clusters is considered and the predictive subjects are randomly assigned to a mixture component and then are also randomly sampled within that component.}
 \item{nSweeps}{Number of iterations of the MCMC after the burn-in period. By default this is 1000.}
 \item{nBurn}{Number of initial iterations of the MCMC to be discarded. By default this is 1000.}
 \item{reportBurnIn}{If TRUE then the burn in iterations are reported in the output files, if set to FALSE they are not. It is set to FALSE by default.}
@@ -46,7 +46,7 @@ See ?calcPredictions for more details and examples. For Normal response,
 \item{nFilter}{The frequency (in sweeps) with which to write the output to file. The default value is 1.}
 \item{nClusInit}{The number of clusters individuals should be initially randomly assigned to (Unif[50,60]).}
 \item{seed}{The value for the seed for the random number generator. The default value is the current time.}
-\item{yModel}{The model type for the outcome variable. The options currently available are "Bernoulli", "Poisson", "Binomial", "Categorical", "Normal" and "Survival". The default value is Bernoulli.}
+\item{yModel}{The model type for the outcome variable. The options currently available are "Bernoulli", "Poisson", "Binomial", "Categorical", "Normal", "Quantile" and "Survival". The default value is Bernoulli.}
 \item{xModel}{The model type for the covariates. The options currently available are "Discrete", "Normal" and "Mixed". The default value is "Discrete".}
 \item{sampler}{The sampler type to be used. Options are "SliceDependent", "SliceIndependent" and "Truncated".  The default value is "SliceDependent".}
 \item{alpha}{The value to be used if alpha is fixed. If a value smaller than or equal to -1 is used then alpha is random, if dPitmanYor is equal to zero (the random alpha option is available for Dirichlet process prior only). The default value is -2 (random alpha). For fixed alpha, if dPitmanYor is in the interval (0,1) then a Pitman-Yor process prior is used instead of a Dirichlet process prior.}

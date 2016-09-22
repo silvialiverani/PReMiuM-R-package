@@ -364,10 +364,10 @@
 	y12 = *y1 + *yp1 * (*x2 - *x1);
 	y21 = *y2 + *yp2 * (*x1 - *x2);
 	if (y21 < *y1 || y12 < *y2) {
-	//      REprintf("\nTrap: non-logcocavity detected by ARS intersection_ function\ny21=%15.15e, y12=%15.15e\n", y21, y12);
-	//      REprintf("*x1=%15.10e, *x2=%15.10e, *y1=%15.15e, *y2=%15.15e, *yp1=%15.10e, *yp2=%15.10e\n", *x1, *x2, *y1, *y2, *yp1, *yp2);
-	//      if (y21 < *y1) REprintf("y21 < *y1\n");
-	//      if (y12 < *y2) REprintf("y12 < *y2\n");
+	      REprintf("\nTrap: non-logcocavity detected by ARS intersection_ function\ny21=%15.15e, y12=%15.15e\n", y21, y12);
+	      REprintf("*x1=%15.10e, *x2=%15.10e, *y1=%15.15e, *y2=%15.15e, *yp1=%15.10e, *yp2=%15.10e\n", *x1, *x2, *y1, *y2, *yp1, *yp2);
+	      if (y21 < *y1) REprintf("y21 < *y1\n");
+	      if (y12 < *y2) REprintf("y12 < *y2\n");
 	*ifault = 5;
 	return;
 	}

@@ -93,6 +93,10 @@ double logPdfNormal(const double& x, const double& mu, const double& sigma){
 	return -0.5*log(2*pi<double>())-log(sigma)-0.5*(x-mu)*(x-mu)/(sigma*sigma);
 }
 
+double logPdfQuantile(const double& x, const double& mu, const double& sigma, const double& pQuantile){
+	return log(pQuantile)+log(1-pQuantile)-log(sigma)-(abs((x-mu)/sigma)+(2*pQuantile-1)*(x-mu)/sigma)/2;
+}
+
 double logPdfPoisson(const unsigned int &x, const double& mu){
 	return (double)x*log(mu) -mu - lgamma((double)x+1);
 }

@@ -2536,7 +2536,7 @@ void gibbsForNu(mcmcChain<pReMiuMParams>& chain,
 
 	nTry++;
 	nAccept++;
-
+std::cout<<"ok1"<<std::endl;
 	if (weibullFixedShape){
 		double nu = ARSsampleNu(currentParams, model, 0,logNuPostSurvival,rndGenerator);
 		currentParams.nu(0,nu);
@@ -2546,6 +2546,7 @@ void gibbsForNu(mcmcChain<pReMiuMParams>& chain,
 			currentParams.nu(c,nu);
 		}
 	}
+std::cout<<"ok2"<<std::endl;
 }
 
 
@@ -2557,8 +2558,6 @@ void gibbsForTauCAR(mcmcChain<pReMiuMParams>& chain,
 										pReMiuMData>& model,
 						pReMiuMPropParams& propParams,
 						baseGeneratorType& rndGenerator){
-
-
 
 	mcmcState<pReMiuMParams>& currentState = chain.currentState();
 	pReMiuMParams& currentParams = currentState.parameters();
@@ -2590,6 +2589,7 @@ void gibbsForTauCAR(mcmcChain<pReMiuMParams>& chain,
 
 	a+=(double)(nSubjects-1)/2.0;
 	b+=sumCAR/2.0;
+
 
 	// Boost uses shape and scale parameterisation
 	randomGamma gammaRand(a,1.0/b);
@@ -2723,7 +2723,6 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 	// Compute the allocation probabilities in terms of the unique vectors
 	vector<vector<double> > logPXiGivenZi;
 	logPXiGivenZi.resize(nSubjects+nPredictSubjects);
-
 	if(covariateType.compare("Discrete")==0){
 		for(unsigned int i=0;i<nSubjects;i++){
 			logPXiGivenZi[i].resize(maxNClusters,0);
@@ -2755,6 +2754,7 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 				}
 			}
 		}
+
 	}else if(covariateType.compare("Normal")==0){
 		for(unsigned int i=0;i<nSubjects;i++){
 			logPXiGivenZi[i].resize(maxNClusters,0.0);
@@ -2912,7 +2912,6 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 		}
 
 	}
-
 	double (*logPYiGivenZiWi)(const pReMiuMParams&, const pReMiuMData&,
 											const unsigned int&,const int&,
 											const unsigned int&)=NULL;
@@ -3085,7 +3084,6 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 
 	currentParams.workNXInCluster(nMembers);
 	currentParams.workMaxZi(maxZ);
-
 }
 
 
@@ -3100,6 +3098,7 @@ void updateMissingPReMiuMData(baseGeneratorType& rndGenerator,
 	unsigned int nContinuousCovs = dataset.nContinuousCovs();
 	vector<unsigned int> nCategories = params.nCategories();
 	string covariateType = options.covariateType();
+	unsigned int& nPredictSubjects=dataset.nPredictSubjects();
 
 	// Define a uniform random number generator
 	randomUniform unifRand(0,1);
@@ -3108,7 +3107,8 @@ void updateMissingPReMiuMData(baseGeneratorType& rndGenerator,
 	// to and then sample for the appropriate
 	if(covariateType.compare("Discrete")==0){
 		// We don't update the predictive subjects as their X values which
-		// were missing are not used anywhere
+		// were missing are not used anywhere 
+		// change: we now compute them because we are interested in looking at their posterior predictive distributions
 		for(unsigned int i=0;i<nSubjects;i++){
 			int zi = params.z(i);
 			for(unsigned int j=0;j<nCovariates;j++){

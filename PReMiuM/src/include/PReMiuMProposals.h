@@ -2518,6 +2518,44 @@ void gibbsForSigmaSqY(mcmcChain<pReMiuMParams>& chain,
 
 }
 
+// Gibbs for update of sigmaSqYQuantile (Quantile response case)
+void gibbsForSigmaSqYQuantile(mcmcChain<pReMiuMParams>& chain,
+				unsigned int& nTry,unsigned int& nAccept,
+				const mcmcModel<pReMiuMParams, pReMiuMOptions, pReMiuMData>& model, pReMiuMPropParams& 					propParams, baseGeneratorType& rndGenerator){
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+
+	const pReMiuMData& dataset = model.dataset();
+
+	unsigned int nSubjects = currentParams.nSubjects();
+	unsigned int nFixedEffects = dataset.nFixedEffects();
+	double pQuantile = hyperParams.pQuantile();
+
+	nTry++;
+	nAccept++;
+
+	double sumVal=0.0;
+	for(unsigned int i=0;i<nSubjects;i++){
+		int Zi = currentParams.z(i);
+		double mu = currentParams.theta(Zi,0);
+		for(unsigned int j=0;j<nFixedEffects;j++){
+			mu+=currentParams.beta(j,0)*dataset.W(i,j);
+		}
+
+		sumVal+=(abs(dataset.continuousY(i)-mu)+(2*pQuantile-1)*(dataset.continuousY(i)-mu))/2;
+	}
+      
+	double posteriorShape = hyperParams.shapeSigmaSqY()+(double)nSubjects;
+	double posteriorScale = hyperParams.scaleSigmaSqY()+sumVal;
+        
+	randomGamma gammaRand(posteriorShape,1.0/posteriorScale);
+	double sigmaSqY=1.0/gammaRand(rndGenerator);
+	currentParams.sigmaSqY(sigmaSqY);
+
+}
+
+
 // Gibbs for update of nu (survival response case) using adaptive rejection sampling
 void gibbsForNu(mcmcChain<pReMiuMParams>& chain,
 		unsigned int& nTry,unsigned int& nAccept,
@@ -2927,6 +2965,8 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 				}
 			}else if(outcomeType.compare("Normal")==0){
 				logPYiGivenZiWi = &logPYiGivenZiWiNormal;
+			}else if(outcomeType.compare("Quantile")==0){
+				logPYiGivenZiWi = &logPYiGivenZiWiQuantile;
 			}else if(outcomeType.compare("Categorical")==0){
 				logPYiGivenZiWi = &logPYiGivenZiWiCategorical;
 			}else if(outcomeType.compare("Survival")==0){
@@ -3041,10 +3081,19 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 				while(cumPzGivenXy[c]<=u){
 					c++;	
 				}
-				// draw from the normal distribution of that sample (only for yModel=Normal)
-				// Create a normal random generator
-				randomNormal normRand(0,1);
-				expectedTheta[0]=sqrt(currentParams.sigmaSqY())*normRand(rndGenerator)+currentParams.theta(c,0);
+				if(outcomeType.compare("Quantile")==0){
+					double u1=unifRand(rndGenerator);
+					double u2=unifRand(rndGenerator);
+					double EXP1 = -log(u1);
+					double EXP2 = -log(u2);
+					double r= EXP1/hyperParams.pQuantile()-EXP2/(1-hyperParams.pQuantile());
+					expectedTheta[0]=sqrt(currentParams.sigmaSqY())*r+currentParams.theta(c,0);
+				}else{ 
+					// draw from the normal distribution of that sample (only for yModel=Normal)
+					// Create a normal random generator
+					randomNormal normRand(0,1);
+					expectedTheta[0]=sqrt(currentParams.sigmaSqY())*normRand(rndGenerator)+currentParams.theta(c,0);
+				}
 			}
 		}		
 		unsigned int zi;

@@ -166,7 +166,7 @@ generateSampleDataFile<-function(clusterSummary){
 		nTrials<-NULL
 	}
 
-	if(outcomeType=='Normal'){
+	if(outcomeType=='Normal'||outcomeType=='Quantile'){
 		sigmaSqY=clusterSummary$sigmaSqY
 	}
 
@@ -214,6 +214,8 @@ generateSampleDataFile<-function(clusterSummary){
 			Y[i]<-sum(runif(nTrials[i])<p)
 		}else if(outcomeType=='Normal'){
 			Y[i]<-rnorm(1,mu+U[i],sqrt(sigmaSqY))
+		}else if(outcomeType=='Quantile'){
+		  Y[i]<-rALD(1,mu+U[i],sqrt(sigmaSqY),p=0.75)
 		}else if (outcomeType=='Categorical'){
 			p<-vector()
 			sumMu<-sum(exp(mu))		
@@ -799,6 +801,35 @@ clusSummaryWeibullDiscrete<-function(){
 
 
 
+clusSummaryQuantileNormal<-function(){
+  list(
+    'outcomeType'='Quantile',
+    'covariateType'='Normal',
+    'nCovariates'=1,
+    'nFixedEffects'=0,
+    'sigmaSqY'=1,
+    'missingDataProb'=0,
+    'nClusters'=5,
+    'clusterSizes'=c(600,200,400,300,800),
+    'includeCAR'=FALSE,
+    'TauCAR'=100,
+    'clusterData'=list(
+      list('theta'=-2,
+           'covariateMeans'= 0,
+           'covariateCovariance'=6),
+      list('theta'= 0,
+           'covariateMeans'= 6,
+           'covariateCovariance'=7),
+      list('theta'= 3,
+           'covariateMeans'= -8,
+           'covariateCovariance'=4),
+      list('theta'=-6,
+           'covariateMeans'= -3,
+           'covariateCovariance'=10),
+      list('theta'= 6,
+           'covariateMeans'= 5,
+           'covariateCovariance'=17)))
+}
 
 
 

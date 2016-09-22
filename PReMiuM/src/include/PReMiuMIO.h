@@ -99,11 +99,12 @@ pReMiuMOptions processCommandLine(string inputStr){
 			Rprintf("--nFilter=<unsigned int>\n\tThe frequency (in sweeps) with which to write\n\tthe output to file (1)\n");
 			Rprintf("--nClusInit=<unsigned int>\n\tThe number of clusters individuals should be\n\tinitially randomly assigned to (Unif[50,60])\n");
 			Rprintf("--seed=<unsigned int>\n\tThe value for the seed for the random number\n\tgenerator (current time)\n");
-			Rprintf("--yModel=<string>\n\tThe model type for the outcome variable. Options are\n\tcurrently 'Bernoulli','Poisson','Binomial', 'Categorical', 'Survival' and 'Normal' (Bernoulli)\n");
+			Rprintf("--yModel=<string>\n\tThe model type for the outcome variable. Options are\n\tcurrently 'Bernoulli','Poisson','Binomial', 'Categorical', 'Survival', 'Normal' and 'Quantile' (Bernoulli)\n");
 			Rprintf("--xModel=<string>\n\tThe model type for the covariates. Options are\n\tcurrently 'Discrete', 'Normal' and 'Mixed' (Discrete)\n");
 			Rprintf("--sampler=<string>\n\tThe sampler type to be used. Options are\n\tcurrently 'SliceDependent', 'SliceIndependent' and 'Truncated' (SliceDependent)\n");
 			Rprintf("--alpha=<double>\n\tThe value to be used if alpha is to remain fixed.\n\tIf a negative value is used then alpha is updated (-2)\n");
 			Rprintf("--dPitmanYor=<double>\n\tThe value to be used for the discount parameter of the Pitman-Yor process prior.\n\tThe default corresponds to the Dirichlet process prior (0)\n");
+			Rprintf("--pQuantile=<double>\n\tThe quantile for the Quantile y-model.\n");
 			Rprintf("--excludeY\n\tIf included only the covariate data X is modelled (not included)\n");
 			Rprintf("--extraYVar\n\tIf included extra Gaussian variance is included in the\n\tresponse model (not included).\n");
 			Rprintf("--varSelect=<string>\n\tThe type of variable selection to be used 'None',\n\t'BinaryCluster' or 'Continuous' (None)\n");
@@ -166,7 +167,8 @@ pReMiuMOptions processCommandLine(string inputStr){
 					string outcomeType = inString.substr(pos,inString.size()-pos);
 					if(outcomeType.compare("Poisson")!=0&&outcomeType.compare("Bernoulli")!=0&&
 							outcomeType.compare("Categorical")!=0&&outcomeType.compare("Survival")!=0&&
-							outcomeType.compare("Binomial")!=0&&outcomeType.compare("Normal")!=0){
+							outcomeType.compare("Binomial")!=0&&
+							outcomeType.compare("Normal")!=0&&outcomeType.compare("Quantile")!=0){
 						// Illegal outcome model entered
 						wasError=true;
 						break;
@@ -178,6 +180,10 @@ pReMiuMOptions processCommandLine(string inputStr){
 					}
 					if(outcomeType.compare("Survival")==0&&options.responseExtraVar()){
 						Rprintf("Response extra variation not permitted with Survival response\n");			
+						options.responseExtraVar(false);
+					}
+					if(outcomeType.compare("Quantile")==0&&options.responseExtraVar()){
+						Rprintf("Response extra variation not permitted with Quantile response\n");			
 						options.responseExtraVar(false);
 					}
 				}else if(inString.find("--xModel")!=string::npos){
@@ -233,6 +239,8 @@ pReMiuMOptions processCommandLine(string inputStr){
 						Rprintf("Response extra variation not permitted with Normal response\n");
 					}
 					if(options.outcomeType().compare("Survival")==0) Rprintf("Response extra variation not permitted with Survival response\n");
+					if(options.outcomeType().compare("Quantile")==0) Rprintf("Response extra variation not permitted with Quantile response\n");
+
 				}else if(inString.find("--varSelect")!=string::npos){
 					size_t pos = inString.find("=")+1;
 					string varSelectType = inString.substr(pos,inString.size()-pos);
@@ -409,7 +417,7 @@ void importPReMiuMData(const string& fitFilename,const string& predictFilename, 
 	vector<double> meanX(nCovariates,0);
 	vector<unsigned int> nXNotMissing(nCovariates,0);
 	for(unsigned int i=0;i<nSubjects;i++){
-		if(outcomeType.compare("Normal")==0||outcomeType.compare("Survival")==0){
+		if(outcomeType.compare("Normal")==0||outcomeType.compare("Survival")==0||outcomeType.compare("Quantile")==0){
 			inputFile >> continuousY[i];
 		}else{
 			inputFile >> discreteY[i];
@@ -794,6 +802,11 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 			string tmpStr = inString.substr(pos,inString.size()-pos);
 			double scaleSigmaSqY = (double)atof(tmpStr.c_str());
 			hyperParams.scaleSigmaSqY(scaleSigmaSqY);
+		}else if(inString.find("pQuantile")==0){
+			size_t pos = inString.find("=")+1;
+			string tmpStr = inString.substr(pos,inString.size()-pos);
+			double pQuantile = (double)atof(tmpStr.c_str());
+			hyperParams.pQuantile(pQuantile);
 		}else if(inString.find("shapeNu")==0){
 			size_t pos = inString.find("=")+1;
 			string tmpStr = inString.substr(pos,inString.size()-pos);
@@ -1429,7 +1442,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 			}
 		}
 
-		if(outcomeType.compare("Normal")==0){
+		if(outcomeType.compare("Normal")==0||outcomeType.compare("Quantile")==0){
 			randomGamma gammaRand(hyperParams.shapeSigmaSqY(),1.0/hyperParams.scaleSigmaSqY());
 			double sigmaSqY=1.0/(gammaRand(rndGenerator));
 			params.sigmaSqY(sigmaSqY);
@@ -1588,7 +1601,7 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 				outFiles.push_back(new ofstream(fileName.c_str()));
 				fileName = fileStem + "_betaProp.txt";
 				outFiles.push_back(new ofstream(fileName.c_str()));
-				if(outcomeType.compare("Normal")==0){
+				if(outcomeType.compare("Normal")==0||outcomeType.compare("Quantile")==0){
 					fileName = fileStem + "_sigmaSqY.txt";
 					outFiles.push_back(new ofstream(fileName.c_str()));
 				}
@@ -1677,7 +1690,7 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 			betaInd=r++;
 			thetaPropInd=r++;
 			betaPropInd=r++;
-			if(outcomeType.compare("Normal")==0){
+			if(outcomeType.compare("Normal")==0||outcomeType.compare("Quantile")==0){
 				sigmaSqYInd=r++;
 			}
 			if(outcomeType.compare("Survival")==0){
@@ -1877,7 +1890,7 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 					}
 				}
 			} else {
-				if(outcomeType.compare("Normal")==0){
+				if(outcomeType.compare("Normal")==0||outcomeType.compare("Quantile")==0){
 					*(outFiles[sigmaSqYInd]) << params.sigmaSqY() << endl;
 				}
 				if(outcomeType.compare("Survival")==0){
@@ -2258,6 +2271,13 @@ string storeLogFileData(const pReMiuMOptions& options,
 		tmpStr << "shapeSigmaSqY: " << hyperParams.shapeSigmaSqY() << endl;
 		tmpStr << "scaleSigmaSqY: " << hyperParams.scaleSigmaSqY() << endl;
 	}
+
+	if(dataset.outcomeType().compare("Quantile")==0){
+		tmpStr << "shapeSigmaSqY: " << hyperParams.shapeSigmaSqY() << endl;
+		tmpStr << "scaleSigmaSqY: " << hyperParams.scaleSigmaSqY() << endl;
+		tmpStr << "pQuantile: " << hyperParams.pQuantile() << endl;
+	}
+
 	if(dataset.outcomeType().compare("Survival")==0){
 		tmpStr << "Weibull with fixed shape parameter: " << options.weibullFixedShape() << endl;
 		tmpStr << "shapeNu: " << hyperParams.shapeNu() << endl;

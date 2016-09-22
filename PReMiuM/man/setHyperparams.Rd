@@ -14,7 +14,7 @@ setHyperparams(shapeAlpha=NULL,rateAlpha=NULL,
      nu0=NULL,muTheta=NULL,sigmaTheta=NULL,dofTheta=NULL,muBeta=NULL,
      sigmaBeta=NULL,dofBeta=NULL,shapeTauEpsilon=NULL,
      rateTauEpsilon=NULL,aRho=NULL,bRho=NULL,atomRho=NULL,shapeSigmaSqY=NULL,
-     scaleSigmaSqY=NULL,rSlice=NULL,truncationEps=NULL,
+     scaleSigmaSqY=NULL,pQuantile=NULL,rSlice=NULL,truncationEps=NULL,
      shapeTauCAR=NULL,rateTauCAR=NULL,shapeNu=NULL,scaleNu=NULL,
      initAlloc=NULL)
 }
@@ -41,6 +41,7 @@ setHyperparams(shapeAlpha=NULL,rateAlpha=NULL,
 \item{atomRho}{Parameter for the probability for the atom at zero, i.e. the 0.5 probability in w_j distributed Bernoulli(0.5) in the formulation of the sparsity inducing prior (default=0.5). This parameter must be in the interval (0,1], where atomRho=1 corresponds to the case where the prior for rho is a Beta(aRho,bRho).}
 \item{shapeSigmaSqY}{Shape parameter of inverse-gamma prior for sigma_Y^2 (only used in the Normal response model, default =2.5)}
 \item{scaleSigmaSqY}{Scale parameter of inverse-gamma prior for sigma_Y^2 (only used in the Normal response model, default =2.5)}
+\item{pQuantile}{Quantile for the yModel=Quantile option (default = 0.5)}
 \item{rSlice}{Slice parameter for independent slice sampler such that xi_c = (1-rSlice)*rSlice^c for c=0,1,2,... (only used for slice independent sampler i.e. sampler=SliceIndependent, default 0.75).}
 \item{truncationEps}{Parameter for determining the truncation level of the finite Dirichlet process (only used for truncated sampler i.e. sampler=Truncated}
 \item{shapeTauCAR}{Shape parameter for gamma distribution for precision TauCAR of spatial CAR term (only used if a spatial term is included i.e. includeCAR argument is TRUE, default=0.001)}

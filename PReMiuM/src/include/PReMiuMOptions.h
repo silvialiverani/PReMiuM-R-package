@@ -447,7 +447,7 @@ class pReMiuMOptions{
 		bool _includeCAR;
 		// Neighbours structure file name
 		string _neighbourFileName;
-		// The type of predictions (RaoBlackwell or random - which is only for yModel=Normal)
+		// The type of predictions (RaoBlackwell or random - which is only for yModel=Normal or yModel=Quantile)
 		string _predictType;
 		// For Survival response, whether the weibull shape parameter is fixed or cluster specific
 		bool _weibullFixedShape;

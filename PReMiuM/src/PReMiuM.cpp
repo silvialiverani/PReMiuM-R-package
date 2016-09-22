@@ -57,7 +57,6 @@ using std::time;
 using std::string;
 
 RcppExport SEXP profRegr(SEXP inputString) {
-
 	string inputStr = Rcpp::as<string>(inputString);
 
 	/* ---------- Start the timer ------------------*/
@@ -296,7 +295,10 @@ RcppExport SEXP profRegr(SEXP inputString) {
 			// Gibbs for sigmaSqY for Normal response model
 			pReMiuMSampler.addProposal("gibbsForSigmaSqY",1.0,1,1,&gibbsForSigmaSqY);
 		}
-
+                if(options.outcomeType().compare("Quantile")==0){
+			// Gibbs for sigmaSqY for Quantile response model
+			pReMiuMSampler.addProposal("gibbsForSigmaSqYQuantile",1.0,1,1,&gibbsForSigmaSqY);
+		}
 		if(options.outcomeType().compare("Survival")==0){
 			if (options.weibullFixedShape()) {
 			// Gibbs for shape parameter of Weibull for survival response model
@@ -341,6 +343,7 @@ RcppExport SEXP profRegr(SEXP inputString) {
 	return Rcpp::wrap(0);
 	// alternative output
 	// return Rcpp::List::create(Rcpp::Named("yModel")=options.outcomeType());
+
 
 }
 
