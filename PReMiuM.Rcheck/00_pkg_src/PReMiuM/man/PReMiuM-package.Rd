@@ -38,8 +38,8 @@ Dirichlet process Bayesian clustering and functions for the post-processing of i
 \tabular{ll}{
 Package: \tab PReMiuM\cr
 Type: \tab Package\cr
-Version: \tab 3.1.2\cr
-Date: \tab 2015-08-26\cr
+Version: \tab 3.1.3\cr
+Date: \tab 2015-11-30\cr
 License: \tab GPL2\cr
 LazyLoad: \tab yes\cr
 }
@@ -77,7 +77,7 @@ Hypertension 64 (6), 1198-1204. Available at http://www.ncbi.nlm.nih.gov/pubmed/
 
 Silvia Liverani, David I. Hastie, Lamiae Azizi, Michail Papathomas, Sylvia Richardson (2015). PReMiuM: An R Package for Profile Regression Mixture Models Using Dirichlet Processes. Journal of Statistical Software, 64(7), 1-30. URL http://www.jstatsoft.org/v64/i07/.
 
-Hastie, D. I., Liverani, S. and Richardson, S. (2014) Sampling from Dirichlet process mixture models with unknown concentration parameter: Mixing issues in large data implementations. \emph{Forthcoming in the Statistics \& Computing}. Available at http://link.springer.com/article/10.1007%2Fs11222-014-9471-3
+Hastie, D. I., Liverani, S. and Richardson, S. (2014) Sampling from Dirichlet process mixture models with unknown concentration parameter: Mixing issues in large data implementations. \emph{Statistics \& Computing}. Available at http://link.springer.com/article/10.1007%2Fs11222-014-9471-3
 
 }
 

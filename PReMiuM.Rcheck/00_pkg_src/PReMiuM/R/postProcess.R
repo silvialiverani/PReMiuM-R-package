@@ -23,7 +23,7 @@
 
 is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
 
-profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, predictType="RaoBlackwell", nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-2, dPitmanYor=0, excludeY=FALSE, extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE, run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123", includeCAR=FALSE, neighboursFile="Neighbours.txt",weibullFixedShape=TRUE, useNormInvWishPrior=FALSE){
+profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, predictType="RaoBlackwell", nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-2, dPitmanYor=0, excludeY=FALSE, extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE, run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123", includeCAR=FALSE, neighboursFile="Neighbours.txt",uCARinit=FALSE,weibullFixedShape=TRUE, useNormInvWishPrior=FALSE){
 
 	# suppress scientific notation
 	options(scipen=999)
@@ -37,13 +37,11 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	
 	if (!is.data.frame(data)) stop("Input data must be a data.frame with outcome, covariates and fixed effect names as column names.")
 
-	if (extraYVar==TRUE&(yModel=="Categorical"||yModel=="Normal"||yModel=="Survival")) stop("Option extraYVar is only available for Bernoulli, Binomial and Poisson response.")
+	if (extraYVar==TRUE&(yModel=="Categorical"||yModel=="Normal"||yModel=="Survival"||yModel=="Quantile")) stop("Option extraYVar is only available for Bernoulli, Binomial and Poisson response.")
 
-	if (includeCAR==TRUE&(yModel=="Categorical"||yModel=="Survival"||yModel=="Bernoulli"||yModel=="Binomial")) stop("Option includeCAR is only available for Poisson and Normal response.")
+	if (includeCAR==TRUE&(yModel=="Categorical"||yModel=="Survival"||yModel=="Bernoulli"||yModel=="Binomial"||yModel=="Quantile")) stop("Option includeCAR is only available for Poisson and Normal response.")
 
-	if (predictType=="random"){
-		if (yModel!="Normal") stop("The option of random predictions is only available for yModel=Normal.")
-	}
+	if (predictType=="random"&(yModel=="Categorical"||yModel=="Poisson"||yModel=="Binomial"||yModel=="Bernoulli"||yModel=="Survival")) stop("The option of random predictions is only available for yModel=Normal and yModel=Quantile.")
 
 	if (useNormInvWishPrior==TRUE && !varSelectType=="None") stop("Variable selection is not available for Normal-inverse-Wishart prior for Normal covariates.")
 
@@ -106,7 +104,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		for (k in 1:nCovariates){
 			tmpCov<-dataMatrix[,(1+k)]
 			xLevels[k]<-length(levels(as.factor(tmpCov)))	
-			if (!(min(tmpCov,na.rm=TRUE)==0&&max(tmpCov,na.rm=TRUE)==(xLevels[k]-1)&&sum(!is.wholenumber(tmpCov[!is.na(tmpCov)]))==0)) {
+			if(is.factor(tmpCov)){
 				print(paste("Recoding of covariate ",colnames(dataMatrix)[k+1]," as follows",sep=""))
 				tmpCovFactor<-as.factor(tmpCov)
 				tmpLevels<-levels(tmpCovFactor)
@@ -114,6 +112,17 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 				levels(tmpCovFactor)<-c(0:(xLevels[k]-1))	
 				dataMatrix[,(1+k)]<-tmpCovFactor
 				dataMatrix[,(1+k)]<-as.numeric(levels(dataMatrix[,(1+k)]))[as.integer(dataMatrix[,(1+k)])]
+
+			} else {
+				if (!(min(tmpCov,na.rm=TRUE)==0&&max(tmpCov,na.rm=TRUE)==(xLevels[k]-1)&&sum(!is.wholenumber(tmpCov[!is.na(tmpCov)]))==0)) {
+					print(paste("Recoding of covariate ",colnames(dataMatrix)[k+1]," as follows",sep=""))
+					tmpCovFactor<-as.factor(tmpCov)
+					tmpLevels<-levels(tmpCovFactor)
+					print(paste("Replacing level ",levels(tmpCovFactor)," with ",c(0:(xLevels[k]-1)),sep=""))
+					levels(tmpCovFactor)<-c(0:(xLevels[k]-1))	
+					dataMatrix[,(1+k)]<-tmpCovFactor
+					dataMatrix[,(1+k)]<-as.numeric(levels(dataMatrix[,(1+k)]))[as.integer(dataMatrix[,(1+k)])]
+				}
 			}
 		}
 	} else 	if (xModel=="Mixed"){
@@ -121,7 +130,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		for (k in 1:nDiscreteCovs){
 			tmpCov<-dataMatrix[,(1+k)]
 			xLevels[k]<-length(levels(as.factor(tmpCov)))	
-			if (!(min(tmpCov,na.rm=TRUE)==0&&max(tmpCov,na.rm=TRUE)==(xLevels[k]-1)&&sum(!is.wholenumber(tmpCov[!is.na(tmpCov)]))==0)) {
+			if(is.factor(tmpCov)){
 				print(paste("Recoding of covariate number ",colnames(dataMatrix)[k+1]," as follows",sep=""))
 				tmpCovFactor<-as.factor(tmpCov)
 				tmpLevels<-levels(tmpCovFactor)
@@ -129,6 +138,16 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 				levels(tmpCovFactor)<-c(0:(xLevels[k]-1))	
 				dataMatrix[,(1+k)]<-tmpCovFactor
 				dataMatrix[,(1+k)]<-as.numeric(levels(dataMatrix[,(1+k)]))[as.integer(dataMatrix[,(1+k)])]
+			} else {
+				if (!(min(tmpCov,na.rm=TRUE)==0&&max(tmpCov,na.rm=TRUE)==(xLevels[k]-1)&&sum(!is.wholenumber(tmpCov[!is.na(tmpCov)]))==0)) {
+					print(paste("Recoding of covariate number ",colnames(dataMatrix)[k+1]," as follows",sep=""))
+					tmpCovFactor<-as.factor(tmpCov)
+					tmpLevels<-levels(tmpCovFactor)
+					print(paste("Replacing level ",levels(tmpCovFactor)," with ",c(0:(xLevels[k]-1)),sep=""))
+					levels(tmpCovFactor)<-c(0:(xLevels[k]-1))	
+					dataMatrix[,(1+k)]<-tmpCovFactor
+					dataMatrix[,(1+k)]<-as.numeric(levels(dataMatrix[,(1+k)]))[as.integer(dataMatrix[,(1+k)])]
+				}
 			}
 		}
 	} else {
@@ -253,7 +272,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 
 	# other checks to ensure that there are no errors when calling the program
 	if (xModel!="Discrete"&xModel!="Normal"&xModel!="Mixed") stop("This xModel is not defined.")
-	if (yModel!="Poisson"&yModel!="Binomial"&yModel!="Bernoulli"&yModel!="Normal"&yModel!="Categorical"&yModel!="Survival") stop("This yModel is not defined.")
+	if (yModel!="Poisson"&yModel!="Binomial"&yModel!="Bernoulli"&yModel!="Normal"&yModel!="Categorical"&yModel!="Survival"&yModel!="Quantile") stop("This yModel is not defined.")
 
 	# conditions for alpha and dPitmanYor parameters	
 	# checks that dPitmanYor is in the correct interval
@@ -268,8 +287,22 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	#if (dPitmanYor>0&sampler=="Truncated") print("Note that for the Pitman-Yor process prior there might be en error when using the Truncated sampler. This is due to the way that the bound on the number of clusters is computed.")
 
 	#check entries for spatial CAR term
-	if (includeCAR&file.exists(neighboursFile)==FALSE) stop("You must enter a valid file for neighbourhood structure.") 
- 
+	includeuCARinit<-FALSE
+	if (includeCAR){
+		if(file.exists(neighboursFile)==FALSE) stop("A valid file for neighbourhood structure must be included for the spatial model.") 
+		islands<-readLines(neighboursFile)
+		get_neigh_number<-function(dat){
+			strsplit(dat," ")[[1]][2]
+		}
+		n_neighbours<-lapply(islands,get_neigh_number)
+		if(0 %in% n_neighbours) stop("There cannot be areas without neighbours in the neighboursFile.")
+		if (uCARinit!=FALSE){
+		  if(file.exists(uCARinit)==FALSE) stop("Invald file for uCARinit.") 
+		  #uCARvalues<-read.table("uCARinit.txt")[,1]
+		  includeuCARinit<-TRUE
+		}
+	}
+
 	inputString<-paste("PReMiuM --input=",fileName," --output=",output," --xModel=",xModel," --yModel=",yModel," --varSelect=",varSelectType," --whichLabelSwitch=",whichLabelSwitch," --predType=",predictType,sep="")
 
 	# create hyperparameters file
@@ -340,6 +373,9 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		if (!is.null(hyper$scaleSigmaSqY)){
 			write(paste("scaleSigmaSqY=",hyper$scaleSigmaSqY,sep=""),hyperFile,append=T)
 		}
+		if (!is.null(hyper$pQuantile)){
+			write(paste("pQuantile=",hyper$pQuantile,sep=""),hyperFile,append=T)
+		}
 		if (!is.null(hyper$rSlice)){
 			write(paste("rSlice=",hyper$rSlice,sep=""),hyperFile,append=T)
 		}
@@ -384,8 +420,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	if (extraYVar) inputString<-paste(inputString," --extraYVar",sep="")
 	if (!missing(entropy)) inputString<-paste(inputString," --entropy",sep="")
 	if (includeCAR) inputString<-paste(inputString," --includeCAR", " --neighbours=", neighboursFile ,sep="")
+	if (includeuCARinit) inputString<-paste(inputString, " --uCARinit=", uCARinit ,sep="")
 	if (useNormInvWishPrior) inputString<-paste(inputString," --useNormInvWishPrior", sep="")
-
 	if (run) .Call('profRegr', inputString, PACKAGE = 'PReMiuM')
 
 
@@ -925,7 +961,7 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F,proportionalHazard
 					currRisk<-exp(currLambda )
 				}else if(yModel=="Bernoulli"||yModel=="Binomial"){
 					currRisk<-1.0/(1.0+exp(-currLambda))
-				}else if(yModel=="Normal"){
+				}else if(yModel=="Normal"||yModel=="Quantile"){
 					currRisk<-currLambda
 				}else if(yModel=="Categorical"){
 					currRisk<-matrix(0,ncol=length(optAlloc[[c]]),nrow=nCategoriesY)
@@ -1095,7 +1131,7 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F,proportionalHazard
 	empiricals<-rep(0,nClusters)
 	if(!is.null(yModel)){
 		for(c in 1:nClusters){
-			if(yModel=='Bernoulli'||yModel=='Normal'||yModel=='Survival'){
+			if(yModel=='Bernoulli'||yModel=='Normal'||yModel=='Survival'||yModel=='Quantile'){
 				empiricals[c]<-mean(yMat[optAlloc[[c]],1])
 			}else if(yModel=='Binomial'){
 				empiricals[c]<-mean(yMat[optAlloc[[c]],1]/yMat[optAlloc[[c]],2])
@@ -1201,7 +1237,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 	if (nClusters==1) stop("Cannot produce plots because only one cluster has been found.")
 
 	if(includeResponse){
-		if(yModel=="Normal"){
+		if(yModel=="Normal"||yModel=="Quantile"){
 			showRelativeRisk<-F
 		}
 	}
@@ -1792,7 +1828,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			profileDF<-data.frame("mu"=c(),"cluster"=c(),"muMean"=c(),
 				"lowerMu"=c(),"upperMu"=c(),"fillColor"=c())
 			if (nContinuousCovs==1){
-				muMat<-profileMu[,meanSortIndex]
+				muMat<-profileMu[,meanSortIndex,1]
 			} else {
 				muMat<-profileMu[,meanSortIndex,(j-nDiscreteCovs)]
 			}
@@ -1844,7 +1880,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			profileDF<-data.frame("sigma"=c(),"cluster"=c(),"sigmaMean"=c(),
 				"lowerSigma"=c(),"upperSigma"=c(),"fillColor"=c())
 			if (nContinuousCovs==1){
-				sigmaMat<-profileStdDev[,meanSortIndex]
+				sigmaMat<-profileStdDev[,meanSortIndex,1,1]
 			} else {
 				sigmaMat<-profileStdDev[,meanSortIndex,(j-nDiscreteCovs),(j-nDiscreteCovs)]
 			}
@@ -1920,10 +1956,10 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 	for (i in 1:length(riskProfClusObj)) assign(names(riskProfClusObj)[i],riskProfClusObj[[i]])
 	for (i in 1:length(clusObjRunInfoObj)) assign(names(clusObjRunInfoObj)[i],clusObjRunInfoObj[[i]])
 	
-	if(yModel=="Poisson"||yModel=="Normal"){
+	if(yModel=="Poisson"||yModel=="Normal"||yModel=="Quantile"){
 		if (fullSweepLogOR==T){
 			fullSweepLogOR=F
-			cat("Log odds ratio does not make sense for Poisson or Normal response\n")
+			cat("Log odds ratio does not make sense for Poisson, Normal or Quantile response\n")
 		}
 	}
 
@@ -2104,7 +2140,7 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 			}
 		}else if(yModel=='Poisson'){
 			predictedY[sweep,,]<-exp(lambda)
-		}else if(yModel=='Normal'){
+		}else if(yModel=='Normal'||yModel=='Quantile'){
 			predictedY[sweep,,]<-lambda
 		}else if(yModel=='Survival'){
 			if (!weibullFixedShape) nu<-nuArrayPred[sweep,]
@@ -2117,7 +2153,7 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 	}
 
 	if(responseProvided){
-		bias<-apply(predictedY,2,median)-predictYMat[,1]
+    bias<-apply(predictedY,2,median)-predictYMat[,1]
 		rmse<-sqrt(mean(bias^2))
 		mae<-mean(abs(bias))
 		bias<-mean(bias)
@@ -2588,7 +2624,7 @@ margModelPosterior<-function(runInfoObj,allocation){
 
 setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,aPhi=NULL,mu0=NULL,Tau0=NULL,R0=NULL,
 	kappa0=NULL,nu0=NULL,muTheta=NULL,sigmaTheta=NULL,dofTheta=NULL,muBeta=NULL,sigmaBeta=NULL,dofBeta=NULL,
-	shapeTauEpsilon=NULL,rateTauEpsilon=NULL,aRho=NULL,bRho=NULL,atomRho=NULL,shapeSigmaSqY=NULL,scaleSigmaSqY=NULL,
+	shapeTauEpsilon=NULL,rateTauEpsilon=NULL,aRho=NULL,bRho=NULL,atomRho=NULL,shapeSigmaSqY=NULL,scaleSigmaSqY=NULL,pQuantile=NULL,
 	rSlice=NULL,truncationEps=NULL,shapeTauCAR=NULL,rateTauCAR=NULL,shapeNu=NULL,scaleNu=NULL,initAlloc=NULL){
 	out<-list()
 	if (!is.null(shapeAlpha)){
@@ -2653,6 +2689,9 @@ setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,aPhi=NULL,mu0=NULL,Tau0=
 	}
 	if (!is.null(scaleSigmaSqY)){
 		out$scaleSigmaSqY<-scaleSigmaSqY
+	}
+	if (!is.null(pQuantile)){
+		out$pQuantile<-pQuantile
 	}
 	if (!is.null(rSlice)){
 		out$rSlice<-rSlice
@@ -2855,9 +2894,9 @@ plotPredictions<-function(outfile,runInfoObj,predictions,logOR=FALSE){
 
 	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 
-	if (yModel!="Bernoulli"&&yModel!="Normal"&&yModel!="Survival") stop("This function has been developed for Bernoulli, Normal and Survival response only.")
+	if (yModel!="Bernoulli"&&yModel!="Normal"&&yModel!="Survival"&&yModel!="Quantile") stop("This function has been developed for Bernoulli, Normal, Quantile and Survival response only.")
 	if (xModel=="Mixed") stop("This function has been developed for Discrete and Normal covariates only.")
-	if (yModel=="Normal") logOR<-FALSE
+	if (yModel=="Normal"||yModel=="Quantile") logOR<-FALSE
 
 	#if (runInfoObj$nFixedEffects>0) print("Note that fixed effects are not processed in this function.")
 	
@@ -2883,7 +2922,7 @@ plotPredictions<-function(outfile,runInfoObj,predictions,logOR=FALSE){
 	
 	denObj<-vector(mode="list")
 	for(i in 1:nPredictSubjects){
-		denObj[[i]]<-density(na.omit(preds[,i]),bw=0.8)
+		denObj[[i]]<-density(na.omit(preds[,i]))#,bw=0.8) # removed over smoothing of predictions
 	}
 	
 	for(k in 1:nPredictSubjects){

@@ -22,7 +22,7 @@
 # included in the documentation directory.
 
 # Generate simulated data for testing C++ PReMiuM
-generateSampleDataFile<-function(clusterSummary){
+generateSampleDataFile<-function(clusterSummary,pQuantile=0.05){
 
 	subjectsPerCluster<-clusterSummary$clusterSizes
 	nSubjects<-sum(subjectsPerCluster)
@@ -215,7 +215,8 @@ generateSampleDataFile<-function(clusterSummary){
 		}else if(outcomeType=='Normal'){
 			Y[i]<-rnorm(1,mu+U[i],sqrt(sigmaSqY))
 		}else if(outcomeType=='Quantile'){
-		  Y[i]<-rALD(1,mu+U[i],sqrt(sigmaSqY),p=0.75)
+		  Y[i]<-rALD(1,mu+U[i],sqrt(sigmaSqY),p=pQuantile)
+		  #Y[i]<-rnorm(1,mu+U[i],sqrt(sigmaSqY))
 		}else if (outcomeType=='Categorical'){
 			p<-vector()
 			sumMu<-sum(exp(mu))		
@@ -814,7 +815,7 @@ clusSummaryQuantileNormal<-function(){
     'includeCAR'=FALSE,
     'TauCAR'=100,
     'clusterData'=list(
-      list('theta'=-2,
+      list('theta'=-200,
            'covariateMeans'= 0,
            'covariateCovariance'=6),
       list('theta'= 0,
@@ -823,10 +824,10 @@ clusSummaryQuantileNormal<-function(){
       list('theta'= 3,
            'covariateMeans'= -8,
            'covariateCovariance'=4),
-      list('theta'=-6,
+      list('theta'=40,
            'covariateMeans'= -3,
            'covariateCovariance'=10),
-      list('theta'= 6,
+      list('theta'= 150,
            'covariateMeans'= 5,
            'covariateCovariance'=17)))
 }

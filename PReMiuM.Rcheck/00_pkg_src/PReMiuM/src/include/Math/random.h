@@ -106,6 +106,7 @@ double truncNormalRand(baseGeneratorType& rndGenerator,const double& mean,
 	randomUniform unifRand(pLower,pUpper);
 	pSample = unifRand(rndGenerator);
 	// Step 3.
+
 	return quantile(normDist,pSample);
 
 }

@@ -84,7 +84,9 @@ class pReMiuMOptions{
 			_samplerType="SliceDependent";
 			_computeEntropy=false;
 			_includeCAR=false;
+			_includeuCARinit=false;
 			_neighbourFileName="Neighbour.txt";
+			_uCARinitFileName="uCARinit.txt";
 			_predictType ="RaoBlackwell";
 			_weibullFixedShape=false;
 			_useNormInvWishPrior=false;
@@ -324,6 +326,16 @@ class pReMiuMOptions{
 			_includeCAR=incCar;
 		}
 
+		/// \brief Return whether we are including uCAR initialisation
+		bool includeuCARinit() const{
+			return _includeuCARinit;
+		}
+
+		/// \brief Set whether we are including uCAR initialisation
+		void includeuCARinit(const bool& incCar){
+			_includeuCARinit=incCar;
+		}
+
 		/// \brief Return the neighbour structure file name
 		string neighbourFileName() const{
 			return _neighbourFileName;
@@ -332,6 +344,16 @@ class pReMiuMOptions{
 		/// \brief Set whether we are including CAR random term
 		void neighbourFileName(const string& neiFileName){
 			_neighbourFileName=neiFileName;
+		}
+
+		/// \brief Return the uCAR initialisation
+		string uCARinitFileName() const{
+			return _uCARinitFileName;
+		}
+
+		/// \brief Set whether we are including uCAR initialisation
+		void uCARinitFileName(const string& uCARFileName){
+			_uCARinitFileName=uCARFileName;
 		}
 
 		/// \brief Return the prediction type
@@ -390,7 +412,9 @@ class pReMiuMOptions{
 			_varSelectType=options.varSelectType();
 			_computeEntropy=options.computeEntropy();
 			_includeCAR=options.includeCAR();
+			_includeuCARinit=options.includeuCARinit();
 			_neighbourFileName=options.neighbourFileName();
+			_uCARinitFileName=options.uCARinitFileName();
 			_predictType=options.predictType();
 			_weibullFixedShape=options.weibullFixedShape();
 			_useNormInvWishPrior=options.useNormInvWishPrior();
@@ -445,8 +469,12 @@ class pReMiuMOptions{
 		bool _computeEntropy;
 		// This notes whether we are including CAR random term
 		bool _includeCAR;
+		// This notes whether we are including initialisation values for uCAR
+		bool _includeuCARinit;
 		// Neighbours structure file name
 		string _neighbourFileName;
+		// uCAR initialisation file name
+		string _uCARinitFileName;
 		// The type of predictions (RaoBlackwell or random - which is only for yModel=Normal or yModel=Quantile)
 		string _predictType;
 		// For Survival response, whether the weibull shape parameter is fixed or cluster specific

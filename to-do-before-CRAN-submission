@@ -2,8 +2,19 @@ To do before CRAN submission
 
 - delete any extra files
 - R check
+
+R CMD build yourPackage/
+R CMD check yourPackage_0.0.1.tar.gz
+
+(this last step includes UBSAN)
+
 - valgrind
-- UBSAN
+
+R CMD check --as-cran --use-valgrind yourPackage_0.0.1.tar.gz
+or
+R -d valgrind --vanilla > tests/myTest1.R
+
+
 - send to windows compiler + devel option
 - update description with date
 - backup in git

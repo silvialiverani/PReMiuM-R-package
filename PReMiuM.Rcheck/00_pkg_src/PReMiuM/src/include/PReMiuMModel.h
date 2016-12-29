@@ -204,6 +204,8 @@ class pReMiuMHyperParams{
 			_shapeSigmaSqY = 2.5;
 			_scaleSigmaSqY = 2.5;
 
+			_pQuantile = 0.5;
+
 			_rSlice =0.75;
 			_truncationEps = 0.000001;
 
@@ -403,6 +405,14 @@ class pReMiuMHyperParams{
 		void scaleSigmaSqY(const double& r){
 			_scaleSigmaSqY = r;
 		}
+
+		double pQuantile() const{
+			return _pQuantile;
+		}
+
+		void pQuantile(const double& p){
+			_pQuantile = p;
+		}
 		
 		double shapeNu() const{
 			return _shapeNu;
@@ -508,6 +518,7 @@ class pReMiuMHyperParams{
 			_atomRho = hyperParams.atomRho();
 			_shapeSigmaSqY = hyperParams.shapeSigmaSqY();
 			_scaleSigmaSqY = hyperParams.scaleSigmaSqY();
+			_pQuantile = hyperParams.pQuantile();
 			_shapeNu = hyperParams.shapeNu();
 			_scaleNu = hyperParams.scaleNu();
 			_workSqrtTau0 = hyperParams.workSqrtTau0();
@@ -570,10 +581,13 @@ class pReMiuMHyperParams{
 		double _bRho;
 		double _atomRho;
 
-		//Hyper parameter for prior for sigma_y^2 (for normal response model)
+		//Hyper parameter for prior for sigma_y^2 (for Normal and Quantile response model)
 		// Prior is sigma_y^2 ~ InvGamma(shapeSigmaSqY,scaleSigmaSqY)
 		double _shapeSigmaSqY;
 		double _scaleSigmaSqY;
+
+		//Quantile (for Quantile response model)
+		double _pQuantile;
 
 		//Hyper parameter for prior for nu, the shape parameter of the Weibull (for survival response model)
 		// Prior is nu ~ Gamma(shapeNu,scaleNu)
@@ -2016,7 +2030,7 @@ class pReMiuMParams{
 		/// \brief Prior parameters for rho
 		vector<unsigned int> _omega;
 
-		/// \brief Prior variance for Y model when response is Normal
+		/// \brief Prior variance for Y model when response is Normal and Quantile
 		double _sigmaSqY;
 
 		/// \brief Prior shape parameter for Y model when response is weibull (survival)
@@ -2194,6 +2208,18 @@ double logPYiGivenZiWiNormalSpatial(const pReMiuMParams& params, const pReMiuMDa
 	return logPdfNormal(dataset.continuousY(i),mu,sqrt(params.sigmaSqY()));
 }
 
+double logPYiGivenZiWiQuantile(const pReMiuMParams& params, const pReMiuMData& dataset,
+ 						const unsigned int& nFixedEffects,const int& zi,
+ 						const unsigned int& i){
+
+	double mu;
+	mu=params.theta(zi,0);
+	for(unsigned int j=0;j<nFixedEffects;j++){
+		mu+=params.beta(j,0)*dataset.W(i,j);
+	}
+	return logPdfQuantile(dataset.continuousY(i),mu,sqrt(params.sigmaSqY()),params.hyperParams().pQuantile());
+}
+
 double logPYiGivenZiWiCategorical(const pReMiuMParams& params, const pReMiuMData& dataset,
 						const unsigned int& nFixedEffects,
 						const int& zi,
@@ -2343,6 +2369,8 @@ vector<double> pReMiuMLogPost(const pReMiuMParams& params,
 				}else{
 					logPYiGivenZiWi = &logPYiGivenZiWiNormal;
 				}
+		}else if(outcomeType.compare("Quantile")==0){
+			logPYiGivenZiWi = &logPYiGivenZiWiQuantile;
 		}else if(outcomeType.compare("Survival")==0){
 			logPYiGivenZiWi = &logPYiGivenZiWiSurvival;
 		}
@@ -2489,6 +2517,11 @@ vector<double> pReMiuMLogPost(const pReMiuMParams& params,
 		}
 
 		if(outcomeType.compare("Normal")==0){
+			double tau = 1.0/params.sigmaSqY();
+			logPrior+=logPdfGamma(tau,hyperParams.shapeSigmaSqY(),hyperParams.scaleSigmaSqY());
+		}
+
+		if(outcomeType.compare("Quantile")==0){
 			double tau = 1.0/params.sigmaSqY();
 			logPrior+=logPdfGamma(tau,hyperParams.shapeSigmaSqY(),hyperParams.scaleSigmaSqY());
 		}
@@ -2686,6 +2719,8 @@ double logCondPostThetaBeta(const pReMiuMParams& params,
 		}else{
 			logPYiGivenZiWi = &logPYiGivenZiWiNormal;
 		}
+	}else if(outcomeType.compare("Quantile")==0){
+		logPYiGivenZiWi = &logPYiGivenZiWiQuantile;
 	}else if(outcomeType.compare("Survival")==0){
 		logPYiGivenZiWi = &logPYiGivenZiWiSurvival;
 	}
@@ -2887,10 +2922,11 @@ void logNuPostSurvival(const pReMiuMParams& params,
 			int zi=params.z(i);
 			if (zi==(int)cluster) dlogY += log(y[i]) * censoring[i];
 		}
-	}	
+	}
 	y1=dCensored * log(x) - yNu + x * dlogY + (hyperParams.shapeNu()-1) * log(x) - hyperParams.scaleNu() * x;
 	// derivative of y1
 	y2=dCensored / x - yNulogy + dlogY + (hyperParams.shapeNu()-1) / x - hyperParams.scaleNu();
+
 	*Pt_y1=y1;
 	*Pt_y2=y2;
 }

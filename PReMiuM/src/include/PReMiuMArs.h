@@ -33,13 +33,22 @@ double ARSsampleCAR(pReMiuMParams params,
                  baseGeneratorType& rndGenerator)
 {
 	//initialise sampler
-	const int ns=100;
+	const int ns=200; // ns=100 originally
 	vector<double> xTmp;
 	double ui=0, xlb, xub;
 	int lb, ub;
 	const int m = 5;
 	xTmp.resize(m);
 	ui=params.uCAR(iSub);
+
+// Aurore initially had put
+//	xTmp[0] = ui-50;
+//        xTmp[1] = ui-2;
+//        xTmp[2] = ui+0;
+//        xTmp[3] = ui+2;
+//        xTmp[4] = ui+50;
+// with m=5 above
+
 	xTmp[0] = ui-50;
         xTmp[1] = ui-2;
         xTmp[2] = ui+0;

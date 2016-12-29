@@ -297,7 +297,7 @@ RcppExport SEXP profRegr(SEXP inputString) {
 		}
                 if(options.outcomeType().compare("Quantile")==0){
 			// Gibbs for sigmaSqY for Quantile response model
-			pReMiuMSampler.addProposal("gibbsForSigmaSqYQuantile",1.0,1,1,&gibbsForSigmaSqY);
+			pReMiuMSampler.addProposal("gibbsForSigmaSqYQuantile",1.0,1,1,&gibbsForSigmaSqYQuantile);
 		}
 		if(options.outcomeType().compare("Survival")==0){
 			if (options.weibullFixedShape()) {

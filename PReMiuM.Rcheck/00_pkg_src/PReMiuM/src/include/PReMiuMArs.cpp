@@ -460,7 +460,7 @@
 	/* insert x(n) below x(ilow) */
 	/*   test for non-concavity */
 		if (hpx[*ilow] > hpx[*n]) {
-	//	  REprintf("Trap: non-logcocavity detected by ARS update_ function\nhpx[*ilow]=%e, hpx[*n]=%e\n", hpx[*ilow], hpx[*n]);
+		  REprintf("Trap: non-logcocavity detected by ARS update_ function\nhpx[*ilow]=%e, hpx[*n]=%e\n", hpx[*ilow], hpx[*n]);
 		*ifault = 5;
 		}
 		ipt[*n] = *ilow;
@@ -485,7 +485,7 @@
 	/* insert above x(ihigh) */
 	/*   test for non-concavity */
 		if (hpx[i__] < hpx[*n]) {
-	//   	        REprintf("Trap: non-logcocavity detected by ARS update_ function\nhpx[i__]=%e, hpx[*n]=%e\n", hpx[i__], hpx[*n]);
+	   	        REprintf("Trap: non-logcocavity detected by ARS update_ function\nhpx[i__]=%e, hpx[*n]=%e\n", hpx[i__], hpx[*n]);
 			*ifault = 5;
 		}
 		*ihigh = *n;
@@ -503,7 +503,7 @@
 	/* insert x(n) between x(j) and x(i) */
 	/*   test for non-concavity */
 		if (hpx[j] < hpx[*n] || hpx[i__] > hpx[*n]) {
-	//	      REprintf("Trap: non-logcocavity detected by ARS update_ function\nhpx[j]=%e, hpx[i__]=%e, hpx[*n]=%e\n", hpx[j], hpx[i__], hpx[*n]);
+		      REprintf("Trap: non-logcocavity detected by ARS update_ function\nhpx[j]=%e, hpx[i__]=%e, hpx[*n]=%e\n", hpx[j], hpx[i__], hpx[*n]);
 		*ifault = 5;
 		}
 		ipt[j] = *n;

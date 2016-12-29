@@ -11,7 +11,7 @@ profRegr(covNames, fixedEffectsNames, outcome="outcome",
         sampler="SliceDependent", alpha=-2, dPitmanYor = 0, excludeY=FALSE, 
         extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE,
         run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123",
-	includeCAR=FALSE, neighboursFile="Neighbours.txt",
+	includeCAR=FALSE, neighboursFile="Neighbours.txt", uCARinit=FALSE,
 	weibullFixedShape=TRUE, useNormInvWishPrior=FALSE)
 }
 \arguments{
@@ -61,6 +61,7 @@ See ?calcPredictions for more details and examples.
 \item{whichLabelSwitch}{The label switching moves to run. The options available are moves 1, 2 and 3 ("123"), moves 1 and 2 ("12") and move 3 only ("3"). The moves are described in Hastie et al. (2013). Note that the third label switching move is only available for Dirichlet process priors, so it will not be run if dPitmanYor>0. Therefore setting dPitmanYor to a value greater than zero will forse whichLabelSwitch=12.}
 \item{includeCAR}{A boolean specifying wether a conditional autoregressive term should be introduced within the model, to take into account possible spatial correlation within residuals. Only for Poisson and Normal response models.}
 \item{neighboursFile}{The file name of the file specifying neighbourhood graph. It should have the same structure than neighbourhood graph files used in the "INLA" package, and can be produced from a nb object of package "spdep", by the function "nb2INLA" of package "spdep". See ?nb2INLA for details. Each file must have at least one neighbour.}
+\item{uCARinit}{This parameter gives the possibility of giving initialisation values for the spatial residuals u of the spatial CAR. It is set to FALSE by default (meaning that the spatial residuals are initialised randomly). It can be set alternatively to a vector of values, one for each of the observations available.}
 \item{weibullFixedShape}{This parameter controls whether the shape parameter of the Weibull distribution (for yModel=Survival only) is a global parameter (fixed) or cluster specific. It is equal to TRUE by default.}
 \item{useNormInvWishPrior}{By default this variable equals FALSE. When this variable equals TRUE, the conjugate Normal-inverse-Wishart prior is used rather
 than the independant normal and inverse Whishart priors. If this prior is used, variable selection cannot be used as it has not been implemented.}

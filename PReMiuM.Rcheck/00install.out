@@ -1,7 +1,7 @@
 * installing *source* package ‘PReMiuM’ ...
 ** libs
-g++ -I/usr/share/R/include -DNDEBUG -I./include     -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.3/Rcpp/include" -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.3/RcppEigen/include" -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.3/BH/include"   -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2 -g  -c PReMiuM.cpp -o PReMiuM.o
-g++ -I/usr/share/R/include -DNDEBUG -I./include     -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.3/Rcpp/include" -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.3/RcppEigen/include" -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.3/BH/include"   -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2 -g  -c postProcess.cpp -o postProcess.o
+g++ -I/usr/share/R/include -DNDEBUG -I./include -DBOOST_MATH_PROMOTE_DOUBLE_POLICY=false  -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.3/Rcpp/include" -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.3/RcppEigen/include" -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.3/BH/include"   -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c PReMiuM.cpp -o PReMiuM.o
+g++ -I/usr/share/R/include -DNDEBUG -I./include -DBOOST_MATH_PROMOTE_DOUBLE_POLICY=false  -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.3/Rcpp/include" -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.3/RcppEigen/include" -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.3/BH/include"   -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c postProcess.cpp -o postProcess.o
 g++ -shared -L/usr/lib/R/lib -Wl,-Bsymbolic-functions -Wl,-z,relro -o PReMiuM.so PReMiuM.o postProcess.o -L/usr/lib/R/lib -lR
 installing to /home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/PReMiuM/libs
 ** R

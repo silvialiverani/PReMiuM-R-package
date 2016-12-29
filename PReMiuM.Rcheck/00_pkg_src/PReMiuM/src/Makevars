@@ -1,5 +1,5 @@
 
-PKG_CPPFLAGS=-I./include   
+PKG_CPPFLAGS=-I./include -DBOOST_MATH_PROMOTE_DOUBLE_POLICY=false
 
 #PKG_CPPFLAGS=-I./include -pedantic -fsanitize=address -fno-omit-frame-pointer -Wall -std=c++11
 

@@ -3,10 +3,11 @@
 \title{Generate sample data files for profile regression}
 \description{Generation of random sample datasets for profile regression.}
 \usage{
-generateSampleDataFile(clusterSummary)
+generateSampleDataFile(clusterSummary, pQuantile=0.05)
 }
 \arguments{
 \item{clusterSummary}{A vector of strings of the covariate names as by the column names in the data argument.}
+\item{pQuantile}{pQuantile is the quantile parameter of the Asymmetric Laplace Distribution used to generate data to test the model for the quantiles.}
 }
 \value{
 The output of this function is a list with the following elements

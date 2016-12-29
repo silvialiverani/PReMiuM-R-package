@@ -583,6 +583,9 @@ class pReMiuMData{
 
 		/// \brief Is the CAR term is included
 		bool _includeCAR;
+
+		/// \brief Is the CAR term is included
+		bool _includeuCARinit;
 };
 
 

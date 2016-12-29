@@ -8,10 +8,11 @@ importFrom("utils", "head", "read.table", "tail", "write.table")
 
 importFrom(grid,grid.layout, grid.newpage, pushViewport, viewport, unit)
 importFrom(gamlss.dist,rWEI2)
+importFrom(ald,rALD)
 
 import(cluster)
-import(Rcpp)
 import(ggplot2)
+import(Rcpp)
 import(plotrix)
 
 

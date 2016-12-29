@@ -88,7 +88,7 @@ double truncNormalRand(baseGeneratorType& rndGenerator,const double& mean,
 	// it is lower truncated
 
 	// Step 1.
-	boost::math::normal normDist(mean,stdDev);
+	boost::math::normal_distribution<double> normDist(mean,stdDev);
 	double pLower,pUpper,pSample;
 	if(distType.compare("U")==0){
 		pLower=0.0000000001;
@@ -101,17 +101,13 @@ double truncNormalRand(baseGeneratorType& rndGenerator,const double& mean,
 		pUpper=cdf(normDist,upper);
 	}
 
-//std::cout<<"U"<<pUpper<<std::endl;
-//std::cout<<pLower<<std::endl;
-
 	// Step 2.
 	// Define a uniform random number generator
 	randomUniform unifRand(pLower,pUpper);
 	pSample = unifRand(rndGenerator);
 	// Step 3.
-//std::cout<<pSample<<std::endl;
-	double prova = quantile(normDist,pSample);
-	return prova;//quantile(normDist,pSample);
+
+	return quantile(normDist,pSample);
 
 }
 

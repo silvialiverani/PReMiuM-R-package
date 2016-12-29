@@ -232,6 +232,11 @@ pReMiuMOptions processCommandLine(string inputStr){
 					size_t pos = inString.find("=")+1;
 					string neighboursFile = inString.substr(pos,inString.size()-pos);
 					options.neighbourFileName(neighboursFile);
+        		        }else if(inString.find("--uCARinit")!=string::npos){
+					options.includeuCARinit(true);
+					size_t pos = inString.find("=")+1;
+					string uCARinitFile = inString.substr(pos,inString.size()-pos);
+					options.uCARinitFileName(uCARinitFile);
 				}else if(inString.find("--extraYVar")!=string::npos){
 					if(options.outcomeType().compare("Normal")!=0){
 						options.responseExtraVar(true);
@@ -895,8 +900,12 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 	bool includeResponse = options.includeResponse();
 	bool responseExtraVar = options.responseExtraVar();
 	bool includeCAR=options.includeCAR();
+	bool includeuCARinit=options.includeuCARinit();
 	string predictType = options.predictType();
 	bool weibullFixedShape = options.weibullFixedShape();
+	string uCARinitFileName = options.uCARinitFileName();
+
+	bool wasError=false;
 
 	vector<unsigned int> nCategories;
 	nCategories = dataset.nCategories();
@@ -1501,14 +1510,35 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 			double tau = gammaRand(rndGenerator);
 			params.TauCAR(tau);
 
-			double mean_w=0;
-			for (unsigned int i=0; i<nSubjects; i++ ) mean_w+=dataset.nNeighbours(i);
-			mean_w /= nSubjects;
-			randomNormal normalRand(0,sqrt(mean_w/tau));
-			for(unsigned int i=0;i<nSubjects;i++){
-				double eps = normalRand(rndGenerator);
-				params.uCAR(i,eps);
+			if (includeuCARinit) {
+			        ifstream uCARfile;
+			        uCARfile.open(uCARinitFileName.c_str());	
+			        if (!uCARfile.is_open()){
+					Rprintf("File with initialisation values for uCAR not found\n");
+					wasError = true;
+        			}
+				if (uCARfile.good()){
+					for(unsigned int i=0;i<nSubjects;i++){
+						string line;
+						getline(uCARfile, line);
+						stringstream streamline(line);
+						double eps;
+						streamline >> eps;
+						params.uCAR(i,eps);
+					}
+				}
+				uCARfile.close();
+			} else {	
+				double mean_w=0;
+				for (unsigned int i=0; i<nSubjects; i++ ) mean_w+=dataset.nNeighbours(i);
+				mean_w /= nSubjects;
+				randomNormal normalRand(0,sqrt(mean_w/tau));
+				for(unsigned int i=0;i<nSubjects;i++){
+					double eps = normalRand(rndGenerator);
+					params.uCAR(i,eps);
+				}
 			}
+
 	        }
 
 	}

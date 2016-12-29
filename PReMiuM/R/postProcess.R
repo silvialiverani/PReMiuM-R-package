@@ -23,7 +23,7 @@
 
 is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
 
-profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, predictType="RaoBlackwell", nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-2, dPitmanYor=0, excludeY=FALSE, extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE, run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123", includeCAR=FALSE, neighboursFile="Neighbours.txt",weibullFixedShape=TRUE, useNormInvWishPrior=FALSE){
+profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, predictType="RaoBlackwell", nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-2, dPitmanYor=0, excludeY=FALSE, extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE, run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123", includeCAR=FALSE, neighboursFile="Neighbours.txt",uCARinit=FALSE,weibullFixedShape=TRUE, useNormInvWishPrior=FALSE){
 
 	# suppress scientific notation
 	options(scipen=999)
@@ -287,6 +287,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	#if (dPitmanYor>0&sampler=="Truncated") print("Note that for the Pitman-Yor process prior there might be en error when using the Truncated sampler. This is due to the way that the bound on the number of clusters is computed.")
 
 	#check entries for spatial CAR term
+	includeuCARinit<-FALSE
 	if (includeCAR){
 		if(file.exists(neighboursFile)==FALSE) stop("A valid file for neighbourhood structure must be included for the spatial model.") 
 		islands<-readLines(neighboursFile)
@@ -295,8 +296,13 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		}
 		n_neighbours<-lapply(islands,get_neigh_number)
 		if(0 %in% n_neighbours) stop("There cannot be areas without neighbours in the neighboursFile.")
+		if (uCARinit!=FALSE){
+		  if(file.exists(uCARinit)==FALSE) stop("Invald file for uCARinit.") 
+		  #uCARvalues<-read.table("uCARinit.txt")[,1]
+		  includeuCARinit<-TRUE
+		}
 	}
- 
+
 	inputString<-paste("PReMiuM --input=",fileName," --output=",output," --xModel=",xModel," --yModel=",yModel," --varSelect=",varSelectType," --whichLabelSwitch=",whichLabelSwitch," --predType=",predictType,sep="")
 
 	# create hyperparameters file
@@ -414,8 +420,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 	if (extraYVar) inputString<-paste(inputString," --extraYVar",sep="")
 	if (!missing(entropy)) inputString<-paste(inputString," --entropy",sep="")
 	if (includeCAR) inputString<-paste(inputString," --includeCAR", " --neighbours=", neighboursFile ,sep="")
+	if (includeuCARinit) inputString<-paste(inputString, " --uCARinit=", uCARinit ,sep="")
 	if (useNormInvWishPrior) inputString<-paste(inputString," --useNormInvWishPrior", sep="")
-
 	if (run) .Call('profRegr', inputString, PACKAGE = 'PReMiuM')
 
 
@@ -1231,7 +1237,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 	if (nClusters==1) stop("Cannot produce plots because only one cluster has been found.")
 
 	if(includeResponse){
-		if(yModel=="Normal"){
+		if(yModel=="Normal"||yModel=="Quantile"){
 			showRelativeRisk<-F
 		}
 	}
@@ -2147,7 +2153,7 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 	}
 
 	if(responseProvided){
-		bias<-apply(predictedY,2,median)-predictYMat[,1]
+    bias<-apply(predictedY,2,median)-predictYMat[,1]
 		rmse<-sqrt(mean(bias^2))
 		mae<-mean(abs(bias))
 		bias<-mean(bias)
