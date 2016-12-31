@@ -1087,14 +1087,13 @@ class pReMiuMParams{
 			if (nCov!=nContCov) {
 				nCov = nContCov;
 			}
-
 			if(Sigma(c).trace()>0){
 				// This condition should stop this being evaluated when
 				// mu has been initialised but Sigma hasn't
 				VectorXd xi=VectorXd::Zero(nCov);
 				VectorXd muStar=VectorXd::Zero(nCov);
 				for(unsigned int j=0;j<nCov;j++){
-					muStar(j)=gamma(c,j)*muVec(j)+(1.0-gamma(c,j))*nullMu(j);
+					muStar(j)=gamma(c,nDiscreteCovs()+j)*muVec(j)+(1.0-gamma(c,nDiscreteCovs()+j))*nullMu(j);
 				}
 				_workMuStar[c] = muStar;
 
@@ -1140,7 +1139,7 @@ class pReMiuMParams{
 				for(unsigned int c=0;c<nClusters;c++){
 					muStar[c].setZero(nCov);
 					for(unsigned int j=0;j<nCov;j++){
-						muStar[c](j)=gamma(c,j)*mu(c,j)+(1-gamma(c,j))*nullMuVec(j);
+						muStar[c](j)=gamma(c,nDiscreteCovs()+j)*mu(c,j)+(1-gamma(c,nDiscreteCovs()+j))*nullMuVec(j);
 					}
 					_workMuStar[c]=muStar[c];
 				}
@@ -2630,6 +2629,7 @@ double logCondPostRhoOmegaj(const pReMiuMParams& params,
 	}
 	// We can add in the prior for rho and omega
 	// We keep the loop here because it saves evaluations in the continuous case
+
 	for(unsigned int j1=0;j1<nCovariates;j1++){
 		out+=log(hyperParams.atomRho());
 		if (params.omega(j1)==1){

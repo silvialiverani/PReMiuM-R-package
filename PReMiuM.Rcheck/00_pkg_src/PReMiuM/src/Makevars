@@ -1,9 +1,5 @@
 
 PKG_CPPFLAGS=-I./include -DBOOST_MATH_PROMOTE_DOUBLE_POLICY=false
 
-#PKG_CPPFLAGS=-I./include -pedantic -fsanitize=address -fno-omit-frame-pointer -Wall -std=c++11
-
-#CC = gcc-4.8 -std=gnu99 -fsanitize=undefined -fno-omit-frame-pointer -fcatch-undefined-behavior
-#CXX = g++-4.8 -fsanitize=undefined -fno-omit-frame-pointer -fcatch-undefined-behavior
-
-
+## We want C++11
+CXX_STD = CXX11

@@ -1,7 +1,7 @@
 Package: PReMiuM
 Type: Package
 Title: Dirichlet Process Bayesian Clustering, Profile Regression
-Version: 3.1.4
+Version: 3.1.5
 Date: 2016-12-28
 Author: David I. Hastie <david.hastie@rsimony.com>, Silvia Liverani <liveranis@gmail.com> and Sylvia Richardson <sylvia.richardson@mrc-bsu.cam.ac.uk> with contributions from Aurore J. Lavigne, Lucy Leigh, Lamiae Azizi
 Maintainer: Silvia Liverani <liveranis@gmail.com>
@@ -15,4 +15,4 @@ Imports: Rcpp (>= 0.11), ggplot2 (>= 0.9.2.1), cluster, plotrix (>=
 LinkingTo: Rcpp, RcppEigen (>= 0.3), BH (>= 1.54)
 SystemRequirements: GNU make
 NeedsCompilation: yes
-Packaged: 2016-12-28 16:26:05 UTC; root
+Packaged: 2016-12-31 14:08:12 UTC; root

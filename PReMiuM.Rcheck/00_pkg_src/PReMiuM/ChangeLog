@@ -1,4 +1,10 @@
-Changes in version 3.1.4 (2016-)
+Changes in version 3.1.5 (2017-)
+
+* Fixed warning message in function plotRiskProfile
+* Fixed bug in variable selection for xModel=Mixed and missingX
+
+--------------------------------------------
+Changes in version 3.1.4 (2016-12-28)
 
 * Included test to make sure that neighbourFile does not include islands
 * Now discrete covariates can be inputed as factors as well as numeric

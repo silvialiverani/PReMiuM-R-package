@@ -1,6 +1,7 @@
 Changes in version 3.1.5 (2017-)
 
-*
+* Fixed warning message in function plotRiskProfile
+* Fixed bug in variable selection for xModel=Mixed and missingX
 
 --------------------------------------------
 Changes in version 3.1.4 (2016-12-28)

@@ -102,22 +102,23 @@ double ARSsampleNu(pReMiuMParams params,
                  baseGeneratorType& rndGenerator)
 {
 	//initialise sampler
-	const int ns=10;
+	const int ns=30; // number of attempts (max_attempts = ns*3)
 	vector<double> xTmp;
 	double ui=0, xlb, xub;
 	int lb, ub;
 	const int m = 5;
 	xTmp.resize(m);
 	ui=params.nu(cluster);	
-	xlb=0.000001;
-	xub=100;
+	xlb=0;
+	xub=0;
 	lb=1; //true
-	ub=1; //false
-	xTmp[0] = xlb;
-        xTmp[1] = ui+0.1;
-        xTmp[2] = ui+0.5;
-        xTmp[3] = ui+2;
-        xTmp[4] = ui+5;
+	ub=0; //false
+	xTmp[0] = 0.0001;
+        xTmp[1] = 0.05;
+        xTmp[2] = 0.5;
+        xTmp[3] = 1;
+        xTmp[4] = 5;
+//std::cout<<xTmp[0]<<" "<<xTmp[1]<<" "<<xTmp[2]<<" "<<xTmp[3]<<" "<<xTmp[4]<<" "<<std::endl;
 // can try to remove some of these points on the x axis to improve efficiency
 	double* x = &xTmp[0];
 	double hx[m];
@@ -128,7 +129,16 @@ double ARSsampleNu(pReMiuMParams params,
         (*evalhxhprimax)(params, model, cluster, x[i], &y1, &y2);
         hx[i]=y1;
         hpx[i]=y2;
+
     }
+// summary:
+//uncomment below, the evaluations of the function; when it is not concave there is error ifault=4
+// otherwise it works at the moment
+
+// need to have small fixed effects (normalised) so that beta does not get too big
+
+//std::cout<<"y "<<hx[0]<<" "<<hx[1]<<" "<<hx[2]<<" "<<hx[3]<<" "<<hx[4]<<" "<<std::endl;
+
     double emax=64;
     int iwv[ns+7];
     double rwv[6*(ns+1)+9];

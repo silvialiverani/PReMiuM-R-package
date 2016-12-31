@@ -2,9 +2,14 @@
 * using R version 3.3.2 (2016-10-31)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
+* using options ‘--use-valgrind --as-cran’
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘PReMiuM’ version ‘3.1.4’
+* this is package ‘PReMiuM’ version ‘3.1.5’
+* checking CRAN incoming feasibility ... NOTE
+Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
+
+Days since last update: 3
 * checking package namespace information ... OK
 * checking package dependencies ... OK
 * checking if this is a source package ... OK
@@ -15,9 +20,9 @@
 * checking for sufficient/correct file permissions ... OK
 * checking whether package ‘PReMiuM’ can be installed ... OK
 * checking installed package size ... NOTE
-  installed size is 12.3Mb
+  installed size is 11.8Mb
   sub-directories of 1Mb or more:
-    libs  12.1Mb
+    libs  11.6Mb
 * checking package directory ... OK
 * checking DESCRIPTION meta-information ... OK
 * checking top-level files ... OK
@@ -32,6 +37,7 @@
 * checking whether the namespace can be loaded with stated dependencies ... OK
 * checking whether the namespace can be unloaded cleanly ... OK
 * checking loading without being on the library search path ... OK
+* checking use of S3 registration ... OK
 * checking dependencies in R code ... OK
 * checking S3 generic/method consistency ... OK
 * checking replacement functions ... OK
@@ -39,6 +45,7 @@
 * checking R code for possible problems ... OK
 * checking Rd files ... OK
 * checking Rd metadata ... OK
+* checking Rd line widths ... OK
 * checking Rd cross-references ... OK
 * checking for missing documentation entries ... OK
 * checking for code/documentation mismatches ... OK
@@ -52,6 +59,14 @@
 * checking for portable use of $(BLAS_LIBS) and $(LAPACK_LIBS) ... OK
 * checking compiled code ... OK
 * checking examples ... OK
+Examples with CPU or elapsed time > 5s
+                          user system elapsed
+profRegr                32.628  0.252  32.894
+margModelPosterior      27.364  0.176  27.555
+summariseVarSelectRho   16.248  0.140  16.399
+calcDissimilarityMatrix 15.372  0.060  15.440
+setHyperparams           6.604  0.088   6.694
+globalParsTrace          5.756  0.048   5.814
 * checking PDF version of manual ... OK
 * DONE
-Status: 1 NOTE
+Status: 2 NOTEs

@@ -1370,7 +1370,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 			vector<unsigned int> countXVec(nContinuousCovs,0);
 			for(unsigned int i=0;i<nSubjects;i++){
 				for(unsigned int j=0;j<nContinuousCovs;j++){
-					if(!dataset.missingX(i,j)){
+					if(!dataset.missingX(i,nDiscreteCovs+j)){
 						meanXVec[j]+=dataset.continuousX(i,j);
 						countXVec[j]+=1;
 					}

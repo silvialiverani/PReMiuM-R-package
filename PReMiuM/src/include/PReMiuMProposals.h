@@ -943,7 +943,7 @@ void gibbsForMuActive(mcmcChain<pReMiuMParams>& chain,
 		gammaMat[c].setZero(nCovariates,nCovariates);
 		oneMinusGammaMat[c].setZero(nCovariates,nCovariates);
 		for(unsigned int j=0;j<nCovariates;j++){
-			gammaMat[c](j,j)=currentParams.gamma(c,j);
+			gammaMat[c](j,j)=currentParams.gamma(c,currentParams.nDiscreteCovs()+j);
 			oneMinusGammaMat[c](j,j)=1-gammaMat[c](j,j);
 		}
 	}
@@ -1028,7 +1028,7 @@ void gibbsForMuActiveNIWP(mcmcChain<pReMiuMParams>& chain,
 		gammaMat[c].setZero(nCovariates,nCovariates);
 		oneMinusGammaMat[c].setZero(nCovariates,nCovariates);
 		for(unsigned int j=0;j<nCovariates;j++){
-			gammaMat[c](j,j)=currentParams.gamma(c,j);
+			gammaMat[c](j,j)=currentParams.gamma(c,currentParams.nDiscreteCovs()+j);
 			oneMinusGammaMat[c](j,j)=1-gammaMat[c](j,j);
 		}
 	}
@@ -2394,7 +2394,9 @@ void metropolisHastingsForRhoOmega(mcmcChain<pReMiuMParams>& chain,
 			currentParams.rho(j,proposedRho,covariateType,varSelectType);
 			proposedLogPost = logCondPostRhoOmegaj(currentParams,model,j);
 			double logAcceptRatio = proposedLogPost - currentLogPost;
+
 			logAcceptRatio += logPdfBeta(currentRho[j],hyperParams.aRho(),hyperParams.bRho());
+
 			if(unifRand(rndGenerator)<exp(logAcceptRatio)){
 				// Move accepted
 				if(varSelectType.compare("Continuous")==0){
@@ -2837,12 +2839,12 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 						MatrixXd Tau=MatrixXd::Zero(nNotMissing,nNotMissing);
 						unsigned int j=0;
 						for(unsigned int j0=0;j0<nCovariates;j0++){
-							if(!missingX[i][j0]){
+							if(!missingX[i][nDiscreteCovs+j0]){
 								xi(j)=currentParams.workContinuousX(i,j0);
 								muStar(j)=workMuStar(j0);
 								unsigned int r=0;
 								for(unsigned int j1=0;j1<nCovariates;j1++){
-									if(!missingX[i][j1]){
+									if(!missingX[i][nDiscreteCovs+j1]){
 										Sigma(j,r)=workSigma(j0,j1);
 										r++;
 									}
@@ -3249,14 +3251,14 @@ void updateMissingPReMiuMData(baseGeneratorType& rndGenerator,
 				int zi = params.z(i);
 				VectorXd newXi=multivarNormalRand(rndGenerator,params.workMuStar(zi),params.Sigma(zi));
 				for(unsigned int j=0;j<nContinuousCovs;j++){
-					if(dataset.missingX(i,j)){
+					if(dataset.missingX(i,nDiscreteCovs+j)){
 						dataset.continuousX(i,j,newXi(j));
 						params.workContinuousX(i,j,newXi(j));
 					}else{
 						newXi(j)=dataset.continuousX(i,j);
 					}
 				}
-				double logVal = logPdfMultivarNormal(nCovariates,newXi,params.workMuStar(zi),params.workSqrtTau(zi),params.workLogDetTau(zi));
+				double logVal = logPdfMultivarNormal(nContinuousCovs,newXi,params.workMuStar(zi),params.workSqrtTau(zi),params.workLogDetTau(zi));
 				params.workLogPXiGivenZi(i,logVal);
 			}
 		}
