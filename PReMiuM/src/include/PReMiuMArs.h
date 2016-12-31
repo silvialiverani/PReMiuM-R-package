@@ -104,11 +104,12 @@ double ARSsampleNu(pReMiuMParams params,
 	//initialise sampler
 	const int ns=30; // number of attempts (max_attempts = ns*3)
 	vector<double> xTmp;
-	double ui=0, xlb, xub;
+	//double ui=0;
+	double xlb, xub;
 	int lb, ub;
 	const int m = 5;
 	xTmp.resize(m);
-	ui=params.nu(cluster);	
+	//ui=params.nu(cluster);	
 	xlb=0;
 	xub=0;
 	lb=1; //true

@@ -2107,13 +2107,7 @@ void gibbsForNuInActive(mcmcChain<pReMiuMParams>& chain,
 	mcmcState<pReMiuMParams>& currentState = chain.currentState();
 	pReMiuMParams& currentParams = currentState.parameters();
 	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
-	const pReMiuMData& dataset = model.dataset();
-	unsigned int nCategoriesY=dataset.nCategoriesY();
 	const string outcomeType = model.dataset().outcomeType();
-
-
-	unsigned int nSubjects = currentParams.nSubjects();
-	unsigned int nCovariates = currentParams.nCovariates();
 
 	// Find the number of clusters
 	unsigned int maxZ = currentParams.workMaxZi();
@@ -3147,7 +3141,6 @@ void updateMissingPReMiuMData(baseGeneratorType& rndGenerator,
 	unsigned int nContinuousCovs = dataset.nContinuousCovs();
 	vector<unsigned int> nCategories = params.nCategories();
 	string covariateType = options.covariateType();
-	unsigned int& nPredictSubjects=dataset.nPredictSubjects();
 
 	// Define a uniform random number generator
 	randomUniform unifRand(0,1);

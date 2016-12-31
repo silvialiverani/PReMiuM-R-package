@@ -61,12 +61,12 @@ Days since last update: 3
 * checking examples ... OK
 Examples with CPU or elapsed time > 5s
                           user system elapsed
-profRegr                32.628  0.252  32.894
-margModelPosterior      27.364  0.176  27.555
-summariseVarSelectRho   16.248  0.140  16.399
-calcDissimilarityMatrix 15.372  0.060  15.440
-setHyperparams           6.604  0.088   6.694
-globalParsTrace          5.756  0.048   5.814
+profRegr                31.980  0.192  32.199
+margModelPosterior      30.132  0.232  30.403
+summariseVarSelectRho   17.512  0.148  17.703
+calcDissimilarityMatrix 13.328  0.084  13.414
+globalParsTrace          8.960  0.028   8.994
+setHyperparams           7.728  0.112   7.852
 * checking PDF version of manual ... OK
 * DONE
 Status: 2 NOTEs

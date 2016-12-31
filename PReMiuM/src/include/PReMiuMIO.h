@@ -1542,6 +1542,10 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 	        }
 
 	}
+	if(wasError){
+		Rprintf("There is a mistake in the initialisation of PReMiuM.\n");
+	}
+
 }
 
 // Write the sampler output

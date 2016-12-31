@@ -15,4 +15,4 @@ Imports: Rcpp (>= 0.11), ggplot2 (>= 0.9.2.1), cluster, plotrix (>=
 LinkingTo: Rcpp, RcppEigen (>= 0.3), BH (>= 1.54)
 SystemRequirements: GNU make
 NeedsCompilation: yes
-Packaged: 2016-12-31 14:08:12 UTC; root
+Packaged: 2016-12-31 15:00:59 UTC; root
