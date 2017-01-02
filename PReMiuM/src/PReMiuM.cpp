@@ -191,20 +191,11 @@ RcppExport SEXP profRegr(SEXP inputString) {
 		if(options.outcomeType().compare("Survival")==0){
 			if (!options.weibullFixedShape()) {
 				// Gibbs for shape parameter (cluster specific) of Weibull for survival response model
-				pReMiuMSampler.addProposal("gibbsForNu",1.0,1,1,&gibbsForNu);
+				//pReMiuMSampler.addProposal("gibbsForNu",1.0,1,1,&gibbsForNu);
 			}
 		}
 	}
 
-
-	// The Metropolis Hastings update for labels
-	if(options.whichLabelSwitch().compare("123")==0){
-		pReMiuMSampler.addProposal("metropolisHastingsForLabels123",1.0,1,1,&metropolisHastingsForLabels123);
-	} else if (options.whichLabelSwitch().compare("12")==0){
-		pReMiuMSampler.addProposal("metropolisHastingsForLabels12",1.0,1,1,&metropolisHastingsForLabels12);
-	} else if(options.whichLabelSwitch().compare("3")==0){
-		pReMiuMSampler.addProposal("metropolisHastingsForLabels3",1.0,1,1,&metropolisHastingsForLabels3);
-	} 
 
 	// Gibbs for U
 	if(options.samplerType().compare("Truncated")!=0){
@@ -271,10 +262,21 @@ RcppExport SEXP profRegr(SEXP inputString) {
 
 	}
 
+	// The Metropolis Hastings update for labels
+	if(options.whichLabelSwitch().compare("123")==0){
+		pReMiuMSampler.addProposal("metropolisHastingsForLabels123",1.0,1,1,&metropolisHastingsForLabels123);
+	} else if (options.whichLabelSwitch().compare("12")==0){
+		pReMiuMSampler.addProposal("metropolisHastingsForLabels12",1.0,1,1,&metropolisHastingsForLabels12);
+	} else if(options.whichLabelSwitch().compare("3")==0){
+		pReMiuMSampler.addProposal("metropolisHastingsForLabels3",1.0,1,1,&metropolisHastingsForLabels3);
+	} 
+
+
 	if(options.includeResponse()){
 		// The Metropolis Hastings update for the inactive theta
 		pReMiuMSampler.addProposal("gibbsForThetaInActive",1.0,1,1,&gibbsForThetaInActive);
 		if(options.outcomeType().compare("Survival")==0&&!options.weibullFixedShape()) {
+			pReMiuMSampler.addProposal("gibbsForNu",1.0,1,1,&gibbsForNu);
 			pReMiuMSampler.addProposal("gibbsForNuInActive",1.0,1,1,&gibbsForNuInActive);
 
 		}
@@ -300,12 +302,13 @@ RcppExport SEXP profRegr(SEXP inputString) {
 			pReMiuMSampler.addProposal("gibbsForSigmaSqYQuantile",1.0,1,1,&gibbsForSigmaSqYQuantile);
 		}
 		if(options.outcomeType().compare("Survival")==0){
-			if (options.weibullFixedShape()) {
-			// Gibbs for shape parameter of Weibull for survival response model
-			pReMiuMSampler.addProposal("gibbsForNu",1.0,1,1,&gibbsForNu);
+      			if (options.weibullFixedShape()) {
+				// Gibbs for shape parameter of Weibull for survival response model
+				pReMiuMSampler.addProposal("gibbsForNu",1.0,1,1,&gibbsForNu);
 			}
 		}
 	}
+
 
 	// Gibbs update for the allocation parameters
 	pReMiuMSampler.addProposal("gibbsForZ",1.0,1,1,&gibbsForZ);

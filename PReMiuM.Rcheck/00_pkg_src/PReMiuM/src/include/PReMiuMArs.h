@@ -107,7 +107,7 @@ double ARSsampleNu(pReMiuMParams params,
 	//double ui=0;
 	double xlb, xub;
 	int lb, ub;
-	const int m = 5;
+	const int m = 7;
 	xTmp.resize(m);
 	//ui=params.nu(cluster);	
 	xlb=0;
@@ -118,7 +118,9 @@ double ARSsampleNu(pReMiuMParams params,
         xTmp[1] = 0.05;
         xTmp[2] = 0.5;
         xTmp[3] = 1;
-        xTmp[4] = 5;
+        xTmp[4] = 2;
+        xTmp[5] = 5;
+        xTmp[6] = 10;
 //std::cout<<xTmp[0]<<" "<<xTmp[1]<<" "<<xTmp[2]<<" "<<xTmp[3]<<" "<<xTmp[4]<<" "<<std::endl;
 // can try to remove some of these points on the x axis to improve efficiency
 	double* x = &xTmp[0];

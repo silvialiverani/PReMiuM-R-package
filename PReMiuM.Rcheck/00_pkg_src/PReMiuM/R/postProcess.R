@@ -967,17 +967,16 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F,proportionalHazard
 					currRisk<-matrix(0,ncol=length(optAlloc[[c]]),nrow=nCategoriesY)
 					currRisk<-exp(currLambda)/rowSums(exp(currLambda))
 				}else if(yModel=="Survival"){
-					if (proportionalHazards){
+				  if (!weibullFixedShape){
+				    currNuVector<-currNu[currZ[optAlloc[[c]]]]
+				  } else {
+				    currNuVector<-nu[sweep]
+				  }
+				  if (proportionalHazards){
 						currRisk<-exp(currLambda)
 					}else{
-						if (!weibullFixedShape){
-							currNuVector<-currNu[currZ[optAlloc[[c]]]]
-						} else {
-							currNuVector<-nu[sweep]
-						}
 						currRisk<-1/((exp(currLambda))^(1/currNuVector))*gamma(1+1/currNuVector)
 					}
-
 				}
 				riskArray[sweep-firstLine+1,c,]<-apply(currRisk,2,mean)
 				thetaArray[sweep-firstLine+1,c,]<-apply(as.matrix(currTheta[currZ[optAlloc[[c]]],],ncol=nCategoriesY),2,mean)
@@ -1184,9 +1183,13 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F,proportionalHazard
 		if(nFixedEffects>0){
 			close(betaFile)
 		}
-		if (yModel=="Survival"&&!weibullFixedShape) {
-			out$nuArray<-nuArray
-			close(nuFile)
+		if (yModel=="Survival"){
+		  if (!weibullFixedShape) {
+			  out$nuArray<-nuArray
+			  close(nuFile)
+		  } else {
+		    out$nuArray<-nu
+		  }
 		}
 	}
 	

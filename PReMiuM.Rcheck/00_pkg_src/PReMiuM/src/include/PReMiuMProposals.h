@@ -2574,7 +2574,7 @@ void gibbsForNu(mcmcChain<pReMiuMParams>& chain,
 		double nu = ARSsampleNu(currentParams, model, 0,logNuPostSurvival,rndGenerator);
 		currentParams.nu(0,nu);
 	} else {
-		for (unsigned int c=0;c<maxZ;c++){
+		for (unsigned int c=0;c<=maxZ;c++){
 			double nu = ARSsampleNu(currentParams, model, c,logNuPostSurvival,rndGenerator);
 			currentParams.nu(c,nu);
 		}
