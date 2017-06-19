@@ -1,0 +1,8 @@
+\contentsline {section}{\numberline {1}Introduction}{1}{section.1}
+\contentsline {section}{\numberline {2}Generating data}{1}{section.2}
+\contentsline {section}{\numberline {3}Running PReMiuM}{3}{section.3}
+\contentsline {subsection}{\numberline {3.1}Outputs of profRegr()}{4}{subsection.3.1}
+\contentsline {section}{\numberline {4}Postprocessing}{7}{section.4}
+\contentsline {section}{\numberline {5}Plot}{7}{section.5}
+\contentsline {section}{\numberline {6}Plots for known-truth clusterings}{7}{section.6}
+\contentsline {section}{\numberline {7}SessionInfo}{14}{section.7}

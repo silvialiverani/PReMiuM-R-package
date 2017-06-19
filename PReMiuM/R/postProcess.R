@@ -463,6 +463,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 		}
 		if(nFixedEffects>0){
 			wMat<-dataMatrix[,(2+nCovariates):(1+nCovariates+nFixedEffects)]
+			wMat<-as.matrix(wMat,ncol=nFixedEffects)
 		}
 	#}
 	# include response
@@ -951,7 +952,7 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F,proportionalHazard
 						for (i in 1:length(optAlloc[[c]])){
 							for (k in 1:nCategoriesY) currLambda[i,k]<-currLambda[i,k]+
 								t(as.matrix(wMat[optAlloc[[c]][i],]))%*%
-								currBeta[,yMat[optAlloc[[c]][i]]+1]
+								as.matrix(currBeta[,yMat[optAlloc[[c]][i]]+1])
 						}	
 					} else {
 						currLambda<-currLambda+as.matrix(wMat[optAlloc[[c]],])%*%currBeta
@@ -1989,7 +1990,7 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 	if(nPredictSubjects==0){
 		stop("No prediction subjects processed by C++\n")
 	}
-	
+
 	# Get the response and fixed effects data if available
 	responseProvided<-F
 	extraInfoProvided<-F # extra info is denominator for binomial and poisson
@@ -2043,18 +2044,18 @@ calcPredictions<-function(riskProfObj,predictResponseFileName=NULL, doRaoBlackwe
 
 	if (yModel=="Survival"){
 		if (weibullFixedShape){
-			nuFileName<-file.path(directoryPath,paste(fileStem,'_nu.txt',sep=''))
-			nuFile<-file(nuFileName,open="r")
-			nu<-mean(read.table(nuFile)[,1])
-			close(nuFile)
+		  nuFileName<-file.path(directoryPath,paste(fileStem,'_nu.txt',sep=''))
+		  nuFile<-file(nuFileName,open="r")
+		  nu<-mean(read.table(nuFile)[,1])
+		  close(nuFile)
 		}
 	} 
 
 	# Already done the allocation in the C++
 	if(doRaoBlackwell){
 		# Construct the RB theta file name
-		thetaFileName<-file.path(directoryPath,paste(fileStem,'_predictThetaRaoBlackwell.txt',sep=''))
-		thetaArray<-array(0,dim=c(nSamples,nPredictSubjects,nCategoriesY))
+	  thetaFileName<-file.path(directoryPath,paste(fileStem,'_predictThetaRaoBlackwell.txt',sep=''))
+	  thetaArray<-array(0,dim=c(nSamples,nPredictSubjects,nCategoriesY))
 		# Read the RB theta data
 		if (yModel=="Categorical"){
 			thetaMat<-matrix(scan(thetaFileName,what=double(),quiet=T),byrow=T,ncol=nPredictSubjects*(nCategoriesY-1))
