@@ -261,7 +261,7 @@ Several files are created when \verb|profRegr()| is run. We discuss the most imp
 > readLines("output_log.txt")
 \end{Sinput}
 \begin{Soutput}
- [1] "Date and time: 2017-06-19 12:0917"                                         
+ [1] "Date and time: 2017-07-12 11:5749"                                         
  [2] ""                                                                          
  [3] "Data file path: output_input.txt"                                          
  [4] ""                                                                          
@@ -657,12 +657,90 @@ Then we make a composite colour bar plot.
 +                          colourPlot=muColor)
 +   muArray<-rbind(muArray,muArrayNew)  
 + }
+> # THIS IS NOT WORKING YET!!
+> 
 > ggplot(muArray, aes(x=clusterNumber, y=covariateNumber, fill=colourPlot)) +
 +   geom_col(stat="identity", colour="white") 
 > 
 \end{Sinput}
 \end{Schunk}
 \includegraphics{Fig-test1}
+
+%------------------------------------
+\section{Predictions}
+%-------------------------------------
+Profile regression can be used to compute the posterior predictive distribution of the outcome for given values of the covariates. For example, let us simulate the data as follows. 
+\begin{Schunk}
+\begin{Sinput}
+> inputs <- generateSampleDataFile(clusSummaryBernoulliDiscrete())
+> head(inputs$inputData)
+\end{Sinput}
+\begin{Soutput}
+  outcome Variable1 Variable2 Variable3 Variable4 Variable5 FixedEffects1
+1       1         0         0         0         0         2  -0.412518212
+2       0         0         0         0         0         0  -1.638596987
+3       1         0         0         0         0         1  -1.314365256
+4       1         0         0         0         1         0  -0.744779261
+5       1         0         0         2         0         0   0.008464125
+6       1         0         0         0         0         0  -0.527909507
+  FixedEffects2
+1    -1.3689695
+2    -0.8336707
+3    -0.8892503
+4    -0.1851847
+5    -1.2949193
+6     0.3487125
+\end{Soutput}
+\end{Schunk}
+We can then prepare a data frame which contains the covariate values which we are interested in computing a prediction of the outcome for. The data frame must have as many columns as the number of covariates in the original dataset, and it may contain \verb|NA| for covariate values which are unknown. The number of rows of the dataset corresponds to the number of predictive profiles that we are interested in computing. The columns of the data frame must have names that match the covariates in the original dataset.  
+\begin{Schunk}
+\begin{Sinput}
+> preds<-data.frame(matrix(c(
++ 2, 2, 2, 2, 2,
++ 0, 0, NA, 0, 0),ncol=5,byrow=TRUE))
+> colnames(preds)<-names(inputs$inputData)[2:(inputs$nCovariates+1)]
+> preds
+\end{Sinput}
+\begin{Soutput}
+  Variable1 Variable2 Variable3 Variable4 Variable5
+1         2         2         2         2         2
+2         0         0        NA         0         0
+\end{Soutput}
+\end{Schunk}
+Then we can include this dataset into the function \verb|profRegr| using the option \verb|predict| and run the MCMC and the postprocessing functions.  
+\begin{Schunk}
+\begin{Sinput}
+> runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
++  nSweeps=10000, nBurn=10000, data=inputs$inputData, output="output", 
++  covNames=inputs$covNames,predict=preds,
++  fixedEffectsNames = inputs$fixedEffectNames)        
+> dissimObj <- calcDissimilarityMatrix(runInfoObj)
+> clusObj <- calcOptimalClustering(dissimObj)
+> riskProfileObj <- calcAvgRiskAndProfile(clusObj)
+\end{Sinput}
+\end{Schunk}
+The function \verb|calcPredictions| extracts the sample from the posterior predictive distribution for the predictive profiles. Below, the first 10 samples from the MCMC are shown for the two predictive profiles selected for this example. 
+\begin{Schunk}
+\begin{Sinput}
+> predictions <- calcPredictions(riskProfileObj,fullSweepPredictions=TRUE,fullSweepLogOR=TRUE)
+> predictions$predictedYPerSweep[1:10,,1]
+\end{Sinput}
+\end{Schunk}
+The following command plots the posterior predictive distribution for each of the predictive profiles in the matrix \verb|predictions$predictedYPerSweep|. See Figure \ref{fig:predict}. 
+\begin{Schunk}
+\begin{Sinput}
+> plotPredictions(outfile="predictiveDensity.pdf",runInfoObj=runInfoObj,
++  predictions=predictions,logOR=TRUE)
+\end{Sinput}
+\end{Schunk}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[height=7cm,page=1]{"predictiveDensity"}
+\includegraphics[height=7cm,page=1]{"predictiveDensity"}
+\caption{These are the posterior predictive distributions for the two predictive profiles, saved in `predictiveDensity.pdf' using the function plotPredictions.\label{fig:predict}}
+\end{figure}
+
 %------------------------------------
 \section{SessionInfo}
 %-------------------------------------
@@ -674,7 +752,7 @@ This file was compiled using a computer with the following packages:
 > sessionInfo()
 \end{Sinput}
 \begin{Soutput}
-R version 3.4.0 (2017-04-21)
+R version 3.4.1 (2017-06-30)
 Platform: x86_64-pc-linux-gnu (64-bit)
 Running under: Ubuntu 16.04.2 LTS
 
@@ -698,10 +776,10 @@ other attached packages:
 
 loaded via a namespace (and not attached):
  [1] Rcpp_0.12.10       digest_0.6.12      ald_1.1            MASS_7.3-47       
- [5] grid_3.4.0         plyr_1.8.4         gtable_0.2.0       magrittr_1.5      
+ [5] grid_3.4.1         plyr_1.8.4         gtable_0.2.0       magrittr_1.5      
  [9] scales_0.4.1       stringi_1.1.5      reshape2_1.4.2     lazyeval_0.2.0    
-[13] labeling_0.3       RColorBrewer_1.1-2 tools_3.4.0        stringr_1.2.0     
-[17] munsell_0.4.3      plotrix_3.6-4      compiler_3.4.0     colorspace_1.3-2  
+[13] labeling_0.3       RColorBrewer_1.1-2 tools_3.4.1        stringr_1.2.0     
+[17] munsell_0.4.3      plotrix_3.6-4      compiler_3.4.1     colorspace_1.3-2  
 [21] gamlss.dist_5.0-0  cluster_2.0.6      tibble_1.3.0      
 \end{Soutput}
 \end{Schunk}

@@ -5,4 +5,5 @@
 \contentsline {section}{\numberline {4}Postprocessing}{7}{section.4}
 \contentsline {section}{\numberline {5}Plot}{7}{section.5}
 \contentsline {section}{\numberline {6}Plots for known-truth clusterings}{7}{section.6}
-\contentsline {section}{\numberline {7}SessionInfo}{14}{section.7}
+\contentsline {section}{\numberline {7}Predictions}{14}{section.7}
+\contentsline {section}{\numberline {8}SessionInfo}{15}{section.8}

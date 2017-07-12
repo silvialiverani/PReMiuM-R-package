@@ -1,64 +1,58 @@
-Date and time: 2017-06-19 12:0941
+Date and time: 2017-07-12 11:5817
 
 Data file path: output_input.txt
 
 Output file path: output
 
-Predict file path: No predictions run.
+Prediction file path: output_predict.txt
 
-Seed: 12345
+Seed: 1499857097
 
-Number of sweeps: 100
-Burn in sweeps: 300
+Number of sweeps: 10000
+Burn in sweeps: 10000
 Output filter: 1
 Proposal Type: gibbsForVActive, Acceptance Rate: 1
-Proposal Type: gibbsForMuActive, Acceptance Rate: 1
-Proposal Type: gibbsForTauActive, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForThetaActive, Acceptance Rate: 0.374091
+Proposal Type: updateForPhiActive, Acceptance Rate: 1
+Proposal Type: metropolisHastingsForThetaActive, Acceptance Rate: 0.435375
+Proposal Type: metropolisHastingsForBeta, Acceptance Rate: 0.437325
 Proposal Type: gibbsForU, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.43
+Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.43855
 Proposal Type: gibbsForVInActive, Acceptance Rate: 1
-Proposal Type: gibbsForMuInActive, Acceptance Rate: 1
-Proposal Type: gibbsForTauInActive, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForLabels123, Acceptance Rate: 0.2375
+Proposal Type: gibbsForPhiInActive, Acceptance Rate: 1
+Proposal Type: metropolisHastingsForLabels123, Acceptance Rate: 0.1701
 Proposal Type: gibbsForThetaInActive, Acceptance Rate: 1
-Proposal Type: gibbsForSigmaSqY, Acceptance Rate: 1
 Proposal Type: gibbsForZ, Acceptance Rate: 1
-Number of subjects: 1200
-Number of prediction subjects: 0
+Number of subjects: 1000
+Number of prediction subjects: 2
 Prediction type: RaoBlackwell
 Sampler type: SliceDependent
-Number of initial clusters: 15
+Number of initial clusters: 60 (Random, Unif[50,60])
 Covariates: 
-	Variable1
-	Variable2
-No fixed effects
-Model for Y: Normal
+	Variable1 (categorical)
+	Variable2 (categorical)
+	Variable3 (categorical)
+	Variable4 (categorical)
+	Variable5 (categorical)
+FixedEffects: 
+	FixedEffects1
+	FixedEffects2
+Model for Y: Bernoulli
 Extra Y variance: False
 Include response: True
 Update alpha: True
 Compute allocation entropy: False
-Model for X: Normal
+Model for X: Discrete
 Variable selection: None
 
 Hyperparameters:
 shapeAlpha: 2
 rateAlpha: 1
-mu0: 
-  4.60174
--0.289885
-Tau0:
-0.00421843          0
-         0 0.00386235
-R0: 
-0.106017 0.107947
-0.107947 0.150339
-kappa0: 2
-nu0: 0.01
+aPhi[j]: 1 1 1 1 1 
 muTheta: 0
 sigmaTheta: 2.5
 dofTheta: 7
-shapeSigmaSqY: 2.5
-scaleSigmaSqY: 2.5
+muBeta: 0
+sigmaBeta: 2.5
+dofBeta: 7
 
-400 sweeps done in 1 seconds
+20000 sweeps done in 61 seconds
