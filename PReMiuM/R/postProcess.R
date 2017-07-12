@@ -2898,7 +2898,7 @@ plotPredictions<-function(outfile,runInfoObj,predictions,logOR=FALSE){
 	for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i],runInfoObj[[i]])
 
 	if (yModel!="Bernoulli"&&yModel!="Normal"&&yModel!="Survival"&&yModel!="Quantile") stop("This function has been developed for Bernoulli, Normal, Quantile and Survival response only.")
-	if (xModel=="Mixed") stop("This function has been developed for Discrete and Normal covariates only.")
+#	if (xModel=="Mixed") stop("This function has been developed for Discrete and Normal covariates only.")
 	if (yModel=="Normal"||yModel=="Quantile") logOR<-FALSE
 
 	#if (runInfoObj$nFixedEffects>0) print("Note that fixed effects are not processed in this function.")
