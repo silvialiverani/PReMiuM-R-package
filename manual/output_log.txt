@@ -1,4 +1,4 @@
-Date and time: 2017-07-12 11:5817
+Date and time: 2017-07-14 14:5308
 
 Data file path: output_input.txt
 
@@ -6,27 +6,27 @@ Output file path: output
 
 Prediction file path: output_predict.txt
 
-Seed: 1499857097
+Seed: 1500040388
 
 Number of sweeps: 10000
 Burn in sweeps: 10000
 Output filter: 1
 Proposal Type: gibbsForVActive, Acceptance Rate: 1
 Proposal Type: updateForPhiActive, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForThetaActive, Acceptance Rate: 0.435375
-Proposal Type: metropolisHastingsForBeta, Acceptance Rate: 0.437325
+Proposal Type: metropolisHastingsForThetaActive, Acceptance Rate: 0.429696
+Proposal Type: metropolisHastingsForBeta, Acceptance Rate: 0.438375
 Proposal Type: gibbsForU, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.43855
+Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.4375
 Proposal Type: gibbsForVInActive, Acceptance Rate: 1
 Proposal Type: gibbsForPhiInActive, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForLabels123, Acceptance Rate: 0.1701
+Proposal Type: metropolisHastingsForLabels123, Acceptance Rate: 0.1993
 Proposal Type: gibbsForThetaInActive, Acceptance Rate: 1
 Proposal Type: gibbsForZ, Acceptance Rate: 1
 Number of subjects: 1000
 Number of prediction subjects: 2
 Prediction type: RaoBlackwell
 Sampler type: SliceDependent
-Number of initial clusters: 60 (Random, Unif[50,60])
+Number of initial clusters: 56 (Random, Unif[50,60])
 Covariates: 
 	Variable1 (categorical)
 	Variable2 (categorical)
@@ -55,4 +55,4 @@ muBeta: 0
 sigmaBeta: 2.5
 dofBeta: 7
 
-20000 sweeps done in 61 seconds
+20000 sweeps done in 68 seconds

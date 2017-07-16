@@ -3,6 +3,8 @@ Changes in version 3.1.5 (2017-)
 * Fixed warning message in function plotRiskProfile
 * Fixed bug in variable selection for xModel=Mixed and missingX
 * Fixed posterior computation of nu for survival response variable
+* Added unit testing in folder tests/
+* plotPredictions() is now available for xModel=Mixed too
 
 --------------------------------------------
 Changes in version 3.1.4 (2016-12-28)

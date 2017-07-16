@@ -261,7 +261,7 @@ Several files are created when \verb|profRegr()| is run. We discuss the most imp
 > readLines("output_log.txt")
 \end{Sinput}
 \begin{Soutput}
- [1] "Date and time: 2017-07-12 11:5749"                                         
+ [1] "Date and time: 2017-07-14 14:5242"                                         
  [2] ""                                                                          
  [3] "Data file path: output_input.txt"                                          
  [4] ""                                                                          
@@ -318,7 +318,7 @@ Several files are created when \verb|profRegr()| is run. We discuss the most imp
 [55] "sigmaBeta: 2.5"                                                            
 [56] "dofBeta: 7"                                                                
 [57] ""                                                                          
-[58] "400 sweeps done in 3 seconds"                                              
+[58] "400 sweeps done in 2 seconds"                                              
 \end{Soutput}
 \end{Schunk}
 
@@ -421,7 +421,7 @@ The plot in Figure \ref{fig:summary} can be produced by running the following co
 > clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
 \end{Sinput}
 \end{Schunk}
-
+The data for the boxplots of the outcome are available in \verb|riskProfileObj$risk| while the data for the boxplots of the covariates are available in \verb|riskProfileObj$profile|.
 
 \begin{figure}[ht]
 \centering
