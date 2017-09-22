@@ -1,0 +1,63 @@
+Creating a profile
+
+	runInfoObj <- profRegr()
+
+------------------------------------------------------------------------------
+
+usual inputs for profRegr:
+
+	covNames = a character vector of column names for the data. names cannot include spaces
+	outcome = name the outcome column
+	data = the data frame you are pulling from
+	yModel = select a model type for covariates
+	xModel = select a model type for outcome variables
+	discreteCovs = enter categorical covariates
+	continuousCovs = enter numerical covariates
+
+the rest can be looked at in detail by using:
+
+	?profRegr
+
+Predictions:
+
+	If you request predictions, you must create a data frame with predictive values for each covariate
+	columns being the covariate and each row a set of predictions
+
+Then, in profRegr(), do:
+
+	predict = your created predictions data frame
+
+------------------------------------------------------------------------------
+
+After the Profile regression has run:
+	
+	calcDists <- calcDissimilarityMatrix(runInfoObj)
+	clusts <- calcOptimalClustering(calcDists)
+
+these two calculate the dissimilarity matrix and find the optimal clustering
+
+------------------------------------------------------------------------------
+
+the next few lines calculate values and create the summary box plots
+(riskProfileObj$risk gives you the values used for the boxplots for the outcome)
+(riskProfileObj$profile gives you the values used for the boxplots of the covariates)
+
+	riskProfileObj <- calcAvgRiskAndProfile(clusts)
+	clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
+
+The "summary.png" will be in your directory
+
+------------------------------------------------------------------------------
+
+Finally, calculate the predictions (if you had them) using:
+
+	predictions <- calcPredictions(riskProfileObj)
+
+calcPredictions has a few option inputs, including:
+
+	fullSweepPredictions =
+	fullSweepLogOR = 
+	fullSweepHazardRation = 
+
+All three are default to FALSE, 
+and setting to TRUE just means computing the corresponding value for each sweep.
