@@ -21,9 +21,11 @@ the rest can be looked at in detail by using:
 Predictions:
 
 	If you request predictions, you must create a data frame with predictive values for each covariate
-	columns being the covariate and each row a set of predictions
+	columns are the covariates
+	each row is a set of predictions
+	ex:	preds <- data.frame(matrix(c("Beck-XL 5939AMXT",290,0,98000,78,1,1,"Beck-XL 5939AMXT",290,0,98000,78,1,1), ncol = 7, byrow = TRUE))
 
-Then, in profRegr(), do:
+Then in profRegr() do:
 
 	predict = your created predictions data frame
 
