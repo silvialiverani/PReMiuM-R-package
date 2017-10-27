@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.11.10)  2 JAN 2017 17:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.8.24)  25 OCT 2017 20:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -709,7 +709,7 @@ File: latin1.def 2015/03/17 v1.2c Input encoding file
 
 
 Writing index file Rd2.idx
-(/tmp/Rtmpr2bsbS/Rd2pdf177f23798969/Rd2.aux)
+(/tmp/RtmpnGdfPo/Rd2pdf14dc3c3e8aa1/Rd2.aux)
 \openout1 = `Rd2.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
@@ -766,8 +766,8 @@ LaTeX Info: Redefining \ref on input line 8.
 LaTeX Info: Redefining \pageref on input line 8.
 LaTeX Info: Redefining \nameref on input line 8.
 
-(/tmp/Rtmpr2bsbS/Rd2pdf177f23798969/Rd2.out)
-(/tmp/Rtmpr2bsbS/Rd2pdf177f23798969/Rd2.out)
+(/tmp/RtmpnGdfPo/Rd2pdf14dc3c3e8aa1/Rd2.out)
+(/tmp/RtmpnGdfPo/Rd2pdf14dc3c3e8aa1/Rd2.out)
 \@outlinefile=\write4
 \openout4 = `Rd2.out'.
 
@@ -787,13 +787,13 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 23.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 33.
-LaTeX Font Info:    Try loading font information for T1+phv on input line 33.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 34.
+LaTeX Font Info:    Try loading font information for T1+phv on input line 34.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
 )
-(/tmp/Rtmpr2bsbS/Rd2pdf177f23798969/Rd2.toc [1
+(/tmp/RtmpnGdfPo/Rd2pdf14dc3c3e8aa1/Rd2.toc [1
 
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}])
@@ -804,11 +804,11 @@ File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
 File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
 )
 [2]
-LaTeX Font Info:    Try loading font information for TS1+ptm on input line 65.
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 66.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ) [3]
-Overfull \hbox (46.23737pt too wide) in paragraph at lines 115--117
+Overfull \hbox (46.23737pt too wide) in paragraph at lines 116--118
 \T1/ptm/m/n/10 TERMAP USA. Hy-per-ten-sion 64 (6), 1198-1204. Avail-able at htt
 p://www.ncbi.nlm.nih.gov/pubmed/25201893 
  []
@@ -840,7 +840,7 @@ File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
 )
-Overfull \hbox (11.78088pt too wide) in paragraph at lines 717--717
+Overfull \hbox (11.78088pt too wide) in paragraph at lines 719--719
  []\T1/zi4/m/n/10 globalParsTrace(runInfoObj, parameters = "nClusters",plotBurn
 In=FALSE,whichBeta=1)[] 
  []
@@ -854,7 +854,7 @@ File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
 )
-LaTeX Font Info:    Try loading font information for TS1+zi4 on input line 882.
+LaTeX Font Info:    Try loading font information for TS1+zi4 on input line 884.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/ts1zi4.fd
@@ -862,65 +862,65 @@ File: ts1zi4.fd 2014/06/22 Fontinst v1.933 font definitions for TS1/zi4.
 ) [20]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
-) [21]
+) [21] [22]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
-) [22]
-Overfull \hbox (16.9809pt too wide) in paragraph at lines 1024--1024
+) [23]
+Overfull \hbox (16.9809pt too wide) in paragraph at lines 1026--1026
  []\T1/zi4/m/n/9 predictions <- calcPredictions(riskProfileObj,fullSweepPredict
 ions=TRUE,fullSweepLogOR=TRUE)[] 
  []
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
-) [23] [24]
+) [24] [25]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
-) [25]
-Overfull \hbox (0.62779pt too wide) in paragraph at lines 1161--1162
+) [26]
+Overfull \hbox (0.62779pt too wide) in paragraph at lines 1163--1164
 []\T1/ptm/m/n/10 This can be set equal to "RaoBlack-well" and "ran-dom". The de
 -fault is RaoBlack-
  []
 
-[26] [27]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1179--1180
+[27] [28]
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1181--1182
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
  []
 
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1180--1181
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1182--1183
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
  []
 
-[28] [29]
-Overfull \hbox (5.48706pt too wide) in paragraph at lines 1235--1236
+[29] [30]
+Overfull \hbox (5.48706pt too wide) in paragraph at lines 1237--1238
 []\T1/ptm/m/n/10 Internal file to com-mu-ni-cate be-tween R and C++ the val-ues
  of the hy-per-paramters. 
  []
 
-[30] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+[31] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
-) [31] [32]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1350--1351
+) [32] [33]
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1354--1355
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
  []
 
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1350--1351
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1354--1355
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
  []
 
-[33] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
-File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
-) [34]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+[34] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
 ) [35]
-(/tmp/Rtmpr2bsbS/Rd2pdf177f23798969/Rd2.ind [36]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
+) [36]
+(/tmp/RtmpnGdfPo/Rd2pdf14dc3c3e8aa1/Rd2.ind [37]
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 3.
 
@@ -928,16 +928,16 @@ LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
 (Font)              using `T1/zi4/m/n' instead on input line 33.
 
-[37
+[38
 
-] [38
+] [39
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1494.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1494.
- (/tmp/Rtmpr2bsbS/Rd2pdf177f23798969/Rd2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1494.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1494.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1498.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1498.
+ (/tmp/RtmpnGdfPo/Rd2pdf14dc3c3e8aa1/Rd2.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1498.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1498.
 
 Package rerunfilecheck Info: File `Rd2.out' has not changed.
 (rerunfilecheck)             Checksum: 3C2B4C9DD03BAC3676700DA29C63D797;1311.
@@ -945,15 +945,15 @@ Package rerunfilecheck Info: File `Rd2.out' has not changed.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1494.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1498.
  ) 
 Here is how much of TeX's memory you used:
- 6718 strings out of 494953
- 96654 string characters out of 6180976
- 168388 words of memory out of 5000000
- 9635 multiletter control sequences out of 15000+600000
+ 6719 strings out of 493029
+ 96661 string characters out of 6136234
+ 173229 words of memory out of 5000000
+ 9886 multiletter control sequences out of 15000+600000
  41277 words of font info for 51 fonts, out of 8000000 for 9000
- 14 hyphenation exceptions out of 8191
+ 1141 hyphenation exceptions out of 8191
  38i,6n,34p,1022b,590s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/inconsolata/i4-ts1.enc}{/usr/s
 hare/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/share/texlive/texmf-d
@@ -964,10 +964,10 @@ type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/ti
 mes/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
 </usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/tex
 live/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (38 pages, 175117 bytes).
+Output written on Rd2.pdf (39 pages, 176197 bytes).
 PDF statistics:
- 576 PDF objects out of 1000 (max. 8388607)
- 523 compressed objects within 6 object streams
- 229 named destinations out of 1000 (max. 500000)
+ 580 PDF objects out of 1000 (max. 8388607)
+ 526 compressed objects within 6 object streams
+ 230 named destinations out of 1000 (max. 500000)
  161 words of extra memory for PDF output out of 10000 (max. 10000000)
 

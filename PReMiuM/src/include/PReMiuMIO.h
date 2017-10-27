@@ -41,6 +41,7 @@
 #include<sstream>
 #include<algorithm>
 #include<iterator>
+#include<cstdint>
 
 #include<Eigen/Core>
 #include<Eigen/Cholesky>
@@ -160,7 +161,7 @@ pReMiuMOptions processCommandLine(string inputStr){
 				}else if(inString.find("--seed")!=string::npos){
 					size_t pos = inString.find("=")+1;
 					string tmpStr = inString.substr(pos,inString.size()-pos);
-					long rndSeed=(long)atoi(tmpStr.c_str());
+					uint_fast32_t rndSeed=(uint_fast32_t)atoi(tmpStr.c_str());
 					options.seed(rndSeed);
 				}else if(inString.find("--yModel")!=string::npos){
 					size_t pos = inString.find("=")+1;

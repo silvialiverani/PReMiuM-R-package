@@ -1,45 +1,10 @@
 * installing *source* package ‘PReMiuM’ ...
 ** libs
-g++ -std=c++11 -I/usr/share/R/include -DNDEBUG -I./include -DBOOST_MATH_PROMOTE_DOUBLE_POLICY=false  -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.3/Rcpp/include" -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.3/RcppEigen/include" -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.3/BH/include"   -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c PReMiuM.cpp -o PReMiuM.o
-In file included from /home/silvia/R/x86_64-pc-linux-gnu-library/3.3/RcppEigen/include/Eigen/Core:276:0,
-                 from ./include/Math/random.h:40,
-                 from ./include/MCMC/sampler.h:46,
-                 from PReMiuM.cpp:41:
-/home/silvia/R/x86_64-pc-linux-gnu-library/3.3/RcppEigen/include/Eigen/src/Core/Functors.h:973:28: warning: ‘template<class _Operation> class std::binder2nd’ is deprecated [-Wdeprecated-declarations]
- struct functor_traits<std::binder2nd<T> >
-                            ^
-In file included from /usr/include/c++/5/bits/stl_function.h:1128:0,
-                 from /usr/include/c++/5/string:48,
-                 from /usr/include/c++/5/bits/locale_classes.h:40,
-                 from /usr/include/c++/5/bits/ios_base.h:41,
-                 from /usr/include/c++/5/ios:42,
-                 from /usr/include/c++/5/ostream:38,
-                 from /usr/include/c++/5/iostream:39,
-                 from PReMiuM.cpp:32:
-/usr/include/c++/5/backward/binders.h:143:11: note: declared here
-     class binder2nd
-           ^
-In file included from /home/silvia/R/x86_64-pc-linux-gnu-library/3.3/RcppEigen/include/Eigen/Core:276:0,
-                 from ./include/Math/random.h:40,
-                 from ./include/MCMC/sampler.h:46,
-                 from PReMiuM.cpp:41:
-/home/silvia/R/x86_64-pc-linux-gnu-library/3.3/RcppEigen/include/Eigen/src/Core/Functors.h:977:28: warning: ‘template<class _Operation> class std::binder1st’ is deprecated [-Wdeprecated-declarations]
- struct functor_traits<std::binder1st<T> >
-                            ^
-In file included from /usr/include/c++/5/bits/stl_function.h:1128:0,
-                 from /usr/include/c++/5/string:48,
-                 from /usr/include/c++/5/bits/locale_classes.h:40,
-                 from /usr/include/c++/5/bits/ios_base.h:41,
-                 from /usr/include/c++/5/ios:42,
-                 from /usr/include/c++/5/ostream:38,
-                 from /usr/include/c++/5/iostream:39,
-                 from PReMiuM.cpp:32:
-/usr/include/c++/5/backward/binders.h:108:11: note: declared here
-     class binder1st
-           ^
-g++ -std=c++11 -I/usr/share/R/include -DNDEBUG -I./include -DBOOST_MATH_PROMOTE_DOUBLE_POLICY=false  -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.3/Rcpp/include" -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.3/RcppEigen/include" -I"/home/silvia/R/x86_64-pc-linux-gnu-library/3.3/BH/include"   -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c postProcess.cpp -o postProcess.o
-g++ -std=c++11 -shared -L/usr/lib/R/lib -Wl,-Bsymbolic-functions -Wl,-z,relro -o PReMiuM.so PReMiuM.o postProcess.o -L/usr/lib/R/lib -lR
-installing to /home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/PReMiuM/libs
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -I./include -DBOOST_MATH_PROMOTE_DOUBLE_POLICY=false  -I"/home/mastssl/R/x86_64-pc-linux-gnu-library/3.4/Rcpp/include" -I"/home/mastssl/R/x86_64-pc-linux-gnu-library/3.4/RcppEigen/include" -I"/home/mastssl/R/x86_64-pc-linux-gnu-library/3.4/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c PReMiuM.cpp -o PReMiuM.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -I./include -DBOOST_MATH_PROMOTE_DOUBLE_POLICY=false  -I"/home/mastssl/R/x86_64-pc-linux-gnu-library/3.4/Rcpp/include" -I"/home/mastssl/R/x86_64-pc-linux-gnu-library/3.4/RcppEigen/include" -I"/home/mastssl/R/x86_64-pc-linux-gnu-library/3.4/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c init.cpp -o init.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -I./include -DBOOST_MATH_PROMOTE_DOUBLE_POLICY=false  -I"/home/mastssl/R/x86_64-pc-linux-gnu-library/3.4/Rcpp/include" -I"/home/mastssl/R/x86_64-pc-linux-gnu-library/3.4/RcppEigen/include" -I"/home/mastssl/R/x86_64-pc-linux-gnu-library/3.4/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c postProcess.cpp -o postProcess.o
+g++ -std=gnu++11 -shared -L/usr/lib/R/lib -Wl,-Bsymbolic-functions -Wl,-z,relro -o PReMiuM.so PReMiuM.o init.o postProcess.o -L/usr/lib/R/lib -lR
+installing to /home/mastssl/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck/PReMiuM/libs
 ** R
 ** inst
 ** preparing package for lazy loading

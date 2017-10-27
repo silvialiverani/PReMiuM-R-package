@@ -1,32 +1,32 @@
-Date and time: 2017-07-14 14:5308
+Date and time: 2017-07-17 16:1515
 
 Data file path: output_input.txt
 
 Output file path: output
 
-Prediction file path: output_predict.txt
+Predict file path: No predictions run.
 
-Seed: 1500040388
+Seed: 12345
 
-Number of sweeps: 10000
-Burn in sweeps: 10000
+Number of sweeps: 10
+Burn in sweeps: 20
 Output filter: 1
 Proposal Type: gibbsForVActive, Acceptance Rate: 1
 Proposal Type: updateForPhiActive, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForThetaActive, Acceptance Rate: 0.429696
-Proposal Type: metropolisHastingsForBeta, Acceptance Rate: 0.438375
+Proposal Type: metropolisHastingsForThetaActive, Acceptance Rate: 0.446549
+Proposal Type: metropolisHastingsForBeta, Acceptance Rate: 0.0666667
 Proposal Type: gibbsForU, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.4375
+Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.566667
 Proposal Type: gibbsForVInActive, Acceptance Rate: 1
 Proposal Type: gibbsForPhiInActive, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForLabels123, Acceptance Rate: 0.1993
+Proposal Type: metropolisHastingsForLabels123, Acceptance Rate: 0.433333
 Proposal Type: gibbsForThetaInActive, Acceptance Rate: 1
 Proposal Type: gibbsForZ, Acceptance Rate: 1
-Number of subjects: 1000
-Number of prediction subjects: 2
+Number of subjects: 1050
+Number of prediction subjects: 0
 Prediction type: RaoBlackwell
 Sampler type: SliceDependent
-Number of initial clusters: 56 (Random, Unif[50,60])
+Number of initial clusters: 20
 Covariates: 
 	Variable1 (categorical)
 	Variable2 (categorical)
@@ -35,8 +35,7 @@ Covariates:
 	Variable5 (categorical)
 FixedEffects: 
 	FixedEffects1
-	FixedEffects2
-Model for Y: Bernoulli
+Model for Y: Poisson
 Extra Y variance: False
 Include response: True
 Update alpha: True
@@ -55,4 +54,4 @@ muBeta: 0
 sigmaBeta: 2.5
 dofBeta: 7
 
-20000 sweeps done in 68 seconds
+30 sweeps done in 0 seconds

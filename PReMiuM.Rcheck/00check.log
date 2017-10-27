@@ -1,7 +1,8 @@
-* using log directory ‘/home/silvia/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
-* using R version 3.3.2 (2016-10-31)
+* using log directory ‘/home/mastssl/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
+* using R version 3.4.2 (2017-09-28)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
+* using option ‘--use-gct’
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
 * this is package ‘PReMiuM’ version ‘3.1.5’
@@ -15,9 +16,9 @@
 * checking for sufficient/correct file permissions ... OK
 * checking whether package ‘PReMiuM’ can be installed ... OK
 * checking installed package size ... NOTE
-  installed size is 11.8Mb
+  installed size is 13.4Mb
   sub-directories of 1Mb or more:
-    libs  11.6Mb
+    libs  13.1Mb
 * checking package directory ... OK
 * checking DESCRIPTION meta-information ... OK
 * checking top-level files ... OK
@@ -52,6 +53,9 @@
 * checking for portable use of $(BLAS_LIBS) and $(LAPACK_LIBS) ... OK
 * checking compiled code ... OK
 * checking examples ... OK
+* checking for unstated dependencies in ‘tests’ ... OK
+* checking tests ... OK
+  Running ‘testthat.R’
 * checking PDF version of manual ... OK
 * DONE
 Status: 1 NOTE

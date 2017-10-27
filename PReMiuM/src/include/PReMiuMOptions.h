@@ -36,6 +36,7 @@
 #include<string>
 #include<numeric>
 #include<ctime>
+#include<cstdint>
 
 using std::vector;
 using std::ifstream;
@@ -69,7 +70,7 @@ class pReMiuMOptions{
 			_nClusInit=0;
 
 			// Random number seed
-			_seed=(long) time(0);
+			_seed=(uint_fast32_t) time(0);
 
 			// Profile regression variables
 			_outcomeType="Bernoulli";
@@ -156,15 +157,15 @@ class pReMiuMOptions{
 		}
 
 		/// \brief Return the random number seed
-		long seed() const{
+		uint_fast32_t seed() const{
 			return _seed;
 		}
 
 		/// \brief Set the random number seed
-		void seed(const long& rndSeed){
-			long rndSeedNew = rndSeed;
+		void seed(const uint_fast32_t& rndSeed){
+			uint_fast32_t rndSeedNew = rndSeed;
 			if(rndSeedNew==0){
-				rndSeedNew=(long) time(0);
+				rndSeedNew=(uint_fast32_t) time(0);
 			}
 			_seed=rndSeedNew;
 		}
@@ -444,7 +445,7 @@ class pReMiuMOptions{
 		// The number of initial clusters to initialise into
 		unsigned int _nClusInit;
 		// The random number seed
-		long _seed;
+		uint_fast32_t _seed;
 		// The model for the outcome
 		string _outcomeType;
 		// The model for the covariates

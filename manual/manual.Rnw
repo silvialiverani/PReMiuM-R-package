@@ -414,6 +414,33 @@ plotPredictions(outfile="predictiveDensity.pdf",runInfoObj=runInfoObj,
 \end{figure}
 
 %------------------------------------
+\section{Replicating a run: setting the seeds}
+%-------------------------------------
+It is possible to set the seed to replicate a run exactly. However, note that the seed must be set separately for R and C++. The function \verb|set.seed()| in R sets the seed for all following commands run in R but it is also necessary to set the seed for the MCMC which is written in C++. This can be done using the option \verb|seed| in the function \verb|profRegr()|.
+<<seed>>=
+set.seed(1234)
+inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
+runInfoObj<-profRegr(yModel=inputs$yModel, 
+                       xModel=inputs$xModel, nSweeps=10, nClusInit=20,
+                       nBurn=20, data=inputs$inputData, output="output", 
+                       covNames = inputs$covNames, outcomeT = inputs$outcomeT,
+                       fixedEffectsNames = inputs$fixedEffectNames,seed=12345)
+@
+
+
+%------------------------------------
+\section{Unit testing}
+%-------------------------------------
+There are a couple of unit tests available in the package for quick testing of the package. The tests can be run as follows. 
+
+<<unitTesting>>=
+library(testthat)
+library(PReMiuM)
+test_check("PReMiuM")
+@
+
+
+%------------------------------------
 \section{SessionInfo}
 %-------------------------------------
 

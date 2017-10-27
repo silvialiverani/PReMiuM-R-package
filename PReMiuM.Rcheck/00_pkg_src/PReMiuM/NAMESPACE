@@ -1,4 +1,4 @@
-useDynLib(PReMiuM)
+useDynLib(PReMiuM, .registration = TRUE, .fixes = "C_")
 exportPattern("^[[:alpha:]]+")
 
 importFrom("graphics", "axis", "mtext", "par", "plot", "plot.new", "plot.window", "rect", "text")

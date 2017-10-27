@@ -281,6 +281,7 @@ generateSampleDataFile<-function(clusterSummary,pQuantile=0.05){
 		out$inputData <- outData
 		out$shape <- shape
 		out$censorT <- censorT
+		out$outcomeT <- "event"
 	}
 	if(clusterSummary$includeCAR){
 		out$uCAR=U
@@ -567,7 +568,8 @@ clusSummaryNormalNormal<-function(){
 	'outcomeType'='Normal',
 	'covariateType'='Normal',
 	'nCovariates'=2,
-	'nFixedEffects'=0,
+	'nFixedEffects'=2,
+	'fixedEffectsCoeffs'=c(0.1,-0.5),
 	'sigmaSqY'=1,
 	'missingDataProb'=0,
 	'nClusters'=3,
@@ -591,7 +593,8 @@ clusSummaryVarSelectBernoulliDiscrete<-function(){
 	'covariateType'='Discrete',
 	'nCovariates'=10,
 	'nCategories'=rep(2,10),
-	'nFixedEffects'=0,
+	'nFixedEffects'=2,
+	'fixedEffectsCoeffs'=c(0.1,-0.5),
 	'missingDataProb'=0,
 	'nClusters'=5,
 	'clusterSizes'=c(200,200,200,200,200),
@@ -662,7 +665,8 @@ clusSummaryBernoulliMixed<-function(){
 	'nDiscreteCovs'=3,
 	'nContinuousCovs'=2,
 	'nCategories'=c(3,3,3),
-	'nFixedEffects'=0,
+	'nFixedEffects'=2,
+	'fixedEffectsCoeffs'=c(0.1,-0.5),
 	'missingDataProb'=0,
 	'nClusters'=3,
 	'clusterSizes'=c(300,300,300),
@@ -740,7 +744,8 @@ clusSummaryBernoulliNormal<-function(){
 	'outcomeType'='Bernoulli',
 	'covariateType'='Normal',
 	'nCovariates'=2,
-	'nFixedEffects'=0,
+	'nFixedEffects'=2,
+	'fixedEffectsCoeffs'=c(0.1,-0.5),
 	'missingDataProb'=0,
 	'nClusters'=5,
 	'clusterSizes'=c(100,100,100,100,100),
@@ -807,7 +812,8 @@ clusSummaryQuantileNormal<-function(){
     'outcomeType'='Quantile',
     'covariateType'='Normal',
     'nCovariates'=1,
-    'nFixedEffects'=0,
+    'nFixedEffects'=2,
+    'fixedEffectsCoeffs'=c(0.1,-0.5),
     'sigmaSqY'=1,
     'missingDataProb'=0,
     'nClusters'=5,

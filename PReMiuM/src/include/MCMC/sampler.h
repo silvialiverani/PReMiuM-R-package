@@ -39,6 +39,7 @@
 #include<cstdlib>
 #include<fstream>
 #include<sstream>
+#include<cstdint>
 
 #include<Rcpp.h>
 
@@ -231,9 +232,9 @@ template<class modelParamType,class optionType,class propParamType,class dataTyp
 		/// \brief Member function to seed the random number generator
 		/// \param[in] seedValue The seed value to use (if 0 is used the clock is
 		/// used to seed the generator)
-		void seedGenerator(const unsigned int& seedValue = 0){
+		void seedGenerator(const uint_fast32_t& seedValue = 0){
 			if(seedValue==0){
-				_seed = static_cast<unsigned int>(time(NULL));
+				_seed = static_cast<uint_fast32_t>(time(NULL));
 			}else{
 				_seed = seedValue;
 			}
@@ -307,7 +308,7 @@ template<class modelParamType,class optionType,class propParamType,class dataTyp
 		baseGeneratorType _rndGenerator;
 
 		/// \brief The seed for the random number generator
-		unsigned int _seed;
+		uint_fast32_t _seed;
 
 		/// \var _nSweeps
 		/// \brief The number of sweeps that we are running the sampler for

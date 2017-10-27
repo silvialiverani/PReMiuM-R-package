@@ -1,6 +1,9 @@
 To do before CRAN submission
 
 - delete any extra files
+- list changes
+- upload to git
+- check description
 - R check
 
 R CMD build yourPackage/
@@ -13,7 +16,8 @@ R CMD check yourPackage_0.0.1.tar.gz
 R CMD check --as-cran --use-valgrind yourPackage_0.0.1.tar.gz
 or
 R -d valgrind --vanilla > tests/myTest1.R
-
+R -d "valgrind --tool=memcheck --leak-check=full" --vanilla < mypkg-Ex.R
+R CMD check --use-gct yourPackage_0.0.1.tar.gz
 
 - send to windows compiler + devel option
 - update description with date

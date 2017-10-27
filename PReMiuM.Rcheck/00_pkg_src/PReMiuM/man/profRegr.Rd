@@ -126,6 +126,8 @@ These are the files produced in the output directory. We refer to Liverani et al
 
 There are more files that can be in the output, depending on which options are used in profRegr. The file _mu.txt for example reports the mean for xModel=Normal, _phi.txt reports the multinomial probabilities for xModel=Discrete, _rho.txt reports the paramters for variable selection, etc. The files usually report one line for each sweep (including burn in if reportBurnIn=TRUE). See Liverani et al. (2015) for more details of the parameters. 
 
+Note that for the _gamma.txt for variable selection the results are reported per sweep (each line is a sweep) and within each line by cluster (so for each covariate the switches per cluster are reported in order, before the second covariate is reported for each cluster, etc).
+
 }
 \section{Authors}{
 David Hastie, Department of Epidemiology and Biostatistics, Imperial College London, UK

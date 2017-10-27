@@ -5,7 +5,7 @@
 \usage{
 calcPredictions(riskProfObj, predictResponseFileName=NULL,
     doRaoBlackwell=F, fullSweepPredictions=F, fullSweepLogOR=F,
-    fullSweepHazardRatio=F)
+    fullSweepHazardRatio=F,referenceClusterOR=NA)
 }
 \arguments{
 \item{riskProfObj}{Object of type riskProfObj.}
@@ -14,6 +14,7 @@ calcPredictions(riskProfObj, predictResponseFileName=NULL,
 \item{fullSweepPredictions}{By default this is set to FALSE. If it is set to TRUE then a prediction is computed for each sweep.}
 \item{fullSweepLogOR}{By default this is set to FALSE. If it is set to TRUE then a prediction log OR is computed for each sweep.}
 \item{fullSweepHazardRatio}{By default this is set to FALSE. If it is set to TRUE then a prediction hazard ratio is computed for each sweep, only for Survival response.}
+\item{referenceClusterOR}{The cluster of reference for the odds ratios. If this is not provided then the first of the predictive profiles provided is used as the reference.}
 }
 \section{Details}{
 This functions computes predicted responses, for various prediction scenarios. It is assumed that the predictive
