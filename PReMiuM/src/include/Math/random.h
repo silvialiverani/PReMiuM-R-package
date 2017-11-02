@@ -48,7 +48,7 @@ using std::string;
 
 // Define the underlying random number generator
 // mt19937 is the mersenne twister which is good for U(0,1) in up to 623 dimensions
-typedef std::mt19937 baseGeneratorType;
+typedef boost::random::mt19937 baseGeneratorType;
 
 // Define the uniform random number generator
 typedef boost::random::uniform_real_distribution<> randomUniform;

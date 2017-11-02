@@ -24,3 +24,8 @@ R CMD check --use-gct yourPackage_0.0.1.tar.gz
 - backup in git
 
 (- read mail from Kurt Hornik about namespace stuff ("no visible binding for global variable" errors"))
+
+
+###################################
+to install packages from command line:
+install.packages("Dropbox/PReMiuM-R-package/PReMiuM_3.1.6.tar.gz", repos = NULL, type="source",lib="/scratch/sliverani/Rlibraries/")

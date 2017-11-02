@@ -1,4 +1,4 @@
-Date and time: 2017-10-25 19:1951
+Date and time: 2017-11-02 16:2701
 
 Data file path: output_input.txt
 
@@ -6,21 +6,20 @@ Output file path: output
 
 Predict file path: No predictions run.
 
-Seed: 1508955591
+Seed: 1509640021
 
 Number of sweeps: 10
 Burn in sweeps: 20
 Output filter: 1
 Proposal Type: gibbsForVActive, Acceptance Rate: 1
-Proposal Type: updateForPhiActive, Acceptance Rate: 0.88414
-Proposal Type: metropolisHastingsForThetaActive, Acceptance Rate: 0.467446
+Proposal Type: updateForPhiActive, Acceptance Rate: 1
+Proposal Type: metropolisHastingsForThetaActive, Acceptance Rate: 0.440559
 Proposal Type: gibbsForU, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.466667
+Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.533333
 Proposal Type: gibbsForVInActive, Acceptance Rate: 1
 Proposal Type: gibbsForPhiInActive, Acceptance Rate: 1
 Proposal Type: metropolisHastingsForLabels123, Acceptance Rate: 0.5
 Proposal Type: gibbsForThetaInActive, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForRhoOmega, Acceptance Rate: 0.114286
 Proposal Type: gibbsForZ, Acceptance Rate: 1
 Number of subjects: 1000
 Number of prediction subjects: 0
@@ -33,11 +32,6 @@ Covariates:
 	Variable3 (categorical)
 	Variable4 (categorical)
 	Variable5 (categorical)
-	Variable6 (categorical)
-	Variable7 (categorical)
-	Variable8 (categorical)
-	Variable9 (categorical)
-	Variable10 (categorical)
 No fixed effects
 Model for Y: Bernoulli
 Extra Y variance: False
@@ -45,17 +39,14 @@ Include response: True
 Update alpha: True
 Compute allocation entropy: False
 Model for X: Discrete
-Variable selection: Continuous
+Variable selection: None
 
 Hyperparameters:
 shapeAlpha: 2
 rateAlpha: 1
-aPhi[j]: 1 1 1 1 1 1 1 1 1 1 
+aPhi[j]: 1 1 1 1 1 
 muTheta: 0
 sigmaTheta: 2.5
 dofTheta: 7
-aRho: 0.5
-bRho: 0.5
-atomRho: 0.5
 
 30 sweeps done in 0 seconds
