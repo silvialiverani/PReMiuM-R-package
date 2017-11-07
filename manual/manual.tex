@@ -239,7 +239,7 @@ Several files are created when \verb|profRegr()| is run. We discuss the most imp
 > nClustersSweep1
 \end{Sinput}
 \begin{Soutput}
-[1] 15
+[1] 18
 \end{Soutput}
 \end{Schunk}
 
@@ -249,8 +249,8 @@ Several files are created when \verb|profRegr()| is run. We discuss the most imp
 > as.numeric(strsplit(readLines("output_nMembers.txt",1)," ")[[1]])
 \end{Sinput}
 \begin{Soutput}
- [1]   49  201  213   10    2  186    9  178  140   10    1    0    1    0    0
-[16] 1000
+ [1]  192  187  226  174  172    3   10   18   15    1    1    0    0    1    0
+[16]    0    0    0 1000
 \end{Soutput}
 \end{Schunk}
 
@@ -261,7 +261,7 @@ Several files are created when \verb|profRegr()| is run. We discuss the most imp
 > readLines("output_log.txt")
 \end{Sinput}
 \begin{Soutput}
- [1] "Date and time: 2017-07-17 16:1307"                                         
+ [1] "Date and time: 2017-11-07 09:2554"                                         
  [2] ""                                                                          
  [3] "Data file path: output_input.txt"                                          
  [4] ""                                                                          
@@ -276,13 +276,13 @@ Several files are created when \verb|profRegr()| is run. We discuss the most imp
 [13] "Output filter: 1"                                                          
 [14] "Proposal Type: gibbsForVActive, Acceptance Rate: 1"                        
 [15] "Proposal Type: updateForPhiActive, Acceptance Rate: 1"                     
-[16] "Proposal Type: metropolisHastingsForThetaActive, Acceptance Rate: 0.438538"
-[17] "Proposal Type: metropolisHastingsForBeta, Acceptance Rate: 0.37875"        
+[16] "Proposal Type: metropolisHastingsForThetaActive, Acceptance Rate: 0.430274"
+[17] "Proposal Type: metropolisHastingsForBeta, Acceptance Rate: 0.32125"        
 [18] "Proposal Type: gibbsForU, Acceptance Rate: 1"                              
-[19] "Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.4175"        
+[19] "Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.4425"        
 [20] "Proposal Type: gibbsForVInActive, Acceptance Rate: 1"                      
 [21] "Proposal Type: gibbsForPhiInActive, Acceptance Rate: 1"                    
-[22] "Proposal Type: metropolisHastingsForLabels123, Acceptance Rate: 0.5725"    
+[22] "Proposal Type: metropolisHastingsForLabels123, Acceptance Rate: 0.525"     
 [23] "Proposal Type: gibbsForThetaInActive, Acceptance Rate: 1"                  
 [24] "Proposal Type: gibbsForZ, Acceptance Rate: 1"                              
 [25] "Number of subjects: 1000"                                                  
@@ -328,16 +328,16 @@ Several files are created when \verb|profRegr()| is run. We discuss the most imp
 > as.numeric(strsplit(readLines("output_theta.txt",1)," ")[[1]])
 \end{Sinput}
 \begin{Soutput}
- [1] -4.103040  2.034290  0.118812  2.656510  1.757920 -1.992280  0.418815
- [8]  0.404117 -0.685178  2.773870  1.476130  7.166840  7.470620  1.859540
-[15]  0.495999
+ [1] -0.1425500  0.3987900  2.3716500 -1.8412900 -1.3355100  2.3872400
+ [7] -1.5619900  5.0787100  0.4097990  0.0370899 -0.8097570 -0.9003080
+[13]  0.4196360 -3.8771400 -0.5953140  0.0991222  1.4133000 -0.4865550
 \end{Soutput}
 \begin{Sinput}
 > phiSweep1<-as.numeric(strsplit(readLines("output_phi.txt",1)," ")[[1]])
 > head(phiSweep1)
 \end{Sinput}
 \begin{Soutput}
-[1] 0.0832792 0.8238710 0.0899783 0.6642670 0.4646210 0.1061100
+[1] 0.1429560 0.7818570 0.7922470 0.1696810 0.0287445 0.2815190
 \end{Soutput}
 \end{Schunk}
 
@@ -348,9 +348,9 @@ In the case of the cluster-specific vectors of parameters, such as $\phi$, the d
 > phiSweep1[seq(1,length(phiSweep1),nClustersSweep1)]
 \end{Sinput}
 \begin{Soutput}
- [1] 0.08327920 0.31529500 0.60142600 0.10942500 0.71301900 0.17755600
- [7] 0.94412700 0.00684943 0.04902370 0.20714400 0.02291660 0.76993900
-[13] 0.55054400 0.24884700 0.20060900
+ [1] 0.1429560 0.7797510 0.0772932 0.1509710 0.8085250 0.0405046 0.1471520
+ [8] 0.7075090 0.1453380 0.1815340 0.7298390 0.0886271 0.1908880 0.7322930
+[15] 0.0768194
 \end{Soutput}
 \end{Schunk}
 
@@ -360,13 +360,13 @@ In the case of the cluster-specific vectors of parameters, such as $\phi$, the d
 > as.numeric(strsplit(readLines("output_beta.txt",1)," ")[[1]])
 \end{Sinput}
 \begin{Soutput}
-[1]  0.105897 -0.598906
+[1]  0.044623 -0.648469
 \end{Soutput}
 \begin{Sinput}
 > as.numeric(strsplit(readLines("output_alpha.txt",1)," ")[[1]])
 \end{Sinput}
 \begin{Soutput}
-[1] 1.18202
+[1] 1.70869
 \end{Soutput}
 \end{Schunk}
 
@@ -436,7 +436,8 @@ The simulated data is generated for 5 clusters of 200 observations each. Let us 
 
 \begin{Schunk}
 \begin{Sinput}
-> known<-c(rep("A",600),rep("B",600),rep("C",300),rep("D",500),rep("E",1000))
+> known<-c(rep("A",600),rep("B",600),
++          rep("C",300),rep("D",500),rep("E",1000))
 \end{Sinput}
 \end{Schunk}
 
@@ -505,7 +506,8 @@ The first plot is showing how the distribution of the outcome for each true clus
 \begin{Schunk}
 \begin{Sinput}
 > library(ggplot2)    
-> tmp_boxplot<-data.frame(opt=as.factor(optAlloc),outcome=inputs$inputData$outcome,known=as.factor(known))
+> tmp_boxplot<-data.frame(opt=as.factor(optAlloc),
++                         outcome=inputs$inputData$outcome,known=as.factor(known))
 > p <- ggplot(tmp_boxplot, aes(x=known, y=outcome, fill=opt)) + 
 +   geom_violin()+
 +   labs(title="",x="Known Truth", y = "outcome") +
@@ -523,16 +525,21 @@ We can also do this plot replacing the distribution of observed outcome with the
 \begin{Schunk}
 \begin{Sinput}
 > # Construct the number of clusters file name
-> nClustersFileName<-file.path(runInfoObj$directoryPath,paste(runInfoObj$fileStem,'_nClusters.txt',sep=''))
+> nClustersFileName<-file.path(runInfoObj$directoryPath,
++                              paste(runInfoObj$fileStem,'_nClusters.txt',sep=''))
 > nClustersFile<-file(nClustersFileName,open="r")
 > # Construct the allocation file name
-> zFileName <- file.path(runInfoObj$directoryPath,paste(runInfoObj$fileStem,'_z.txt',sep=''))
+> zFileName <- file.path(runInfoObj$directoryPath,
++                        paste(runInfoObj$fileStem,'_z.txt',sep=''))
 > zFile<-file(zFileName,open="r")
 > # Construct the theta file name
-> thetaFileName <- file.path(runInfoObj$directoryPath,paste(runInfoObj$fileStem,'_theta.txt',sep=''))
+> thetaFileName <- file.path(runInfoObj$directoryPath,
++                            paste(runInfoObj$fileStem,'_theta.txt',sep=''))
 > thetaFile<-file(thetaFileName,open="r")
-> firstLine<-ifelse(runInfoObj$reportBurnIn,runInfoObj$nBurn/runInfoObj$nFilter+2,1)
-> lastLine<-(runInfoObj$nSweeps+ifelse(runInfoObj$reportBurnIn,runInfoObj$nBurn+1,0))/runInfoObj$nFilter
+> firstLine<-ifelse(runInfoObj$reportBurnIn,
++                   runInfoObj$nBurn/runInfoObj$nFilter+2,1)
+> lastLine<-(runInfoObj$nSweeps+ifelse(runInfoObj$reportBurnIn,
++                                      runInfoObj$nBurn+1,0))/runInfoObj$nFilter
 > nSamples<-lastLine-firstLine+1
 > thetaByObs<-matrix(NA,ncol=runInfoObj$nSubjects,nrow=runInfoObj$nSweeps)
 > for(sweep in firstLine:lastLine){
@@ -545,11 +552,13 @@ We can also do this plot replacing the distribution of observed outcome with the
 +     currMaxNClusters<-scan(nClustersFile,what=integer(),skip=skipVal,n=1,quiet=T)
 + 
 +     # Get the current allocation data for this sweep
-+     currZ<-scan(zFile,what=integer(),skip=skipVal,n=runInfoObj$nSubjects+runInfoObj$nPredictSubjects,quiet=T)
++     currZ<-scan(zFile,what=integer(),skip=skipVal,
++                 n=runInfoObj$nSubjects+runInfoObj$nPredictSubjects,quiet=T)
 +     currZ<-1+currZ
 +     
 +     # Get the risk data corresponding to this sweep
-+     currThetaVector<-scan(thetaFile,what=double(),skip=skipVal,n=currMaxNClusters,quiet=T)
++     currThetaVector<-scan(thetaFile,what=double(),
++                           skip=skipVal,n=currMaxNClusters,quiet=T)
 +     currTheta<-matrix(currThetaVector,ncol=1,byrow=T)
 + 
 +     for (i in 1:runInfoObj$nSubjects){
@@ -568,7 +577,9 @@ We can also do this plot replacing the distribution of observed outcome with the
 +       tmp_boxplot2<-rbind(tmp_boxplot2,tmp_boxplot3)
 +     }
 +     if (tmp_length==1){
-+       tmp_boxplot3<-data.frame(opt=rep(c,runInfoObj$nSweeps),outcome=thetaByObs[,tmp_index],known=rep(k,runInfoObj$nSweeps))
++       tmp_boxplot3<-data.frame(opt=rep(c,runInfoObj$nSweeps),
++                                outcome=thetaByObs[,tmp_index],
++                                known=rep(k,runInfoObj$nSweeps))
 +       tmp_boxplot2<-rbind(tmp_boxplot2,tmp_boxplot3)
 +     }
 +   }
@@ -582,7 +593,7 @@ We can also do this plot replacing the distribution of observed outcome with the
 +   guides(fill=guide_legend(title="Clusters")) +
 +   theme(strip.text.x = element_blank(), strip.background = element_blank()) 
 > # Use brewer color palettes
-> p#+scale_fill_brewer(palette="Set1")
+> p+scale_fill_brewer(palette="Set1")
 > # close all files
 > close(zFile)
 > close(nClustersFile)
@@ -640,7 +651,8 @@ Then we make a composite colour bar plot.
 \begin{Sinput}
 > profile<-riskProfileObj$profile
 > meanSortIndex<-clusterOrderObj
-> muArray<-data.frame(covariateNumber=vector(),clusterNumber=vector(),colourPlot=vector())
+> muArray<-data.frame(covariateNumber=vector(),clusterNumber=vector(),
++                     colourPlot=vector())
 > for(j in 1:runInfoObj$nCovariates){
 +   # Compute the means
 +   muMat<-profile[,meanSortIndex,j]
@@ -677,19 +689,19 @@ Profile regression can be used to compute the posterior predictive distribution 
 \end{Sinput}
 \begin{Soutput}
   outcome Variable1 Variable2 Variable3 Variable4 Variable5 FixedEffects1
-1       1         0         0         0         0         2  -0.412518212
-2       0         0         0         0         0         0  -1.638596987
-3       1         0         0         0         0         1  -1.314365256
-4       1         0         0         0         1         0  -0.744779261
-5       1         0         0         2         0         0   0.008464125
-6       1         0         0         0         0         0  -0.527909507
+1       1         2         2         0         0         1     0.7402939
+2       1         0         0         0         1         0     0.9062366
+3       1         0         0         0         1         0     1.1784231
+4       1         0         0         0         0         0     0.7204355
+5       1         2         0         0         0         0    -0.6468107
+6       1         0         2         0         0         2    -0.4465070
   FixedEffects2
-1    -1.3689695
-2    -0.8336707
-3    -0.8892503
-4    -0.1851847
-5    -1.2949193
-6     0.3487125
+1   -0.23687413
+2   -0.62533157
+3    1.42482185
+4    0.61988811
+5    0.12716428
+6   -0.04244814
 \end{Soutput}
 \end{Schunk}
 We can then prepare a data frame which contains the covariate values which we are interested in computing a prediction of the outcome for. The data frame must have as many columns as the number of covariates in the original dataset, and it may contain \verb|NA| for covariate values which are unknown. The number of rows of the dataset corresponds to the number of predictive profiles that we are interested in computing. The columns of the data frame must have names that match the covariates in the original dataset.  
@@ -750,10 +762,14 @@ It is possible to set the seed to replicate a run exactly. However, note that th
 > set.seed(1234)
 > inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
 > runInfoObj<-profRegr(yModel=inputs$yModel, 
-+                        xModel=inputs$xModel, nSweeps=10, nClusInit=20,
-+                        nBurn=20, data=inputs$inputData, output="output", 
-+                        covNames = inputs$covNames, outcomeT = inputs$outcomeT,
-+                        fixedEffectsNames = inputs$fixedEffectNames,seed=12345)
++                      xModel=inputs$xModel, nSweeps=10, 
++                      nClusInit=20,
++                      nBurn=20, data=inputs$inputData, 
++                      output="output", 
++                      covNames = inputs$covNames, 
++                      outcomeT = inputs$outcomeT,
++                      fixedEffectsNames = inputs$fixedEffectNames,
++                      seed=12345)
 \end{Sinput}
 \begin{Soutput}
 Random number seed: 12345
@@ -765,10 +781,53 @@ Sweep: 1
 %------------------------------------
 \section{Unit testing}
 %-------------------------------------
-There are a couple of unit tests available in the package for quick testing of the package. The tests can be run as follows. 
+There are a couple of unit tests available in the package for quick testing of the package. The tests can be run as part of the \texttt{R CMD check} which can be run from terminal in the directory where the package \verb|PReMiuM| is stored. The command to use is: \verb|R CMD check PReMiuM_3.1.7.tar.gz|.
+
+
+%------------------------------------
+\section{SessionInfo}
+%-------------------------------------
+
+This file was compiled using a computer with the following packages: 
 
 \begin{Schunk}
 \begin{Sinput}
-> library(testthat)
-> library(PReMiuM)
-> test_check("PReMiuM")
+> sessionInfo()
+\end{Sinput}
+\begin{Soutput}
+R version 3.4.2 (2017-09-28)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Ubuntu 16.04.3 LTS
+
+Matrix products: default
+BLAS: /usr/lib/libblas/libblas.so.3.6.0
+LAPACK: /usr/lib/lapack/liblapack.so.3.6.0
+
+locale:
+ [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_GB.UTF-8        LC_COLLATE=en_GB.UTF-8    
+ [5] LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   
+ [7] LC_PAPER=en_GB.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] ggplot2_2.2.1 PReMiuM_3.1.7
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_0.12.13       digest_0.6.12      ald_1.1            MASS_7.3-47       
+ [5] grid_3.4.2         plyr_1.8.4         gtable_0.2.0       magrittr_1.5      
+ [9] scales_0.5.0       stringi_1.1.5      rlang_0.1.2        reshape2_1.4.2    
+[13] lazyeval_0.2.0     labeling_0.3       RColorBrewer_1.1-2 tools_3.4.2       
+[17] stringr_1.2.0      munsell_0.4.3      plotrix_3.6-6      compiler_3.4.2    
+[21] colorspace_1.3-2   gamlss.dist_5.0-2  cluster_2.0.6      tibble_1.3.4      
+\end{Soutput}
+\end{Schunk}
+
+\bibliographystyle{chicago}
+\bibliography{biblio}
+\end{document}
+

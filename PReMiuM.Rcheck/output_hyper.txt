@@ -1,0 +1,4 @@
+shapeAlpha=3
+rateAlpha=2
+mu0=30 13 
+R0=3.2 0 0 3.2 

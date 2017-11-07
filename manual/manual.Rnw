@@ -201,7 +201,8 @@ The data for the boxplots of the outcome are available in \verb|riskProfileObj$r
 The simulated data is generated for 5 clusters of 200 observations each. Let us explore some plots for the output for cases when the true clustering of the observations is known. Say that the known-truth partition is given by the following.
 
 <<test1>>=
-known<-c(rep("A",600),rep("B",600),rep("C",300),rep("D",500),rep("E",1000))
+known<-c(rep("A",600),rep("B",600),
+         rep("C",300),rep("D",500),rep("E",1000))
 @
 
 The data is generated as follows. 
@@ -234,7 +235,8 @@ The first plot is showing how the distribution of the outcome for each true clus
 
 <<test2,fig=TRUE>>=
 library(ggplot2)    
-tmp_boxplot<-data.frame(opt=as.factor(optAlloc),outcome=inputs$inputData$outcome,known=as.factor(known))
+tmp_boxplot<-data.frame(opt=as.factor(optAlloc),
+                        outcome=inputs$inputData$outcome,known=as.factor(known))
 p <- ggplot(tmp_boxplot, aes(x=known, y=outcome, fill=opt)) + 
   geom_violin()+
   labs(title="",x="Known Truth", y = "outcome") +
@@ -249,19 +251,24 @@ We can also do this plot replacing the distribution of observed outcome with the
 
 <<test3,fig=TRUE>>=
 # Construct the number of clusters file name
-nClustersFileName<-file.path(runInfoObj$directoryPath,paste(runInfoObj$fileStem,'_nClusters.txt',sep=''))
+nClustersFileName<-file.path(runInfoObj$directoryPath,
+                             paste(runInfoObj$fileStem,'_nClusters.txt',sep=''))
 nClustersFile<-file(nClustersFileName,open="r")
   
 # Construct the allocation file name
-zFileName <- file.path(runInfoObj$directoryPath,paste(runInfoObj$fileStem,'_z.txt',sep=''))
+zFileName <- file.path(runInfoObj$directoryPath,
+                       paste(runInfoObj$fileStem,'_z.txt',sep=''))
 zFile<-file(zFileName,open="r")
   
 # Construct the theta file name
-thetaFileName <- file.path(runInfoObj$directoryPath,paste(runInfoObj$fileStem,'_theta.txt',sep=''))
+thetaFileName <- file.path(runInfoObj$directoryPath,
+                           paste(runInfoObj$fileStem,'_theta.txt',sep=''))
 thetaFile<-file(thetaFileName,open="r")
 
-firstLine<-ifelse(runInfoObj$reportBurnIn,runInfoObj$nBurn/runInfoObj$nFilter+2,1)
-lastLine<-(runInfoObj$nSweeps+ifelse(runInfoObj$reportBurnIn,runInfoObj$nBurn+1,0))/runInfoObj$nFilter
+firstLine<-ifelse(runInfoObj$reportBurnIn,
+                  runInfoObj$nBurn/runInfoObj$nFilter+2,1)
+lastLine<-(runInfoObj$nSweeps+ifelse(runInfoObj$reportBurnIn,
+                                     runInfoObj$nBurn+1,0))/runInfoObj$nFilter
 nSamples<-lastLine-firstLine+1
 
 thetaByObs<-matrix(NA,ncol=runInfoObj$nSubjects,nrow=runInfoObj$nSweeps)
@@ -276,11 +283,13 @@ for(sweep in firstLine:lastLine){
     currMaxNClusters<-scan(nClustersFile,what=integer(),skip=skipVal,n=1,quiet=T)
 
     # Get the current allocation data for this sweep
-    currZ<-scan(zFile,what=integer(),skip=skipVal,n=runInfoObj$nSubjects+runInfoObj$nPredictSubjects,quiet=T)
+    currZ<-scan(zFile,what=integer(),skip=skipVal,
+                n=runInfoObj$nSubjects+runInfoObj$nPredictSubjects,quiet=T)
     currZ<-1+currZ
     
     # Get the risk data corresponding to this sweep
-    currThetaVector<-scan(thetaFile,what=double(),skip=skipVal,n=currMaxNClusters,quiet=T)
+    currThetaVector<-scan(thetaFile,what=double(),
+                          skip=skipVal,n=currMaxNClusters,quiet=T)
     currTheta<-matrix(currThetaVector,ncol=1,byrow=T)
 
     for (i in 1:runInfoObj$nSubjects){
@@ -301,7 +310,9 @@ for (c in 1:max(optAlloc)){
       tmp_boxplot2<-rbind(tmp_boxplot2,tmp_boxplot3)
     }
     if (tmp_length==1){
-      tmp_boxplot3<-data.frame(opt=rep(c,runInfoObj$nSweeps),outcome=thetaByObs[,tmp_index],known=rep(k,runInfoObj$nSweeps))
+      tmp_boxplot3<-data.frame(opt=rep(c,runInfoObj$nSweeps),
+                               outcome=thetaByObs[,tmp_index],
+                               known=rep(k,runInfoObj$nSweeps))
       tmp_boxplot2<-rbind(tmp_boxplot2,tmp_boxplot3)
     }
   }
@@ -317,7 +328,7 @@ p <- ggplot(tmp_boxplot2, aes(x=known, y=outcome, fill=opt)) +
   guides(fill=guide_legend(title="Clusters")) +
   theme(strip.text.x = element_blank(), strip.background = element_blank()) 
 # Use brewer color palettes
-p#+scale_fill_brewer(palette="Set1")
+p+scale_fill_brewer(palette="Set1")
 
 # close all files
 close(zFile)
@@ -344,7 +355,8 @@ Then we make a composite colour bar plot.
 profile<-riskProfileObj$profile
 meanSortIndex<-clusterOrderObj
 
-muArray<-data.frame(covariateNumber=vector(),clusterNumber=vector(),colourPlot=vector())
+muArray<-data.frame(covariateNumber=vector(),clusterNumber=vector(),
+                    colourPlot=vector())
 
 for(j in 1:runInfoObj$nCovariates){
   # Compute the means
@@ -421,23 +433,21 @@ It is possible to set the seed to replicate a run exactly. However, note that th
 set.seed(1234)
 inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
 runInfoObj<-profRegr(yModel=inputs$yModel, 
-                       xModel=inputs$xModel, nSweeps=10, nClusInit=20,
-                       nBurn=20, data=inputs$inputData, output="output", 
-                       covNames = inputs$covNames, outcomeT = inputs$outcomeT,
-                       fixedEffectsNames = inputs$fixedEffectNames,seed=12345)
+                     xModel=inputs$xModel, nSweeps=10, 
+                     nClusInit=20,
+                     nBurn=20, data=inputs$inputData, 
+                     output="output", 
+                     covNames = inputs$covNames, 
+                     outcomeT = inputs$outcomeT,
+                     fixedEffectsNames = inputs$fixedEffectNames,
+                     seed=12345)
 @
 
 
 %------------------------------------
 \section{Unit testing}
 %-------------------------------------
-There are a couple of unit tests available in the package for quick testing of the package. The tests can be run as follows. 
-
-<<unitTesting>>=
-library(testthat)
-library(PReMiuM)
-test_check("PReMiuM")
-@
+There are a couple of unit tests available in the package for quick testing of the package. The tests can be run as part of the \texttt{R CMD check} which can be run from terminal in the directory where the package \verb|PReMiuM| is stored. The command to use is: \verb|R CMD check PReMiuM_3.1.7.tar.gz|.
 
 
 %------------------------------------

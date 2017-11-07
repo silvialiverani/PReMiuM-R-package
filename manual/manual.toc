@@ -6,4 +6,6 @@
 \contentsline {section}{\numberline {5}Plot}{7}{section.5}
 \contentsline {section}{\numberline {6}Plots for known-truth clusterings}{8}{section.6}
 \contentsline {section}{\numberline {7}Predictions}{14}{section.7}
-\contentsline {section}{\numberline {8}SessionInfo}{15}{section.8}
+\contentsline {section}{\numberline {8}Replicating a run: setting the seeds}{15}{section.8}
+\contentsline {section}{\numberline {9}Unit testing}{16}{section.9}
+\contentsline {section}{\numberline {10}SessionInfo}{16}{section.10}

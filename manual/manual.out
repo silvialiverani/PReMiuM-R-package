@@ -6,4 +6,6 @@
 \BOOKMARK [1][-]{section.5}{Plot}{}% 6
 \BOOKMARK [1][-]{section.6}{Plots for known-truth clusterings}{}% 7
 \BOOKMARK [1][-]{section.7}{Predictions}{}% 8
-\BOOKMARK [1][-]{section.8}{SessionInfo}{}% 9
+\BOOKMARK [1][-]{section.8}{Replicating a run: setting the seeds}{}% 9
+\BOOKMARK [1][-]{section.9}{Unit testing}{}% 10
+\BOOKMARK [1][-]{section.10}{SessionInfo}{}% 11
