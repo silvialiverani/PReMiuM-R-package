@@ -261,7 +261,7 @@ Several files are created when \verb|profRegr()| is run. We discuss the most imp
 > readLines("output_log.txt")
 \end{Sinput}
 \begin{Soutput}
- [1] "Date and time: 2017-11-07 09:2554"                                         
+ [1] "Date and time: 2017-11-07 09:3257"                                         
  [2] ""                                                                          
  [3] "Data file path: output_input.txt"                                          
  [4] ""                                                                          
@@ -445,6 +445,7 @@ The data is generated as follows.
 
 \begin{Schunk}
 \begin{Sinput}
+> set.seed(12578)
 > inputs <- generateSampleDataFile(clusSummaryNormalDiscrete())
 \end{Sinput}
 \end{Schunk}
@@ -689,19 +690,19 @@ Profile regression can be used to compute the posterior predictive distribution 
 \end{Sinput}
 \begin{Soutput}
   outcome Variable1 Variable2 Variable3 Variable4 Variable5 FixedEffects1
-1       1         2         2         0         0         1     0.7402939
-2       1         0         0         0         1         0     0.9062366
-3       1         0         0         0         1         0     1.1784231
-4       1         0         0         0         0         0     0.7204355
-5       1         2         0         0         0         0    -0.6468107
-6       1         0         2         0         0         2    -0.4465070
+1       1         0         0         0         2         1   0.003347185
+2       1         0         1         0         0         0   1.870464773
+3       1         2         1         0         0         0  -0.817963310
+4       1         0         0         1         0         0  -0.036641126
+5       1         0         0         0         0         2   0.410256793
+6       1         0         0         0         1         0   0.585976455
   FixedEffects2
-1   -0.23687413
-2   -0.62533157
-3    1.42482185
-4    0.61988811
-5    0.12716428
-6   -0.04244814
+1     0.3748570
+2     0.6150982
+3    -0.9310362
+4     0.4809608
+5     0.3358826
+6    -2.0974423
 \end{Soutput}
 \end{Schunk}
 We can then prepare a data frame which contains the covariate values which we are interested in computing a prediction of the outcome for. The data frame must have as many columns as the number of covariates in the original dataset, and it may contain \verb|NA| for covariate values which are unknown. The number of rows of the dataset corresponds to the number of predictive profiles that we are interested in computing. The columns of the data frame must have names that match the covariates in the original dataset.  

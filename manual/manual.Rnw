@@ -208,6 +208,7 @@ known<-c(rep("A",600),rep("B",600),
 The data is generated as follows. 
 
 <<test1>>=
+set.seed(12578)
 inputs <- generateSampleDataFile(clusSummaryNormalDiscrete())
 @
 
