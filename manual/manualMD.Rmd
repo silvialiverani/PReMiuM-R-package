@@ -1,0 +1,42 @@
+---
+title: "Get started with profile regression"
+author: "Silvia Liverani"
+date: "Novembre 10th, 2017"
+output: html_document
+---
+
+The first step is to load the package PReMiuM. 
+
+```{r setup}
+library(PReMiuM)
+```
+
+Then we generate some data for this example. The data generated here has Poisson outcome and discrete covariates. 
+
+```{data generation}
+inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
+```
+
+We then run profile regression.
+
+```{run profile regression}
+runInfoObj<-profRegr(yModel=inputs$yModel, 
+    xModel=inputs$xModel, nSweeps=1000, nClusInit=15,
+    nBurn=2000, data=inputs$inputData, output="output", 
+    covNames = inputs$covNames, outcomeT = inputs$outcomeT,
+    fixedEffectsNames = inputs$fixedEffectNames)
+```
+
+We run postprocessing functions of the rich MCMC output to identify the clusters. 
+
+```{postprocessing}
+dissimObj<-calcDissimilarityMatrix(runInfoObj)
+clusObj<-calcOptimalClustering(dissimObj)
+riskProfileObj<-calcAvgRiskAndProfile(clusObj)
+```
+
+We can now plot the results. 
+
+```{plot}
+clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
+```
