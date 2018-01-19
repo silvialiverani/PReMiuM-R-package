@@ -60,7 +60,7 @@ class pReMiuMOptions{
 			_predictFileName = "";
 
 			// MCMC sampler variables
-			_nSweeps=10000;
+			_nSweeps=1000;
 			_nBurn=1000;
 			_reportBurnIn=false;
 			_nProgress=500;
