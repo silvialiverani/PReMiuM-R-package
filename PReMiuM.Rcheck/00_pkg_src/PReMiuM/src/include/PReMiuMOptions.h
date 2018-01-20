@@ -60,7 +60,7 @@ class pReMiuMOptions{
 			_predictFileName = "";
 
 			// MCMC sampler variables
-			_nSweeps=10000;
+			_nSweeps=1000;
 			_nBurn=1000;
 			_reportBurnIn=false;
 			_nProgress=500;
@@ -480,7 +480,7 @@ class pReMiuMOptions{
 		string _predictType;
 		// For Survival response, whether the weibull shape parameter is fixed or cluster specific
 		bool _weibullFixedShape;
-		// Whether the conjugated Normal Inverse Whishart prior is used instead of the independent Normal and inverse Whisharts priors
+		// Whether the conjugated Normal Inverse Wishart prior is used instead of the independent Normal and inverse Wisharts priors
 		bool _useNormInvWishPrior;
 };
 

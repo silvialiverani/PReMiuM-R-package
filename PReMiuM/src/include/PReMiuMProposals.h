@@ -1919,7 +1919,7 @@ void gibbsForMuInActive(mcmcChain<pReMiuMParams>& chain,
 
 }
 
-// Gibbs update for mu in Normal covariate case when the normal inerve Whishart prior is used
+// Gibbs update for mu in Normal covariate case when the normal inerve Wishart prior is used
 void gibbsForMuInActiveNIWP(mcmcChain<pReMiuMParams>& chain,
 				unsigned int& nTry,unsigned int& nAccept,
 				const mcmcModel<pReMiuMParams,pReMiuMOptions,pReMiuMData>& model,

@@ -120,6 +120,7 @@ RcppExport SEXP profRegr(SEXP inputString) {
 		// Need to add the proposals for the normal case
 		// Update for the active mu parameters
 		if (options.useNormInvWishPrior()){
+		  std::cout<<options.useNormInvWishPrior()<<std::endl;
 		// If Inverse Normal Inverse Wishart Prior is used
 		pReMiuMSampler.addProposal("gibbsForMuActiveNIWP",1.0,1,1,&gibbsForMuActiveNIWP);
 		}else{

@@ -1,6 +1,7 @@
-Changes in version 3.1.7 (2017-00-00)
+Changes in version 3.1.7 (2018-01-00)
 
-* 
+* Fixed minor bug for option useNormInvWishPrior in profRegr
+* Fixed bug with nSweeps's default value
 
 --------------------------------------------
 Changes in version 3.1.6 (2017-11-02)
@@ -45,7 +46,7 @@ Changes in version 3.1.1 (2015-03-18)
 * Fixed bug in the function plotRiskProfile for xModel="Mixed" when only one Discrete covariate is provided
 * Updated citation file
 * Fixed bug in p(Z) for marginal model posterior
-* Added conjugate Normal inverse Whishart prior for Normal covariates (Aurore Lavigne)
+* Added conjugate Normal inverse Wishart prior for Normal covariates (Aurore Lavigne)
 
 --------------------------------------------
 Changes in version 3.1.0 (2015-03-13)

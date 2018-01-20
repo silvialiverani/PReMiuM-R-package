@@ -1,0 +1,4 @@
+*** Further command line arguments ('-f testthat.R --restore --save --no-readline --vanilla ') disregarded
+*** (maybe use 'run -f testthat.R --restore --save --no-readline --vanilla ' from *inside* valgrind)
+
+/usr/lib/R/bin/R: line 286: exec: valgrind: not found

@@ -64,7 +64,7 @@ See ?calcPredictions for more details and examples.
 \item{uCARinit}{This parameter gives the possibility of giving initialisation values for the spatial residuals u of the spatial CAR. It is set to FALSE by default (meaning that the spatial residuals are initialised randomly). It can be set alternatively to a vector of values, one for each of the observations available.}
 \item{weibullFixedShape}{This parameter controls whether the shape parameter of the Weibull distribution (for yModel=Survival only) is a global parameter (fixed) or cluster specific. It is equal to TRUE by default.}
 \item{useNormInvWishPrior}{By default this variable equals FALSE. When this variable equals TRUE, the conjugate Normal-inverse-Wishart prior is used rather
-than the independant normal and inverse Whishart priors. If this prior is used, variable selection cannot be used as it has not been implemented.}
+than the independant normal and inverse Wishart priors. If this prior is used, variable selection cannot be used as it has not been implemented.}
 }
 
 \value{

@@ -270,7 +270,7 @@ pReMiuMOptions processCommandLine(string inputStr){
 					options.predictType(predictType);
 				}else if(inString.find("--weibullFixedShape")!=string::npos){
 					options.weibullFixedShape(true);
-		                }else if(inString.find("--useNormInvWhishPrior")!=string::npos){
+		                }else if(inString.find("--useNormInvWishPrior")!=string::npos){
 					options.useNormInvWishPrior(true);
 
 				}else{

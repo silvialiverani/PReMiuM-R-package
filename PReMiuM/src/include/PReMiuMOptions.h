@@ -480,7 +480,7 @@ class pReMiuMOptions{
 		string _predictType;
 		// For Survival response, whether the weibull shape parameter is fixed or cluster specific
 		bool _weibullFixedShape;
-		// Whether the conjugated Normal Inverse Whishart prior is used instead of the independent Normal and inverse Whisharts priors
+		// Whether the conjugated Normal Inverse Wishart prior is used instead of the independent Normal and inverse Wisharts priors
 		bool _useNormInvWishPrior;
 };
 

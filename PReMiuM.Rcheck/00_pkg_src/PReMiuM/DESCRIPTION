@@ -16,4 +16,4 @@ Suggests: testthat (>= 1.0.2)
 LinkingTo: Rcpp, RcppEigen (>= 0.3.3.3.0), BH (>= 1.65.0-1)
 SystemRequirements: GNU make
 NeedsCompilation: yes
-Packaged: 2017-11-03 10:37:32 UTC; root
+Packaged: 2018-01-20 15:38:45 UTC; root
