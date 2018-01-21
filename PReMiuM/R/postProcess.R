@@ -45,6 +45,15 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 
 	if (useNormInvWishPrior==TRUE && !varSelectType=="None") stop("Variable selection is not available for Normal-inverse-Wishart prior for Normal covariates.")
 
+	if (xModel=="Normal") {
+		sdContVars<-apply(data[covnames],2,sd)
+		if(length(which(sdContVars==0))) stop("One of the continuous covariates is constant (with zero variance). Remove it and run again.") 
+	}
+	if (xModel=="Mixed") {
+		sdContVars<-apply(data[continuousCovs],2,sd)
+		if(length(which(sdContVars==0))) stop("One of the continuous covariates is constant (with zero variance). Remove it and run again.") 
+	}
+
 	# open file to write output
 	fileName<-paste(output,"_input.txt",sep="")
 	# make big data matrix with outcome, covariates and fixed effects	
