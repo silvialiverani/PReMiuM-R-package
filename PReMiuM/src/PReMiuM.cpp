@@ -84,7 +84,6 @@ RcppExport SEXP profRegr(SEXP inputString) {
 	pReMiuMSampler.userOutputFn(&writePReMiuMOutput);
 
 	// Seed the random number generator
-
 	pReMiuMSampler.seedGenerator(options.seed());
 
 	// Set the sampler specific variables
