@@ -1,5 +1,6 @@
 pkgname <- "PReMiuM"
 source(file.path(R.home("share"), "R", "examples-header.R"))
+gctorture(TRUE)
 options(warn = 1)
 library('PReMiuM')
 

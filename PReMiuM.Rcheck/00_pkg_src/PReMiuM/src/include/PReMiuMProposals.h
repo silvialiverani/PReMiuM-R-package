@@ -1046,7 +1046,7 @@ void gibbsForMuActiveNIWP(mcmcChain<pReMiuMParams>& chain,
 		covMat=(gammaMat[c]*currentParams.Sigma(c)*gammaMat[c])/(hyperParams.nu0()+nXInC);
 		//There are 0 on the diagonal elements of the covariance matrix when the covariate j is not selected
 		//we replace them by 0.1, the value does not care, since the sampling values will be replaced by \bar{x}_j
-		for (unsigned int j=0; j<=nCovariates; j++){
+		for (unsigned int j=0; j<nCovariates; j++){
             if (covMat(j,j)==0) covMat(j,j)=0.1;
 		}
 		VectorXd meanVec(nCovariates);

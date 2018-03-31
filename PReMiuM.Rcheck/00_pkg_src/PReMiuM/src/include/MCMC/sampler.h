@@ -560,7 +560,6 @@ void mcmcSampler<modelParamType,optionType,propParamType,dataType>::run(){
 
 		// Now write the output (this is controlled by the user defined function
 		writeOutput(sweep);
-
 	}
 	writeAcceptanceRates();
 

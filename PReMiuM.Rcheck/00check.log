@@ -1,8 +1,8 @@
 * using log directory ‘/home/mastssl/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
-* using R version 3.4.3 (2017-11-30)
+* using R version 3.4.4 (2018-03-15)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
-* using option ‘--use-valgrind’
+* using option ‘--use-gct’
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
 * this is package ‘PReMiuM’ version ‘3.1.7’
@@ -16,9 +16,9 @@
 * checking for sufficient/correct file permissions ... OK
 * checking whether package ‘PReMiuM’ can be installed ... OK
 * checking installed package size ... NOTE
-  installed size is 13.4Mb
+  installed size is 13.5Mb
   sub-directories of 1Mb or more:
-    libs  13.1Mb
+    libs  13.2Mb
 * checking package directory ... OK
 * checking DESCRIPTION meta-information ... OK
 * checking top-level files ... OK
@@ -51,32 +51,51 @@
 * checking compilation flags in Makevars ... OK
 * checking for GNU extensions in Makefiles ... OK
 * checking for portable use of $(BLAS_LIBS) and $(LAPACK_LIBS) ... OK
-* checking compiled code ... NOTE
-File ‘PReMiuM/libs/PReMiuM.so’:
-  Found ‘_ZSt4cout’, possibly from ‘std::cout’ (C++)
-    Object: ‘PReMiuM.o’
-
-Compiled code should not call entry points which might terminate R nor
-write to stdout/stderr instead of to the console, nor the system RNG.
-
-See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
+* checking compiled code ... OK
 * checking examples ... ERROR
 Running examples in ‘PReMiuM-Ex.R’ failed
-The error occurred in:
+The error most likely occurred in:
 
-*** Further command line arguments ('--vanilla ') disregarded
-*** (maybe use 'run --vanilla ' from *inside* valgrind)
+> ### Name: margModelPosterior
+> ### Title: Marginal Model Posterior
+> ### Aliases: margModelPosterior
+> ### Keywords: margModelPosterior
+> 
+> ### ** Examples
+> 
+> inputs <- generateSampleDataFile(clusSummaryBernoulliDiscrete())
+> 
+> runInfoObj<-profRegr(yModel=inputs$yModel, 
++          xModel=inputs$xModel, nSweeps=5, 
++          nBurn=10, data=inputs$inputData, output="output", 
++          covNames = inputs$covNames, nClusInit=15,
++          fixedEffectsNames = inputs$fixedEffectNames)
+Random number seed: 1522490194
+Sweep: 1
+> 
+> margModelPosterior(runInfoObj)
 
-/usr/lib/R/bin/R: line 286: exec: valgrind: not found
+Execution halted
 * checking for unstated dependencies in ‘tests’ ... OK
 * checking tests ... ERROR
   Running ‘testthat.R’
 Running the tests in ‘tests/testthat.R’ failed.
-Complete output:
-  *** Further command line arguments ('-f testthat.R --restore --save --no-readline --vanilla ') disregarded
-  *** (maybe use 'run -f testthat.R --restore --save --no-readline --vanilla ' from *inside* valgrind)
+Last 13 lines of output:
   
-  /usr/lib/R/bin/R: line 286: exec: valgrind: not found
+  R is free software and comes with ABSOLUTELY NO WARRANTY.
+  You are welcome to redistribute it under certain conditions.
+  Type 'license()' or 'licence()' for distribution details.
+  
+  R is a collaborative project with many contributors.
+  Type 'contributors()' for more information and
+  'citation()' on how to cite R or R packages in publications.
+  
+  Type 'demo()' for some demos, 'help()' for on-line help, or
+  'help.start()' for an HTML browser interface to help.
+  Type 'q()' to quit R.
+  
+  
+  Execution halted
 * checking PDF version of manual ... OK
 * DONE
-Status: 2 ERRORs, 2 NOTEs
+Status: 2 ERRORs, 1 NOTE

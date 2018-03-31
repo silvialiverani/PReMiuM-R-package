@@ -45,6 +45,15 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
 
 	if (useNormInvWishPrior==TRUE && !varSelectType=="None") stop("Variable selection is not available for Normal-inverse-Wishart prior for Normal covariates.")
 
+	if (xModel=="Normal") {
+		sdContVars<-apply(data[covNames],2,sd)
+		if(length(which(sdContVars==0))) stop("One of the continuous covariates is constant (with zero variance). Remove it and run again.") 
+	}
+	if (xModel=="Mixed") {
+		sdContVars<-apply(data[continuousCovs],2,sd)
+		if(length(which(sdContVars==0))) stop("One of the continuous covariates is constant (with zero variance). Remove it and run again.") 
+	}
+
 	# open file to write output
 	fileName<-paste(output,"_input.txt",sep="")
 	# make big data matrix with outcome, covariates and fixed effects	
@@ -1820,7 +1829,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			ifelse(muUpper<rep(muMean,length(muUpper)),"low","avg"))
 			for(c in whichClusters){
 				plotMu<-muMat[,c]
-				plotMu<-plotMu[plotMu<plotMax&plotMu>plotMin]
+				plotMu<-plotMu[plotMu<=plotMax&plotMu>=plotMin]
 				nPoints<-length(plotMu)
 				# profileDF<-rbind(profileDF,data.frame("mu"=plotMu,"cluster"=rep(c,nPoints),
 				# 	"meanMu"=rep(muMean,nPoints),
@@ -2021,13 +2030,14 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			# The next line is to avoid outliers spoiling plot scales
 			plotMax<-max(muUpper)
 			plotMin<-min(muLower)
-			
+
+	
 			# Get the plot colors
 			muColor<-ifelse(muLower>rep(muMean,length(muLower)),"high",
 			ifelse(muUpper<rep(muMean,length(muUpper)),"low","avg"))
 			for(c in whichClusters){
 				plotMu<-muMat[,c]
-				plotMu<-plotMu[plotMu<plotMax&plotMu>plotMin]
+				plotMu<-plotMu[plotMu<=plotMax&plotMu>=plotMin]
 				nPoints<-length(plotMu)
 				# profileDF<-rbind(profileDF,data.frame("mu"=plotMu,"cluster"=rep(c,nPoints),
 				# 	"meanMu"=rep(muMean,nPoints),
@@ -2047,6 +2057,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
 			#rownames(profileDF)<-seq(1,nrow(profileDF),1)
 			#################################################################
 			profileDF <- do.call('rbind', my.list)
+
 			rownames(profileDF)<-seq(1,nrow(profileDF),1)
 			
 			#print(str(profileDF))

@@ -1106,7 +1106,6 @@ class pReMiuMParams{
 					}
 				}
 			}
-
 		}
 
 		/// \brief Return the normal mean mu for null covariates

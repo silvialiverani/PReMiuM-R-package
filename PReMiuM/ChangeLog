@@ -1,5 +1,6 @@
-Changes in version 3.1.7 (2018-01-00)
+Changes in version 3.1.7 (2018-03-31)
 
+* Fixed plotting functions for continuous variables with low variability
 * Added error message for constant continuous covariates.
 * Fixed minor bug for option useNormInvWishPrior in profRegr
 * Fixed bug with nSweeps's default value
