@@ -10,6 +10,7 @@ importFrom("stats", "sd")
 importFrom(grid,grid.layout, grid.newpage, pushViewport, viewport, unit)
 importFrom(gamlss.dist,rWEI2)
 importFrom(ald,rALD)
+importFrom(data.table,rbindlist)
 
 import(cluster)
 import(ggplot2)

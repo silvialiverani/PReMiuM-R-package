@@ -2,10 +2,12 @@
 * using R version 3.4.4 (2018-03-15)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
-* using option ‘--use-gct’
+* using option ‘--as-cran’
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘PReMiuM’ version ‘3.1.7’
+* this is package ‘PReMiuM’ version ‘3.1.8’
+* checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
+Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
 * checking package namespace information ... OK
 * checking package dependencies ... OK
 * checking if this is a source package ... OK
@@ -16,7 +18,7 @@
 * checking for sufficient/correct file permissions ... OK
 * checking whether package ‘PReMiuM’ can be installed ... OK
 * checking installed package size ... NOTE
-  installed size is 13.5Mb
+  installed size is 13.4Mb
   sub-directories of 1Mb or more:
     libs  13.2Mb
 * checking package directory ... OK
@@ -33,6 +35,7 @@
 * checking whether the namespace can be loaded with stated dependencies ... OK
 * checking whether the namespace can be unloaded cleanly ... OK
 * checking loading without being on the library search path ... OK
+* checking use of S3 registration ... OK
 * checking dependencies in R code ... OK
 * checking S3 generic/method consistency ... OK
 * checking replacement functions ... OK
@@ -40,6 +43,7 @@
 * checking R code for possible problems ... OK
 * checking Rd files ... OK
 * checking Rd metadata ... OK
+* checking Rd line widths ... OK
 * checking Rd cross-references ... OK
 * checking for missing documentation entries ... OK
 * checking for code/documentation mismatches ... OK
@@ -52,50 +56,10 @@
 * checking for GNU extensions in Makefiles ... OK
 * checking for portable use of $(BLAS_LIBS) and $(LAPACK_LIBS) ... OK
 * checking compiled code ... OK
-* checking examples ... ERROR
-Running examples in ‘PReMiuM-Ex.R’ failed
-The error most likely occurred in:
-
-> ### Name: margModelPosterior
-> ### Title: Marginal Model Posterior
-> ### Aliases: margModelPosterior
-> ### Keywords: margModelPosterior
-> 
-> ### ** Examples
-> 
-> inputs <- generateSampleDataFile(clusSummaryBernoulliDiscrete())
-> 
-> runInfoObj<-profRegr(yModel=inputs$yModel, 
-+          xModel=inputs$xModel, nSweeps=5, 
-+          nBurn=10, data=inputs$inputData, output="output", 
-+          covNames = inputs$covNames, nClusInit=15,
-+          fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1522490194
-Sweep: 1
-> 
-> margModelPosterior(runInfoObj)
-
-Execution halted
+* checking examples ... OK
 * checking for unstated dependencies in ‘tests’ ... OK
-* checking tests ... ERROR
+* checking tests ... OK
   Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  
-  R is free software and comes with ABSOLUTELY NO WARRANTY.
-  You are welcome to redistribute it under certain conditions.
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  
-  Execution halted
 * checking PDF version of manual ... OK
 * DONE
-Status: 2 ERRORs, 1 NOTE
+Status: 1 NOTE

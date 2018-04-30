@@ -914,6 +914,7 @@ void gibbsForMuActive(mcmcChain<pReMiuMParams>& chain,
 	// Find the number of subjects
 	unsigned int nSubjects = dataset.nSubjects();
 
+
 	nTry++;
 	nAccept++;
 
@@ -926,6 +927,8 @@ void gibbsForMuActive(mcmcChain<pReMiuMParams>& chain,
 			xi[i](j)=dataset.continuousX(i,j);
 		}
 	}
+
+
 
 	// We begin by computing the mean X for individuals in each cluster
 	vector<VectorXd> meanX(maxZ+1);
@@ -948,6 +951,7 @@ void gibbsForMuActive(mcmcChain<pReMiuMParams>& chain,
 		}
 	}
 
+
 	for(unsigned int c=0;c<=maxZ;c++){
 		// Having computed this we can calcuate the posterior mean
 		// and posterior covariance for each mu_c
@@ -959,6 +963,7 @@ void gibbsForMuActive(mcmcChain<pReMiuMParams>& chain,
 		}
 		MatrixXd covMat(nCovariates,nCovariates);
 		covMat = (hyperParams.Tau0()+nXInC*gammaMat[c]*currentParams.Tau(c)*gammaMat[c]).inverse();
+
 		VectorXd meanVec(nCovariates);
 	        meanVec = hyperParams.Tau0()*hyperParams.mu0()+
 					nXInC*gammaMat[c]*currentParams.Tau(c)*(meanX[c]-oneMinusGammaMat[c]*currentParams.nullMu());
@@ -969,9 +974,7 @@ void gibbsForMuActive(mcmcChain<pReMiuMParams>& chain,
 
 		// We store our sample
 		currentParams.mu(c,mu);
-
 	}
-
 }
 
 // Gibbs update for mu in Normal covariate case and use of normal inverse prior
@@ -1118,8 +1121,8 @@ void gibbsForTauActive(mcmcChain<pReMiuMParams>& chain,
 		MatrixXd Tau = wishartRand(rndGenerator,Rc[c],currentParams.workNXInCluster(c)+hyperParams.kappa0());
 
 		currentParams.Tau(c,Tau);
-
 	}
+
 
 
 }

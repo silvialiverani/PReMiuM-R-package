@@ -15,5 +15,20 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-
-Execution halted
+> library(testthat)
+> library(PReMiuM)
+> 
+> test_check("PReMiuM")
+Random number seed: 12345
+Sweep: 1
+Stage 1:1 samples out of 1
+Stage 2:1 samples out of 1
+Random number seed: 12345
+Sweep: 1
+══ testthat results  ═══════════════════════════════════════════════════════════
+OK: 2 SKIPPED: 0 FAILED: 0
+> 
+> 
+> proc.time()
+   user  system elapsed 
+  1.668   0.076   1.742 
