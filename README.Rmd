@@ -11,7 +11,7 @@ Examination of Susceptible Subpopulations Using Profile Regression. Current Envi
 Health Reports (to appear).
 
 - Liverani S., Lavigne A. and Blangiardo M. (2016) Modelling collinear and spatially correlated
-data. Spatial and Spatio-temporal Epidemiology 18, 63-73.D R S ILVIA L IVERANI
+data. Spatial and Spatio-temporal Epidemiology 18, 63-73.
 
 - Mattei F., Liverani S., Guida F., Matrat M., Cenée S., Sanchez M., Luce D., Richardson S.,
 Stücker I., and the Icare Study Group. (2016) A multidimensional analysis of the effect of
