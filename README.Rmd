@@ -1,8 +1,15 @@
 # R package PReMiuM
 
-A manual for this package is available at [http://envirotyping.readthedocs.io/en/latest/manual/](http://envirotyping.readthedocs.io/en/latest/manual/)
+The main references for the PReMiuM package are: 
+
+- Liverani, S., Hastie, D. I., Azizi, L., Papathomas, M. and Richardson, S. (2015) PReMiuM: An
+R package for Profile Regression Mixture Models using Dirichlet Processes. Journal of
+Statistical Software, 64(7), 1-30.
+
+- A practical manual available at [http://envirotyping.readthedocs.io/en/latest/manual/](http://envirotyping.readthedocs.io/en/latest/manual/)
 
 See the package's page on CRAN with the latest released version: [https://cran.r-project.org/web/packages/PReMiuM/index.html](https://cran.r-project.org/web/packages/PReMiuM/index.html)
+
 
 ## Some papers about or using PReMiuM:
 
@@ -30,10 +37,6 @@ on Preterm Birth and Low Birth Weight in Los Angeles County. Environmental Resea
 - Pirani, M., Best, N., Blangiardo, M., Liverani, S., Atkinson, R. W., and G. W. Fuller (2015)
 Analysing the health effects of simultaneous exposure to physical and chemical properties of
 airborne particles. Environment International, 79, 56-64.
-
-- Liverani, S., Hastie, D. I., Azizi, L., Papathomas, M. and Richardson, S. (2015) PReMiuM: An
-R package for Profile Regression Mixture Models using Dirichlet Processes. Journal of
-Statistical Software, 64(7), 1-30.
 
 - Hastie, D. I., Liverani, S. and Richardson, S. (2015) Sampling from Dirichlet process mixture
 models with unknown concentration parameter: Mixing issues in large data implementations.
