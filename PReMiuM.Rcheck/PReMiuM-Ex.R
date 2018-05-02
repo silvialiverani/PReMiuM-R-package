@@ -558,6 +558,42 @@ runInfoObj<-profRegr(yModel=inputs$yModel,
 base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
 base::cat("setHyperparams", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 cleanEx()
+nameEx("simBenchmark")
+### * simBenchmark
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: simBenchmark
+### Title: Benchmark for simulated examples
+### Aliases: simBenchmark
+### Keywords: benchmark simulations testing
+
+### ** Examples
+
+## Not run: 
+##D # vector of all test datasets allowed by this bencmarking function
+##D testDatasets<-c("clusSummaryBernoulliNormal",
+##D   "clusSummaryBernoulliDiscreteSmall","clusSummaryCategoricalDiscrete",
+##D   "clusSummaryNormalDiscrete","clusSummaryNormalNormal", 
+##D   "clusSummaryNormalNormalSpatial","clusSummaryVarSelectBernoulliDiscrete", 
+##D   "clusSummaryBernoulliMixed")
+##D 
+##D # runs profile regression on all datasets and 
+##D # computes confusion matrix for each one
+##D for (i in 1:length(testDatasets)){
+##D   tester<-simBenchmark(testDatasets[i])
+##D   print(table(tester[,c(1,3)]))
+##D }
+##D 
+##D 
+## End(Not run)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("simBenchmark", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
 nameEx("summariseVarSelectRho")
 ### * summariseVarSelectRho
 

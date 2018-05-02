@@ -2,8 +2,8 @@ Package: PReMiuM
 Type: Package
 Title: Dirichlet Process Bayesian Clustering, Profile Regression
 Version: 3.1.8
-Date: 2018-03-31
-Author: David I. Hastie, Silvia Liverani <liveranis@gmail.com> and Sylvia Richardson with contributions from Aurore J. Lavigne, Lucy Leigh, Lamiae Azizi, Xi Liu, Ruizhu Huang
+Date: 2018-05-02
+Author: David I. Hastie, Silvia Liverani <liveranis@gmail.com> and Sylvia Richardson with contributions from Aurore J. Lavigne, Lucy Leigh, Lamiae Azizi, Xi Liu, Ruizhu Huang, Austin Gratton
 Maintainer: Silvia Liverani <liveranis@gmail.com>
 Description: Bayesian clustering using a Dirichlet process mixture model. This model is an alternative to regression models, non-parametrically linking a response vector to covariate data through cluster membership. The package allows Bernoulli, Binomial, Poisson, Normal, survival and categorical response, as well as Normal and discrete covariates. It also allows for fixed effects in the response model, where a spatial CAR (conditional autoregressive) term can be also included. Additionally, predictions may be made for the response, and missing values for the covariates are handled. Several samplers and label switching moves are implemented along with diagnostic tools to assess convergence. A number of R functions for post-processing of the output are also provided. In addition to fitting mixtures, it may additionally be of interest to determine which covariates actively drive the mixture components. This is implemented in the package as variable selection. The main reference for the package is Liverani, Hastie, Azizi, Papathomas and Richardson (2015) <doi:10.18637/jss.v064.i07>.
 URL: http://www.silvialiverani.com/software/
@@ -17,5 +17,5 @@ Suggests: testthat (>= 1.0.2)
 LinkingTo: Rcpp, RcppEigen (>= 0.3.3.3.0), BH (>= 1.65.0-1)
 SystemRequirements: GNU make
 NeedsCompilation: yes
-Packaged: 2018-04-30 10:52:17 UTC; root
-Built: R 3.4.4; x86_64-pc-linux-gnu; 2018-04-30 10:56:13 UTC; unix
+Packaged: 2018-05-02 16:24:24 UTC; root
+Built: R 3.4.4; x86_64-pc-linux-gnu; 2018-05-02 16:25:21 UTC; unix

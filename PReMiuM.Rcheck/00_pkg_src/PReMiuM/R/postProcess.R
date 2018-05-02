@@ -3185,3 +3185,57 @@ plotPredictions<-function(outfile,runInfoObj,predictions,logOR=FALSE){
 #	message("message from .onLoad via message")
 #	packageStartupMessage("message from .onLoad via packageStartupMessage\n")
 #}
+
+simBenchmark <- function(whichModel = "clusSummaryBernoulliDiscrete", 
+                         nSweeps = 1000, nBurn = 1000, seedProfRegr = 123){
+  
+  modelSpecs<-match.fun(whichModel)()
+  nClusters<-modelSpecs$nClusters
+  clusSizes = rep(1:nClusters,modelSpecs$clusterSizes)
+  
+  #run the function to generate the sample data using the name of the distribution from the function list.
+  inputs = generateSampleDataFile(modelSpecs)
+  
+  #create a vector 'known' that repeats "Known 1", "Known 2", etc for the total amount in known cluster 1, known cluster 2, etc.
+  #
+  known = NULL
+  for (j in 1:nClusters){
+    newdat = rep(paste("Known",j),table(clusSizes)[j])
+    known = c(known, newdat)
+  }
+  
+  #multiple 'if' statements to determine which parameters need to be filled in. 
+  #Some distributions have more parameters than others.
+  #
+  if (exists("fixedEffectsNames",where = inputs)){
+    runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+                         nSweeps=nSweeps, nBurn=nBurn, data=inputs$inputData, 
+                         output="output",covNames = inputs$covNames,
+                         fixedEffectsNames = inputs$fixedEffectNames, seed=seedProfRegr)
+  } else {
+    if (exists("discreteCovs",where = inputs)){
+      runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+                           nSweeps=nSweeps, nBurn=nBurn, data=inputs$inputData, 
+                           output="output",covNames = inputs$covNames,
+                           discreteCovs = inputs$discreteCovs, 
+                           continuousCovs = inputs$continuousCovs, seed=seedProfRegr)
+    } else {
+      runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+                           nSweeps=nSweeps, nBurn=nBurn, data=inputs$inputData, 
+                           output="output",covNames = inputs$covNames, seed=seedProfRegr)
+    }
+  }
+  
+  #the rest of the PReMiuM steps to get the optimal clustering
+  dissimObj<-calcDissimilarityMatrix(runInfoObj)
+  clusObj<-calcOptimalClustering(dissimObj, maxNClusters = nClusters*2)
+  #riskProfileObj<-calcAvgRiskAndProfile(clusObj)
+  #clusterOrderObj<-plotRiskProfile(riskProfileObj,fileName)
+  optAlloc<-clusObj$clustering
+  
+  #creates a data frame with the optimal clusters, Y values for the simulated data, 
+  #and the known truth clusters
+  output<-data.frame(clusterAllocation=as.factor(optAlloc),outcome=inputs$inputData$outcome,
+                     generatingCluster=as.factor(known))
+  return(output)
+}

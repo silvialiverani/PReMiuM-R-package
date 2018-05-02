@@ -23,5 +23,6 @@ plotRiskProfile         Plot the Risk Profiles
 profRegr                Profile Regression
 setHyperparams          Definition of characteristics of sample
                         datasets for profile regression
+simBenchmark            Benchmark for simulated examples
 summariseVarSelectRho   summariseVarSelectRho
 vec2mat                 Vector to upper triangular matrix

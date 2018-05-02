@@ -30,5 +30,6 @@ PReMiuM	PReMiuM-package
 PReMiuMpackage	PReMiuM-package
 profRegr	profRegr
 setHyperparams	setHyperparams
+simBenchmark	simBenchmark
 summariseVarSelectRho	summariseVarSelectRho
 vec2mat	vec2mat
