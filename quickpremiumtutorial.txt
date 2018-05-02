@@ -1,0 +1,129 @@
+Creating a profile
+
+	runInfoObj <- profRegr()
+
+------------------------------------------------------------------------------
+
+usual inputs for profRegr:
+
+	covNames = a character vector of column names for the data. names cannot include spaces
+	outcome = name the outcome column
+	data = the data frame you are pulling from
+	yModel = select a model type for covariates
+	xModel = select a model type for outcome variables
+	discreteCovs = enter categorical covariates
+	continuousCovs = enter numerical covariates
+
+the rest can be looked at in detail by using:
+
+	?profRegr
+
+Predictions:
+
+	If you request predictions, you must create a data frame with predictive values for each covariate
+	columns are the covariates
+	each row is a set of predictions
+	ex:	preds <- data.frame(matrix(c("Beck-XL 5939AMXT",290,0,98000,78,1,1,"Beck-XL 5939AMXT",290,0,98000,78,1,1), ncol = 7, byrow = TRUE))
+
+Then in profRegr() do:
+
+	predict = your created predictions data frame
+
+------------------------------------------------------------------------------
+
+After the Profile regression has run:
+	
+	calcDists <- calcDissimilarityMatrix(runInfoObj)
+	clusts <- calcOptimalClustering(calcDists)
+
+these two calculate the dissimilarity matrix and find the optimal clustering
+
+------------------------------------------------------------------------------
+
+the next few lines calculate values and create the summary box plots
+(riskProfileObj$risk gives you the values used for the boxplots for the outcome)
+(riskProfileObj$profile gives you the values used for the boxplots of the covariates)
+
+	riskProfileObj <- calcAvgRiskAndProfile(clusts)
+	clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
+
+The "summary.png" will be in your directory
+
+------------------------------------------------------------------------------
+
+Finally, calculate the predictions (if you had them) using:
+
+	predictions <- calcPredictions(riskProfileObj)
+
+calcPredictions has a few option inputs, including:
+
+	fullSweepPredictions =
+	fullSweepLogOR = 
+	fullSweepHazardRation = 
+
+All three are default to FALSE, 
+and setting to TRUE just means computing the corresponding value for each sweep.
+
+------------------------------------------------------------------------------
+
+To plot the predictive density curve, you must first set of the function:
+
+plotPredictions= function (outfile, runInfoObj, predictions, logOR = FALSE) 
+{
+  nPredictedSubjects = NULL
+  directoryPath = NULL
+  fileStem = NULL
+  yModel = NULL
+  xModel = NULL
+  logOddsRatio = NULL
+  weibullFixedShape = NULL
+  for (i in 1:length(runInfoObj)) assign(names(runInfoObj)[i], 
+                                         runInfoObj[[i]])
+  if (yModel != "Bernoulli" && yModel != "Normal" && yModel != 
+      "Survival" && yModel != "Quantile") 
+    stop("This function has been developed for Bernoulli, Normal, Quantile and Survival response only.")
+   if (yModel == "Normal" || yModel == "Quantile") 
+    logOR <- FALSE
+  predictResponseFileName = file.path(runInfoObj$directoryPath, 
+                                      paste(runInfoObj$fileStem, "_predict.txt", sep = ""))
+  relScenarios <- read.table(predictResponseFileName, header = FALSE, 
+                             skip = 1)
+  if (logOR == FALSE) {
+    preds <- predictions$predictedYPerSweep[, , 1]
+  }
+  else {
+    if (!is.null(predictions$logORPerSweep)) {
+      preds <- predictions$logORPerSweep
+    }
+    else {
+      stop("Log OR (odds ratios) cannot be plotted because they have not been computed by calcPredictions. Re-run calcPredictions with option fullSweepLogOR=TRUE.")
+    }
+  }
+  pdf(outfile, onefile = TRUE)
+  nPredictSubjects <- runInfoObj$nPredictSubjects
+  denObj <- vector(mode = "list")
+  for (i in 1:nPredictSubjects) {
+    denObj[[i]] <- density(na.omit(preds[, i]))
+  }
+  for (k in 1:nPredictSubjects) {
+    plotDF <- data.frame(logOddsRatio = denObj[[k]]$x, density = denObj[[k]]$y)
+    plotObj <- ggplot(plotDF)
+    plotObj <- plotObj + geom_line(aes(x = logOddsRatio, 
+                                       y = density), size = 0.2)
+    plotObj <- plotObj + theme(legend.position = "none")
+    plotObj <- plotObj + labs(x = ifelse(logOR == TRUE, "Log OR of response", 
+                                         "Response")) + theme(axis.title.x = element_text(size = 15)) + 
+      labs(y = "Density") + theme(axis.title.y = element_text(size = 15, 
+                                                              angle = 90))
+    plotObj <- plotObj + theme(axis.text.x = element_text(size = 15)) + 
+      theme(axis.text.y = element_text(size = 15))
+    print(plotObj)
+  }
+  dev.off()
+}
+
+------------------------------------------------------------------------------
+
+Then: 
+
+	plotPredictions(outfile = "predictiveDensity.pdf", runInfoObj = runInfoObj,predictions = predictions)	
