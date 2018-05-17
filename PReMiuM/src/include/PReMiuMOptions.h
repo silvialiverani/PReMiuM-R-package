@@ -91,7 +91,7 @@ class pReMiuMOptions{
 			_predictType ="RaoBlackwell";
 			_weibullFixedShape=false;
 			_useNormInvWishPrior=false;
-			_useHyperpriorR1=true;
+			_useHyperpriorR1=false;
 		};
 
 		/// \brief Default destructor
