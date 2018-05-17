@@ -272,7 +272,8 @@ pReMiuMOptions processCommandLine(string inputStr){
 					options.weibullFixedShape(true);
 		                }else if(inString.find("--useNormInvWishPrior")!=string::npos){
 					options.useNormInvWishPrior(true);
-
+		                }else if(inString.find("--useHyperpriorR1")!=string::npos){
+					options.useHyperpriorR1(true);
 				}else{
 					Rprintf("Unknown command line option.\n");
 					wasError=true;
@@ -905,6 +906,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 	string predictType = options.predictType();
 	bool weibullFixedShape = options.weibullFixedShape();
 	string uCARinitFileName = options.uCARinitFileName();
+	bool useHyperpriorR1 = options.useHyperpriorR1();
 
 	bool wasError=false;
 
@@ -924,7 +926,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 	// This also switches "on" all variable indicators (gamma)
 	// This gets changed below if variable selection is being done
 	params.setSizes(nSubjects,nCovariates,nDiscreteCovs,nContinuousCovs,nFixedEffects,nCategoriesY,
-		nPredictSubjects,nCategories,nClusInit,covariateType,weibullFixedShape);
+		nPredictSubjects,nCategories,nClusInit,covariateType,weibullFixedShape,useHyperpriorR1);
 	unsigned int maxNClusters=params.maxNClusters();
 
 	// Define a uniform random number generator
@@ -1208,6 +1210,23 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 
 		}
 
+
+
+		if (options.useHyperpriorR1()){
+			MatrixXd SumTau = MatrixXd::Zero(nCovariates,nCovariates);
+			unsigned int workNactive=0;
+			for (unsigned int c=0; c<maxZ+1;c++){
+				SumTau += params.Tau(c);
+				workNactive += params.workNXInCluster(c);
+			}
+			SumTau += hyperParams.R0();
+			MatrixXd R0Star = SumTau.inverse();
+		
+			MatrixXd R1 =  wishartRand(rndGenerator,R0Star,workNactive*hyperParams.kappa1()+hyperParams.kappa0());
+			params.R1(R1);
+		}
+
+
 		// Now we can sample Tau_c for each cluster
 		vector<MatrixXd> Rc(maxNClusters);
 		for(unsigned int c=0;c<maxNClusters;c++){
@@ -1219,10 +1238,19 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 			Rc[zi]=Rc[zi]+(xi[i]-params.mu(zi))*((xi[i]-params.mu(zi)).transpose());
 		}
 
-		for(unsigned int c=0;c<maxNClusters;c++){
-			Rc[c]=(hyperParams.R0().inverse()+Rc[c]).inverse();
-			MatrixXd Tau = wishartRand(rndGenerator,Rc[c],params.workNXInCluster(c)+hyperParams.kappa0());
-			params.Tau(c,Tau);
+		if (options.useHyperpriorR1()){
+			for(unsigned int c=0;c<maxNClusters;c++){
+				Rc[c]=(params.R1().inverse()+Rc[c]).inverse();
+				MatrixXd Tau = wishartRand(rndGenerator,Rc[c],params.workNXInCluster(c)+hyperParams.kappa1());
+				params.Tau(c,Tau);
+			}
+		} else {
+			for(unsigned int c=0;c<maxNClusters;c++){
+				Rc[c]=(hyperParams.R0().inverse()+Rc[c]).inverse();
+				MatrixXd Tau = wishartRand(rndGenerator,Rc[c],params.workNXInCluster(c)+hyperParams.kappa0());
+				params.Tau(c,Tau);
+			}
+
 		}
 
 		// Now do the null mu for variable selection
@@ -1346,6 +1374,22 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 
 		}
 
+
+		if (options.useHyperpriorR1()){
+			MatrixXd SumTau = MatrixXd::Zero(nContinuousCovs,nContinuousCovs);
+			unsigned int workNactive=0;
+			for (unsigned int c=0; c<maxZ+1;c++){
+				SumTau += params.Tau(c);
+				workNactive += params.workNXInCluster(c);
+			}
+			SumTau += hyperParams.R0();
+			MatrixXd R0Star = SumTau.inverse();
+		
+			MatrixXd R1 =  wishartRand(rndGenerator,R0Star,workNactive*hyperParams.kappa1()+hyperParams.kappa0());
+			params.R1(R1);
+		}
+
+
 		// Now we can sample Tau_c for each cluster
 		vector<MatrixXd> Rc(maxNClusters);
 		for(unsigned int c=0;c<maxNClusters;c++){
@@ -1357,11 +1401,21 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 			Rc[zi]=Rc[zi]+(xi[i]-params.mu(zi))*((xi[i]-params.mu(zi)).transpose());
 		}
 
-		for(unsigned int c=0;c<maxNClusters;c++){
-			Rc[c]=(hyperParams.R0().inverse()+Rc[c]).inverse();
-			MatrixXd Tau = wishartRand(rndGenerator,Rc[c],params.workNXInCluster(c)+hyperParams.kappa0());
-			params.Tau(c,Tau);
+		if (options.useHyperpriorR1()){
+			for(unsigned int c=0;c<maxNClusters;c++){
+				Rc[c]=(params.R1().inverse()+Rc[c]).inverse();
+				MatrixXd Tau = wishartRand(rndGenerator,Rc[c],params.workNXInCluster(c)+hyperParams.kappa1());
+				params.Tau(c,Tau);
+			}
+		} else {
+			for(unsigned int c=0;c<maxNClusters;c++){
+				Rc[c]=(hyperParams.R0().inverse()+Rc[c]).inverse();
+				MatrixXd Tau = wishartRand(rndGenerator,Rc[c],params.workNXInCluster(c)+hyperParams.kappa0());
+				params.Tau(c,Tau);
+			}
+
 		}
+
 
 		// Now do the null mu for variable selection
 		// In all cases, initialise it at the value it will be fixed at for
@@ -2278,8 +2332,10 @@ string storeLogFileData(const pReMiuMOptions& options,
 		tmpStr << "R0: "  << endl;
 		tmpStr << hyperParams.R0() << endl;
 		tmpStr << "kappa0: " << hyperParams.kappa0() << endl;
+		if (options.useHyperpriorR1()) tmpStr << "kappa1: " << hyperParams.kappa1() << endl;
 		tmpStr << "nu0: " << hyperParams.nu0() << endl;
 	}
+	
 
 	tmpStr << "muTheta: " << hyperParams.muTheta() << endl;
 	tmpStr << "sigmaTheta: " << hyperParams.sigmaTheta() << endl;

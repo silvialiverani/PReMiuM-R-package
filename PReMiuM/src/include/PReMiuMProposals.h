@@ -1050,10 +1050,10 @@ void gibbsForMuActiveNIWP(mcmcChain<pReMiuMParams>& chain,
 		//There are 0 on the diagonal elements of the covariance matrix when the covariate j is not selected
 		//we replace them by 0.1, the value does not care, since the sampling values will be replaced by \bar{x}_j
 		for (unsigned int j=0; j<nCovariates; j++){
-            if (covMat(j,j)==0) covMat(j,j)=0.1;
+           		if (covMat(j,j)==0) covMat(j,j)=0.1;
 		}
 		VectorXd meanVec(nCovariates);
-        meanVec = hyperParams.nu0()*hyperParams.mu0()+
+        	meanVec = hyperParams.nu0()*hyperParams.mu0()+
 					nXInC*(gammaMat[c]*meanX[c]-oneMinusGammaMat[c]*currentParams.nullMu());
 		meanVec /= (hyperParams.nu0()+nXInC);
 		VectorXd mu(nCovariates);
@@ -1078,6 +1078,7 @@ void gibbsForTauActive(mcmcChain<pReMiuMParams>& chain,
 	mcmcState<pReMiuMParams>& currentState = chain.currentState();
 	pReMiuMParams& currentParams = currentState.parameters();
 	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+	bool useHyperpriorR1 = model.options().useHyperpriorR1();
 
 	const pReMiuMData& dataset = model.dataset();
 
@@ -1116,13 +1117,21 @@ void gibbsForTauActive(mcmcChain<pReMiuMParams>& chain,
 		Rc[zi]=Rc[zi]+(xi[i]-currentParams.workMuStar(zi))*((xi[i]-currentParams.workMuStar(zi)).transpose());
 	}
 
-	for(unsigned int c=0;c<=maxZ;c++){
-		Rc[c]=(hyperParams.R0().inverse()+Rc[c]).inverse();
-		MatrixXd Tau = wishartRand(rndGenerator,Rc[c],currentParams.workNXInCluster(c)+hyperParams.kappa0());
-
-		currentParams.Tau(c,Tau);
+	if (useHyperpriorR1){
+		for(unsigned int c=0;c<=maxZ;c++){
+			Rc[c]=(currentParams.R1().inverse()+Rc[c]).inverse();
+			MatrixXd Tau = wishartRand(rndGenerator,Rc[c],currentParams.workNXInCluster(c)+hyperParams.kappa1());
+	
+			currentParams.Tau(c,Tau);
+		}
+	} else {
+		for(unsigned int c=0;c<=maxZ;c++){
+			Rc[c]=(hyperParams.R0().inverse()+Rc[c]).inverse();
+			MatrixXd Tau = wishartRand(rndGenerator,Rc[c],currentParams.workNXInCluster(c)+hyperParams.kappa0());
+	
+			currentParams.Tau(c,Tau);
+		}
 	}
-
 
 
 }
@@ -1685,6 +1694,7 @@ void metropolisHastingsForAlpha(mcmcChain<pReMiuMParams>& chain,
 	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
 
 	// Find the number of clusters
+
 	unsigned int maxZ = currentParams.workMaxZi();
 
 	// Define a uniform random number generator
@@ -1838,6 +1848,45 @@ void gibbsForVInActive(mcmcChain<pReMiuMParams>& chain,
 // up to maxNClusters = max_i{Ci}. Several different routines here for
 // each of the variables
 
+// Gibbs move for updating R1
+void gibbsForR1(mcmcChain<pReMiuMParams>& chain,
+				unsigned int& nTry,unsigned int& nAccept,
+				const mcmcModel<pReMiuMParams,pReMiuMOptions,pReMiuMData>& model,
+				pReMiuMPropParams& propParams,
+				baseGeneratorType& rndGenerator){
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+
+	// Find the number of clusters
+	unsigned int maxZ = currentParams.workMaxZi();
+	// Find the number of covariates
+	unsigned int nCovariates = 0;
+	if(model.options().covariateType().compare("Mixed")==0){
+		nCovariates = currentParams.nContinuousCovs();
+	} else {
+		nCovariates = currentParams.nCovariates();
+	}
+
+	nTry++;
+	nAccept++;
+
+
+	MatrixXd SumTau = MatrixXd::Zero(nCovariates,nCovariates);
+	unsigned int workNactive=0;
+	for (unsigned int c=0; c<maxZ+1;c++){
+		SumTau += currentParams.Tau(c);
+		workNactive += currentParams.workNXInCluster(c);
+	}
+	SumTau += hyperParams.R0();
+	MatrixXd R0Star = SumTau.inverse();
+
+	MatrixXd R1 =  wishartRand(rndGenerator,R0Star,workNactive*hyperParams.kappa1()+hyperParams.kappa0());
+	currentParams.R1(R1);
+	
+}
+
 // Gibbs move for updating phi
 void gibbsForPhiInActive(mcmcChain<pReMiuMParams>& chain,
 				unsigned int& nTry,unsigned int& nAccept,
@@ -1922,7 +1971,7 @@ void gibbsForMuInActive(mcmcChain<pReMiuMParams>& chain,
 
 }
 
-// Gibbs update for mu in Normal covariate case when the normal inerve Wishart prior is used
+// Gibbs update for mu in Normal covariate case when the normal inverse Wishart prior is used
 void gibbsForMuInActiveNIWP(mcmcChain<pReMiuMParams>& chain,
 				unsigned int& nTry,unsigned int& nAccept,
 				const mcmcModel<pReMiuMParams,pReMiuMOptions,pReMiuMData>& model,
@@ -1974,6 +2023,7 @@ void gibbsForTauInActive(mcmcChain<pReMiuMParams>& chain,
 	mcmcState<pReMiuMParams>& currentState = chain.currentState();
 	pReMiuMParams& currentParams = currentState.parameters();
 	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+	bool useHyperpriorR1 = model.options().useHyperpriorR1();
 
 	// Find the number of clusters
 	unsigned int maxZ = currentParams.workMaxZi();
@@ -1982,10 +2032,18 @@ void gibbsForTauInActive(mcmcChain<pReMiuMParams>& chain,
 	nTry++;
 	nAccept++;
 
-	for(unsigned int c=maxZ+1;c<maxNClusters;c++){
-		MatrixXd Tau = wishartRand(rndGenerator,hyperParams.R0(),hyperParams.kappa0());
-		currentParams.Tau(c,Tau);
+	if (useHyperpriorR1){
+		for(unsigned int c=maxZ+1;c<maxNClusters;c++){
+			MatrixXd Tau = wishartRand(rndGenerator,currentParams.R1(),hyperParams.kappa1());
+			currentParams.Tau(c,Tau);
+		}
+	} else {
+		for(unsigned int c=maxZ+1;c<maxNClusters;c++){
+			MatrixXd Tau = wishartRand(rndGenerator,hyperParams.R0(),hyperParams.kappa0());
+			currentParams.Tau(c,Tau);
+		}
 	}
+
 
 }
 
@@ -2520,7 +2578,7 @@ void gibbsForSigmaSqY(mcmcChain<pReMiuMParams>& chain,
 // Gibbs for update of sigmaSqYQuantile (Quantile response case)
 void gibbsForSigmaSqYQuantile(mcmcChain<pReMiuMParams>& chain,
 				unsigned int& nTry,unsigned int& nAccept,
-				const mcmcModel<pReMiuMParams, pReMiuMOptions, pReMiuMData>& model, pReMiuMPropParams& 					propParams, baseGeneratorType& rndGenerator){
+				const mcmcModel<pReMiuMParams, pReMiuMOptions, pReMiuMData>& model, pReMiuMPropParams& propParams, baseGeneratorType& rndGenerator){
 	mcmcState<pReMiuMParams>& currentState = chain.currentState();
 	pReMiuMParams& currentParams = currentState.parameters();
 	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
@@ -2541,7 +2599,7 @@ void gibbsForSigmaSqYQuantile(mcmcChain<pReMiuMParams>& chain,
 		for(unsigned int j=0;j<nFixedEffects;j++){
 			mu+=currentParams.beta(j,0)*dataset.W(i,j);
 		}
-
+		// here used different parametrisation of ALD than in paper (see distribution.h for further details on this parametrisation)
 		sumVal+=(abs(dataset.continuousY(i)-mu)+(2*pQuantile-1)*(dataset.continuousY(i)-mu))/2;
 	}
       
@@ -3081,12 +3139,17 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 					c++;	
 				}
 				if(outcomeType.compare("Quantile")==0){
+					// draw from the ALD distribution (Yu et al, 2005)
+					// X1, X2 distributed Exp(1) then X1/p-X2/(1-p) has ALD(0,1;p)
+					// if X distr ALD(0,1;p) then mu+sigma X has distribution ALD(mu,sigma;p)  
 					double u1=unifRand(rndGenerator);
 					double u2=unifRand(rndGenerator);
 					double EXP1 = -log(u1);
 					double EXP2 = -log(u2);
 					double r= EXP1/hyperParams.pQuantile()-EXP2/(1-hyperParams.pQuantile());
-					expectedTheta[0]=sqrt(currentParams.sigmaSqY())*r+currentParams.theta(c,0);
+					expectedTheta[0]=currentParams.sigmaSqY()*r+currentParams.theta(c,0);
+					// line below should be a mistake because sigmaSqY is not a square for the ALD					
+					//expectedTheta[0]=sqrt(currentParams.sigmaSqY())*r+currentParams.theta(c,0);
 				}else{ 
 					// draw from the normal distribution of that sample (only for yModel=Normal)
 					// Create a normal random generator

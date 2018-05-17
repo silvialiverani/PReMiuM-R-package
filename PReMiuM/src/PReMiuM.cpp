@@ -129,6 +129,11 @@ RcppExport SEXP profRegr(SEXP inputString) {
 		// Update for the active Sigma parameters
 		pReMiuMSampler.addProposal("gibbsForTauActive",1.0,1,1,&gibbsForTauActive);
 
+		if (options.useHyperpriorR1()){
+			// Update for R1
+			pReMiuMSampler.addProposal("gibbsForR1",1.0,1,1,&gibbsForR1);
+		}
+
 	}else if(options.covariateType().compare("Mixed")==0){
 		// For discrete X data we do a mixture of Categorical and ordinal updates
 		//  Update for the active phi parameters
@@ -148,6 +153,10 @@ RcppExport SEXP profRegr(SEXP inputString) {
 		// Update for the active Sigma parameters
 		pReMiuMSampler.addProposal("gibbsForTauActive",1.0,1,1,&gibbsForTauActive);
 
+		if (options.useHyperpriorR1()){
+			// Update for R1
+			pReMiuMSampler.addProposal("gibbsForR1",1.0,1,1,&gibbsForR1);
+		}
 	}
 
 	if(options.varSelectType().compare("None")!=0){

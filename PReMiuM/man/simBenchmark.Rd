@@ -33,7 +33,7 @@ Silvia Liverani, David I. Hastie, Lamiae Azizi, Michail Papathomas, Sylvia Richa
 }
 \examples{
 \dontrun{
-# vector of all test datasets allowed by this bencmarking function
+# vector of all test datasets allowed by this benchmarking function
 testDatasets<-c("clusSummaryBernoulliNormal",
   "clusSummaryBernoulliDiscreteSmall","clusSummaryCategoricalDiscrete",
   "clusSummaryNormalDiscrete","clusSummaryNormalNormal", 
