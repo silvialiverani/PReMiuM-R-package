@@ -91,6 +91,7 @@ class pReMiuMOptions{
 			_predictType ="RaoBlackwell";
 			_weibullFixedShape=false;
 			_useNormInvWishPrior=false;
+			_useHyperpriorR1=true;
 		};
 
 		/// \brief Default destructor
@@ -387,6 +388,17 @@ class pReMiuMOptions{
 			_useNormInvWishPrior=useNIWP;
 		}
 
+
+		/// \brief Return whether we are including hyperprior for R1
+		bool useHyperpriorR1() const{
+			return _useHyperpriorR1;
+		}
+
+		/// \brief Set whether we are including hyperprior for R1
+		void useHyperpriorR1(const bool& useR1){
+			_useHyperpriorR1=useR1;
+		}
+
 		// Copy operator
 		pReMiuMOptions& operator=(const pReMiuMOptions& options){
 
@@ -419,6 +431,7 @@ class pReMiuMOptions{
 			_predictType=options.predictType();
 			_weibullFixedShape=options.weibullFixedShape();
 			_useNormInvWishPrior=options.useNormInvWishPrior();
+			_useHyperpriorR1=options.useHyperpriorR1();
 			return *this;
 		}
 
@@ -482,6 +495,8 @@ class pReMiuMOptions{
 		bool _weibullFixedShape;
 		// Whether the conjugated Normal Inverse Wishart prior is used instead of the independent Normal and inverse Wisharts priors
 		bool _useNormInvWishPrior;
+		// Whether we include a hyperprior for R1
+		bool _useHyperpriorR1;
 };
 
 #endif // DIPBACOPTIONS_H_

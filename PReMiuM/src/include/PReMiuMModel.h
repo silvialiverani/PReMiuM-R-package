@@ -1235,6 +1235,11 @@ class pReMiuMParams{
 			workInverseR1(R1Mat.inverse());
 		}
 
+		/// \brief Return the element j1,j2 for R1
+		double R1(const unsigned int& j1,const unsigned int& j2) const{
+			return _R1(j1,j2);
+		}
+
 
 		/// \brief Return the vector of covariance matrices Sigma
 		const vector<MatrixXd>& Sigma() const{

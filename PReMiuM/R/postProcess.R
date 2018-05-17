@@ -23,7 +23,7 @@
 
 is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
 
-profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, predictType="RaoBlackwell", nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-2, dPitmanYor=0, excludeY=FALSE, extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE, run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123", includeCAR=FALSE, neighboursFile="Neighbours.txt",uCARinit=FALSE,weibullFixedShape=TRUE, useNormInvWishPrior=FALSE){
+profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, predictType="RaoBlackwell", nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-2, dPitmanYor=0, excludeY=FALSE, extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE, run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123", includeCAR=FALSE, neighboursFile="Neighbours.txt",uCARinit=FALSE,weibullFixedShape=TRUE, useNormInvWishPrior=FALSE, useHyperpriorR1=TRUE){
   
   # suppress scientific notation
   options(scipen=999)
@@ -339,6 +339,9 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
     if (!is.null(hyper$kappa0)){
       write(paste("kappa0=",hyper$kappa0,sep=""),hyperFile,append=T)
     }
+    if (!is.null(hyper$kappa1)){
+      write(paste("kappa1=",hyper$kappa1,sep=""),hyperFile,append=T)
+    }
     if (!is.null(hyper$nu0)){
       write(paste("nu0=",hyper$nu0,sep=""),hyperFile,append=T)
     }
@@ -431,6 +434,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
   if (includeCAR) inputString<-paste(inputString," --includeCAR", " --neighbours=", neighboursFile ,sep="")
   if (includeuCARinit) inputString<-paste(inputString, " --uCARinit=", uCARinit ,sep="")
   if (useNormInvWishPrior) inputString<-paste(inputString," --useNormInvWishPrior", sep="")
+  if (useHyperpriorR1) inputString<-paste(inputString," --useHyperpriorR1", sep="")
   if (run) .Call('profRegr', inputString, PACKAGE = 'PReMiuM')
   
   
@@ -531,6 +535,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
               "includeCAR"=includeCAR,
               "weibullFixedShape"=weibullFixedShape,
               "useNormInvWishPrior"=useNIWP,
+              "useHyperpriorR1"=useHyperpriorR1,
               "xMat"=xMat,"yMat"=yMat,"wMat"=wMat))
 }
 
@@ -2861,7 +2866,7 @@ margModelPosterior<-function(runInfoObj,allocation){
 }
 
 setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,aPhi=NULL,mu0=NULL,Tau0=NULL,R0=NULL,
-                         kappa0=NULL,nu0=NULL,muTheta=NULL,sigmaTheta=NULL,dofTheta=NULL,muBeta=NULL,sigmaBeta=NULL,dofBeta=NULL,
+                         kappa0=NULL,kappa1=NULL,nu0=NULL,muTheta=NULL,sigmaTheta=NULL,dofTheta=NULL,muBeta=NULL,sigmaBeta=NULL,dofBeta=NULL,
                          shapeTauEpsilon=NULL,rateTauEpsilon=NULL,aRho=NULL,bRho=NULL,atomRho=NULL,shapeSigmaSqY=NULL,scaleSigmaSqY=NULL,pQuantile=NULL,
                          rSlice=NULL,truncationEps=NULL,shapeTauCAR=NULL,rateTauCAR=NULL,shapeNu=NULL,scaleNu=NULL,initAlloc=NULL){
   out<-list()
@@ -2885,6 +2890,9 @@ setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,aPhi=NULL,mu0=NULL,Tau0=
   }
   if (!is.null(kappa0)){
     out$kappa0<-kappa0
+  }
+  if (!is.null(kappa1)){
+    out$kappa1<-kappa1
   }
   if (!is.null(nu0)){
     out$nu0<-nu0

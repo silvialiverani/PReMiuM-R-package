@@ -1635,6 +1635,7 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 		string varSelectType = sampler.model().options().varSelectType();
 		string predictType = sampler.model().options().predictType();
 		bool weibullFixedShape = sampler.model().options().weibullFixedShape();
+		bool useHyperpriorR1 = sampler.model().options().useHyperpriorR1();
 
 		const pReMiuMData& dataset = sampler.model().dataset();
 		pReMiuMPropParams& proposalParams = sampler.proposalParams();
@@ -1659,6 +1660,10 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 				outFiles.push_back(new ofstream(fileName.c_str()));
 				fileName = fileStem + "_Sigma.txt";
 				outFiles.push_back(new ofstream(fileName.c_str()));
+				if (useHyperpriorR1) {
+					fileName = fileStem + "_R1.txt";	
+					outFiles.push_back(new ofstream(fileName.c_str()));
+				}
 			}else if(covariateType.compare("Mixed")==0){
 				fileName = fileStem + "_phi.txt";
 				outFiles.push_back(new ofstream(fileName.c_str()));
@@ -1666,6 +1671,10 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 				outFiles.push_back(new ofstream(fileName.c_str()));
 				fileName = fileStem + "_Sigma.txt";
 				outFiles.push_back(new ofstream(fileName.c_str()));
+				if (useHyperpriorR1) {
+					fileName = fileStem + "_R1.txt";	
+					outFiles.push_back(new ofstream(fileName.c_str()));
+				}
 			}
 			fileName = fileStem + "_z.txt";
 			outFiles.push_back(new ofstream(fileName.c_str()));
@@ -1744,7 +1753,7 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 		}
 
 		// File indices
-		int nClustersInd=-1,psiInd=-1,phiInd=-1,muInd=-1,SigmaInd=-1,zInd=-1,entropyInd=-1,alphaInd=-1;
+		int nClustersInd=-1,psiInd=-1,phiInd=-1,muInd=-1,SigmaInd=-1,R1Ind=-1,zInd=-1,entropyInd=-1,alphaInd=-1;
 		int logPostInd=-1,nMembersInd=-1,alphaPropInd=-1;
 		int thetaInd=-1,betaInd=-1,thetaPropInd=-1,betaPropInd=-1,sigmaSqYInd=-1,nuInd=-1,epsilonInd=-1;
 		int sigmaEpsilonInd=-1,epsilonPropInd=-1,omegaInd=-1,rhoInd=-1;
@@ -1760,10 +1769,12 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 		}else if(covariateType.compare("Normal")==0){
 			muInd=r++;
 			SigmaInd=r++;
+			if (useHyperpriorR1) R1Ind=r++;
 		}else if(covariateType.compare("Mixed")==0){
 			phiInd=r++;
 			muInd=r++;
 			SigmaInd=r++;
+			if (useHyperpriorR1) R1Ind=r++;
 		}
 		zInd=r++;
 		entropyInd=r++;
@@ -1911,6 +1922,20 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 				}
 			}
 			*(outFiles[SigmaInd]) << endl;
+			
+			if (useHyperpriorR1){
+				for(unsigned int j1=0;j1<nCovariates;j1++){
+					for(unsigned int j2=0;j2<nCovariates;j2++){
+						*(outFiles[R1Ind]) << params.R1(j1,j2);
+						if(j1<(nCovariates-1)||j2<(nCovariates-1)){
+							*(outFiles[R1Ind]) << " ";
+						}
+					}
+				}
+			*(outFiles[R1Ind]) << endl;
+				
+			}
+
 		}else if(covariateType.compare("Mixed")==0){
 			for(unsigned int j=0;j<nDiscreteCovs;j++){
 				if(nCategories[j]>maxNCategories){
@@ -1964,6 +1989,20 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 				}
 			}
 			*(outFiles[SigmaInd]) << endl;
+
+			if (useHyperpriorR1){
+				for(unsigned int j1=0;j1<nCovariates;j1++){
+					for(unsigned int j2=0;j2<nCovariates;j2++){
+						*(outFiles[R1Ind]) << params.R1(j1,j2);
+						if(j1<(nCovariates-1)||j2<(nCovariates-1)){
+							*(outFiles[R1Ind]) << " ";
+						}
+					}
+				}
+			*(outFiles[R1Ind]) << endl;
+				
+			}
+
 		}
 
 

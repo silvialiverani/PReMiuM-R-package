@@ -129,7 +129,7 @@ class pReMiuMHyperParams{
 
 			if(options.covariateType().compare("Normal")==0 || options.covariateType().compare("Mixed")==0 ){
 				unsigned int nContCovs=_mu0.size();
-				// Values for mu, Tau0, R0, kappa0
+				// Values for mu, Tau0, R0, kappa0, kappa1
 				// In the following it is useful to have the rows of X as
 				// Eigen vectors
 				vector<VectorXd> xi(nSubjects);
@@ -184,6 +184,7 @@ class pReMiuMHyperParams{
 				_R0=R;
 				_workLogDetR0=log(R.determinant());
 				_kappa0 = nContCovs;
+				_kappa1 = nContCovs; 
 				_nu0=0.01;
 			}
 			_muTheta = 0.0;
@@ -290,6 +291,16 @@ class pReMiuMHyperParams{
 		/// \brief Set the hyper parameter kappa0
 		void kappa0(const unsigned int& k0){
 			_kappa0 = k0;
+		}
+
+		/// \brief Return the hyper parameter kappa1
+		const unsigned int& kappa1() const{
+			return _kappa1;
+		}
+
+		/// \brief Set the hyper parameter kappa1
+		void kappa1(const unsigned int& k0){
+			_kappa1 = k0;
 		}
 
 		/// \brief Return the hyper parameter nu0
@@ -504,6 +515,7 @@ class pReMiuMHyperParams{
 			_Tau0 = hyperParams.Tau0();
 			_R0 = hyperParams.R0();
 			_kappa0 = hyperParams.kappa0();
+			_kappa1 = hyperParams.kappa1();
 			_nu0 = hyperParams.nu0();
 			_muTheta = hyperParams.muTheta();
 			_sigmaTheta = hyperParams.sigmaTheta();
@@ -550,10 +562,16 @@ class pReMiuMHyperParams{
 		MatrixXd _Tau0;
 		double _nu0;
 
-		// Hyper parameters for prior of Tau (for Normal covariates)
+		// When useHyperpriorR1=FALSE, 
+		//hyper parameters for prior of Tau (for Normal covariates)
 		// Prior is Tau ~ Wishart(R0,kappa0) (which has mean R0*kappa0).
+		// When useHyperpriorR1=TRUE, 
+		//hyper parameters for prior for R1 (for Normal covariates)
+		// Prior is Tau ~ Wishart(R1,kappa1)
+		// Prior is R1 ~ Wishart(R0,kappa0)
 		MatrixXd _R0;
 		unsigned int _kappa0;
+		unsigned int _kappa1;
 
 		// Hyper parameters for prior for theta
 		// Prior is location and scale T distribution theta ~ t(mu,sigma,dof)
@@ -640,7 +658,8 @@ class pReMiuMParams{
 				const vector<unsigned int>& nCategories,
 				const unsigned int& nClusInit,
 				const string covariateType,
-				const bool weibullFixedShape){
+				const bool weibullFixedShape,
+				const bool useHyperpriorR1){
 
 			unsigned int nDiscrCovs = 0;
 
@@ -689,6 +708,7 @@ class pReMiuMParams{
 					_Tau[c].setZero(nCovariates,nCovariates);
 					_Sigma[c].setZero(nCovariates,nCovariates);
 					_workSqrtTau[c].setZero(nCovariates,nCovariates);
+					if (useHyperpriorR1) _R1.setZero(nCovariates,nCovariates);
 				} else if (covariateType.compare("Mixed")==0) {
 					_logPhi[c].resize(nDiscreteCov);
 					_workLogPhiStar[c].resize(nDiscreteCov);
@@ -697,6 +717,7 @@ class pReMiuMParams{
 					_Tau[c].setZero(nContinuousCov,nContinuousCov);
 					_Sigma[c].setZero(nContinuousCov,nContinuousCov);
 					_workSqrtTau[c].setZero(nContinuousCov,nContinuousCov);
+					if (useHyperpriorR1) _R1.setZero(nContinuousCov,nContinuousCov);
 				}
 				_gamma[c].resize(nCovariates);
 				if (covariateType.compare("Discrete")==0||covariateType.compare("Mixed")==0){
@@ -1200,6 +1221,25 @@ class pReMiuMParams{
 		double Tau(const unsigned int& c,const unsigned int& j1,const unsigned int& j2) const{
 			return _Tau[c](j1,j2);
 		}
+
+
+		/// \brief Return the scale matrix R1 for the Wishart distribution of Tau_c 
+		const MatrixXd& R1() const{
+			return _R1;
+		}
+
+		/// \brief Set the scale matrix R1 for the Wishart distribution of Tau_c
+		void R1(const MatrixXd& R1Mat){
+			_R1=R1Mat;
+			workLogDetR1(log(R1Mat.determinant()));
+			workInverseR1(R1Mat.inverse());
+		}
+
+		/// \brief Return the element j1,j2 for R1
+		double R1(const unsigned int& j1,const unsigned int& j2) const{
+			return _R1(j1,j2);
+		}
+
 
 		/// \brief Return the vector of covariance matrices Sigma
 		const vector<MatrixXd>& Sigma() const{
@@ -1838,6 +1878,21 @@ class pReMiuMParams{
 			_workLogDetTau[c] = logDetTau;
 		}
 
+		const double& workLogDetR1() const{
+			return _workLogDetR1;
+		}
+
+		void workLogDetR1(const double& logDetR1){
+			_workLogDetR1 = logDetR1;
+		}
+
+		const MatrixXd& workInverseR1() const{
+			return _workInverseR1;
+		}
+
+		void workInverseR1(const MatrixXd& R1){
+			_workInverseR1 = R1;
+		}
 
 		void switchLabels(const unsigned int& c1,const unsigned int& c2,
 							const string& covariateType,
@@ -1922,6 +1977,7 @@ class pReMiuMParams{
 			_mu = params.mu();
 			_nullMu = params.nullMu();
 			_Tau = params.Tau();
+			_R1 = params.R1();
 			_Sigma = params.Sigma();
 			_theta = params.theta();
 			_beta = params.beta();
@@ -1948,6 +2004,8 @@ class pReMiuMParams{
 			_workEntropy = params.workEntropy();
 			_workNClusInit = params.workNClusInit();
 			_workLogDetTau = params.workLogDetTau();
+			_workLogDetR1 = params.workLogDetR1();
+			_workInverseR1 = params.workInverseR1();
 			_workSqrtTau = params.workSqrtTau();
 			_uCAR = params.uCAR();
 			_TauCAR = params.TauCAR();
@@ -1991,6 +2049,9 @@ class pReMiuMParams{
 		/// \brief A vector of Eigen dynamic vectors containing covariate precision
 		/// matrices for the case of Normal covariates
 		vector<MatrixXd> _Tau;
+
+		/// \brief A matrix of parameters for R1 where Tau ~ Wishart (R1, kappa1)
+		MatrixXd _R1;
 
 		/// \brief A vector of outcome probabilities for each cluster
 		vector< vector <double> > _theta;
@@ -2078,6 +2139,12 @@ class pReMiuMParams{
 
 		/// \brief Working vector containing the log determinants of Tau
 		vector<double> _workLogDetTau;
+
+		/// \brief Working double containing the log determinants of R1
+		double _workLogDetR1;
+
+		/// \brief Working  inverse of R1
+		MatrixXd _workInverseR1;
 
 		/// \brief vector of CAR spatial random term U
 		vector<double> _uCAR;
@@ -2292,6 +2359,7 @@ vector<double> pReMiuMLogPost(const pReMiuMParams& params,
 	const bool includeCAR=model.options().includeCAR();
 	const bool weibullFixedShape=model.options().weibullFixedShape();
 	const bool useNormInvWishPrior=model.options().useNormInvWishPrior();
+	const bool useHyperpriorR1=model.options().useHyperpriorR1();
 
 	// (Augmented) Log Likelihood first
 	// We want p(y,X|z,params,W) = p(y|z=c,W,params)p(X|z=c,params)
@@ -2402,7 +2470,7 @@ vector<double> pReMiuMLogPost(const pReMiuMParams& params,
 		logPrior+=logPdfGamma(params.alpha(),hyperParams.shapeAlpha(),hyperParams.rateAlpha());
 	}
 
-	// Prior for phi
+	// Prior for cluster specific parameters for the covariates
 	if(covariateType.compare("Discrete")==0){
 		// If covariate type is discrete
 		for(unsigned int c=0;c<maxNClusters;c++){
@@ -2427,7 +2495,12 @@ vector<double> pReMiuMLogPost(const pReMiuMParams& params,
 				}else{
 					logPrior+=logPdfMultivarNormal(nCovariates,params.mu(c),hyperParams.mu0(),hyperParams.workSqrtTau0(),hyperParams.workLogDetTau0());
 				}
-				logPrior+=logPdfWishart(nCovariates,params.Tau(c),params.workLogDetTau(c),hyperParams.workInverseR0(),hyperParams.workLogDetR0(),(double)hyperParams.kappa0());
+				if (useHyperpriorR1) {
+					logPrior+=logPdfWishart(nCovariates,params.R1(),params.workLogDetR1(),hyperParams.workInverseR0(),hyperParams.workLogDetR0(),(double)hyperParams.kappa0());
+					logPrior+=logPdfWishart(nCovariates,params.Tau(c),params.workLogDetTau(c),params.workInverseR1(),params.workLogDetR1(),(double)hyperParams.kappa1());
+				} else {
+					logPrior+=logPdfWishart(nCovariates,params.Tau(c),params.workLogDetTau(c),hyperParams.workInverseR0(),hyperParams.workLogDetR0(),(double)hyperParams.kappa0());
+				}
 			}
 		}
 	}else if(covariateType.compare("Mixed")==0){
@@ -2447,8 +2520,14 @@ vector<double> pReMiuMLogPost(const pReMiuMParams& params,
 				}else{
 					logPrior+=logPdfMultivarNormal(nContinuousCov,params.mu(c),hyperParams.mu0(),hyperParams.workSqrtTau0(),hyperParams.workLogDetTau0());
 				}
-				logPrior+=logPdfWishart(nContinuousCov,params.Tau(c),params.workLogDetTau(c),hyperParams.workInverseR0(),hyperParams.workLogDetR0(),(double)hyperParams.kappa0());
+				if (useHyperpriorR1) {
+					logPrior+=logPdfWishart(nCovariates,params.R1(),params.workLogDetR1(),hyperParams.workInverseR0(),hyperParams.workLogDetR0(),(double)hyperParams.kappa0());
+					logPrior+=logPdfWishart(nCovariates,params.Tau(c),params.workLogDetTau(c),params.workInverseR1(),params.workLogDetR1(),(double)hyperParams.kappa1());
+				} else {
+					logPrior+=logPdfWishart(nCovariates,params.Tau(c),params.workLogDetTau(c),hyperParams.workInverseR0(),hyperParams.workLogDetR0(),(double)hyperParams.kappa0());
+				}
 			}
+
 		}
 	}
 
