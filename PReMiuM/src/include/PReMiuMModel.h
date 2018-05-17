@@ -708,7 +708,7 @@ class pReMiuMParams{
 					_Tau[c].setZero(nCovariates,nCovariates);
 					_Sigma[c].setZero(nCovariates,nCovariates);
 					_workSqrtTau[c].setZero(nCovariates,nCovariates);
-					if (useHyperpriorR1) _R1.setZero(nCovariates);
+					if (useHyperpriorR1) _R1.setZero(nCovariates,nCovariates);
 				} else if (covariateType.compare("Mixed")==0) {
 					_logPhi[c].resize(nDiscreteCov);
 					_workLogPhiStar[c].resize(nDiscreteCov);
@@ -717,7 +717,7 @@ class pReMiuMParams{
 					_Tau[c].setZero(nContinuousCov,nContinuousCov);
 					_Sigma[c].setZero(nContinuousCov,nContinuousCov);
 					_workSqrtTau[c].setZero(nContinuousCov,nContinuousCov);
-					if (useHyperpriorR1) _R1.setZero(nContinuousCov);
+					if (useHyperpriorR1) _R1.setZero(nContinuousCov,nContinuousCov);
 				}
 				_gamma[c].resize(nCovariates);
 				if (covariateType.compare("Discrete")==0||covariateType.compare("Mixed")==0){
