@@ -1,4 +1,4 @@
-Date and time: 2018-05-17 15:2631
+Date and time: 2018-05-17 15:2706
 
 Data file path: output_input.txt
 
@@ -14,12 +14,13 @@ Output filter: 1
 Proposal Type: gibbsForVActive, Acceptance Rate: 1
 Proposal Type: gibbsForMuActive, Acceptance Rate: 1
 Proposal Type: gibbsForTauActive, Acceptance Rate: 1
+Proposal Type: gibbsForR1, Acceptance Rate: 1
 Proposal Type: gibbsForU, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.423154
+Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.461078
 Proposal Type: gibbsForVInActive, Acceptance Rate: 1
 Proposal Type: gibbsForMuInActive, Acceptance Rate: 1
 Proposal Type: gibbsForTauInActive, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForLabels123, Acceptance Rate: 0.311377
+Proposal Type: metropolisHastingsForLabels123, Acceptance Rate: 0.916168
 Proposal Type: gibbsForZ, Acceptance Rate: 1
 Number of subjects: 500
 Number of prediction subjects: 0
@@ -51,9 +52,10 @@ R0:
  0.543167 -0.543138
 -0.543138  0.543169
 kappa0: 2
+kappa1: 2
 nu0: 0.01
 muTheta: 0
 sigmaTheta: 2.5
 dofTheta: 7
 
-501 sweeps done in 1 seconds
+501 sweeps done in 2 seconds

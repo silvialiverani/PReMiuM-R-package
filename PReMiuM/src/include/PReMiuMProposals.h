@@ -1877,7 +1877,7 @@ void gibbsForR1(mcmcChain<pReMiuMParams>& chain,
 	unsigned int workNactive=0;
 	for (unsigned int c=0; c<maxZ+1;c++){
 		SumTau += currentParams.Tau(c);
-		workNactive += currentParams.workNXInCluster(c);
+		workNactive += 1;
 	}
 	SumTau += hyperParams.R0();
 	MatrixXd R0Star = SumTau.inverse();
