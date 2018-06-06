@@ -20,7 +20,6 @@ R -d "valgrind --tool=memcheck --leak-check=full" --vanilla < mypkg-Ex.R
 R CMD check --use-gct yourPackage_0.0.1.tar.gz
 
 - send to windows compiler + devel option
-- update description with date
 - backup in git
 
 (- read mail from Kurt Hornik about namespace stuff ("no visible binding for global variable" errors"))

@@ -1,6 +1,6 @@
-Changes in version 3.1.8 (2018-05-17)
+Changes in version 3.1.8 (2018-06-06)
 
-* Ruizhu Huang further improved the speed of the function plotRiskProfile
+* Improved the speed of the function plotRiskProfile
 * Added function simBenchmark for benchmarking of simulations
 * Included prior distribution for scale parameter of the prior distribution of the precision matrix for Normal covariates
 --------------------------------------------
