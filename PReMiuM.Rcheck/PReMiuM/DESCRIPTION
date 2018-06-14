@@ -17,4 +17,4 @@ LinkingTo: Rcpp, RcppEigen (>= 0.3.3.3.0), BH (>= 1.65.0-1)
 SystemRequirements: GNU make
 NeedsCompilation: yes
 Packaged: 2018-06-06 12:36:35 UTC; root
-Built: R 3.4.4; x86_64-pc-linux-gnu; 2018-06-06 12:36:57 UTC; unix
+Built: R 3.4.4; x86_64-pc-linux-gnu; 2018-06-07 15:54:16 UTC; unix
