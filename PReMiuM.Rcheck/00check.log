@@ -2,12 +2,14 @@
 * using R version 3.4.4 (2018-03-15)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
-* using option ‘--as-cran’
+* using options ‘--use-valgrind --as-cran’
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘PReMiuM’ version ‘3.1.8’
-* checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
+* this is package ‘PReMiuM’ version ‘3.2.0’
+* checking CRAN incoming feasibility ... NOTE
 Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
+
+Days since last update: 1
 * checking package namespace information ... OK
 * checking package dependencies ... OK
 * checking if this is a source package ... OK
@@ -56,10 +58,18 @@ Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
 * checking for GNU extensions in Makefiles ... OK
 * checking for portable use of $(BLAS_LIBS) and $(LAPACK_LIBS) ... OK
 * checking compiled code ... OK
-* checking examples ... OK
+* checking examples ... NOTE
+Examples with CPU or elapsed time > 5s
+                          user system elapsed
+margModelPosterior      21.104  0.124  21.229
+profRegr                20.844  0.288  21.145
+globalParsTrace         19.228  0.076  19.306
+calcDissimilarityMatrix 11.968  0.108  12.081
+summariseVarSelectRho   10.896  0.100  11.121
+generateSampleDataFile   7.248  0.012   7.260
 * checking for unstated dependencies in ‘tests’ ... OK
 * checking tests ... OK
-  Running ‘testthat.R’
+  Running ‘testthat.R’ [54s/54s]
 * checking PDF version of manual ... OK
 * DONE
-Status: 1 NOTE
+Status: 3 NOTEs

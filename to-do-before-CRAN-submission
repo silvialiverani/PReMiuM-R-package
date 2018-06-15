@@ -11,6 +11,10 @@ R CMD check yourPackage_0.0.1.tar.gz
 
 (this last step includes UBSAN)
 
+- run checks in rhub, for example:
+library(rhub)
+check_with_sanitizers("PreMiuM.....")
+
 - valgrind
 
 R CMD check --as-cran --use-valgrind yourPackage_0.0.1.tar.gz

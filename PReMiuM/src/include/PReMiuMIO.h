@@ -1991,10 +1991,10 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 			*(outFiles[SigmaInd]) << endl;
 
 			if (useHyperpriorR1){
-				for(unsigned int j1=0;j1<nCovariates;j1++){
-					for(unsigned int j2=0;j2<nCovariates;j2++){
+				for(unsigned int j1=0;j1<nContinuousCovs;j1++){
+					for(unsigned int j2=0;j2<nContinuousCovs;j2++){
 						*(outFiles[R1Ind]) << params.R1(j1,j2);
-						if(j1<(nCovariates-1)||j2<(nCovariates-1)){
+						if(j1<(nContinuousCovs-1)||j2<(nContinuousCovs-1)){
 							*(outFiles[R1Ind]) << " ";
 						}
 					}

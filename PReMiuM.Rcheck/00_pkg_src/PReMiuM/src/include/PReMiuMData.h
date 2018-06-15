@@ -46,7 +46,7 @@ class pReMiuMData{
 
 	public:
 		/// \brief Default constructor
-		pReMiuMData(): _nSubjects(0), _nCovariates(0), _nFixedEffects(0), _nCategoriesY(0), _nPredictSubjects(0) {};
+		pReMiuMData(): _nSubjects(0), _nCovariates(0), _nDiscreteCovs(0), _nContinuousCovs(0), _nFixedEffects(0), _nCategoriesY(0), _nPredictSubjects(0), _includeCAR(false), _includeuCARinit(false) {};
 
 		/// \brief Default destructor
 		~pReMiuMData(){};

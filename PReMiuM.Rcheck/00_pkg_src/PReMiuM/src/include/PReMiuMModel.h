@@ -662,6 +662,7 @@ class pReMiuMParams{
 				const bool useHyperpriorR1){
 
 			unsigned int nDiscrCovs = 0;
+			unsigned int nContCovs = 0;
 
 			// Initially make the maximum number of clusters  the bigger or
 			// the initial number of clusters and 150.
@@ -690,6 +691,12 @@ class pReMiuMParams{
 			_workLogDetTau.resize(maxNClusters);
 			_Sigma.resize(maxNClusters);
 			_gamma.resize(maxNClusters);
+			if (covariateType.compare("Mixed")==0){
+				nContCovs = nContinuousCov;
+			} else {
+				nContCovs = nCovariates;
+			}
+			_R1.setZero(nContCovs,nContCovs); 
 			for(unsigned int c=0;c<maxNClusters;c++){
 				if(c==0){
 					if (covariateType.compare("Discrete")==0) _logNullPhi.resize(nCovariates);
@@ -708,7 +715,6 @@ class pReMiuMParams{
 					_Tau[c].setZero(nCovariates,nCovariates);
 					_Sigma[c].setZero(nCovariates,nCovariates);
 					_workSqrtTau[c].setZero(nCovariates,nCovariates);
-					if (useHyperpriorR1) _R1.setZero(nCovariates,nCovariates);
 				} else if (covariateType.compare("Mixed")==0) {
 					_logPhi[c].resize(nDiscreteCov);
 					_workLogPhiStar[c].resize(nDiscreteCov);
@@ -717,7 +723,6 @@ class pReMiuMParams{
 					_Tau[c].setZero(nContinuousCov,nContinuousCov);
 					_Sigma[c].setZero(nContinuousCov,nContinuousCov);
 					_workSqrtTau[c].setZero(nContinuousCov,nContinuousCov);
-					if (useHyperpriorR1) _R1.setZero(nContinuousCov,nContinuousCov);
 				}
 				_gamma[c].resize(nCovariates);
 				if (covariateType.compare("Discrete")==0||covariateType.compare("Mixed")==0){
