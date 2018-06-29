@@ -561,7 +561,7 @@ calcDissimilarityMatrix<-function(runInfoObj,onlyLS=FALSE){
   if (reportBurnIn) {
     recordedNBurn<-nBurn
   } else {
-    recordedNBurn<-1
+    recordedNBurn<-0
   }
   
   # Call the C++ to compute the dissimilarity matrix
