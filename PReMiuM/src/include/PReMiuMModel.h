@@ -1158,10 +1158,8 @@ class pReMiuMParams{
 
 			// This condition should stop this being evaluated when
 			// mu has been initialised but Sigma hasn't
-std::cout<<"ever here?1"<<std::endl;
 
 			if(Sigma(0).trace()>0){
-std::cout<<"ever here?"<<std::endl;
 				VectorXd xi=VectorXd::Zero(nCov);
 				vector<VectorXd> muStar(nClusters);
 				for(unsigned int c=0;c<nClusters;c++){
