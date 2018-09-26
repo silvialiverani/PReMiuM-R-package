@@ -1158,7 +1158,10 @@ class pReMiuMParams{
 
 			// This condition should stop this being evaluated when
 			// mu has been initialised but Sigma hasn't
+std::cout<<"ever here?1"<<std::endl;
+
 			if(Sigma(0).trace()>0){
+std::cout<<"ever here?"<<std::endl;
 				VectorXd xi=VectorXd::Zero(nCov);
 				vector<VectorXd> muStar(nClusters);
 				for(unsigned int c=0;c<nClusters;c++){
@@ -1381,7 +1384,7 @@ class pReMiuMParams{
 							xi(j)=workContinuousX(i,j);
 						}
 						_workLogPXiGivenZi[i]=logPdfMultivarNormal(nCov,xi,workMuStar(c),workSqrtTau(c),workLogDetTau(c));
-					}
+					} 
 				}else if(covariateType.compare("Mixed")==0){
 					for(unsigned int j=0;j<nDiscreteCov;j++){
 						unsigned int zi = z(i);

@@ -4,16 +4,16 @@
 \description{Fit a profile regression model.}
 \usage{
 profRegr(covNames, fixedEffectsNames, outcome="outcome", 
-        outcomeT=NA, data, output="output", hyper, predict, 
+  outcomeT=NA, data, output="output", hyper, predict, 
 	predictType="RaoBlackwell",
-        nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, 
-        nClusInit, seed, yModel="Bernoulli", xModel="Discrete", 
-        sampler="SliceDependent", alpha=-2, dPitmanYor = 0, excludeY=FALSE, 
-        extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE,
-        run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123",
-	includeCAR=FALSE, neighboursFile="Neighbours.txt", uCARinit=FALSE,
-	weibullFixedShape=TRUE, useNormInvWishPrior=FALSE, 
-	useHyperpriorR1=TRUE)
+  nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, 
+  nClusInit, seed, yModel="Bernoulli", xModel="Discrete", 
+  sampler="SliceDependent", alpha=-2, dPitmanYor = 0, excludeY=FALSE, 
+  extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE,
+  run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123",
+  includeCAR=FALSE, neighboursFile="Neighbours.txt", uCARinit=FALSE,
+	PoissonCARadaptive=FALSE,	weibullFixedShape=TRUE, 
+	useNormInvWishPrior=FALSE, useHyperpriorR1=FALSE)
 }
 \arguments{
 \item{covNames}{A vector of strings of the covariate names as by the column names in the data argument. The names of the covariates cannot include space characters.}
@@ -63,6 +63,7 @@ See ?calcPredictions for more details and examples.
 \item{includeCAR}{A boolean specifying wether a conditional autoregressive term should be introduced within the model, to take into account possible spatial correlation within residuals. Only for Poisson and Normal response models.}
 \item{neighboursFile}{The file name of the file specifying neighbourhood graph. It should have the same structure than neighbourhood graph files used in the "INLA" package, and can be produced from a nb object of package "spdep", by the function "nb2INLA" of package "spdep". See ?nb2INLA for details. Each file must have at least one neighbour.}
 \item{uCARinit}{This parameter gives the possibility of giving initialisation values for the spatial residuals u of the spatial CAR. It is set to FALSE by default (meaning that the spatial residuals are initialised randomly). It can be set alternatively to a vector of values, one for each of the observations available.}
+\item{PoissonCARadaptive}{This parameter controls which sampler is used for the parameters of the spatial random effect when the outcome is Poisson. When it is set to TRUE, the adaptive rejection sampler is used. When it is set to FALSE (default) a random walk Metropolis is used. }
 \item{weibullFixedShape}{This parameter controls whether the shape parameter of the Weibull distribution (for yModel=Survival only) is a global parameter (fixed) or cluster specific. It is equal to TRUE by default.}
 \item{useNormInvWishPrior}{By default this variable equals FALSE. When this variable equals TRUE, the conjugate Normal-inverse-Wishart prior is used rather
 than the independant normal and inverse Wishart priors. If this prior is used, variable selection cannot be used as it has not been implemented.}

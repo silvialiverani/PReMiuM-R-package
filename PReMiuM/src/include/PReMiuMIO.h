@@ -112,6 +112,7 @@ pReMiuMOptions processCommandLine(string inputStr){
 			Rprintf("--entropy\n\tIf included then we compute allocation entropy (not included)\n");
 			Rprintf("--predictType=<string>\n\tThe type of predictions to be used 'RaoBlackwell' or 'random' (RaoBlackwell)\n");
 			Rprintf("--weibullFixedShape=<bool>\n\tWhether the shape parameter of the Weibull distribution is fixed.\n");
+			Rprintf("--PoissonCARadaptive=<bool>\n\tWhether the adaptive rejection sampler or the random walk Metropolis are used for the Poisson outcome with spatial random effects.\n");
 		}else{
 			while(currArg < argc){
 				inString.assign(inputStrings[currArg]);
@@ -268,6 +269,8 @@ pReMiuMOptions processCommandLine(string inputStr){
 						break;
 					}
 					options.predictType(predictType);
+				}else if(inString.find("--PoissonCARadaptive")!=string::npos){
+					options.PoissonCARadaptive(true);
 				}else if(inString.find("--weibullFixedShape")!=string::npos){
 					options.weibullFixedShape(true);
 		                }else if(inString.find("--useNormInvWishPrior")!=string::npos){

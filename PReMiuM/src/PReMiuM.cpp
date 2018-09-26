@@ -189,9 +189,18 @@ RcppExport SEXP profRegr(SEXP inputString) {
 
 		//if spatial random term
 		if (options.includeCAR()){
-			//Adaptive rejection sampling for uCAR
-			pReMiuMSampler.addProposal("gibbsforUCAR", 1.0,1,1,&gibbsForUCAR);
-
+		  if(options.outcomeType().compare("Normal")==0){
+		    pReMiuMSampler.addProposal("gibbsForUCARNormal", 1.0,1,1,&gibbsForUCARNormal);
+		  }
+		  if(options.outcomeType().compare("Poisson")==0){
+		    //Adaptive rejection sampling for uCAR
+		    if (options.PoissonCARadaptive()){
+  		    pReMiuMSampler.addProposal("adaptiveRejectionSamplerForUCARPoisson", 1.0,1,1,&adaptiveRejectionSamplerForUCARPoisson);
+		    } else {
+		    pReMiuMSampler.addProposal("metropolisForUCARPoisson", 1.0,1,1,&metropolisForUCARPoisson);
+		    }
+		  }
+		      
 			//Gibbs for TauCAR
 			pReMiuMSampler.addProposal("gibbsForTauCAR", 1.0,1,1,&gibbsForTauCAR);
 		}

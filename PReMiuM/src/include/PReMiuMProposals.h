@@ -148,6 +148,16 @@ class pReMiuMPropParams{
 				_lambdaUpdateFreq = 500;
 				_lambdaAnyUpdates=true;
 
+				_uCARStdDev=1.0;
+				_uCARStdDevLower=0.1;
+				_uCARStdDevUpper=9.9;
+				_nTryuCAR=0;
+				_nAcceptuCAR=0;
+				_nLocalAcceptuCAR=0;
+				_nResetuCAR=0;
+				_uCARAcceptTarget=0.44;
+				_uCARUpdateFreq=25;
+				_uCARAnyUpdates=true;
 		};
 
 		~pReMiuMPropParams(){};
@@ -630,6 +640,95 @@ class pReMiuMPropParams{
 		}
 
 
+
+		unsigned int nTryuCAR() const{
+			return _nTryuCAR;
+		}
+
+		unsigned int nAcceptuCAR() const{
+			return _nAcceptuCAR;
+		}
+
+		double uCARAcceptRate() const{
+			if(_nTryuCAR>0){
+				return (double)_nAcceptuCAR/(double)_nTryuCAR;
+			}else{
+				return 0.0;
+			}
+		}
+
+		unsigned int uCARUpdateFreq() const{
+			return _uCARUpdateFreq;
+		}
+
+		unsigned int nLocalAcceptuCAR() const{
+			return _nLocalAcceptuCAR;
+		}
+
+		double uCARLocalAcceptRate() const{
+			return (double)_nLocalAcceptuCAR/(double)_uCARUpdateFreq;
+		}
+
+
+		double uCARAcceptTarget() const{
+			return _uCARAcceptTarget;
+		}
+
+		void uCARAddTry(){
+			_nTryuCAR++;
+		}
+
+		void uCARAddAccept(){
+			_nAcceptuCAR++;
+			_nLocalAcceptuCAR++;
+		}
+
+		void uCARLocalReset(){
+			_nLocalAcceptuCAR=0;
+		}
+
+		unsigned int nResetuCAR() const{
+			return _nResetuCAR;
+		}
+
+		void uCARStdDevReset(){
+			_uCARStdDev = 1.0;
+			_nResetuCAR++;
+			_uCARStdDevLower = pow(10.0,-((double)_nResetuCAR+1.0));
+			_uCARStdDevUpper = 100.0-pow(10.0,-((double)_nResetuCAR+1.0));
+		}
+
+		double& uCARStdDev(){
+			return _uCARStdDev;
+		}
+
+		double uCARStdDev() const{
+			return _uCARStdDev;
+		}
+
+		// Member function for setting the standard deviation for
+		// proposal for uCAR
+		void uCARStdDev(const double& sd){
+			_uCARStdDev=sd;
+		}
+
+		double uCARStdDevLower() const{
+			return _uCARStdDevLower;
+		}
+
+		double uCARStdDevUpper() const{
+			return _uCARStdDevUpper;
+		}
+
+		bool uCARAnyUpdates() const{
+			return _uCARAnyUpdates;
+		}
+
+		void uCARAnyUpdates(const bool& newStatus){
+			_uCARAnyUpdates = newStatus;
+		}
+
+
 		// Need to define a copy iterator
 		pReMiuMPropParams& operator=(const pReMiuMPropParams& propParams){
 			_nTryTheta=propParams.nTryTheta();
@@ -682,6 +781,16 @@ class pReMiuMPropParams{
 			_lambdaAcceptTarget=propParams.lambdaAcceptTarget();
 			_lambdaUpdateFreq=propParams.lambdaUpdateFreq();
 			_lambdaAnyUpdates=propParams.lambdaAnyUpdates();
+			_nTryuCAR=propParams.nTryuCAR();
+			_nAcceptuCAR=propParams.nAcceptuCAR();
+			_nLocalAcceptuCAR=propParams.nLocalAcceptuCAR();
+			_nResetuCAR=propParams.nResetuCAR();
+			_uCARStdDev=propParams.uCARStdDev();
+			_uCARStdDevLower=propParams.uCARStdDevLower();
+			_uCARStdDevUpper=propParams.uCARStdDevUpper();
+			_uCARAcceptTarget=propParams.uCARAcceptTarget();
+			_uCARUpdateFreq=propParams.uCARUpdateFreq();
+			_uCARAnyUpdates=propParams.uCARAnyUpdates();
 			return *this;
 
 		}
@@ -737,6 +846,18 @@ class pReMiuMPropParams{
 		double _lambdaAcceptTarget;
 		unsigned int _lambdaUpdateFreq;
 		bool _lambdaAnyUpdates;
+
+		unsigned int _nTryuCAR;
+		unsigned int _nAcceptuCAR;
+		unsigned int _nLocalAcceptuCAR;
+		unsigned int _nResetuCAR;
+		double _uCARStdDev;
+		double _uCARStdDevLower;
+		double _uCARStdDevUpper;
+		double _uCARAcceptTarget;
+		unsigned int _uCARUpdateFreq;
+		bool _uCARAnyUpdates;
+
 
 };
 
@@ -2691,8 +2812,8 @@ void gibbsForTauCAR(mcmcChain<pReMiuMParams>& chain,
 	//Rprintf("TauCAR after update is %f \n .", currentParams.TauCAR());
 }
 
-// Gibbs update for spatial random term using adaptive rejection sampling
-void gibbsForUCAR(mcmcChain<pReMiuMParams>& chain,
+// Gibbs update for spatial random term using adaptive rejection sampling for Poisson outcome
+void adaptiveRejectionSamplerForUCARPoisson(mcmcChain<pReMiuMParams>& chain,
 						unsigned int& nTry,unsigned int& nAccept,
 						const mcmcModel<pReMiuMParams,
 										pReMiuMOptions,
@@ -2704,48 +2825,170 @@ void gibbsForUCAR(mcmcChain<pReMiuMParams>& chain,
 	pReMiuMParams& currentParams = currentState.parameters();
 	const pReMiuMData& dataset = model.dataset();
 	unsigned int nSubjects=dataset.nSubjects();
-	const string& outcomeType = model.dataset().outcomeType();
 	unsigned int nFixedEffects=dataset.nFixedEffects();
 
-	//Rprintf("TauCAR after update of uCAR is %f \n .", currentParams.TauCAR());
 	nTry++;
 	nAccept++;
-	
+
 	vector<double> tempU;
 	tempU.resize(nSubjects);
-	if(outcomeType.compare("Poisson")==0){	
-		for (unsigned int iSub=0; iSub<nSubjects; iSub++){
-			double ui=ARSsampleCAR(currentParams, model, iSub,logUiPostPoissonSpatial,rndGenerator);
-			tempU[iSub]=ui;
-		}
-	} else if(outcomeType.compare("Normal")==0){	
-		for (unsigned int iSub=0; iSub<nSubjects; iSub++){
-			int nNeighi = dataset.nNeighbours(iSub);
-			double sigmaSqUCAR = 1/(1/currentParams.sigmaSqY()+currentParams.TauCAR()*nNeighi);
-			int Zi = currentParams.z(iSub);
-			double betaW = 0.0;
-			for(unsigned int j=0;j<nFixedEffects;j++){
-				betaW+=currentParams.beta(j,0)*dataset.W(iSub,j);
-			}
-			double meanUi=0.0;
-			for (int j = 0; j<nNeighi; j++){
-	        		unsigned int nj = dataset.neighbours(iSub,j);
-	        		double ucarj = currentParams.uCAR(nj-1);
-	        		meanUi+=ucarj;
-			}
-			meanUi/=nNeighi;	
-			double mUCAR = 1/currentParams.sigmaSqY()*(dataset.continuousY(iSub)-currentParams.theta(Zi,0)-betaW)+currentParams.TauCAR()*nNeighi*meanUi;
-			mUCAR = mUCAR * sigmaSqUCAR;
-			randomNormal normRand(0,1);
-			tempU[iSub]=sqrt(sigmaSqUCAR)*normRand(rndGenerator)+mUCAR;
-		}
+	for (unsigned int iSub=0; iSub<nSubjects; iSub++){
+		double ui=ARSsampleCAR(currentParams, model, iSub,logUiPostPoissonSpatial,rndGenerator);
+		tempU[iSub]=ui;
 	}
 	double meanU=0.0;
 	for (unsigned int i=0; i<nSubjects; i++){meanU+=tempU[i];}
 	meanU/=nSubjects;
 	for (unsigned int i=0; i<nSubjects; i++){tempU[i]-=meanU;}
 	currentParams.uCAR(tempU);
-	//Rprintf("uCAR1 equals %f \n", currentParams.uCAR(1));
+
+}
+
+// Random Walk Metropolis for Poisson outcome with spatial random effect
+void metropolisForUCARPoisson(mcmcChain<pReMiuMParams>& chain,
+						unsigned int& nTry,unsigned int& nAccept,
+						const mcmcModel<pReMiuMParams,
+										pReMiuMOptions,
+										pReMiuMData>& model,
+						pReMiuMPropParams& propParams,
+						baseGeneratorType& rndGenerator){
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	const pReMiuMData& dataset = model.dataset();
+	unsigned int nSubjects=dataset.nSubjects();
+	unsigned int nFixedEffects=dataset.nFixedEffects();
+
+	// Define a uniform random number generator
+	randomUniform unifRand(0,1);
+	// Define a normal random number generator
+	randomNormal normRand(0,1);
+
+	double uCARTargetRate = propParams.uCARAcceptTarget();
+	unsigned int uCARUpdateFreq = propParams.uCARUpdateFreq();
+
+	vector<double> tempU;
+	tempU.resize(nSubjects);
+	for (unsigned int iSub=0; iSub<nSubjects; iSub++){
+		nTry++;
+		propParams.uCARAddTry();
+		double& stdDev = propParams.uCARStdDev();
+			
+		// likelihood	
+		double uCAROrig = currentParams.uCAR(iSub);
+		double uCARProp = uCAROrig +stdDev*normRand(rndGenerator);
+		int zi = currentParams.z(iSub);
+		double currentCondLogPost = logPYiGivenZiWiPoissonSpatial(currentParams,dataset,nFixedEffects,zi,iSub);
+		currentParams.uCAR(iSub,uCARProp);
+
+		double propCondLogPost = logPYiGivenZiWiPoissonSpatial(currentParams,dataset,nFixedEffects,zi,iSub);
+		// prior variance
+		int nNeighi = dataset.nNeighbours(iSub);
+		double priorVar = currentParams.TauCAR()/nNeighi;
+
+		// prior mean
+		double priorMean=0.0;
+		for (unsigned int j = 0; j<nNeighi; j++){
+        		unsigned int nj = dataset.neighbours(iSub,j);
+        		double ucarj = currentParams.uCAR(nj-1);
+        		priorMean+=ucarj;
+		}
+		priorMean/=nNeighi;
+
+		double propPrior = 0.5*pow((uCARProp-priorMean),2)/sqrt(priorVar);
+		double currentPrior = 0.5*pow((uCAROrig-priorMean),2)/sqrt(priorVar);
+
+		double logAcceptRatio = propCondLogPost - currentCondLogPost - propPrior + currentPrior; // Duncan
+
+		if(unifRand(rndGenerator)<exp(logAcceptRatio)){
+			nAccept++;
+			tempU[iSub]=uCARProp;
+			propParams.uCARAddAccept();
+			currentCondLogPost = propCondLogPost;
+			// Update the std dev of the proposal
+			if(propParams.nTryuCAR()%uCARUpdateFreq==0){
+				stdDev += 10*(propParams.uCARLocalAcceptRate()-uCARTargetRate)/
+					pow((double)(propParams.nTryuCAR()/uCARUpdateFreq)+2.0,0.75);
+				propParams.uCARAnyUpdates(true);
+				if(stdDev>propParams.uCARStdDevUpper()||stdDev<propParams.uCARStdDevLower()){
+					propParams.uCARStdDevReset();
+				}
+				propParams.thetaLocalReset();
+			}
+			// make sure that the spatial random effects sum up to 0
+			double meanU=0.0;
+			for (unsigned int kk=0; kk<nSubjects; kk++){meanU+=tempU[kk];}
+			meanU/=nSubjects;
+			for (unsigned int kk=0; kk<nSubjects; kk++){tempU[kk]-=meanU;}
+			currentParams.uCAR(tempU);
+		}else{
+			tempU[iSub]=uCAROrig;
+			currentParams.uCAR(iSub,uCAROrig);
+			// Update the std dev of the proposal
+			if(propParams.nTryuCAR()%uCARUpdateFreq==0){
+				stdDev += 10*(propParams.uCARLocalAcceptRate()-uCARTargetRate)/
+					pow((double)(propParams.nTryuCAR()/uCARUpdateFreq)+2.0,0.75);
+				propParams.uCARAnyUpdates(true);
+				if(stdDev<propParams.uCARStdDevLower()||stdDev>propParams.uCARStdDevUpper()){
+					propParams.uCARStdDevReset();
+				}
+				propParams.uCARLocalReset();
+			}
+		}
+	}
+	double meanU=0.0;
+	for (unsigned int i=0; i<nSubjects; i++){meanU+=tempU[i];}
+	meanU/=nSubjects;
+	for (unsigned int i=0; i<nSubjects; i++){tempU[i]-=meanU;}
+	currentParams.uCAR(tempU);		
+}
+
+
+// Gibbs update for spatial random for Normal case
+void gibbsForUCARNormal(mcmcChain<pReMiuMParams>& chain,
+						unsigned int& nTry,unsigned int& nAccept,
+						const mcmcModel<pReMiuMParams,
+										pReMiuMOptions,
+										pReMiuMData>& model,
+						pReMiuMPropParams& propParams,
+						baseGeneratorType& rndGenerator){
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	const pReMiuMData& dataset = model.dataset();
+	unsigned int nSubjects=dataset.nSubjects();
+	unsigned int nFixedEffects=dataset.nFixedEffects();
+
+	vector<double> tempU;
+	tempU.resize(nSubjects);
+
+	nTry++;
+	nAccept++;
+	for (unsigned int iSub=0; iSub<nSubjects; iSub++){
+		int nNeighi = dataset.nNeighbours(iSub);
+		double sigmaSqUCAR = 1/(1/currentParams.sigmaSqY()+currentParams.TauCAR()*nNeighi);
+		int Zi = currentParams.z(iSub);
+		double betaW = 0.0;
+		for(unsigned int j=0;j<nFixedEffects;j++){
+			betaW+=currentParams.beta(j,0)*dataset.W(iSub,j);
+		}
+			double meanUi=0.0;
+		for (int j = 0; j<nNeighi; j++){
+        		unsigned int nj = dataset.neighbours(iSub,j);
+        		double ucarj = currentParams.uCAR(nj-1);
+	        		meanUi+=ucarj;
+		}
+		meanUi/=nNeighi;	
+		double mUCAR = 1/currentParams.sigmaSqY()*(dataset.continuousY(iSub)-currentParams.theta(Zi,0)-betaW)+currentParams.TauCAR()*nNeighi*meanUi;
+		mUCAR = mUCAR * sigmaSqUCAR;
+		randomNormal normRand(0,1);
+		tempU[iSub]=sqrt(sigmaSqUCAR)*normRand(rndGenerator)+mUCAR;
+	}
+	double meanU=0.0;
+	for (unsigned int i=0; i<nSubjects; i++){meanU+=tempU[i];}
+	meanU/=nSubjects;
+	for (unsigned int i=0; i<nSubjects; i++){tempU[i]-=meanU;}
+	currentParams.uCAR(tempU);
 }
 
 

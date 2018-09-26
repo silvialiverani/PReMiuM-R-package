@@ -1,6 +1,8 @@
-Changes in version 3.2.1 (2018-06-19)
+Changes in version 3.2.1 (2018-09-26)
 
 * Fixed bug in computation of dissimilarity matrix
+* Added random walk Metropolis for spatial effect for Poisson outcome (with option PoissonCARadaptive)
+* Bug identified for hyperpriorR1=TRUE, so default is set to FALSE now while we work on the bug
 
 --------------------------------------------
 Changes in version 3.1.8 (2018-06-06)

@@ -23,7 +23,7 @@
 
 is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
 
-profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, predictType="RaoBlackwell", nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-2, dPitmanYor=0, excludeY=FALSE, extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE, run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123", includeCAR=FALSE, neighboursFile="Neighbours.txt",uCARinit=FALSE,weibullFixedShape=TRUE, useNormInvWishPrior=FALSE, useHyperpriorR1=TRUE){
+profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, predictType="RaoBlackwell", nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-2, dPitmanYor=0, excludeY=FALSE, extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE, run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123", includeCAR=FALSE, neighboursFile="Neighbours.txt",uCARinit=FALSE,PoissonCARadaptive=FALSE, weibullFixedShape=TRUE, useNormInvWishPrior=FALSE, useHyperpriorR1=FALSE){
   
   # suppress scientific notation
   options(scipen=999)
@@ -416,6 +416,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
   }
   
   if (weibullFixedShape) inputString<-paste(inputString," --weibullFixedShape",sep="")
+  if (PoissonCARadaptive) inputString<-paste(inputString," --PoissonCARadaptive",sep="")
   if (reportBurnIn) inputString<-paste(inputString," --reportBurnIn",sep="")
   if (!missing(alpha)) inputString<-paste(inputString," --alpha=",alpha,sep="")
   if (!missing(dPitmanYor)) inputString<-paste(inputString," --dPitmanYor=",dPitmanYor,sep="")

@@ -88,6 +88,7 @@ class pReMiuMOptions{
 			_includeuCARinit=false;
 			_neighbourFileName="Neighbour.txt";
 			_uCARinitFileName="uCARinit.txt";
+			_PoissonCARadaptive=false;
 			_predictType ="RaoBlackwell";
 			_weibullFixedShape=false;
 			_useNormInvWishPrior=false;
@@ -358,6 +359,16 @@ class pReMiuMOptions{
 			_uCARinitFileName=uCARFileName;
 		}
 
+		/// \brief Return whether the adaptive rejection sampler is to be used for Poisson CAR
+		bool PoissonCARadaptive() const{
+			return _PoissonCARadaptive;
+		}
+
+		/// \brief Set whether the adaptive rejection sampler is to be used for Poisson CAR
+		void PoissonCARadaptive(const bool& adaptive){
+			_PoissonCARadaptive=adaptive;
+		}
+
 		/// \brief Return the prediction type
 		string predictType() const{
 			return _predictType;
@@ -428,6 +439,7 @@ class pReMiuMOptions{
 			_includeuCARinit=options.includeuCARinit();
 			_neighbourFileName=options.neighbourFileName();
 			_uCARinitFileName=options.uCARinitFileName();
+			_PoissonCARadaptive=options.PoissonCARadaptive();
 			_predictType=options.predictType();
 			_weibullFixedShape=options.weibullFixedShape();
 			_useNormInvWishPrior=options.useNormInvWishPrior();
@@ -489,6 +501,8 @@ class pReMiuMOptions{
 		string _neighbourFileName;
 		// uCAR initialisation file name
 		string _uCARinitFileName;
+		// For Poisson response and spatial CAR, to choose whether to use  the adaptive rejection sampler
+		bool _PoissonCARadaptive;
 		// The type of predictions (RaoBlackwell or random - which is only for yModel=Normal or yModel=Quantile)
 		string _predictType;
 		// For Survival response, whether the weibull shape parameter is fixed or cluster specific
