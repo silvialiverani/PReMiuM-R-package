@@ -1,3 +1,5 @@
+context("Main profile regression function")
+
 test_that("MCMC output of main profile regression function runs correctly", {
   library(PReMiuM)
   library(testthat)

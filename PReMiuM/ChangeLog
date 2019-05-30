@@ -1,21 +1,7 @@
-Changes in version 3.2.2 (2018-10-25)
+Changes in version 3.1.8 (2018-05-02)
 
-* 
-
---------------------------------------------
-Changes in version 3.2.1 (2018-09-26)
-
-* Fixed bug in computation of dissimilarity matrix
-* Added random walk Metropolis for spatial effect for Poisson outcome (with option PoissonCARadaptive)
-* Bug identified for hyperpriorR1=TRUE, so default is set to FALSE now while we work on the bug
-
---------------------------------------------
-Changes in version 3.1.8 (2018-06-06)
-
-* Improved the speed of the function plotRiskProfile
+* Ruizhu Huang further improved the speed of the function plotRiskProfile
 * Added function simBenchmark for benchmarking of simulations
-* Included prior distribution for scale parameter of the prior distribution of the precision matrix for Normal covariates
-
 --------------------------------------------
 Changes in version 3.1.7 (2018-03-31)
 

@@ -121,17 +121,39 @@ RcppExport SEXP profRegr(SEXP inputString) {
 		if (options.useNormInvWishPrior()){
 		// If Inverse Normal Inverse Wishart Prior is used
 		pReMiuMSampler.addProposal("gibbsForMuActiveNIWP",1.0,1,1,&gibbsForMuActiveNIWP);
+		}else if (options.useIndependentNormal()) {
+		// If Independent Normal conditional likelihood is used
+		pReMiuMSampler.addProposal("gibbsForMuActiveIndep", 1.0, 1, 1, &gibbsForMuActiveIndep);
 		}else{
 		// If independant Normal and Inverse Wishart priors are used
 		pReMiuMSampler.addProposal("gibbsForMuActive",1.0,1,1,&gibbsForMuActive);
 		}
 
 		// Update for the active Sigma parameters
-		pReMiuMSampler.addProposal("gibbsForTauActive",1.0,1,1,&gibbsForTauActive);
-
-		if (options.useHyperpriorR1()){
-			// Update for R1
+		if (options.useIndependentNormal()) {
+		//If the independent normal conditional likelihood is used.
+		pReMiuMSampler.addProposal("gibbsForTauActiveIndep", 1.0, 1, 1, &gibbsForTauActiveIndep);
+		}else if (options.useSeparationPrior()) {
+			pReMiuMSampler.addProposal("gibbsForTauRActive", 1.0, 1, 1, &gibbsForTauRActive);
+			pReMiuMSampler.addProposal("metropolisHastingsForTauS", 1.0, 1, 1, &metropolisHastingsForTauS);
+		}else {
+		//If the multivariate normal conditional likelihood is used.
+		pReMiuMSampler.addProposal("gibbsForTauActive", 1.0, 1, 1, &gibbsForTauActive);
+		}
+		
+		// Update for R1
+		if(options.useIndependentNormal()){
+			pReMiuMSampler.addProposal("gibbsForR1Indep", 1.0, 1, 1, &gibbsForR1Indep);
+		}else if (options.useHyperpriorR1()){
+			pReMiuMSampler.addProposal("metropolisHastingsForKappa1", 1.0, 1, 1, &metropolisHastingsForKappa1);
 			pReMiuMSampler.addProposal("gibbsForR1",1.0,1,1,&gibbsForR1);
+			pReMiuMSampler.addProposal("gibbsForMu00", 1.0, 1, 1, &gibbsForMu00);
+			pReMiuMSampler.addProposal("gibbsForTau00", 1.0, 1, 1, &gibbsForTau00);
+		}
+		else if (options.useSeparationPrior()) {
+			pReMiuMSampler.addProposal("gibbsForBetaTauS", 1.0, 1, 1, &gibbsForBetaTauS);
+			pReMiuMSampler.addProposal("metropolisHastingsForKappa1SP", 1.0, 1, 1, &metropolisHastingsForKappa1SP);
+			pReMiuMSampler.addProposal("gibbsForMu00", 1.0, 1, 1, &gibbsForMu00);
 		}
 
 	}else if(options.covariateType().compare("Mixed")==0){
@@ -144,18 +166,40 @@ RcppExport SEXP profRegr(SEXP inputString) {
 		if (options.useNormInvWishPrior()){
 		// If Inverse Normal Inverse Wishart Prior is used
 		pReMiuMSampler.addProposal("gibbsForMuActiveNIWP",1.0,1,1,&gibbsForMuActiveNIWP);
+		}else if (options.useIndependentNormal()) {
+			// If Independent Normal conditional likelihood is used
+			pReMiuMSampler.addProposal("gibbsForMuActiveIndep", 1.0, 1, 1, &gibbsForMuActiveIndep);
 		}else{
 		// If independant Normal and Inverse Wishart priors are used
 		pReMiuMSampler.addProposal("gibbsForMuActive",1.0,1,1,&gibbsForMuActive);
 		}
 
-
 		// Update for the active Sigma parameters
-		pReMiuMSampler.addProposal("gibbsForTauActive",1.0,1,1,&gibbsForTauActive);
-
-		if (options.useHyperpriorR1()){
-			// Update for R1
+		if (options.useIndependentNormal()) {
+			//If the independent normal conditional likelihood is used.
+			pReMiuMSampler.addProposal("gibbsForTauActiveIndep", 1.0, 1, 1, &gibbsForTauActiveIndep);
+		}
+		else if (options.useSeparationPrior()) {
+			pReMiuMSampler.addProposal("gibbsForTauRActive", 1.0, 1, 1, &gibbsForTauRActive);
+			pReMiuMSampler.addProposal("metropolisHastingsForTauS", 1.0, 1, 1, &metropolisHastingsForTauS);
+		}
+		else {
+			//If the multivariate normal conditional likelihood is used.
+			pReMiuMSampler.addProposal("gibbsForTauActive", 1.0, 1, 1, &gibbsForTauActive);
+		}
+		
+		// Update for R1
+		if (options.useIndependentNormal()) {
+			pReMiuMSampler.addProposal("gibbsForR1Indep", 1.0, 1, 1, &gibbsForR1Indep);
+		}else if (options.useHyperpriorR1()){
+			pReMiuMSampler.addProposal("metropolisHastingsForKappa1", 1.0, 1, 1, &metropolisHastingsForKappa1);
 			pReMiuMSampler.addProposal("gibbsForR1",1.0,1,1,&gibbsForR1);
+			pReMiuMSampler.addProposal("gibbsForMu00", 1.0, 1, 1, &gibbsForMu00);
+			pReMiuMSampler.addProposal("gibbsForTau00", 1.0, 1, 1, &gibbsForTau00);
+		}else if (options.useSeparationPrior()) {
+			pReMiuMSampler.addProposal("gibbsForBetaTauS", 1.0, 1, 1, &gibbsForBetaTauS);
+			pReMiuMSampler.addProposal("metropolisHastingsForKappa1SP", 1.0, 1, 1, &metropolisHastingsForKappa1SP);
+			pReMiuMSampler.addProposal("gibbsForMu00", 1.0, 1, 1, &gibbsForMu00);
 		}
 	}
 
@@ -189,18 +233,9 @@ RcppExport SEXP profRegr(SEXP inputString) {
 
 		//if spatial random term
 		if (options.includeCAR()){
-		  if(options.outcomeType().compare("Normal")==0){
-		    pReMiuMSampler.addProposal("gibbsForUCARNormal", 1.0,1,1,&gibbsForUCARNormal);
-		  }
-		  if(options.outcomeType().compare("Poisson")==0){
-		    //Adaptive rejection sampling for uCAR
-		    if (options.PoissonCARadaptive()){
-  		    pReMiuMSampler.addProposal("adaptiveRejectionSamplerForUCARPoisson", 1.0,1,1,&adaptiveRejectionSamplerForUCARPoisson);
-		    } else {
-		    pReMiuMSampler.addProposal("metropolisForUCARPoisson", 1.0,1,1,&metropolisForUCARPoisson);
-		    }
-		  }
-		      
+			//Adaptive rejection sampling for uCAR
+			pReMiuMSampler.addProposal("gibbsforUCAR", 1.0,1,1,&gibbsForUCAR);
+
 			//Gibbs for TauCAR
 			pReMiuMSampler.addProposal("gibbsForTauCAR", 1.0,1,1,&gibbsForTauCAR);
 		}
@@ -238,6 +273,9 @@ RcppExport SEXP profRegr(SEXP inputString) {
 		if (options.useNormInvWishPrior()){
 		// If Inverse Normal Inverse Wishart Prior is used
 		pReMiuMSampler.addProposal("gibbsForMuInActiveNIWP",1.0,1,1,&gibbsForMuInActiveNIWP);
+		}else if (options.useIndependentNormal()) {
+		// If the independent normal conditional likelihood is used
+		pReMiuMSampler.addProposal("gibbsForMuInActiveIndep", 1.0, 1, 1, &gibbsForMuInActiveIndep);
 		}else{
 		// If independant Normal and Inverse Wishart priors are used
 		pReMiuMSampler.addProposal("gibbsForMuInActive",1.0,1,1,&gibbsForMuInActive);
@@ -245,7 +283,19 @@ RcppExport SEXP profRegr(SEXP inputString) {
 
 
 		// Update for the active Sigma parameters
-		pReMiuMSampler.addProposal("gibbsForTauInActive",1.0,1,1,&gibbsForTauInActive);
+		if (options.useIndependentNormal()) {
+			// If the independent normal conditional likelihood is used
+			pReMiuMSampler.addProposal("gibbsForTauInActiveIndep", 1.0, 1, 1, &gibbsForTauInActiveIndep);
+		}
+		else if (options.useSeparationPrior()) {
+			pReMiuMSampler.addProposal("gibbsForTauRInActive", 1.0, 1, 1, &gibbsForTauRInActive);
+			pReMiuMSampler.addProposal("gibbsForTauSInActive", 1.0, 1, 1, &gibbsForTauSInActive);
+
+		}else {
+			// If the multivariate normal conditional likelihood is used
+			pReMiuMSampler.addProposal("gibbsForTauInActive", 1.0, 1, 1, &gibbsForTauInActive);
+		}
+		
 
 	}else if(options.covariateType().compare("Mixed")==0){
 
@@ -258,6 +308,9 @@ RcppExport SEXP profRegr(SEXP inputString) {
 		if (options.useNormInvWishPrior()){
 		// If Inverse Normal Inverse Wishart Prior is used
 		pReMiuMSampler.addProposal("gibbsForMuInActiveNIWP",1.0,1,1,&gibbsForMuInActiveNIWP);
+		}else if (options.useIndependentNormal()) {
+		// If the independent normal conditional likelihood is used
+		pReMiuMSampler.addProposal("gibbsForMuInActiveIndep", 1.0, 1, 1, &gibbsForMuInActiveIndep);
 		}else{
 		// If independant Normal and Inverse Wishart priors are used
 		pReMiuMSampler.addProposal("gibbsForMuInActive",1.0,1,1,&gibbsForMuInActive);
@@ -265,7 +318,20 @@ RcppExport SEXP profRegr(SEXP inputString) {
 
 
 		// Update for the active Sigma parameters
-		pReMiuMSampler.addProposal("gibbsForTauInActive",1.0,1,1,&gibbsForTauInActive);
+		if (options.useIndependentNormal()) {
+			// If the independent normal conditional likelihood is used
+			pReMiuMSampler.addProposal("gibbsForTauInActiveIndep", 1.0, 1, 1, &gibbsForTauInActiveIndep);
+		}
+		else if (options.useSeparationPrior()) {
+			pReMiuMSampler.addProposal("gibbsForTauRInActive", 1.0, 1, 1, &gibbsForTauRInActive);
+			pReMiuMSampler.addProposal("gibbsForTauSInActive", 1.0, 1, 1, &gibbsForTauSInActive);
+
+		}
+		else {
+			// If the multivariate normal conditional likelihood is used
+			pReMiuMSampler.addProposal("gibbsForTauInActive", 1.0, 1, 1, &gibbsForTauInActive);
+		}
+		
 	}
 
 	if(options.varSelectType().compare("None")!=0){

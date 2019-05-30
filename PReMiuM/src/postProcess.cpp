@@ -27,21 +27,18 @@ SEXP calcDisSimMat(SEXP fileName, SEXP nSweeps, SEXP nBurn, SEXP nFilter,SEXP nS
     bool oLS = Rcpp::as<bool>(onlyLS);
 
     // Calculate how many samples we will have
-    unsigned int nLines =  (nS+nB)/nF;
+    unsigned int nLines = 1 + (nS+nB)/nF;
     // Calculate when the burn in ends
-    unsigned int firstLine = nB/nF;
+    unsigned int firstLine = 2+nB/nF;
 
-    // The denominator for the contributions
-    double denom = (double)nLines-(double)firstLine;
-
-	// Number of entries in diagonal dissimilarity matrix matrix
-	unsigned long int lengthMat = (nSj*(nSj-1))/2+nPSj*nSj;
-	
-    vector<double> disSimMat(lengthMat,denom);
+    vector<double> disSimMat((nSj*(nSj-1))/2+nPSj*nSj,1.0);
 
     // Open the file with sample in
     ifstream zFile;
     zFile.open(fName.c_str());
+
+    // The denominator for the contributions
+    double denom = 1+(double)nLines-(double)firstLine;
 
     // A temporary vector for storing the cluster from each sweep
     vector<int> clusterData(nSj+nPSj);
@@ -65,7 +62,7 @@ SEXP calcDisSimMat(SEXP fileName, SEXP nSweeps, SEXP nBurn, SEXP nFilter,SEXP nS
 		for(unsigned long int i=0;i<nSj-1;i++){
     			for(unsigned long int ii=i+1;ii<nSj;ii++){
     				if(clusterData[i]==clusterData[ii]){
-        				disSimMat[r]-=1.0;
+        				disSimMat[r]-=1.0/denom;
         			}
     				r++;
     			}
@@ -73,15 +70,13 @@ SEXP calcDisSimMat(SEXP fileName, SEXP nSweeps, SEXP nBurn, SEXP nFilter,SEXP nS
 		for(unsigned long int i=0;i<nPSj;i++){
 			for(unsigned long int ii=0;ii<nSj;ii++){
 				if(clusterData[nSj+i]==clusterData[ii]){
-					disSimMat[r]-=1.0;
+					disSimMat[r]-=1.0/denom;
 				}
 				r++;
 			}
 		}
     	}
     }
-	for (unsigned long int i=0;i<lengthMat;i++) disSimMat[i] /= denom;
-	
 
     // Computing the optimal partition for least squares method 
     // Could make these steps optional as only relevant for R option useLS=T

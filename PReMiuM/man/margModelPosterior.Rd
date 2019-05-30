@@ -31,7 +31,7 @@ runInfoObj<-profRegr(yModel=inputs$yModel,
          covNames = inputs$covNames, nClusInit=15,
          fixedEffectsNames = inputs$fixedEffectNames)
 
-margModelPost<-margModelPosterior(runInfoObj)
+margModelPosterior(runInfoObj)
 
 }
 \keyword{margModelPosterior}
