@@ -61,6 +61,7 @@ typedef boost::random::student_t_distribution<> randomStudentsT;
 
 // Univariate distributions
 
+
 double betaRand(baseGeneratorType& rndGenerator,const double& a,const double& b){
 
 	// Method taken from http://statprob.com/?op=getobj&from=objects&id=205
@@ -74,6 +75,15 @@ double betaRand(baseGeneratorType& rndGenerator,const double& a,const double& b)
 	return out;
 
 }
+
+double NormalRand(baseGeneratorType& rndGenerator, const double& mean, const double& variance){
+	randomNormal normRand(0, 1);
+	double out;
+	out = normRand(rndGenerator);
+	out = out*sqrt(variance) + mean;
+	return out;
+}
+
 
 double truncNormalRand(baseGeneratorType& rndGenerator,const double& mean,
 					const double& stdDev,const string& distType,

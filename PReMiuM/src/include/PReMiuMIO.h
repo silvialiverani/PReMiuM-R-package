@@ -277,6 +277,10 @@ pReMiuMOptions processCommandLine(string inputStr){
 					options.useNormInvWishPrior(true);
 		                }else if(inString.find("--useHyperpriorR1")!=string::npos){
 					options.useHyperpriorR1(true);
+						}else if (inString.find("--useSeparationPrior") != string::npos) {
+					options.useSeparationPrior(true);
+						}else if (inString.find("--useIndependentNormal") != string::npos) {
+					options.useIndependentNormal(true);
 				}else{
 					Rprintf("Unknown command line option.\n");
 					wasError=true;
@@ -638,6 +642,7 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 			string tmpStr = inString.substr(pos,inString.size()-pos);
 			double rateAlpha = (double)atof(tmpStr.c_str());
 			hyperParams.rateAlpha(rateAlpha);
+
 //		}else if(inString.find("useReciprocalNCatsPhi")==0){
 //			size_t pos = inString.find("=")+1;
 //			string tmpStr = inString.substr(pos,inString.size()-pos);
@@ -646,6 +651,17 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 //				useRecip = true;
 //			}
 //			hyperParams.useReciprocalNCatsPhi(useRecip);
+		}
+		else if (inString.find("shapeKappa1") == 0) {
+			size_t pos = inString.find("=") + 1;
+			string tmpStr = inString.substr(pos, inString.size() - pos);
+			double shapeKappa1 = (double)atof(tmpStr.c_str());
+			hyperParams.shapeKappa1(shapeKappa1);
+		}else if (inString.find("scaleKappa1") == 0) {
+			size_t pos = inString.find("=") + 1;
+			string tmpStr = inString.substr(pos, inString.size() - pos);
+			double scaleKappa1 = (double)atof(tmpStr.c_str());
+			hyperParams.scaleKappa1(scaleKappa1);
 		}else if(inString.find("aPhi")==0){
 			size_t pos = inString.find("=")+1;
 			string tmpStr = inString.substr(pos,inString.size()-pos);
@@ -708,6 +724,28 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 				}
 			}
 			hyperParams.Tau0(Tau0);
+		}else if (inString.find("Tau_Indep_0") == 0) {
+			size_t pos = inString.find("=") + 1;
+			string tmpStr = inString.substr(pos, inString.size() - pos);
+			vector<double> TauVec_Indep;
+			while (tmpStr.find(" ") != string::npos) {
+				pos = tmpStr.find(" ");
+				if (pos == (tmpStr.size() - 1)) {
+					string elem = tmpStr.substr(0, pos);
+					TauVec_Indep.push_back((double)atof(elem.c_str()));
+					tmpStr = tmpStr.substr(pos + 1, tmpStr.size());
+					break;
+				}
+				string elem = tmpStr.substr(0, pos);
+				TauVec_Indep.push_back((double)atof(elem.c_str()));
+				tmpStr = tmpStr.substr(pos + 1, tmpStr.size());
+			}
+			VectorXd Tau0_Indep = VectorXd::Zero(TauVec_Indep.size());
+			for (unsigned int j = 0; j<TauVec_Indep.size(); j++) {
+				Tau0_Indep(j) = TauVec_Indep[j];
+			}
+			hyperParams.Tau0_Indep(Tau0_Indep);
+
 		}else if(inString.find("R0")==0){
 			size_t pos = inString.find("=")+1;
 			string tmpStr = inString.substr(pos,inString.size()-pos);
@@ -732,11 +770,39 @@ void readHyperParamsFromFile(const string& filename,pReMiuMHyperParams& hyperPar
 				}
 			}
 			hyperParams.R0(R0);
+		}else if (inString.find("R_Indep_0") == 0) {
+			size_t pos = inString.find("=") + 1;
+			string tmpStr = inString.substr(pos, inString.size() - pos);
+			vector<double> RVec_Indep;
+			while (tmpStr.find(" ") != string::npos) {
+				pos = tmpStr.find(" ");
+				if (pos == (tmpStr.size() - 1)) {
+					string elem = tmpStr.substr(0, pos);
+					RVec_Indep.push_back((double)atof(elem.c_str()));
+					tmpStr = tmpStr.substr(pos + 1, tmpStr.size());
+					break;
+				}
+				string elem = tmpStr.substr(0, pos);
+				RVec_Indep.push_back((double)atof(elem.c_str()));
+				tmpStr = tmpStr.substr(pos + 1, tmpStr.size());
+			}
+			VectorXd R0_Indep = VectorXd::Zero(RVec_Indep.size());
+			for (unsigned int j = 0; j<RVec_Indep.size(); j++) {
+				R0_Indep(j) = RVec_Indep[j];
+			}
+			hyperParams.R0_Indep(R0_Indep);
+
 		}else if(inString.find("kappa0")==0){
 			size_t pos = inString.find("=")+1;
 			string tmpStr = inString.substr(pos,inString.size()-pos);
-			unsigned int kappa0 = (unsigned int)atoi(tmpStr.c_str());
+			double kappa0 = (double)atof(tmpStr.c_str());
 			hyperParams.kappa0(kappa0);
+		}
+		else if (inString.find("kappa1") == 0) {
+			size_t pos = inString.find("=") + 1;
+			string tmpStr = inString.substr(pos, inString.size() - pos);
+			double kappa1 = (double)atof(tmpStr.c_str());
+			hyperParams.kappa1(kappa1);
 		}else if(inString.find("nu0")==0){
 			size_t pos = inString.find("=")+1;
 			string tmpStr = inString.substr(pos,inString.size()-pos);
@@ -910,6 +976,8 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 	bool weibullFixedShape = options.weibullFixedShape();
 	string uCARinitFileName = options.uCARinitFileName();
 	bool useHyperpriorR1 = options.useHyperpriorR1();
+	bool useIndependentNormal = options.useIndependentNormal();
+	bool useSeparationPrior = options.useSeparationPrior();
 
 	bool wasError=false;
 
@@ -918,7 +986,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 
 	// Set the hyper parameters to their default values
 	hyperParams.setSizes(nCovariates,nDiscreteCovs,
-			nContinuousCovs,covariateType);
+			nContinuousCovs,covariateType,useIndependentNormal, useHyperpriorR1, useSeparationPrior);
 	hyperParams.setDefaults(dataset,options);
 	// Read the parameters from file if file provided
 	if(hyperParamFileName.compare("")!=0){
@@ -929,8 +997,9 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 	// This also switches "on" all variable indicators (gamma)
 	// This gets changed below if variable selection is being done
 	params.setSizes(nSubjects,nCovariates,nDiscreteCovs,nContinuousCovs,nFixedEffects,nCategoriesY,
-		nPredictSubjects,nCategories,nClusInit,covariateType,weibullFixedShape,useHyperpriorR1);
+		nPredictSubjects,nCategories,nClusInit,covariateType,weibullFixedShape,useHyperpriorR1,useIndependentNormal, useSeparationPrior);
 	unsigned int maxNClusters=params.maxNClusters();
+
 
 	// Define a uniform random number generator
 	randomUniform unifRand(0,1);
@@ -957,7 +1026,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 		if(computedBound>maxNClusters){
 			maxNClusters=computedBound;
 		}
-		params.maxNClusters(maxNClusters,covariateType);
+		params.maxNClusters(maxNClusters,covariateType, useIndependentNormal, useSeparationPrior);
 	}
 
 	// Copy the dataset X matrix to a working object in params
@@ -982,7 +1051,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 	if (hyperParams.initAlloc().empty()){
 		for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
 			int c=(int) nClusInit*unifRand(rndGenerator);
-			params.z(i,c,covariateType);
+			params.z(i,c,covariateType,useIndependentNormal);
 			if(c>(int)maxZ){
 				maxZ=c;
 			}
@@ -993,7 +1062,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 	} else {
 		for(unsigned int i=0;i<nSubjects+nPredictSubjects;i++){
 			int c = hyperParams.initAlloc(i);
-			params.z(i,c,covariateType);
+			params.z(i,c,covariateType,useIndependentNormal);
 			if(c>(int)maxZ){
 				maxZ=c;
 			}
@@ -1107,7 +1176,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 			}
 		}
 
-		params.maxNClusters(maxNClusters,covariateType);
+		params.maxNClusters(maxNClusters,covariateType, useIndependentNormal, useSeparationPrior);
 		params.v(vNew);
 		params.logPsi(logPsiNew);
 	}
@@ -1166,6 +1235,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 		}
 
 	}else if(covariateType.compare("Normal")==0){
+
 		// In the following it is useful to have the rows of X as
 		// Eigen dynamic vectors
 		vector<VectorXd> xi(nSubjects);
@@ -1175,6 +1245,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 				xi[i](j)=dataset.continuousX(i,j);
 			}
 		}
+
 
 		// Now we can sample from the conditionals (using Sigma_c=Sigma_0 and
 		// mu_c=mu_0 for all c) to get mu_c and Sigma_c for each cluster
@@ -1198,63 +1269,321 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 			}else{
 				meanX[c].setZero(nCovariates);
 			}
-			MatrixXd covMat(nCovariates,nCovariates);
-			covMat = (hyperParams.Tau0()+params.workNXInCluster(c)*hyperParams.Tau0()).inverse();
-			VectorXd meanVec(nCovariates);
-			meanVec = hyperParams.Tau0()*hyperParams.mu0()+params.workNXInCluster(c)*hyperParams.Tau0()*meanX[c];
-			meanVec = covMat*meanVec;
 
-			VectorXd mu(nCovariates);
-			// We sample from this posterior
-			mu = multivarNormalRand(rndGenerator,meanVec,covMat);
+			if (useIndependentNormal) {
+				VectorXd mu(nCovariates);
+				VectorXd mu0(nCovariates);
+				mu0 = hyperParams.mu0();
+				VectorXd Tau0(nCovariates);
+				Tau0 = hyperParams.Tau0_Indep();
+				for (unsigned int j = 0; j < nCovariates; j++) {
+					double denom = 0;
+					denom = (double)params.workNXInCluster(c)*(1 / Tau0(j)) + (1 / Tau0(j));
+					double meanNum = 0;
+					meanNum = (double)params.workNXInCluster(c)*(1 / Tau0(j))*meanX[c](j) + (1 / Tau0(j))*mu0(j);
+					double variance = (1 / Tau0(j))*(1 / Tau0(j)) / denom;
+					double mean = meanNum / denom;
 
-			// We store our sample
-			params.mu(c,mu);
+					//Sample from the posterior
+					mu(j) = NormalRand(rndGenerator, mean, variance);
+				}
+
+				// We store our sample
+				params.mu(c, mu, useIndependentNormal);
+
+			}else if (useHyperpriorR1) {
+				VectorXd mu00 = hyperParams.mu0();
+				params.mu00(mu00);
+
+				params.Tau00(hyperParams.Tau0());
+
+				MatrixXd covMat(nCovariates, nCovariates);
+				covMat = (params.Tau00() + params.workNXInCluster(c)*params.Tau00()).inverse();
+				VectorXd meanVec(nCovariates);
+				meanVec = params.Tau00()*params.mu00() + params.workNXInCluster(c)*params.Tau00()*meanX[c];
+				meanVec = covMat*meanVec;
+
+				VectorXd mu(nCovariates);
+				// We sample from this posterior
+				mu = multivarNormalRand(rndGenerator, meanVec, covMat);
+
+				// We store our sample
+				params.mu(c, mu, useIndependentNormal);
+
+			}
+			else if (useSeparationPrior) {
+				VectorXd mu00 = hyperParams.mu0();
+				params.mu00(mu00);
+
+				MatrixXd covMat(nCovariates, nCovariates);
+				covMat = (hyperParams.Tau00() + params.workNXInCluster(c)*hyperParams.Tau00()).inverse();
+				VectorXd meanVec(nCovariates);
+				meanVec = hyperParams.Tau00()*params.mu00() + params.workNXInCluster(c)*hyperParams.Tau00()*meanX[c];
+				meanVec = covMat*meanVec;
+
+				VectorXd mu(nCovariates);
+				// We sample from this posterior
+				mu = multivarNormalRand(rndGenerator, meanVec, covMat);
+
+				// We store our sample
+				params.mu(c, mu, useIndependentNormal);
+
+			}
+			else {
+				MatrixXd covMat(nCovariates, nCovariates);
+				covMat = (hyperParams.Tau0() + params.workNXInCluster(c)*hyperParams.Tau0()).inverse();
+				VectorXd meanVec(nCovariates);
+				meanVec = hyperParams.Tau0()*hyperParams.mu0() + params.workNXInCluster(c)*hyperParams.Tau0()*meanX[c];
+				meanVec = covMat*meanVec;
+
+				VectorXd mu(nCovariates);
+				// We sample from this posterior
+				mu = multivarNormalRand(rndGenerator, meanVec, covMat);
+
+				// We store our sample
+				params.mu(c, mu, useIndependentNormal);
+			}
 
 		}
 
 
+		//initialise mu00 and Tau00
+		/* if (useHyperpriorR1 || useSeparationPrior) {
+			VectorXd SumMu;
+			SumMu.setZero(nCovariates);
+			unsigned int workNactive = 0;
+			for (unsigned int c = 0; c <= maxZ; c++) {
+                // SumMu += hyperParams.mu0();
+				SumMu += params.mu(c);
+				workNactive += 1;
+			}
 
+			MatrixXd sigmaMu00(nCovariates, nCovariates);
+			VectorXd meanMu00(nCovariates);
+
+			sigmaMu00 = (workNactive*hyperParams.Tau0() + hyperParams.Tau0()).inverse();
+			meanMu00 = sigmaMu00*(hyperParams.Tau0()*SumMu + hyperParams.Tau0()*hyperParams.mu0());
+
+
+			VectorXd mu00(nCovariates);
+			mu00 = multivarNormalRand(rndGenerator, meanMu00, sigmaMu00);
+
+			params.mu00(mu00);
+
+			if (useHyperpriorR1) {
+				params.Tau00(hyperParams.Tau0());
+			}  
+		}   */
+
+
+
+		//initialise R1 and kappa1 when using multivariate normal likelihood
 		if (options.useHyperpriorR1()){
+
+			//initialise kappa1
+			params.kappa11(nCovariates + 1);
+
+			//initialise R1
 			MatrixXd SumTau = MatrixXd::Zero(nCovariates,nCovariates);
 			unsigned int workNactive=0;
 			for (unsigned int c=0; c<maxZ+1;c++){
-				SumTau += params.Tau(c);
-				workNactive += params.workNXInCluster(c);
+				SumTau += hyperParams.Tau0();
+				workNactive += 1;
 			}
 			SumTau += hyperParams.R0();
 			MatrixXd R0Star = SumTau.inverse();
 		
-			MatrixXd R1 =  wishartRand(rndGenerator,R0Star,workNactive*hyperParams.kappa1()+hyperParams.kappa0());
+			MatrixXd inverseR1 =  wishartRand(rndGenerator,R0Star,workNactive*params.kappa11()+hyperParams.kappa0());
+			MatrixXd R1 = inverseR1.inverse();
 			params.R1(R1);
+
+		}
+
+		//initialise R1 when using independent normal likelihood
+		if (useIndependentNormal) {
+			VectorXd R1(nCovariates);
+			unsigned int workNactive = 0;
+			VectorXd sumTau;
+			sumTau.setZero(nCovariates);
+			for (unsigned int c = 0; c < maxZ + 1; c++) {
+				sumTau += hyperParams.Tau0_Indep();
+				workNactive = workNactive + 1;
+			}
+
+			VectorXd R0_Indep = hyperParams.R0_Indep();
+			for (unsigned int j = 0; j < nCovariates; j++) {
+				double kappaNew = workNactive*hyperParams.kappa1() + hyperParams.kappa0();
+				double rNew = sumTau(j) + R0_Indep(j);
+
+				randomGamma gammaRand(kappaNew, 1.0 / rNew);
+				R1(j) = gammaRand(rndGenerator);
+
+			}
+			params.R1_Indep(R1);
 		}
 
 
 		// Now we can sample Tau_c for each cluster
-		vector<MatrixXd> Rc(maxNClusters);
-		for(unsigned int c=0;c<maxNClusters;c++){
-			Rc[c].setZero(nCovariates,nCovariates);
-		}
+		if (useIndependentNormal) {
 
-		for(unsigned int i=0;i<nSubjects;i++){
-			unsigned int zi = params.z(i);
-			Rc[zi]=Rc[zi]+(xi[i]-params.mu(zi))*((xi[i]-params.mu(zi)).transpose());
-		}
-
-		if (options.useHyperpriorR1()){
-			for(unsigned int c=0;c<maxNClusters;c++){
-				Rc[c]=(params.R1().inverse()+Rc[c]).inverse();
-				MatrixXd Tau = wishartRand(rndGenerator,Rc[c],params.workNXInCluster(c)+hyperParams.kappa1());
-				params.Tau(c,Tau);
-			}
-		} else {
-			for(unsigned int c=0;c<maxNClusters;c++){
-				Rc[c]=(hyperParams.R0().inverse()+Rc[c]).inverse();
-				MatrixXd Tau = wishartRand(rndGenerator,Rc[c],params.workNXInCluster(c)+hyperParams.kappa0());
-				params.Tau(c,Tau);
+			vector<VectorXd> XiMinusMuSq(nSubjects);
+			for (unsigned int i = 0; i < nSubjects; i++) {
+				XiMinusMuSq[i].setZero(nCovariates);
+				VectorXd mu = params.mu(params.z(i));
+				for (unsigned int j = 0; j < nCovariates; j++) {
+					XiMinusMuSq[i](j) = (xi[i](j) - mu(j))*(xi[i](j) - mu(j));
+				}
 			}
 
+			vector<VectorXd> sumXiMinusMuSq(maxNClusters);
+			for (unsigned int c = 0; c <maxNClusters; c++) {
+				sumXiMinusMuSq[c].setZero(nCovariates);
+			}
+
+			for (unsigned int i = 0; i<nSubjects; i++) {
+				sumXiMinusMuSq[params.z(i)] = sumXiMinusMuSq[params.z(i)] + XiMinusMuSq[i];
+			}
+
+			for (unsigned int c = 0; c < maxNClusters; c++) {
+				VectorXd tau(nCovariates);
+				int nXInC = params.workNXInCluster(c);
+				for (unsigned int j = 0; j < nCovariates; j++) {
+					double kappaNew = (double)nXInC / 2 + hyperParams.kappa1();
+					double rNew = (sumXiMinusMuSq[c](j) + 2 * params.R1_Indep(j)) / 2;
+
+					randomGamma gammaRand(kappaNew, 1.0 / rNew);
+					tau(j) = gammaRand(rndGenerator);
+				}
+				params.Tau_Indep(c, tau);
+			}
+
 		}
+		else if (useSeparationPrior) {
+
+			params.kappa11(nCovariates + 1);
+
+			//set TauR to be indentity to begin with
+			MatrixXd TauR;
+			TauR.setZero(nCovariates, nCovariates);
+
+			for (unsigned int j = 0; j < nCovariates; j++) {
+				TauR(j, j) = 1;
+			}
+			for (unsigned int c = 0; c<maxNClusters; c++) {
+				params.TauR(c, TauR);
+			}
+
+			//compute muc for each c for the initial allocation
+			vector<VectorXd> muc(maxNClusters);
+			for (unsigned int c = 0; c<maxNClusters; c++) {
+				muc[c].setZero(nCovariates);
+			}
+
+			for (unsigned int i = 0; i<nSubjects; i++) {
+				unsigned int zi = params.z(i);
+				muc[zi] = muc[zi] + xi[i];
+			} 
+
+			for (unsigned int c = 0; c < maxNClusters; c++) {
+				if (params.workNXInCluster(c) > 0) {
+					muc[c] = muc[c] / (double)params.workNXInCluster(c);
+				}
+				else {
+					muc[c].setZero(nCovariates);
+				}
+			}
+
+			vector<MatrixXd> Sigmas(maxNClusters);
+			for (unsigned int c = 0; c < maxNClusters; c++) {
+				Sigmas[c].setZero(nCovariates, nCovariates);
+			}
+
+			for (unsigned int i = 0; i<nSubjects; i++) {
+				unsigned int zi = params.z(i);
+				Sigmas[zi] += (xi[i] - muc[zi])*((xi[i] - muc[zi]).transpose());
+			}
+
+
+			for (unsigned int c = 0; c < maxNClusters; c++) {
+				if (params.workNXInCluster(c) > 1) {
+					Sigmas[c] = Sigmas[c] / (double)params.workNXInCluster(c);
+				}
+				else {
+					Sigmas[c].setZero(nCovariates, nCovariates);
+					VectorXd beta_taus = hyperParams.beta_taus0();
+					double alpha_taus = hyperParams.alpha_taus();
+					for (unsigned int j = 0; j < nCovariates; j++) {
+						randomGamma gammaRand(alpha_taus, 1.0 / beta_taus(j));
+						double tausj = gammaRand(rndGenerator);
+						Sigmas[c](j, j) = (1.0 / tausj)*(1.0 / tausj);
+					}					
+				}			
+			}
+
+	
+			for (unsigned int c = 0; c<maxNClusters; c++) {
+				for (unsigned int j = 0; j < nCovariates; j++) {
+					double Tausj = 1.0 / sqrt(Sigmas[c](j, j));
+					params.TauS(c, j, Tausj);
+				}
+			}
+
+		}
+		else {
+
+			vector<MatrixXd> Rc(maxNClusters);
+			for (unsigned int c = 0; c<maxNClusters; c++) {
+				Rc[c].setZero(nCovariates, nCovariates);
+			}
+
+			for (unsigned int i = 0; i<nSubjects; i++) {
+				unsigned int zi = params.z(i);
+				Rc[zi] = Rc[zi] + (xi[i] - params.mu(zi))*((xi[i] - params.mu(zi)).transpose());
+			}
+
+			if (options.useHyperpriorR1()) {
+				for (unsigned int c = 0; c<maxNClusters; c++) {
+					Rc[c] = (params.R1().inverse() + Rc[c]).inverse();
+					MatrixXd Tau = wishartRand(rndGenerator, Rc[c], params.workNXInCluster(c) + params.kappa11());
+					params.Tau(c, Tau);
+				}
+			}
+			else {
+				for (unsigned int c = 0; c<maxNClusters; c++) {
+					Rc[c] = (hyperParams.R0().inverse() + Rc[c]).inverse();
+					MatrixXd Tau = wishartRand(rndGenerator, Rc[c], params.workNXInCluster(c) + hyperParams.kappa0());
+					params.Tau(c, Tau);
+				}
+
+			}
+
+		}
+
+		if (useSeparationPrior) {
+			VectorXd sumTau = VectorXd::Zero(nCovariates);
+			unsigned int workNactive = 0;
+			MatrixXd Tau0 = hyperParams.Tau0();
+			for (unsigned int c = 0; c < maxZ + 1; c++) {
+				for (unsigned int j = 0; j < nCovariates; j++) {
+					sumTau(j) = sumTau(j) + params.TauS(c, j);
+				}
+				workNactive += 1;
+			}
+
+			VectorXd betas_new(nCovariates);
+			VectorXd beta_taus0 = hyperParams.beta_taus0();
+			for (unsigned int j = 0; j < nCovariates; j++) {
+				double alpha_new = workNactive * hyperParams.alpha_taus() + hyperParams.alpha_taus0();
+				double beta_new = sumTau(j) + beta_taus0(j);
+
+				randomGamma gammaRand(alpha_new, 1.0 / beta_new);
+				betas_new(j) = gammaRand(rndGenerator);
+
+			}
+			params.beta_taus(betas_new);
+
+		}
+		
 
 		// Now do the null mu for variable selection
 		// In all cases, initialise it at the value it will be fixed at for
@@ -1274,7 +1603,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 			for(unsigned int j=0;j<nCovariates;j++){
 				nullMu(j)=meanXVec[j]/(double)countXVec[j];
 			}
-			params.nullMu(nullMu);
+			params.nullMu(nullMu,useIndependentNormal);
 		}
 
 	}else if(covariateType.compare("Mixed")==0){
@@ -1340,6 +1669,46 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 			}
 		}
 
+		//initialise mu00
+		/*if (useHyperpriorR1) {
+			VectorXd SumMu;
+			SumMu.setZero(nContinuousCovs);
+			unsigned int workNactive = 0;
+			for (unsigned int c = 0; c <= maxZ; c++) {
+				SumMu += hyperParams.mu0();
+				workNactive += 1;
+			}
+
+			MatrixXd sigmaMu00(nContinuousCovs, nContinuousCovs);
+			VectorXd meanMu00(nContinuousCovs);
+
+			sigmaMu00 = (workNactive*hyperParams.Tau0() + hyperParams.Tau0()).inverse();
+			meanMu00 = sigmaMu00*(hyperParams.Tau0()*SumMu + hyperParams.Tau0()*hyperParams.mu0());
+
+			VectorXd mu00(nContinuousCovs);
+			mu00 = multivarNormalRand(rndGenerator, meanMu00, sigmaMu00);
+
+			params.mu00(mu00);
+
+			VectorXd SumMuDiff;
+			SumMuDiff.setZero(nContinuousCovs);
+			for (unsigned int c = 0; c <= maxZ; c++) {
+				SumMuDiff = (params.mu00() - hyperParams.mu0())*((params.mu00() - hyperParams.mu0()).transpose());
+				workNactive += 1;
+			}
+
+			SumMuDiff += hyperParams.R00().inverse();
+
+			MatrixXd RUpadated(nContinuousCovs, nContinuousCovs);
+			RUpadated = SumMuDiff.inverse();
+
+			MatrixXd Tau00(nContinuousCovs, nContinuousCovs);
+			Tau00 = wishartRand(rndGenerator, RUpadated, workNactive + hyperParams.kappa00());
+
+			params.Tau00(Tau00);
+
+		} */
+
 		// Now we can sample from the conditionals (using Sigma_c=Sigma_0 and
 		// mu_c=mu_0 for all c) to get mu_c and Sigma_c for each cluster
 
@@ -1362,60 +1731,284 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 			}else{
 				meanX[c].setZero(nContinuousCovs);
 			}
-			MatrixXd covMat(nContinuousCovs,nContinuousCovs);
-			covMat = (hyperParams.Tau0()+params.workNXInCluster(c)*hyperParams.Tau0()).inverse();
-			VectorXd meanVec(nContinuousCovs);
-			meanVec = hyperParams.Tau0()*hyperParams.mu0()+params.workNXInCluster(c)*hyperParams.Tau0()*meanX[c];
-			meanVec = covMat*meanVec;
 
-			VectorXd mu(nContinuousCovs);
-			// We sample from this posterior
-			mu = multivarNormalRand(rndGenerator,meanVec,covMat);
+			if (useIndependentNormal) {
+				VectorXd mu(nContinuousCovs);
+				VectorXd mu0(nContinuousCovs);
+				mu0 = hyperParams.mu0();
+				VectorXd Tau0(nContinuousCovs);
+				Tau0 = hyperParams.Tau0_Indep();
+				for (unsigned int j = 0; j < nContinuousCovs; j++) {
+					double denom = 0;
+					denom = (double)params.workNXInCluster(c)*(1 / Tau0(j)) + (1 / Tau0(j));
+					double meanNum = 0;
+					meanNum = (double)params.workNXInCluster(c)*(1 / Tau0(j))*meanX[c](j) + (1 / Tau0(j))*mu0(j);
+					double variance = (1 / Tau0(j))*(1 / Tau0(j)) / denom;
+					double mean = meanNum / denom;
 
-			// We store our sample
-			params.mu(c,mu);
+					//Sample from the posterior
+					mu(j) = NormalRand(rndGenerator, mean, variance);
+				}
+				// We store our sample
+				params.mu(c, mu, useIndependentNormal);
+			}
+			else if (useHyperpriorR1) {
+
+				VectorXd mu00 = hyperParams.mu0();
+				params.mu00(mu00);
+
+				params.Tau00(hyperParams.Tau0());
+
+				MatrixXd covMat(nContinuousCovs, nContinuousCovs);
+				covMat = (params.Tau00() + params.workNXInCluster(c)*params.Tau00()).inverse();
+				VectorXd meanVec(nContinuousCovs);
+				meanVec = params.Tau00()*params.mu00() + params.workNXInCluster(c)*params.Tau00()*meanX[c];
+				meanVec = covMat*meanVec;
+
+				VectorXd mu(nContinuousCovs);
+				// We sample from this posterior
+				mu = multivarNormalRand(rndGenerator, meanVec, covMat);
+
+				// We store our sample
+				params.mu(c, mu, useIndependentNormal);
+
+			}else if (useSeparationPrior) {
+				VectorXd mu00 = hyperParams.mu0();
+				params.mu00(mu00);
+
+				MatrixXd covMat(nContinuousCovs, nContinuousCovs);
+				covMat = (hyperParams.Tau00() + params.workNXInCluster(c)*hyperParams.Tau00()).inverse();
+				VectorXd meanVec(nContinuousCovs);
+				meanVec = hyperParams.Tau00()*params.mu00() + params.workNXInCluster(c)*hyperParams.Tau00()*meanX[c];
+				meanVec = covMat*meanVec;
+
+				VectorXd mu(nContinuousCovs);
+				// We sample from this posterior
+				mu = multivarNormalRand(rndGenerator, meanVec, covMat);
+
+				// We store our sample
+				params.mu(c, mu, useIndependentNormal);
+
+			}else {
+
+				MatrixXd covMat(nContinuousCovs, nContinuousCovs);
+				covMat = (hyperParams.Tau0() + params.workNXInCluster(c)*hyperParams.Tau0()).inverse();
+				VectorXd meanVec(nContinuousCovs);
+				meanVec = hyperParams.Tau0()*hyperParams.mu0() + params.workNXInCluster(c)*hyperParams.Tau0()*meanX[c];
+				meanVec = covMat*meanVec;
+
+				VectorXd mu(nContinuousCovs);
+				// We sample from this posterior
+				mu = multivarNormalRand(rndGenerator, meanVec, covMat);
+
+				// We store our sample
+				params.mu(c, mu, useIndependentNormal);
+			}
 
 		}
 
-
+		//initialise R1 and kappa1 when using multivariate normal likelihood
 		if (options.useHyperpriorR1()){
+
+			params.kappa11(nContinuousCovs + 1);
+
 			MatrixXd SumTau = MatrixXd::Zero(nContinuousCovs,nContinuousCovs);
 			unsigned int workNactive=0;
 			for (unsigned int c=0; c<maxZ+1;c++){
-				SumTau += params.Tau(c);
-				workNactive += params.workNXInCluster(c);
+				SumTau += hyperParams.Tau0();
+				workNactive += 1;
 			}
 			SumTau += hyperParams.R0();
 			MatrixXd R0Star = SumTau.inverse();
 		
-			MatrixXd R1 =  wishartRand(rndGenerator,R0Star,workNactive*hyperParams.kappa1()+hyperParams.kappa0());
+			MatrixXd inverseR1 =  wishartRand(rndGenerator,R0Star,workNactive*params.kappa11()+hyperParams.kappa0());
+			MatrixXd R1 = inverseR1.inverse();
 			params.R1(R1);
+
+		}
+
+		//initialise R1 when using independent normal likelihood
+		if (useIndependentNormal) {
+			VectorXd R1(nContinuousCovs);
+			unsigned int workNactive = 0;
+			VectorXd sumTau;
+			sumTau.setZero(nContinuousCovs);
+			for (unsigned int c = 0; c < maxZ + 1; c++) {
+				sumTau = hyperParams.Tau0_Indep();
+				workNactive = workNactive + 1;
+			}
+
+			VectorXd R0_Indep = hyperParams.R0_Indep();
+			for (unsigned int j = 0; j < nContinuousCovs; j++) {
+				double kappaNew = workNactive*hyperParams.kappa1() + hyperParams.kappa0();
+				double rNew = sumTau(j) + R0_Indep(j);
+
+				randomGamma gammaRand(kappaNew, 1.0 / rNew);
+				R1(j) = gammaRand(rndGenerator);
+			}
+			params.R1_Indep(R1);
 		}
 
 
 		// Now we can sample Tau_c for each cluster
-		vector<MatrixXd> Rc(maxNClusters);
-		for(unsigned int c=0;c<maxNClusters;c++){
-			Rc[c].setZero(nContinuousCovs,nContinuousCovs);
+		if (useIndependentNormal) {
+
+			vector<VectorXd> XiMinusMuSq(nSubjects);
+			for (unsigned int i = 0; i < nSubjects; i++) {
+				XiMinusMuSq[i].setZero(nContinuousCovs);
+				unsigned int zi = params.z(i);
+				VectorXd mu = params.mu(zi);
+				for (unsigned int j = 0; j < nContinuousCovs; j++) {
+					XiMinusMuSq[i](j) = (xi[i](j) - mu(j))*(xi[i](j) - mu(j));
+				}
+			}
+
+			vector<VectorXd> sumXiMinusMuSq(maxZ + 1);
+			for (unsigned int c = 0; c <= maxZ; c++) {
+				sumXiMinusMuSq[c].setZero(nContinuousCovs);
+			}
+
+			for (unsigned int i = 0; i<nSubjects; i++) {
+				sumXiMinusMuSq[params.z(i)] = sumXiMinusMuSq[params.z(i)] + XiMinusMuSq[i];
+			}
+
+			for (unsigned int c = 0; c <= maxZ; c++) {
+				VectorXd tau(nContinuousCovs);
+				int nXInC = params.workNXInCluster(c);
+				for (unsigned int j = 0; j < nContinuousCovs; j++) {
+					double kappaNew = (double)nXInC / 2 + hyperParams.kappa1();
+					double rNew = (sumXiMinusMuSq[c](j) + 2 * params.R1_Indep(j)) / 2;
+
+					randomGamma gammaRand(kappaNew, 1.0 / rNew);
+					tau(j) = gammaRand(rndGenerator);
+				}
+				params.Tau_Indep(c, tau);
+			}
+
+		}
+		else if (useSeparationPrior) {
+
+			params.kappa11(nContinuousCovs + 1);
+
+			//set TauR to be indentity to begin with
+			MatrixXd TauR;
+			TauR.setZero(nContinuousCovs, nContinuousCovs);
+
+			for (unsigned int j = 0; j < nContinuousCovs; j++) {
+				TauR(j, j) = 1;
+			}
+			for (unsigned int c = 0; c<maxNClusters; c++) {
+				params.TauR(c, TauR);
+			}
+
+			//compute muc for each c for the initial allocation
+			vector<VectorXd> muc(maxNClusters);
+			for (unsigned int c = 0; c<maxNClusters; c++) {
+				muc[c].setZero(nContinuousCovs);
+			}
+
+			for (unsigned int i = 0; i<nSubjects; i++) {
+				unsigned int zi = params.z(i);
+				muc[zi] = muc[zi] + xi[i];
+			}
+
+			for (unsigned int c = 0; c < maxNClusters; c++) {
+				if (params.workNXInCluster(c) > 0) {
+					muc[c] = muc[c] / (double)params.workNXInCluster(c);
+				}
+				else {
+					muc[c].setZero(nContinuousCovs);
+				}
+			}
+
+			vector<MatrixXd> Sigmas(maxNClusters);
+			for (unsigned int c = 0; c < maxNClusters; c++) {
+				Sigmas[c].setZero(nContinuousCovs, nContinuousCovs);
+			}
+
+			for (unsigned int i = 0; i<nSubjects; i++) {
+				unsigned int zi = params.z(i);
+				Sigmas[zi] += (xi[i] - muc[zi])*((xi[i] - muc[zi]).transpose());
+			}
+
+
+			for (unsigned int c = 0; c < maxNClusters; c++) {
+				if (params.workNXInCluster(c) > 1) {
+					Sigmas[c] = Sigmas[c] / (double)params.workNXInCluster(c);
+				}
+				else {
+					Sigmas[c].setZero(nContinuousCovs, nContinuousCovs);
+					VectorXd beta_taus = hyperParams.beta_taus0();
+					double alpha_taus = hyperParams.alpha_taus();
+					for (unsigned int j = 0; j < nContinuousCovs; j++) {
+						randomGamma gammaRand(alpha_taus, 1.0 / beta_taus(j));
+						double tausj = gammaRand(rndGenerator);
+						Sigmas[c](j, j) = (1.0 / tausj)*(1.0 / tausj);
+					}
+				}
+			}
+
+
+			for (unsigned int c = 0; c<maxNClusters; c++) {
+				for (unsigned int j = 0; j < nContinuousCovs; j++) {
+					double Tausj = 1.0 / sqrt(Sigmas[c](j, j));
+					params.TauS(c, j, Tausj);
+				}
+			}
+
+		}
+		else {
+
+			vector<MatrixXd> Rc(maxNClusters);
+			for (unsigned int c = 0; c<maxNClusters; c++) {
+				Rc[c].setZero(nContinuousCovs, nContinuousCovs);
+			}
+
+			for (unsigned int i = 0; i<nSubjects; i++) {
+				unsigned int zi = params.z(i);
+				Rc[zi] = Rc[zi] + (xi[i] - params.mu(zi))*((xi[i] - params.mu(zi)).transpose());
+			}
+
+			if (options.useHyperpriorR1()) {
+				for (unsigned int c = 0; c<maxNClusters; c++) {
+					Rc[c] = (params.R1().inverse() + Rc[c]).inverse();
+					MatrixXd Tau = wishartRand(rndGenerator, Rc[c], params.workNXInCluster(c) + params.kappa11());
+					params.Tau(c, Tau);
+				}
+			}
+			else {
+				for (unsigned int c = 0; c<maxNClusters; c++) {
+					Rc[c] = (hyperParams.R0().inverse() + Rc[c]).inverse();
+					MatrixXd Tau = wishartRand(rndGenerator, Rc[c], params.workNXInCluster(c) + hyperParams.kappa0());
+					params.Tau(c, Tau);
+				}
+
+			}
+
 		}
 
-		for(unsigned int i=0;i<nSubjects;i++){
-			unsigned int zi = params.z(i);
-			Rc[zi]=Rc[zi]+(xi[i]-params.mu(zi))*((xi[i]-params.mu(zi)).transpose());
-		}
+		if (useSeparationPrior) {
+			VectorXd sumTau = VectorXd::Zero(nContinuousCovs);
+			unsigned int workNactive = 0;
+			MatrixXd Tau0 = hyperParams.Tau0();
+			for (unsigned int c = 0; c < maxZ + 1; c++) {
+				for (unsigned int j = 0; j < nContinuousCovs; j++) {
+					sumTau(j) = sumTau(j) + params.TauS(c, j);
+				}
+				workNactive += 1;
+			}
 
-		if (options.useHyperpriorR1()){
-			for(unsigned int c=0;c<maxNClusters;c++){
-				Rc[c]=(params.R1().inverse()+Rc[c]).inverse();
-				MatrixXd Tau = wishartRand(rndGenerator,Rc[c],params.workNXInCluster(c)+hyperParams.kappa1());
-				params.Tau(c,Tau);
+			VectorXd betas_new(nContinuousCovs);
+			VectorXd beta_taus0 = hyperParams.beta_taus0();
+			for (unsigned int j = 0; j < nContinuousCovs; j++) {
+				double alpha_new = workNactive * hyperParams.alpha_taus() + hyperParams.alpha_taus0();
+				double beta_new = sumTau(j) + beta_taus0(j);
+
+				randomGamma gammaRand(alpha_new, 1.0 / beta_new);
+				betas_new(j) = gammaRand(rndGenerator);
+
 			}
-		} else {
-			for(unsigned int c=0;c<maxNClusters;c++){
-				Rc[c]=(hyperParams.R0().inverse()+Rc[c]).inverse();
-				MatrixXd Tau = wishartRand(rndGenerator,Rc[c],params.workNXInCluster(c)+hyperParams.kappa0());
-				params.Tau(c,Tau);
-			}
+			params.beta_taus(betas_new);
 
 		}
 
@@ -1438,7 +2031,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 			for(unsigned int j=0;j<nContinuousCovs;j++){
 				nullMu(j)=meanXVec[j]/(double)countXVec[j];
 			}
-			params.nullMu(nullMu);
+			params.nullMu(nullMu, useIndependentNormal);
 		}
 
 
@@ -1480,10 +2073,10 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 			}
 
 			params.omega(j,omega[j]);
-			params.rho(j,rho[j],covariateType,varSelectType);
+			params.rho(j,rho[j],covariateType,varSelectType,useIndependentNormal);
 			if(varSelectType.compare("BinaryCluster")==0){
 				for(unsigned int c=0;c<maxNClusters;c++){
-					params.gamma(c,j,gamma[c][j],covariateType);
+					params.gamma(c,j,gamma[c][j],covariateType,useIndependentNormal);
 				}
 			}
 			// Note in the case of the continuous variable selection indicators
@@ -1600,6 +2193,7 @@ void initialisePReMiuM(baseGeneratorType& rndGenerator,
 	        }
 
 	}
+
 	if(wasError){
 		Rprintf("There is a mistake in the initialisation of PReMiuM.\n");
 	}
@@ -1639,6 +2233,8 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 		string predictType = sampler.model().options().predictType();
 		bool weibullFixedShape = sampler.model().options().weibullFixedShape();
 		bool useHyperpriorR1 = sampler.model().options().useHyperpriorR1();
+		bool useIndependentNormal= sampler.model().options().useIndependentNormal();
+		bool useSeparationPrior = sampler.model().options().useSeparationPrior();
 
 		const pReMiuMData& dataset = sampler.model().dataset();
 		pReMiuMPropParams& proposalParams = sampler.proposalParams();
@@ -1663,10 +2259,45 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 				outFiles.push_back(new ofstream(fileName.c_str()));
 				fileName = fileStem + "_Sigma.txt";
 				outFiles.push_back(new ofstream(fileName.c_str()));
-				if (useHyperpriorR1) {
+				if (useHyperpriorR1||useIndependentNormal) {
 					fileName = fileStem + "_R1.txt";	
 					outFiles.push_back(new ofstream(fileName.c_str()));
 				}
+				if (useHyperpriorR1 ) {
+					fileName = fileStem + "_kappa1.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+
+					fileName = fileStem + "_mu00.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+
+					fileName = fileStem + "_Sigma00.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+
+					fileName = fileStem + "_kappa1Prop.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+				} 
+
+				if (useSeparationPrior) {
+					fileName = fileStem + "_mu00.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+
+					fileName = fileStem + "_SigmaR.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+
+					fileName = fileStem + "_SigmaS.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+
+					fileName = fileStem + "_SigmaSProp.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+
+					fileName = fileStem + "_kappa1.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+
+					fileName = fileStem + "_kappa1Prop.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+
+				}
+
 			}else if(covariateType.compare("Mixed")==0){
 				fileName = fileStem + "_phi.txt";
 				outFiles.push_back(new ofstream(fileName.c_str()));
@@ -1674,9 +2305,43 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 				outFiles.push_back(new ofstream(fileName.c_str()));
 				fileName = fileStem + "_Sigma.txt";
 				outFiles.push_back(new ofstream(fileName.c_str()));
-				if (useHyperpriorR1) {
+				if (useHyperpriorR1|| useIndependentNormal) {
 					fileName = fileStem + "_R1.txt";	
 					outFiles.push_back(new ofstream(fileName.c_str()));
+				}
+				if (useHyperpriorR1) {
+					fileName = fileStem + "_kappa1.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+
+					fileName = fileStem + "_mu00.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+
+					fileName = fileStem + "_Sigma00.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+
+					fileName = fileStem + "_kappa1Prop.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+				} 
+
+				if (useSeparationPrior) {
+					fileName = fileStem + "_mu00.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+
+					fileName = fileStem + "_SigmaR.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+
+					fileName = fileStem + "_SigmaS.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+
+					fileName = fileStem + "_SigmaSProp.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+
+					fileName = fileStem + "_kappa1.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+
+					fileName = fileStem + "_kappa1Prop.txt";
+					outFiles.push_back(new ofstream(fileName.c_str()));
+
 				}
 			}
 			fileName = fileStem + "_z.txt";
@@ -1756,8 +2421,8 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 		}
 
 		// File indices
-		int nClustersInd=-1,psiInd=-1,phiInd=-1,muInd=-1,SigmaInd=-1,R1Ind=-1,zInd=-1,entropyInd=-1,alphaInd=-1;
-		int logPostInd=-1,nMembersInd=-1,alphaPropInd=-1;
+		int nClustersInd=-1,psiInd=-1,phiInd=-1,muInd=-1,SigmaInd=-1,R1Ind=-1,zInd=-1,entropyInd=-1,alphaInd=-1,kappa1Ind=-1,mu00Ind=-1, Sigma00Ind = -1;
+		int logPostInd = -1, nMembersInd = -1, alphaPropInd = -1, kappa1PropInd = -1, SigmaRInd = -1, SigmaSInd = -1, SigmaSPropInd = -1;
 		int thetaInd=-1,betaInd=-1,thetaPropInd=-1,betaPropInd=-1,sigmaSqYInd=-1,nuInd=-1,epsilonInd=-1;
 		int sigmaEpsilonInd=-1,epsilonPropInd=-1,omegaInd=-1,rhoInd=-1;
 		int rhoOmegaPropInd=-1,gammaInd=-1,nullPhiInd=-1,nullMuInd=-1;
@@ -1772,12 +2437,40 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 		}else if(covariateType.compare("Normal")==0){
 			muInd=r++;
 			SigmaInd=r++;
-			if (useHyperpriorR1) R1Ind=r++;
+			if (useHyperpriorR1||useIndependentNormal) R1Ind=r++;
+			if (useHyperpriorR1) {
+				kappa1Ind = r++;
+				mu00Ind = r++;
+				Sigma00Ind = r++;
+				kappa1PropInd = r++;
+			} 
+			if (useSeparationPrior) {
+				mu00Ind = r++;
+				SigmaRInd = r++;
+				SigmaSInd = r++;
+				SigmaSPropInd = r++;
+				kappa1Ind = r++;
+				kappa1PropInd = r++;
+			}
 		}else if(covariateType.compare("Mixed")==0){
 			phiInd=r++;
 			muInd=r++;
 			SigmaInd=r++;
-			if (useHyperpriorR1) R1Ind=r++;
+			if (useHyperpriorR1 || useIndependentNormal) R1Ind=r++;
+			if (useHyperpriorR1) {
+				kappa1Ind = r++;
+				mu00Ind = r++;
+				Sigma00Ind = r++;
+				kappa1PropInd = r++;
+			} 
+			if (useSeparationPrior) {
+				mu00Ind = r++;
+				SigmaRInd = r++;
+				SigmaSInd = r++;
+				SigmaSPropInd = r++;
+				kappa1Ind = r++;
+				kappa1PropInd = r++;
+			}
 		}
 		zInd=r++;
 		entropyInd=r++;
@@ -1914,17 +2607,41 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 
 			// For the covariance matrices we write by covariate x covariate (for each cluster)
 
-			for(unsigned int j1=0;j1<nCovariates;j1++){
-				for(unsigned int j2=0;j2<nCovariates;j2++){
-					for(unsigned int c=0;c<maxNClusters;c++){
-						*(outFiles[SigmaInd]) << params.Sigma(c,j1,j2);
-						if(c<(maxNClusters-1)||j1<(nCovariates-1)||j2<(nCovariates-1)){
+			if (useIndependentNormal) {
+				for (unsigned int j = 0; j<nCovariates; j++) {
+					for (unsigned int c = 0; c<maxNClusters; c++) {
+						*(outFiles[SigmaInd]) << params.Sigma_Indep(c, j);
+						if (c<(maxNClusters - 1) || j<(nCovariates - 1)) {
 							*(outFiles[SigmaInd]) << " ";
 						}
 					}
 				}
+				*(outFiles[SigmaInd]) << endl;
+
+				for (unsigned int j = 0; j<nCovariates; j++) {
+					*(outFiles[R1Ind]) << params.R1_Indep(j);
+						if (j<(nCovariates - 1)) {
+							*(outFiles[R1Ind]) << " ";
+						}
+				}
+				*(outFiles[R1Ind]) << endl;
+
+
 			}
-			*(outFiles[SigmaInd]) << endl;
+			else {
+				for (unsigned int j1 = 0; j1<nCovariates; j1++) {
+					for (unsigned int j2 = 0; j2<nCovariates; j2++) {
+						for (unsigned int c = 0; c<maxNClusters; c++) {
+							*(outFiles[SigmaInd]) << params.Sigma(c, j1, j2);
+							if (c<(maxNClusters - 1) || j1<(nCovariates - 1) || j2<(nCovariates - 1)) {
+								*(outFiles[SigmaInd]) << " ";
+							}
+						}
+					}
+				}
+				*(outFiles[SigmaInd]) << endl;
+			}
+				
 			
 			if (useHyperpriorR1){
 				for(unsigned int j1=0;j1<nCovariates;j1++){
@@ -1935,9 +2652,95 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 						}
 					}
 				}
-			*(outFiles[R1Ind]) << endl;
-				
+				*(outFiles[R1Ind]) << endl;
+
+				*(outFiles[kappa1Ind]) << params.kappa11() << endl;
+
+				bool anyUpdates = proposalParams.kappa1AnyUpdates();
+				if (anyUpdates) {
+					*(outFiles[kappa1PropInd]) << sampler.proposalParams().kappa1AcceptRate() <<
+						" " << sampler.proposalParams().kappa1StdDev() << endl;
+					proposalParams.kappa1AnyUpdates(false);
+				}
+
+				for (unsigned int j = 0; j<nCovariates; j++) {
+					*(outFiles[mu00Ind]) << params.mu00(j);
+					if (j<(nCovariates - 1)) {
+						*(outFiles[mu00Ind]) << " ";
+					}
+				}
+				*(outFiles[mu00Ind]) << endl;
+
+				for (unsigned int j1 = 0; j1<nCovariates; j1++) {
+					for (unsigned int j2 = 0; j2<nCovariates; j2++) {
+						*(outFiles[Sigma00Ind]) << params.Sigma00(j1, j2);
+						if (j1<(nCovariates - 1) || j2<(nCovariates - 1)) {
+							*(outFiles[Sigma00Ind]) << " ";
+						}
+					}
+				}
+
+				*(outFiles[Sigma00Ind]) << endl;
 			}
+
+			if (useSeparationPrior) {
+
+				for (unsigned int j = 0; j<nCovariates; j++) {
+					*(outFiles[mu00Ind]) << params.mu00(j);
+					if (j<(nCovariates - 1)) {
+						*(outFiles[mu00Ind]) << " ";
+					}
+				}
+				*(outFiles[mu00Ind]) << endl;
+
+				for (unsigned int j1 = 0; j1<nCovariates; j1++) {
+					for (unsigned int j2 = 0; j2<nCovariates; j2++) {
+						for (unsigned int c = 0; c<maxNClusters; c++) {
+							*(outFiles[SigmaRInd]) << params.SigmaR(c, j1, j2);
+							if (c<(maxNClusters - 1) || j1<(nCovariates - 1) || j2<(nCovariates - 1)) {
+								*(outFiles[SigmaRInd]) << " ";
+							}
+						}
+					}
+				}
+				*(outFiles[SigmaRInd]) << endl;
+
+				for (unsigned int j = 0; j<nCovariates; j++) {
+					for (unsigned int c = 0; c<maxNClusters; c++) {
+						*(outFiles[SigmaSInd]) << params.SigmaS(c, j);
+						if (c<(maxNClusters - 1) || j<(nCovariates - 1)) {
+							*(outFiles[SigmaSInd]) << " ";
+						}
+					}
+				}
+				*(outFiles[SigmaSInd]) << endl;
+
+				// Print the acceptance rates for SigmaS
+				bool anyUpdates = proposalParams.TauSAnyUpdates();
+				if (anyUpdates) {
+					for (unsigned int j = 0; j < nCovariates; j++) {
+						*(outFiles[SigmaSPropInd]) << sampler.proposalParams().TauSAcceptRate(j) <<
+							" " << sampler.proposalParams().TauSStdDev(j);
+						if (j < (nCovariates - 1)) {
+							*(outFiles[SigmaSPropInd]) << endl;
+						}
+						*(outFiles[SigmaSPropInd]) << endl;
+						proposalParams.TauSAnyUpdates(false);
+					}
+				}
+
+
+				*(outFiles[kappa1Ind]) << params.kappa11() << endl;
+
+				anyUpdates = proposalParams.kappa1AnyUpdates();
+				if (anyUpdates) {
+					*(outFiles[kappa1PropInd]) << sampler.proposalParams().kappa1AcceptRate() <<
+						" " << sampler.proposalParams().kappa1StdDev() << endl;
+					proposalParams.kappa1AnyUpdates(false);
+				}
+
+			}
+
 
 		}else if(covariateType.compare("Mixed")==0){
 			for(unsigned int j=0;j<nDiscreteCovs;j++){
@@ -1981,17 +2784,40 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 
 			// For the covariance matrices we write by covariate x covariate (for each cluster)
 
-			for(unsigned int j1=0;j1<nContinuousCovs;j1++){
-				for(unsigned int j2=0;j2<nContinuousCovs;j2++){
-					for(unsigned int c=0;c<maxNClusters;c++){
-						*(outFiles[SigmaInd]) << params.Sigma(c,j1,j2);
-						if(c<(maxNClusters-1)||j1<(nContinuousCovs-1)||j2<(nContinuousCovs-1)){
+			if (useIndependentNormal) {
+				for (unsigned int j = 0; j<nContinuousCovs; j++) {
+					for (unsigned int c = 0; c<maxNClusters; c++) {
+						*(outFiles[SigmaInd]) << params.Sigma_Indep(c, j);
+						if (c<(maxNClusters - 1) || j<(nContinuousCovs - 1)) {
 							*(outFiles[SigmaInd]) << " ";
 						}
 					}
 				}
+				*(outFiles[SigmaInd]) << endl;
+
+				for (unsigned int j = 0; j<nContinuousCovs; j++) {
+					*(outFiles[R1Ind]) << params.R1_Indep(j);
+					if (j<(nContinuousCovs - 1)) {
+						*(outFiles[R1Ind]) << " ";
+					}
+				}
+				*(outFiles[R1Ind]) << endl;
+
 			}
-			*(outFiles[SigmaInd]) << endl;
+			else {
+				for (unsigned int j1 = 0; j1<nContinuousCovs; j1++) {
+					for (unsigned int j2 = 0; j2<nContinuousCovs; j2++) {
+						for (unsigned int c = 0; c<maxNClusters; c++) {
+							*(outFiles[SigmaInd]) << params.Sigma(c, j1, j2);
+							if (c<(maxNClusters - 1) || j1<(nContinuousCovs - 1) || j2<(nContinuousCovs - 1)) {
+								*(outFiles[SigmaInd]) << " ";
+							}
+						}
+					}
+				}
+				*(outFiles[SigmaInd]) << endl;
+
+			}
 
 			if (useHyperpriorR1){
 				for(unsigned int j1=0;j1<nContinuousCovs;j1++){
@@ -2003,7 +2829,92 @@ void writePReMiuMOutput(mcmcSampler<pReMiuMParams,pReMiuMOptions,pReMiuMPropPara
 					}
 				}
 			*(outFiles[R1Ind]) << endl;
+		
+			*(outFiles[kappa1Ind]) << params.kappa11() << endl;
+
+			bool anyUpdates = proposalParams.kappa1AnyUpdates();
+			if (anyUpdates) {
+				*(outFiles[kappa1PropInd]) << sampler.proposalParams().kappa1AcceptRate() <<
+					" " << sampler.proposalParams().kappa1StdDev() << endl;
+				proposalParams.kappa1AnyUpdates(false);
+			}
+
+			for (unsigned int j = 0; j<nContinuousCovs; j++) {
+				*(outFiles[mu00Ind]) << params.mu00(j);
+				if (j<(nContinuousCovs - 1)) {
+					*(outFiles[mu00Ind]) << " ";
+				}
+			}
+			*(outFiles[mu00Ind]) << endl;
+
+			for (unsigned int j1 = 0; j1<nContinuousCovs; j1++) {
+				for (unsigned int j2 = 0; j2<nContinuousCovs; j2++) {
+					*(outFiles[Sigma00Ind]) << params.Sigma00(j1, j2);
+					if (j1<(nContinuousCovs - 1) || j2<(nContinuousCovs - 1)) {
+						*(outFiles[Sigma00Ind]) << " ";
+					}
+				}
+			}
+			*(outFiles[Sigma00Ind]) << endl;
 				
+			}
+
+
+			if (useSeparationPrior) {
+
+				for (unsigned int j = 0; j<nContinuousCovs; j++) {
+					*(outFiles[mu00Ind]) << params.mu00(j);
+					if (j<(nContinuousCovs - 1)) {
+						*(outFiles[mu00Ind]) << " ";
+					}
+				}
+				*(outFiles[mu00Ind]) << endl;
+
+				for (unsigned int j1 = 0; j1<nContinuousCovs; j1++) {
+					for (unsigned int j2 = 0; j2<nContinuousCovs; j2++) {
+						for (unsigned int c = 0; c<maxNClusters; c++) {
+							*(outFiles[SigmaRInd]) << params.SigmaR(c, j1, j2);
+							if (c<(maxNClusters - 1) || j1<(nContinuousCovs - 1) || j2<(nContinuousCovs - 1)) {
+								*(outFiles[SigmaRInd]) << " ";
+							}
+						}
+					}
+				}
+				*(outFiles[SigmaRInd]) << endl;
+
+				for (unsigned int j = 0; j<nContinuousCovs; j++) {
+					for (unsigned int c = 0; c<maxNClusters; c++) {
+						*(outFiles[SigmaSInd]) << params.SigmaS(c, j);
+						if (c<(maxNClusters - 1) || j<(nContinuousCovs - 1)) {
+							*(outFiles[SigmaSInd]) << " ";
+						}
+					}
+				}
+				*(outFiles[SigmaSInd]) << endl;
+
+				// Print the acceptance rates for SigmaS
+				bool anyUpdates = proposalParams.TauSAnyUpdates();
+				if (anyUpdates) {
+					for (unsigned int j = 0; j < nContinuousCovs; j++) {
+						*(outFiles[SigmaSPropInd]) << sampler.proposalParams().TauSAcceptRate(j) <<
+							" " << sampler.proposalParams().TauSStdDev(j);
+						if (j < (nContinuousCovs - 1)) {
+							*(outFiles[SigmaSPropInd]) << endl;
+						}
+						*(outFiles[SigmaSPropInd]) << endl;
+						proposalParams.TauSAnyUpdates(false);
+					}
+				}
+
+
+				*(outFiles[kappa1Ind]) << params.kappa11() << endl;
+
+				anyUpdates = proposalParams.kappa1AnyUpdates();
+				if (anyUpdates) {
+					*(outFiles[kappa1PropInd]) << sampler.proposalParams().kappa1AcceptRate() <<
+						" " << sampler.proposalParams().kappa1StdDev() << endl;
+					proposalParams.kappa1AnyUpdates(false);
+				}
 			}
 
 		}
@@ -2370,11 +3281,21 @@ string storeLogFileData(const pReMiuMOptions& options,
 		tmpStr << "mu0: " << endl;
 		tmpStr << hyperParams.mu0() << endl;
 		tmpStr << "Tau0:" << endl;
-		tmpStr << hyperParams.Tau0() << endl;
-		tmpStr << "R0: "  << endl;
-		tmpStr << hyperParams.R0() << endl;
+		if (options.useIndependentNormal()) {
+			tmpStr << hyperParams.Tau0_Indep() << endl;
+		}
+		else {
+			tmpStr << hyperParams.Tau0() << endl;
+		}
+		tmpStr << "R0: " << endl;
+		if (options.useIndependentNormal()) {
+			tmpStr << hyperParams.R0_Indep() << endl;
+		}
+		else {
+			tmpStr << hyperParams.R0() << endl;
+		}
 		tmpStr << "kappa0: " << hyperParams.kappa0() << endl;
-		if (options.useHyperpriorR1()) tmpStr << "kappa1: " << hyperParams.kappa1() << endl;
+		if (options.useHyperpriorR1()|| options.useIndependentNormal()) tmpStr << "kappa1: " << hyperParams.kappa1() << endl;
 		tmpStr << "nu0: " << hyperParams.nu0() << endl;
 	}
 	

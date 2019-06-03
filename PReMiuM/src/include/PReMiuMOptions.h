@@ -93,6 +93,8 @@ class pReMiuMOptions{
 			_weibullFixedShape=false;
 			_useNormInvWishPrior=false;
 			_useHyperpriorR1=false;
+			_useIndependentNormal = false;
+			_useSeparationPrior = false;
 		};
 
 		/// \brief Default destructor
@@ -369,6 +371,7 @@ class pReMiuMOptions{
 			_PoissonCARadaptive=adaptive;
 		}
 
+
 		/// \brief Return the prediction type
 		string predictType() const{
 			return _predictType;
@@ -410,6 +413,25 @@ class pReMiuMOptions{
 			_useHyperpriorR1=useR1;
 		}
 
+		/// \brief Return whether we are using the Independent likelihood for continuous variables
+		bool useIndependentNormal() const {
+			return _useIndependentNormal;
+		}
+
+		/// \brief Set whether we are using the Independent likelihood for continuous variables
+		void useIndependentNormal(const bool& useIndep) {
+			_useIndependentNormal = useIndep;
+		}
+
+		bool useSeparationPrior() const {
+			return _useSeparationPrior;
+		}
+
+		void useSeparationPrior(const bool& useSP) {
+			_useSeparationPrior = useSP;
+		}
+
+
 		// Copy operator
 		pReMiuMOptions& operator=(const pReMiuMOptions& options){
 
@@ -444,6 +466,8 @@ class pReMiuMOptions{
 			_weibullFixedShape=options.weibullFixedShape();
 			_useNormInvWishPrior=options.useNormInvWishPrior();
 			_useHyperpriorR1=options.useHyperpriorR1();
+			_useIndependentNormal =options.useIndependentNormal();
+			_useSeparationPrior = options.useSeparationPrior();
 			return *this;
 		}
 
@@ -511,6 +535,10 @@ class pReMiuMOptions{
 		bool _useNormInvWishPrior;
 		// Whether we include a hyperprior for R1
 		bool _useHyperpriorR1;
+		// Whether we use the independent conditional likelihood for continuous variables
+		bool _useIndependentNormal;
+
+		bool _useSeparationPrior;
 };
 
 #endif // DIPBACOPTIONS_H_

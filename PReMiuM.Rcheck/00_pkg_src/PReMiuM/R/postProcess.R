@@ -23,7 +23,7 @@
 
 is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
 
-profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, predictType="RaoBlackwell", nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-2, dPitmanYor=0, excludeY=FALSE, extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE, run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123", includeCAR=FALSE, neighboursFile="Neighbours.txt",uCARinit=FALSE,weibullFixedShape=TRUE, useNormInvWishPrior=FALSE, useHyperpriorR1=TRUE){
+profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, data, output="output", hyper, predict, predictType="RaoBlackwell", nSweeps=1000, nBurn=1000, nProgress=500, nFilter=1, nClusInit, seed, yModel="Bernoulli", xModel="Discrete", sampler="SliceDependent", alpha=-2, dPitmanYor=0, excludeY=FALSE, extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE, run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123", includeCAR=FALSE, neighboursFile="Neighbours.txt",uCARinit=FALSE,PoissonCARadaptive=FALSE,weibullFixedShape=TRUE, useNormInvWishPrior=FALSE, useHyperpriorR1=TRUE, useIndependentNormal=FALSE, useSeparationPrior=FALSE){
   
   # suppress scientific notation
   options(scipen=999)
@@ -45,6 +45,12 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
   
   if (useNormInvWishPrior==TRUE && !varSelectType=="None") stop("Variable selection is not available for Normal-inverse-Wishart prior for Normal covariates.")
   
+  if (useIndependentNormal==TRUE && useHyperpriorR1==TRUE) stop("useIndependentNormal option automatically contains the hyperprior for R1")
+  
+  if (useIndependentNormal==TRUE && useSeparationPrior==TRUE) stop("useSeparationPrior option cannot be used for independent normal likelihood")
+  
+  if (useHyperpriorR1==TRUE && useSeparationPrior==TRUE) stop("useSeparationPrior option automatically contains hyperpriors")
+    
   if (xModel=="Normal") {
     sdContVars<-apply(data[covNames],2,sd)
     if(length(which(sdContVars==0))) stop("One of the continuous covariates is constant (with zero variance). Remove it and run again.") 
@@ -333,8 +339,14 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
     if (!is.null(hyper$Tau0)){
       write(paste("Tau0=",paste(t(hyper$Tau0),collapse=" ")," ",sep=""),hyperFile,append=T)
     }
+    if (!is.null(hyper$TauIndep0)){
+      write(paste("Tau_Indep_0=",paste(t(hyper$TauIndep0),collapse=" ")," ",sep=""),hyperFile,append=T)
+    }
     if (!is.null(hyper$R0)){
       write(paste("R0=",paste(t(hyper$R0),collapse=" ")," ",sep=""),hyperFile,append=T)
+    }
+    if (!is.null(hyper$RIndep0)){
+      write(paste("R_Indep_0=",paste(t(hyper$RIndep0),collapse=" ")," ",sep=""),hyperFile,append=T)
     }
     if (!is.null(hyper$kappa0)){
       write(paste("kappa0=",hyper$kappa0,sep=""),hyperFile,append=T)
@@ -416,6 +428,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
   }
   
   if (weibullFixedShape) inputString<-paste(inputString," --weibullFixedShape",sep="")
+  if (PoissonCARadaptive) inputString<-paste(inputString," --PoissonCARadaptive",sep="")
   if (reportBurnIn) inputString<-paste(inputString," --reportBurnIn",sep="")
   if (!missing(alpha)) inputString<-paste(inputString," --alpha=",alpha,sep="")
   if (!missing(dPitmanYor)) inputString<-paste(inputString," --dPitmanYor=",dPitmanYor,sep="")
@@ -435,6 +448,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
   if (includeuCARinit) inputString<-paste(inputString, " --uCARinit=", uCARinit ,sep="")
   if (useNormInvWishPrior) inputString<-paste(inputString," --useNormInvWishPrior", sep="")
   if (useHyperpriorR1) inputString<-paste(inputString," --useHyperpriorR1", sep="")
+  if (useSeparationPrior) inputString<-paste(inputString," --useSeparationPrior", sep="")
+  if (useIndependentNormal) inputString<-paste(inputString," --useIndependentNormal", sep="")
   if (run) .Call('profRegr', inputString, PACKAGE = 'PReMiuM')
   
   
@@ -536,6 +551,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
               "weibullFixedShape"=weibullFixedShape,
               "useNormInvWishPrior"=useNIWP,
               "useHyperpriorR1"=useHyperpriorR1,
+              "useSeparationPrior"=useSeparationPrior,
+              "useIndependentNormal"=useIndependentNormal,
               "xMat"=xMat,"yMat"=yMat,"wMat"=wMat))
 }
 
@@ -561,7 +578,7 @@ calcDissimilarityMatrix<-function(runInfoObj,onlyLS=FALSE){
   if (reportBurnIn) {
     recordedNBurn<-nBurn
   } else {
-    recordedNBurn<-1
+    recordedNBurn<-0
   }
   
   # Call the C++ to compute the dissimilarity matrix
@@ -757,6 +774,7 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F,proportionalHazard
   wMat=NULL
   yMat=NULL
   weibullFixedShape=NULL
+  useIndependentNormal=NULL
   
   for (i in 1:length(clusObj)) assign(names(clusObj)[i],clusObj[[i]])
   for (i in 1:length(clusObjRunInfoObj)) assign(names(clusObjRunInfoObj)[i],clusObjRunInfoObj[[i]])
@@ -890,7 +908,11 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F,proportionalHazard
     }else{
       muStarArray<-NULL
     }
-    sigmaArray<-array(dim=c(nSamples,nClusters,nCovariates,nCovariates))
+    if(useIndependentNormal){
+      sigmaArray<-array(dim=c(nSamples,nClusters,nCovariates))
+    }else{
+      sigmaArray<-array(dim=c(nSamples,nClusters,nCovariates,nCovariates))
+    }
   }else if(xModel=='Mixed'){
     phiArray<-array(dim=c(nSamples,nClusters,nDiscreteCovs,maxNCategories))
     if(varSelect){
@@ -911,7 +933,11 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F,proportionalHazard
     }else{
       muStarArray<-NULL
     }
-    sigmaArray<-array(dim=c(nSamples,nClusters,nContinuousCovs,nContinuousCovs))
+    if(useIndependentNormal){
+      sigmaArray<-array(dim=c(nSamples,nClusters,nContinuousCovs))
+    }else{
+      sigmaArray<-array(dim=c(nSamples,nClusters,nContinuousCovs,nContinuousCovs))
+    }
   }
   
   
@@ -1072,11 +1098,20 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F,proportionalHazard
         }
       }
       
-      currSigma<-scan(SigmaFile,what=double(),skip=skipVal,n=currMaxNClusters*nCovariates*nCovariates,quiet=T)
-      currSigma<-array(currSigma,dim=c(currMaxNClusters,nCovariates,nCovariates))
+      if(useIndependentNormal){
+        currSigma<-scan(SigmaFile,what=double(),skip=skipVal,n=currMaxNClusters*nCovariates,quiet=T)
+        currSigma<-array(currSigma,dim=c(currMaxNClusters,nCovariates))
+      }else{
+        currSigma<-scan(SigmaFile,what=double(),skip=skipVal,n=currMaxNClusters*nCovariates*nCovariates,quiet=T)
+        currSigma<-array(currSigma,dim=c(currMaxNClusters,nCovariates,nCovariates))
+      }
       for(c in 1:nClusters){
-        sigmaArray[sweep-firstLine+1,c,,]<-apply(array(currSigma[currZ[optAlloc[[c]]],,],
-                                                       dim=c(length(optAlloc[[c]]),dim(currSigma)[2],dim(currSigma)[3])),2:3,mean)
+        if(useIndependentNormal){
+          sigmaArray[sweep-firstLine+1,c,]<-apply(matrix(currSigma[currZ[optAlloc[[c]]],],ncol=nCovariates),2,mean)
+        }else{
+          sigmaArray[sweep-firstLine+1,c,,]<-apply(array(currSigma[currZ[optAlloc[[c]]],,],
+                                                         dim=c(length(optAlloc[[c]]),dim(currSigma)[2],dim(currSigma)[3])),2:3,mean)
+        }
       }
     }else if(xModel=='Mixed'){
       currPhi<-scan(phiFile,what=double(),
@@ -1132,11 +1167,22 @@ calcAvgRiskAndProfile<-function(clusObj,includeFixedEffects=F,proportionalHazard
         }
       }
       
-      currSigma<-scan(SigmaFile,what=double(),skip=skipVal,n=currMaxNClusters*nContinuousCovs*nContinuousCovs,quiet=T)
-      currSigma<-array(currSigma,dim=c(currMaxNClusters,nContinuousCovs,nContinuousCovs))
+      if(useIndependentNormal){
+        currSigma<-scan(SigmaFile,what=double(),skip=skipVal,n=currMaxNClusters*nContinuousCovs,quiet=T)
+        currSigma<-array(currSigma,dim=c(currMaxNClusters,nContinuousCovs))
+      
+      }else{
+        currSigma<-scan(SigmaFile,what=double(),skip=skipVal,n=currMaxNClusters*nContinuousCovs*nContinuousCovs,quiet=T)
+        currSigma<-array(currSigma,dim=c(currMaxNClusters,nContinuousCovs,nContinuousCovs))
+      }
       for(c in 1:nClusters){
-        sigmaArray[sweep-firstLine+1,c,,]<-apply(array(currSigma[currZ[optAlloc[[c]]],,],
-                                                       dim=c(length(optAlloc[[c]]),dim(currSigma)[2],dim(currSigma)[3])),2:3,mean)
+        if(useIndependentNormal){
+          sigmaArray[sweep-firstLine+1,c,]<-apply(matrix(currSigma[currZ[optAlloc[[c]]],],ncol=nContinuousCovs),2,mean)
+        }else{
+          sigmaArray[sweep-firstLine+1,c,,]<-apply(array(currSigma[currZ[optAlloc[[c]]],,],
+                                                         dim=c(length(optAlloc[[c]]),dim(currSigma)[2],dim(currSigma)[3])),2:3,mean)
+          
+        }
       }
     }
   }
@@ -1247,6 +1293,7 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
   meanNu=NULL
   lowerNu=NULL
   upperNu=NULL	
+  useIndependentNormal=NULL
   
   for (i in 1:length(riskProfObj)) assign(names(riskProfObj)[i],riskProfObj[[i]])
   for (i in 1:length(riskProfClusObj)) assign(names(riskProfClusObj)[i],riskProfClusObj[[i]])
@@ -1278,7 +1325,11 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
       nCovariates<-length(whichCovariates)
     }else if(xModel=='Normal'){
       profile<-profile[,,whichCovariates]
-      profileStdDev<-profileStdDev[,,whichCovariates,whichCovariates]
+      if(useIndependentNormal){
+        profileStdDev<-profileStdDev[,,whichCovariates]
+      }else{
+        profileStdDev<-profileStdDev[,,whichCovariates,whichCovariates]
+      }
       covNames<-covNames[whichCovariates]
       nCovariates<-length(whichCovariates)
     }else if(xModel=='Mixed'){
@@ -1293,7 +1344,11 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
       profilePhi<-profilePhi[,,whichDiscreteCovs,]
       nCategories<-nCategories[whichDiscreteCovs]
       profileMu<-profileMu[,,whichContinuousCovs-nDiscreteCovsAll]
-      profileStdDev<-profileStdDev[,,whichContinuousCovs-nDiscreteCovsAll,whichContinuousCovs-nDiscreteCovsAll]
+      if(useIndependentNormal){
+        profileStdDev<-profileStdDev[,,whichContinuousCovs-nDiscreteCovsAll]
+      }else{
+        profileStdDev<-profileStdDev[,,whichContinuousCovs-nDiscreteCovsAll,whichContinuousCovs-nDiscreteCovsAll]
+      }
       covNames<-c(discreteCovs,continuousCovs)
       nCovariates<-length(covNames)
       
@@ -1883,7 +1938,11 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
       my.list <- vector('list', length(whichClusters))
       z=1		
       #################################################################
-      sigmaMat<-profileStdDev[,meanSortIndex,j,j]
+      if(useIndependentNormal){
+        sigmaMat<-profileStdDev[,meanSortIndex,j]
+      }else{
+        sigmaMat<-profileStdDev[,meanSortIndex,j,j]
+      }
       sigmaMeans<-apply(sigmaMat,2,mean)
       sigmaMean<-sum(sigmaMeans*clusterSizes)/sum(clusterSizes)
       sigmaLower<-apply(sigmaMat,2,quantile,0.05)
@@ -2097,9 +2156,17 @@ plotRiskProfile<-function(riskProfObj,outFile,showRelativeRisk=F,orderBy=NULL,wh
         z=1		
         #################################################################
         if (nContinuousCovs==1){
-          sigmaMat<-profileStdDev[,meanSortIndex,1,1]
+          if(useIndependentNormal){
+            sigmaMat<-profileStdDev[,meanSortIndex,1]
+          }else{
+            sigmaMat<-profileStdDev[,meanSortIndex,1,1]
+          }
         } else {
-          sigmaMat<-profileStdDev[,meanSortIndex,(j-nDiscreteCovs),(j-nDiscreteCovs)]
+          if(useIndependentNormal){
+            sigmaMat<-profileStdDev[,meanSortIndex,(j-nDiscreteCovs)]
+          }else{
+            sigmaMat<-profileStdDev[,meanSortIndex,(j-nDiscreteCovs),(j-nDiscreteCovs)]
+          }
         }
         sigmaMeans<-apply(sigmaMat,2,mean)
         sigmaMean<-sum(sigmaMeans*clusterSizes)/sum(clusterSizes)
@@ -2865,7 +2932,7 @@ margModelPosterior<-function(runInfoObj,allocation){
   
 }
 
-setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,aPhi=NULL,mu0=NULL,Tau0=NULL,R0=NULL,
+setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,aPhi=NULL,mu0=NULL,Tau0=NULL,TauIndep0=NULL,R0=NULL,RIndep0=NULL,
                          kappa0=NULL,kappa1=NULL,nu0=NULL,muTheta=NULL,sigmaTheta=NULL,dofTheta=NULL,muBeta=NULL,sigmaBeta=NULL,dofBeta=NULL,
                          shapeTauEpsilon=NULL,rateTauEpsilon=NULL,aRho=NULL,bRho=NULL,atomRho=NULL,shapeSigmaSqY=NULL,scaleSigmaSqY=NULL,pQuantile=NULL,
                          rSlice=NULL,truncationEps=NULL,shapeTauCAR=NULL,rateTauCAR=NULL,shapeNu=NULL,scaleNu=NULL,initAlloc=NULL){
@@ -2885,8 +2952,14 @@ setHyperparams<-function(shapeAlpha=NULL,rateAlpha=NULL,aPhi=NULL,mu0=NULL,Tau0=
   if (!is.null(Tau0)){
     out$Tau0<-Tau0
   }
+  if (!is.null(TauIndep0)){
+    out$TauIndep0<-TauIndep0
+  }
   if (!is.null(R0)){
     out$R0<-R0
+  }
+  if (!is.null(RIndep0)){
+    out$RIndep0<-RIndep0
   }
   if (!is.null(kappa0)){
     out$kappa0<-kappa0

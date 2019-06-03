@@ -125,7 +125,9 @@ generateSampleDataFile<-function(clusterSummary,pQuantile=0.05){
 	# Spatial CAR term
 	if (includeCAR) {
 		tau=clusterSummary$TauCAR
-		.write_neigh(nSubjects)
+		NC <- readOGR(system.file("shapes/sids.shp", package="PReMiuM")[1],verbose=FALSE)
+		listNB<-poly2nb(NC, queen=TRUE, row.names=NC$FIPSNO)
+		nb2INLA("Neighbours.txt",listNB)
 		M=.prec_Matrix()
 		El=eigen(M)
 		l=El$values
@@ -499,7 +501,7 @@ clusSummaryPoissonNormalSpatial<-function(){
     'offsetLims'=c(0.9,1.1),
     'missingDataProb'=0.001,
     'nClusters'=3,
-    'clusterSizes'=c(50,60,40),
+    'clusterSizes'=c(35,35,30),
     'includeCAR'=TRUE,
     'TauCAR'=100,
     'clusterData'=list(list('theta'=log(10),
@@ -524,7 +526,7 @@ clusSummaryNormalNormalSpatial<-function(){
     'fixedEffectsCoeffs'=c(-0.05,0.1),
     'missingDataProb'=0.001,
     'nClusters'=3,
-    'clusterSizes'=c(50,60,40),
+    'clusterSizes'=c(50,25,25),
     'includeCAR'=TRUE,
     'TauCAR'=100,
     'clusterData'=list(list('theta'=log(10),

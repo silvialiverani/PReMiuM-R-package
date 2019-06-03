@@ -1,4 +1,4 @@
-Date and time: 2018-06-15 14:2659
+Date and time: 2019-06-02 15:2344
 
 Data file path: output_input.txt
 
@@ -6,21 +6,21 @@ Output file path: output
 
 Predict file path: No predictions run.
 
-Seed: 1529069219
+Seed: 1559481824
 
-Number of sweeps: 10
-Burn in sweeps: 20
+Number of sweeps: 5
+Burn in sweeps: 10
 Output filter: 1
 Proposal Type: gibbsForVActive, Acceptance Rate: 1
-Proposal Type: updateForPhiActive, Acceptance Rate: 0.899444
-Proposal Type: metropolisHastingsForThetaActive, Acceptance Rate: 0.497914
+Proposal Type: updateForPhiActive, Acceptance Rate: 1
+Proposal Type: metropolisHastingsForThetaActive, Acceptance Rate: 0.47973
+Proposal Type: metropolisHastingsForBeta, Acceptance Rate: 0.133333
 Proposal Type: gibbsForU, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.533333
+Proposal Type: metropolisHastingsForAlpha, Acceptance Rate: 0.6
 Proposal Type: gibbsForVInActive, Acceptance Rate: 1
 Proposal Type: gibbsForPhiInActive, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForLabels123, Acceptance Rate: 0.666667
+Proposal Type: metropolisHastingsForLabels123, Acceptance Rate: 0.266667
 Proposal Type: gibbsForThetaInActive, Acceptance Rate: 1
-Proposal Type: metropolisHastingsForRhoOmega, Acceptance Rate: 0.160714
 Proposal Type: gibbsForZ, Acceptance Rate: 1
 Number of subjects: 1000
 Number of prediction subjects: 0
@@ -33,29 +33,26 @@ Covariates:
 	Variable3 (categorical)
 	Variable4 (categorical)
 	Variable5 (categorical)
-	Variable6 (categorical)
-	Variable7 (categorical)
-	Variable8 (categorical)
-	Variable9 (categorical)
-	Variable10 (categorical)
-No fixed effects
+FixedEffects: 
+	FixedEffects1
+	FixedEffects2
 Model for Y: Bernoulli
 Extra Y variance: False
 Include response: True
 Update alpha: True
 Compute allocation entropy: False
 Model for X: Discrete
-Variable selection: Continuous
+Variable selection: None
 
 Hyperparameters:
 shapeAlpha: 2
 rateAlpha: 1
-aPhi[j]: 1 1 1 1 1 1 1 1 1 1 
+aPhi[j]: 1 1 1 1 1 
 muTheta: 0
 sigmaTheta: 2.5
 dofTheta: 7
-aRho: 0.5
-bRho: 0.5
-atomRho: 0.5
+muBeta: 0
+sigmaBeta: 2.5
+dofBeta: 7
 
-30 sweeps done in 7 seconds
+15 sweeps done in 0 seconds

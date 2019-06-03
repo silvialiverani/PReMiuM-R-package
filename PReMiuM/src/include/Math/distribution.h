@@ -89,6 +89,10 @@ double logPdfGamma(const double& x,const double& shape,const double& rate){
 	return shape*log(rate)+(shape-1)*log(x)-rate*x-lgamma(shape);
 }
 
+double logPdfInverseGamma(const double& x, const double& shape, const double& scale) {
+	return shape*log(scale) - (shape + 1)*log(x) - scale/x - lgamma(shape);
+}
+
 double logPdfNormal(const double& x, const double& mu, const double& sigma){
 	return -0.5*log(2*pi<double>())-log(sigma)-0.5*(x-mu)*(x-mu)/(sigma*sigma);
 }
@@ -154,10 +158,25 @@ double logPdfMultivarNormal(const unsigned int& sizeX, const VectorXd& x,const V
 	return -0.5*((double)sizeX*log(2*pi<double>())-logDetPrecMat+tmp);
 }
 
+//when separation strategy is used to sample sigma_c
+double logPdfMultivarNormalSS(const unsigned int& sizeX, const VectorXd& x, const VectorXd& meanVec, const MatrixXd& TauS, const double& logDetTauS, const MatrixXd& sqrtPrecMat, const double& logDetPrecMat) {
+	// If S is the (upper triangular matrix) square root of the precision P, then S'S=P
+
+	VectorXd work = sqrtPrecMat*TauS*(x - meanVec);
+	double tmp = work.squaredNorm();
+	return -0.5*((double)sizeX*log(2 * pi<double>()) - logDetPrecMat - 2 * logDetTauS + tmp);
+}
+
 double logPdfWishart(const unsigned int& dimA, const MatrixXd& A, const double& logDetA, const MatrixXd& inverseR, const double& logDetR, const double& kappa){
 	MatrixXd work = inverseR*A;
 	return -0.5*(kappa*logDetR-(kappa-(double)dimA-1)*logDetA+work.trace())
 			  - (0.5*kappa*(double)dimA*log(2.0)+logMultivarGammaFn(kappa/2.0,dimA));
+}
+
+double logPdfInverseWishart(const unsigned int& dimA, const MatrixXd& inverseA, const double& logDetA, const MatrixXd& R, const double& logDetR, const double& kappa) {
+	MatrixXd work = R*inverseA;
+	return 0.5*(kappa*logDetR - (kappa + (double)dimA + 1)*logDetA - work.trace())
+		- (0.5*kappa*(double)dimA*log(2.0) + logMultivarGammaFn(kappa / 2.0, dimA));
 }
 
 double logPdfIntrinsicCAR(const vector<double>& x, const vector<vector<unsigned int> >& Neighbours, const double& precision){

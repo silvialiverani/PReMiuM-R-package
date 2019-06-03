@@ -11,6 +11,8 @@ importFrom(grid,grid.layout, grid.newpage, pushViewport, viewport, unit)
 importFrom(gamlss.dist,rWEI2)
 importFrom(ald,rALD)
 importFrom(data.table,rbindlist)
+importFrom(rgdal,readOGR)
+importFrom(spdep,poly2nb,nb2INLA)
 
 import(cluster)
 import(ggplot2)

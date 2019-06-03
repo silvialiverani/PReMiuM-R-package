@@ -115,6 +115,16 @@ class pReMiuMPropParams{
 				_alphaUpdateFreq = 25;
 				_alphaAnyUpdates=true;
 
+				_kappa1StdDev = 1.0;
+				_kappa1StdDevLower = 0.1;
+				_kappa1StdDevUpper = 99.9;
+				_nTryKappa1 = 0;
+				_nAcceptKappa1 = 0;
+				_nLocalAcceptKappa1 = 0;
+				_nResetKappa1 = 0;
+				_kappa1AcceptTarget = 0.44;
+				_kappa1UpdateFreq = 25;
+				_kappa1AnyUpdates = true; 
 
 				_nTryRho.resize(nCovariates);
 				_nAcceptRho.resize(nCovariates);
@@ -135,6 +145,26 @@ class pReMiuMPropParams{
 				_rhoAcceptTarget = 0.44;
 				_rhoUpdateFreq = 10;
 				_rhoAnyUpdates=true;
+
+				_nTryTauS.resize(nCovariates);
+				_nAcceptTauS.resize(nCovariates);
+				_nLocalAcceptTauS.resize(nCovariates);
+				_nResetTauS.resize(nCovariates);
+				_TauSStdDev.resize(nCovariates);
+				_TauSStdDevLower.resize(nCovariates);
+				_TauSStdDevUpper.resize(nCovariates);
+				for (unsigned int j = 0; j<nCovariates; j++) {
+					_TauSStdDev[j] = 1.0;
+					_TauSStdDevLower[j] = 0.1;
+					_TauSStdDevUpper[j] = 99.9;
+					_nTryTauS[j] = 0;
+					_nAcceptTauS[j] = 0;
+					_nLocalAcceptTauS[j] = 0;
+					_nResetTauS[j] = 0;
+				}
+				_TauSAcceptTarget = 0.44;
+				_TauSUpdateFreq = 25;
+				_TauSAnyUpdates = true;
 
 
 				_lambdaStdDev=1.0;
@@ -158,6 +188,8 @@ class pReMiuMPropParams{
 				_uCARAcceptTarget=0.44;
 				_uCARUpdateFreq=25;
 				_uCARAnyUpdates=true;
+
+
 		};
 
 		~pReMiuMPropParams(){};
@@ -275,9 +307,11 @@ class pReMiuMPropParams{
 			return _betaUpdateFreq;
 		}
 
+
 		vector<unsigned int> nLocalAcceptBeta() const{
 			return _nLocalAcceptBeta;
 		}
+
 
 		double betaLocalAcceptRate(const unsigned int& j) const{
 				return (double)_nLocalAcceptBeta[j]/(double)_betaUpdateFreq;
@@ -323,13 +357,16 @@ class pReMiuMPropParams{
 			return _betaStdDev[j];
 		}
 
+
 		const double& betaStdDev(const unsigned int& j) const{
 			return _betaStdDev[j];
 		}
 
+
 		vector<double> betaStdDevLower() const{
 			return _betaStdDevLower;
 		}
+
 
 		double betaStdDevLower(const unsigned int& j) const{
 			return _betaStdDevLower[j];
@@ -348,7 +385,7 @@ class pReMiuMPropParams{
 		void betaStdDev(const unsigned int& j,const double& sd){
 			_betaStdDev[j]=sd;
 		}
-
+		
 		bool betaAnyUpdates() const{
 			return _betaAnyUpdates;
 		}
@@ -356,8 +393,110 @@ class pReMiuMPropParams{
 		void betaAnyUpdates(const bool& newStatus){
 			_betaAnyUpdates = newStatus;
 		}
+		vector<unsigned int> nTryTauS() const {
+			return _nTryTauS;
+		}
 
+		unsigned int nTryTauS(const unsigned int& j) const {
+			return _nTryTauS[j];
+		}
 
+		vector<unsigned int> nAcceptTauS() const {
+			return _nAcceptTauS;
+		}
+
+		double TauSAcceptRate(const unsigned int& j) const {
+			if (_nTryTauS[j]>0) {
+				return (double)_nAcceptTauS[j] / (double)_nTryTauS[j];
+			}
+			else {
+				return 0.0;
+			}
+		}
+
+		unsigned int TauSUpdateFreq() const {
+			return _TauSUpdateFreq;
+		}
+
+		vector<unsigned int> nLocalAcceptTauS() const {
+			return _nLocalAcceptTauS;
+		}
+
+		double TauSLocalAcceptRate(const unsigned int& j) const {
+			return (double)_nLocalAcceptTauS[j] / (double)_TauSUpdateFreq;
+		}
+
+		double TauSAcceptTarget() const {
+			return _TauSAcceptTarget;
+		}
+
+		void TauSAddTry(const unsigned int& j) {
+			_nTryTauS[j]++;
+		}
+
+		void TauSAddAccept(const unsigned int& j) {
+			_nAcceptTauS[j]++;
+			_nLocalAcceptTauS[j]++;
+		}
+
+		void TauSLocalReset(const unsigned int& j) {
+			_nLocalAcceptTauS[j] = 0;
+		}
+
+		vector<unsigned int> nResetTauS() const {
+			return _nResetTauS;
+		}
+
+		void TauSStdDevReset(const unsigned int& j) {
+			_TauSStdDev[j] = 1.0;
+			_nResetTauS[j]++;
+			_TauSStdDevLower[j] = pow(10.0, -((double)_nResetTauS[j] + 1.0));
+			_TauSStdDevUpper[j] = 100.0 - pow(10.0, -((double)_nResetTauS[j] + 1.0));
+		}
+
+		vector<double> TauSStdDev() const {
+			return _TauSStdDev;
+		}
+
+		vector<double>& TauSStdDev() {
+			return _TauSStdDev;
+		}
+
+		double& TauSStdDev(const unsigned int& j) {
+			return _TauSStdDev[j];
+		}
+
+		const double& TauSStdDev(const unsigned int& j) const {
+			return _TauSStdDev[j];
+		}
+
+		vector<double> TauSStdDevLower() const {
+			return _TauSStdDevLower;
+		}
+
+		double TauSStdDevLower(const unsigned int& j) const {
+			return _TauSStdDevLower[j];
+		}
+
+		vector<double> TauSStdDevUpper() const {
+			return _TauSStdDevUpper;
+		}
+
+		double TauSStdDevUpper(const unsigned int& j) const {
+			return _TauSStdDevUpper[j];
+		}
+
+		void TauSStdDev(const unsigned int& j, const double& sd) {
+			_TauSStdDev[j] = sd;
+		}
+
+		bool TauSAnyUpdates() const {
+			return _TauSAnyUpdates;
+		}
+
+		void TauSAnyUpdates(const bool& newStatus) {
+			_TauSAnyUpdates = newStatus;
+		}
 
 		unsigned int nTryAlpha() const{
 			return _nTryAlpha;
@@ -445,6 +584,91 @@ class pReMiuMPropParams{
 		void alphaAnyUpdates(const bool& newStatus){
 			_alphaAnyUpdates = newStatus;
 		}
+
+		unsigned int nTryKappa1() const {
+			return _nTryKappa1;
+		}
+
+		unsigned int nAcceptKappa1() const {
+			return _nAcceptKappa1;
+		}
+
+		double kappa1AcceptRate() const {
+			if (_nTryKappa1>0) {
+				return (double)_nAcceptKappa1 / (double)_nTryKappa1;
+			}
+			else {
+				return 0.0;
+			}
+		}
+
+		unsigned int kappa1UpdateFreq() const {
+			return _kappa1UpdateFreq;
+		}
+
+		unsigned int nLocalAcceptKappa1() const {
+			return _nLocalAcceptKappa1;
+		}
+
+		double kappa1LocalAcceptRate() const {
+			return (double)_nLocalAcceptKappa1 / (double)_kappa1UpdateFreq;
+		}
+
+		double kappa1AcceptTarget() const {
+			return _kappa1AcceptTarget;
+		}
+
+		void kappa1AddTry() {
+			_nTryKappa1++;
+		}
+
+		void kappa1AddAccept() {
+			_nAcceptKappa1++;
+			_nLocalAcceptKappa1++;
+		}
+
+		void kappa1LocalReset() {
+			_nLocalAcceptKappa1 = 0;
+		}
+
+		unsigned int nResetKappa1() const {
+			return _nResetKappa1;
+		}
+
+		void kappa1StdDevReset() {
+			_kappa1StdDev = 1.0;
+			_nResetKappa1++;
+			_kappa1StdDevLower = pow(10.0, -((double)_nResetKappa1 + 1.0));
+			_kappa1StdDevUpper = 100.0 - pow(10.0, -((double)_nResetKappa1 + 1.0));
+		}
+
+		const double kappa1StdDev() const {
+			return _kappa1StdDev;
+		}
+
+		double& kappa1StdDev() {
+			return _kappa1StdDev;
+		}
+
+		double kappa1StdDevLower() const {
+			return _kappa1StdDevLower;
+		}
+
+		double kappa1StdDevUpper() const {
+			return _kappa1StdDevUpper;
+		}
+
+		void kappa1StdDev(const double& sd) {
+			_kappa1StdDev = sd;
+		}
+
+		bool kappa1AnyUpdates() const {
+			return _kappa1AnyUpdates;
+		}
+
+		void kappa1AnyUpdates(const bool& newStatus) {
+			_kappa1AnyUpdates = newStatus;
+		} 
 
 		vector<unsigned int> nTryRho() const{
 			return _nTryRho;
@@ -751,6 +975,16 @@ class pReMiuMPropParams{
 			_betaAcceptTarget=propParams.betaAcceptTarget();
 			_betaUpdateFreq=propParams.betaUpdateFreq();
 			_betaAnyUpdates=propParams.betaAnyUpdates();
+			_nTryTauS = propParams.nTryTauS();
+			_nAcceptTauS = propParams.nAcceptTauS();
+			_nLocalAcceptTauS = propParams.nLocalAcceptTauS();
+			_nResetTauS = propParams.nResetTauS();
+			_TauSStdDev = propParams.TauSStdDev();
+			_TauSStdDevLower = propParams.TauSStdDevLower();
+			_TauSStdDevUpper = propParams.TauSStdDevUpper();
+			_TauSAcceptTarget = propParams.TauSAcceptTarget();
+			_TauSUpdateFreq = propParams.TauSUpdateFreq();
+			_TauSAnyUpdates = propParams.TauSAnyUpdates();
 			_nTryAlpha=propParams.nTryAlpha();
 			_nAcceptAlpha=propParams.nAcceptAlpha();
 			_nLocalAcceptAlpha=propParams.nLocalAcceptAlpha();
@@ -761,6 +995,16 @@ class pReMiuMPropParams{
 			_alphaAcceptTarget=propParams.alphaAcceptTarget();
 			_alphaUpdateFreq=propParams.alphaUpdateFreq();
 			_alphaAnyUpdates=propParams.alphaAnyUpdates();
+			_nTryKappa1 = propParams.nTryKappa1();
+			_nAcceptKappa1 = propParams.nAcceptKappa1();
+			_nLocalAcceptKappa1 = propParams.nLocalAcceptKappa1();
+			_nResetKappa1 = propParams.nResetKappa1();
+			_kappa1StdDev = propParams.kappa1StdDev();
+			_kappa1StdDevLower = propParams.kappa1StdDevLower();
+			_kappa1StdDevUpper = propParams.kappa1StdDevUpper();
+			_kappa1AcceptTarget = propParams.kappa1AcceptTarget();
+			_kappa1UpdateFreq = propParams.kappa1UpdateFreq();
+			_kappa1AnyUpdates = propParams.kappa1AnyUpdates(); 
 			_nTryRho=propParams.nTryRho();
 			_nAcceptRho=propParams.nAcceptRho();
 			_nLocalAcceptRho=propParams.nLocalAcceptRho();
@@ -791,6 +1035,7 @@ class pReMiuMPropParams{
 			_uCARAcceptTarget=propParams.uCARAcceptTarget();
 			_uCARUpdateFreq=propParams.uCARUpdateFreq();
 			_uCARAnyUpdates=propParams.uCARAnyUpdates();
+
 			return *this;
 
 		}
@@ -816,6 +1061,16 @@ class pReMiuMPropParams{
 		double _betaAcceptTarget;
 		unsigned int _betaUpdateFreq;
 		bool _betaAnyUpdates;
+		vector<unsigned int> _nTryTauS;
+		vector<unsigned int> _nAcceptTauS;
+		vector<unsigned int> _nLocalAcceptTauS;
+		vector<unsigned int> _nResetTauS;
+		vector<double> _TauSStdDev;
+		vector<double> _TauSStdDevLower;
+		vector<double> _TauSStdDevUpper;
+		double _TauSAcceptTarget;
+		unsigned int _TauSUpdateFreq;
+		bool _TauSAnyUpdates;
 		unsigned int _nTryAlpha;
 		unsigned int _nAcceptAlpha;
 		unsigned int _nLocalAcceptAlpha;
@@ -826,6 +1081,16 @@ class pReMiuMPropParams{
 		double _alphaAcceptTarget;
 		unsigned int _alphaUpdateFreq;
 		bool _alphaAnyUpdates;
+		unsigned int _nTryKappa1;
+		unsigned int _nAcceptKappa1;
+		unsigned int _nLocalAcceptKappa1;
+		unsigned int _nResetKappa1;
+		double _kappa1StdDev;
+		double _kappa1StdDevLower;
+		double _kappa1StdDevUpper;
+		double _kappa1AcceptTarget;
+		unsigned int _kappa1UpdateFreq;
+		bool _kappa1AnyUpdates; 
 		vector<unsigned int> _nTryRho;
 		vector<unsigned int> _nAcceptRho;
 		vector<unsigned int> _nLocalAcceptRho;
@@ -1022,6 +1287,9 @@ void gibbsForMuActive(mcmcChain<pReMiuMParams>& chain,
 	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
 
 	const pReMiuMData& dataset = model.dataset();
+	bool useIndependentNormal = model.options().useIndependentNormal();
+	bool useHyperpriorR1 = model.options().useHyperpriorR1();
+	bool useSeparationPrior = model.options().useSeparationPrior();
 
 	// Find the number of clusters
 	unsigned int maxZ = currentParams.workMaxZi();
@@ -1082,19 +1350,35 @@ void gibbsForMuActive(mcmcChain<pReMiuMParams>& chain,
 		}else{
 			meanX[c].setZero(nCovariates);
 		}
-		MatrixXd covMat(nCovariates,nCovariates);
-		covMat = (hyperParams.Tau0()+nXInC*gammaMat[c]*currentParams.Tau(c)*gammaMat[c]).inverse();
 
+		MatrixXd covMat(nCovariates,nCovariates);
 		VectorXd meanVec(nCovariates);
-	        meanVec = hyperParams.Tau0()*hyperParams.mu0()+
-					nXInC*gammaMat[c]*currentParams.Tau(c)*(meanX[c]-oneMinusGammaMat[c]*currentParams.nullMu());
-		meanVec = covMat*meanVec;
+
+		if (useHyperpriorR1) {
+			covMat = (currentParams.Tau00() + nXInC*gammaMat[c] * currentParams.Tau(c)*gammaMat[c]).inverse();	
+			meanVec = currentParams.Tau00()*currentParams.mu00() +
+				nXInC*gammaMat[c] * currentParams.Tau(c)*(meanX[c] - oneMinusGammaMat[c] * currentParams.nullMu());
+			meanVec = covMat*meanVec;
+		}
+		else if (useSeparationPrior) {
+			covMat = (hyperParams.Tau00() + nXInC*gammaMat[c] * currentParams.Tau(c)*gammaMat[c]).inverse();
+			meanVec = hyperParams.Tau00()*currentParams.mu00() +
+				nXInC*gammaMat[c] * currentParams.Tau(c)*(meanX[c] - oneMinusGammaMat[c] * currentParams.nullMu());
+			meanVec = covMat*meanVec;
+		} 
+		else {
+			covMat = (hyperParams.Tau0() + nXInC*gammaMat[c] * currentParams.Tau(c)*gammaMat[c]).inverse();
+			meanVec = hyperParams.Tau0()*hyperParams.mu0() +
+				nXInC*gammaMat[c] * currentParams.Tau(c)*(meanX[c] - oneMinusGammaMat[c] * currentParams.nullMu());
+			meanVec = covMat*meanVec;
+		}
+
 		VectorXd mu(nCovariates);
 		// We sample from this posterior
-		mu = multivarNormalRand(rndGenerator,meanVec,covMat);
+		mu = multivarNormalRand(rndGenerator, meanVec, covMat);
 
 		// We store our sample
-		currentParams.mu(c,mu);
+		currentParams.mu(c,mu, useIndependentNormal);
 	}
 }
 
@@ -1110,6 +1394,7 @@ void gibbsForMuActiveNIWP(mcmcChain<pReMiuMParams>& chain,
 	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
 
 	const pReMiuMData& dataset = model.dataset();
+	bool useIndependentNormal = model.options().useIndependentNormal();
 
 	// Find the number of clusters
 	unsigned int maxZ = currentParams.workMaxZi();
@@ -1182,11 +1467,113 @@ void gibbsForMuActiveNIWP(mcmcChain<pReMiuMParams>& chain,
 		mu = multivarNormalRand(rndGenerator,meanVec,covMat);
 
 		// We store our sample
-		currentParams.mu(c,mu);
+		currentParams.mu(c, mu, useIndependentNormal);
 
 	}
 
 }
+
+
+
+// Gibbs update for mu in independent Normal covariate case 
+void gibbsForMuActiveIndep(mcmcChain<pReMiuMParams>& chain,
+	unsigned int& nTry, unsigned int& nAccept,
+	const mcmcModel<pReMiuMParams, pReMiuMOptions, pReMiuMData>& model,
+	pReMiuMPropParams& propParams,
+	baseGeneratorType& rndGenerator) {
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+
+	const pReMiuMData& dataset = model.dataset();
+	bool useIndependentNormal = model.options().useIndependentNormal(); 
+
+	// Find the number of clusters
+	unsigned int maxZ = currentParams.workMaxZi();
+	// Find the number of covariates
+	unsigned int nCovariates = 0;
+	if (model.options().covariateType().compare("Mixed") == 0) {
+		nCovariates = currentParams.nContinuousCovs();
+	}
+	else {
+		nCovariates = currentParams.nCovariates();
+	}
+	// Find the number of subjects
+	unsigned int nSubjects = dataset.nSubjects();
+
+
+	nTry++;
+	nAccept++;
+
+	// In the following it is useful to have the rows of X as
+	// Eigen dynamic vectors
+	vector<VectorXd> xi(nSubjects);
+	for (unsigned int i = 0; i<nSubjects; i++) {
+		xi[i].setZero(nCovariates);
+		for (unsigned int j = 0; j<nCovariates; j++) {
+			xi[i](j) = dataset.continuousX(i, j);
+		}
+	}
+
+	// We begin by computing the mean X for individuals in each cluster
+	vector<VectorXd> meanX(maxZ + 1);
+	for (unsigned int c = 0; c <= maxZ; c++) {
+		meanX[c].setZero(nCovariates);
+	}
+
+	for (unsigned int i = 0; i<nSubjects; i++) {
+		meanX[currentParams.z(i)] = meanX[currentParams.z(i)] + xi[i];
+	}
+	for (unsigned int c = 0; c <= maxZ; c++) {
+		int nXInC = currentParams.workNXInCluster(c);
+		if (nXInC>0) {
+			meanX[c] = meanX[c] / (double)nXInC;
+		}
+		else {
+			meanX[c].setZero(nCovariates);
+		}
+	}
+
+	// Having computed this we can calcuate the posterior mean
+	// and posterior covariance for each mu_c,j
+
+	//initialize gamma_cj and 1-gamma_cj used for variable selection 
+	double gamma_cj = 0.0;
+	double oneMinusGamma_cj = 0.0;
+	VectorXd mu0 = hyperParams.mu0();
+	VectorXd Tau0 = hyperParams.Tau0_Indep();
+	VectorXd nullMu = currentParams.nullMu();
+	
+	for (unsigned int c = 0; c <= maxZ; c++) {
+
+		int nXInC = currentParams.workNXInCluster(c);
+		VectorXd mu(nCovariates);
+
+		// Loop over the covariates
+		for (unsigned int j = 0; j<nCovariates; j++) {
+
+			gamma_cj=currentParams.gamma(c, currentParams.nDiscreteCovs() + j);
+			oneMinusGamma_cj = 1 - gamma_cj;
+
+			double denom = 0.0;
+			denom = nXInC*(1.0 / Tau0(j))*gamma_cj*gamma_cj + (1.0 / currentParams.Tau_Indep(c, j));
+			double meanNum = 0.0;
+			meanNum = nXInC*(1.0 / Tau0(j))*meanX[c](j)*gamma_cj + (1.0 / currentParams.Tau_Indep(c, j))*mu0(j)
+				- nXInC*(1.0 / Tau0(j))*gamma_cj*oneMinusGamma_cj*nullMu(j);
+			double variance = (1.0 / currentParams.Tau_Indep(c, j))*(1.0 / Tau0(j)) / denom;
+			double mean = meanNum / denom;
+				    
+			// We sample from this posterior
+			mu (j)= NormalRand(rndGenerator, mean, variance);
+
+		}
+		// We store our sample
+		currentParams.mu(c, mu, useIndependentNormal);
+		
+	}
+}
+
 
 
 // Gibbs update for Tau in the Normal covariate case
@@ -1241,7 +1628,7 @@ void gibbsForTauActive(mcmcChain<pReMiuMParams>& chain,
 	if (useHyperpriorR1){
 		for(unsigned int c=0;c<=maxZ;c++){
 			Rc[c]=(currentParams.R1().inverse()+Rc[c]).inverse();
-			MatrixXd Tau = wishartRand(rndGenerator,Rc[c],currentParams.workNXInCluster(c)+hyperParams.kappa1());
+			MatrixXd Tau = wishartRand(rndGenerator,Rc[c],currentParams.workNXInCluster(c)+currentParams.kappa11());
 	
 			currentParams.Tau(c,Tau);
 		}
@@ -1257,6 +1644,216 @@ void gibbsForTauActive(mcmcChain<pReMiuMParams>& chain,
 
 }
 
+// Gibbs update for TauR in the Normal covariate case when separation strategy is applied
+void gibbsForTauRActive(mcmcChain<pReMiuMParams>& chain,
+	unsigned int& nTry, unsigned int& nAccept,
+	const mcmcModel<pReMiuMParams, pReMiuMOptions, pReMiuMData>& model,
+	pReMiuMPropParams& propParams,
+	baseGeneratorType& rndGenerator) {
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+
+	const pReMiuMData& dataset = model.dataset();
+
+	// Find the number of clusters
+	unsigned int maxZ = currentParams.workMaxZi();
+	// Find the number of covariates
+	unsigned int nCovariates = 0;
+	if (model.options().covariateType().compare("Mixed") == 0) {
+		nCovariates = currentParams.nContinuousCovs();
+	}
+	else {
+		nCovariates = currentParams.nCovariates();
+	}
+	// Find the number of subjects
+	unsigned int nSubjects = dataset.nSubjects();
+
+	nTry++;
+	nAccept++;
+
+	// In the following it is useful to have the rows of X as
+	// Eigen dynamic vectors
+	vector<VectorXd> xi(nSubjects);
+	for (unsigned int i = 0; i<nSubjects; i++) {
+		xi[i].setZero(nCovariates);
+		for (unsigned int j = 0; j<nCovariates; j++) {
+			xi[i](j) = dataset.continuousX(i, j);
+		}
+	}
+
+	vector<MatrixXd> Rc(maxZ + 1);
+	for (unsigned int c = 0; c <= maxZ; c++) {
+		Rc[c].setZero(nCovariates, nCovariates);
+	}
+
+	for (unsigned int i = 0; i<nSubjects; i++) {
+		unsigned int zi = currentParams.z(i);
+		Rc[zi] = Rc[zi] + (xi[i] - currentParams.workMuStar(zi))*((xi[i] - currentParams.workMuStar(zi)).transpose());
+	}
+
+	for (unsigned int c = 0; c <= maxZ; c++) {
+		Rc[c] = (hyperParams.R0().inverse() + currentParams.TauS(c)*Rc[c]*currentParams.TauS(c)).inverse();
+		MatrixXd TauR = wishartRand(rndGenerator, Rc[c], currentParams.workNXInCluster(c) + currentParams.kappa11());
+
+		currentParams.TauR(c, TauR);
+	}
+
+}
+
+// Adaptive Metropolis Hastings move for taus
+void metropolisHastingsForTauS(mcmcChain<pReMiuMParams>& chain,
+	unsigned int& nTry, unsigned int& nAccept,
+	const mcmcModel<pReMiuMParams, pReMiuMOptions, pReMiuMData>& model,
+	pReMiuMPropParams& propParams,
+	baseGeneratorType& rndGenerator) {
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+
+	// Find the number of clusters
+	unsigned int maxZ = currentParams.workMaxZi();
+	// Find the number of covariates
+	unsigned int nCovariates = 0;
+	if (model.options().covariateType().compare("Mixed") == 0) {
+		nCovariates = currentParams.nContinuousCovs();
+	}
+	else {
+		nCovariates = currentParams.nCovariates();
+	}
+
+	randomUniform unifRand(0, 1);
+
+	double TauSTargetRate = propParams.TauSAcceptTarget();
+	unsigned int TauSUpdateFreq = propParams.TauSUpdateFreq();
+
+	for (unsigned int j = 0; j < nCovariates; j++) {
+		for (unsigned int c = 0; c <= maxZ; c++) {
+			nTry++;
+			propParams.TauSAddTry(j);
+
+			double& stdDev = propParams.TauSStdDev(j);
+			double TauSOrig = currentParams.TauS(c,j);
+			double currentCondLogPost = logCondPostTauS(currentParams, model, c, j);
+
+			double TauSProp;
+			TauSProp = truncNormalRand(rndGenerator, TauSOrig, stdDev, "L", 0, 0);
+			currentParams.TauS(c, j, TauSProp);
+			double propCondLogPost = logCondPostTauS(currentParams, model, c, j);
+			double logAcceptRatio = propCondLogPost - currentCondLogPost;
+			
+			// Add the proposal contribution
+			logAcceptRatio += logPdfTruncatedNormal(TauSOrig, TauSProp, stdDev, "L", 0, 0);
+			logAcceptRatio -= logPdfTruncatedNormal(TauSProp, TauSOrig, stdDev, "L", 0, 0);
+
+			if (unifRand(rndGenerator)<exp(logAcceptRatio)) {
+				nAccept++;
+				propParams.TauSAddAccept(j);
+				// Update the std dev of the proposal
+				if (propParams.nTryTauS(j) % TauSUpdateFreq == 0) {
+					stdDev += 10 * (propParams.TauSLocalAcceptRate(j) - TauSTargetRate) /
+						pow((double)(propParams.nTryTauS(j) / TauSUpdateFreq) + 2.0, 0.75);
+					propParams.TauSAnyUpdates(true);
+					if (stdDev>propParams.TauSStdDevUpper(j) || stdDev<propParams.TauSStdDevLower(j)) {
+						propParams.TauSStdDevReset(j);
+					}
+					propParams.TauSLocalReset(j);
+				}
+			}
+			else {
+				currentParams.TauS(c, j, TauSOrig);
+				// Update the std dev of the proposal
+				if (propParams.nTryTauS(j) % TauSUpdateFreq == 0) {
+					stdDev += 10 * (propParams.TauSLocalAcceptRate(j) - TauSTargetRate) /
+						pow((double)(propParams.nTryTauS(j) / TauSUpdateFreq) + 2.0, 0.75);
+					propParams.TauSAnyUpdates(true);
+					if (stdDev<propParams.TauSStdDevLower(j) || stdDev>propParams.TauSStdDevUpper(j)) {
+						propParams.TauSStdDevReset(j);
+					}
+					propParams.TauSLocalReset(j);
+				}
+			}
+		 }	
+	}
+}
+
+
+
+// Gibbs update for Tau in the independent Normal case
+void gibbsForTauActiveIndep(mcmcChain<pReMiuMParams>& chain,
+	unsigned int& nTry, unsigned int& nAccept,
+	const mcmcModel<pReMiuMParams, pReMiuMOptions, pReMiuMData>& model,
+	pReMiuMPropParams& propParams,
+	baseGeneratorType& rndGenerator) {
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+
+	const pReMiuMData& dataset = model.dataset();
+
+	// Find the number of clusters
+	unsigned int maxZ = currentParams.workMaxZi();
+	// Find the number of covariates
+	unsigned int nCovariates = 0;
+	if (model.options().covariateType().compare("Mixed") == 0) {
+		nCovariates = currentParams.nContinuousCovs();
+	}
+	else {
+		nCovariates = currentParams.nCovariates();
+	}
+	// Find the number of subjects
+	unsigned int nSubjects = dataset.nSubjects();
+
+	nTry++;
+	nAccept++;
+
+	// In the following it is useful to have the rows of X as
+	// Eigen dynamic vectors
+	vector<VectorXd> xi(nSubjects);
+	for (unsigned int i = 0; i<nSubjects; i++) {
+		xi[i].setZero(nCovariates);
+		for (unsigned int j = 0; j<nCovariates; j++) {
+			xi[i](j) = dataset.continuousX(i, j);
+		}
+	}
+
+	vector<VectorXd> XiMinusMuStarSq(nSubjects);
+	for (unsigned int i = 0; i < nSubjects; i++) {
+		XiMinusMuStarSq[i].setZero(nCovariates);
+		VectorXd muStar = currentParams.workMuStar(currentParams.z(i));
+		for (unsigned int j = 0; j < nCovariates; j++) {
+			XiMinusMuStarSq[i](j) = (xi[i](j) - muStar(j))*(xi[i](j) - muStar(j));
+		}
+	}
+
+	// We begin by computing the sum of X minus mu_star in each cluster
+	vector<VectorXd> sumXiMinusMuStarSq(maxZ + 1);
+	for (unsigned int c = 0; c <= maxZ; c++) {
+		sumXiMinusMuStarSq[c].setZero(nCovariates);
+	}
+
+	for (unsigned int i = 0; i<nSubjects; i++) {
+		sumXiMinusMuStarSq[currentParams.z(i)] = sumXiMinusMuStarSq[currentParams.z(i)] + XiMinusMuStarSq[i];
+	}
+
+
+	for (unsigned int c = 0; c <= maxZ; c++) {
+		VectorXd tau(nCovariates);
+		int nXInC = currentParams.workNXInCluster(c);
+		for (unsigned int j = 0; j < nCovariates; j++) {
+			double kappaNew = (double) nXInC / 2 + hyperParams.kappa1();
+			double rNew = (sumXiMinusMuStarSq[c](j) + 2 * currentParams.R1_Indep(j))/2;
+
+			randomGamma gammaRand(kappaNew, 1.0 / rNew);
+			tau(j) = gammaRand(rndGenerator);
+		}
+		currentParams.Tau_Indep(c, tau);
+	}
+
+}
 
 // Gibbs update for update of gamma (only used in the binary variable selection case)
 void gibbsForGammaActive(mcmcChain<pReMiuMParams>& chain,
@@ -1271,6 +1868,7 @@ void gibbsForGammaActive(mcmcChain<pReMiuMParams>& chain,
 	mcmcState<pReMiuMParams>& currentState = chain.currentState();
 	pReMiuMParams& currentParams = currentState.parameters();
 	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+	
 
 	// Find the number of subjects
 	unsigned int nCovariates = currentParams.nCovariates();
@@ -1278,6 +1876,7 @@ void gibbsForGammaActive(mcmcChain<pReMiuMParams>& chain,
 	unsigned int maxZ = currentParams.workMaxZi();
 	string covariateType = model.options().covariateType();
 	string varSelectType = model.options().varSelectType();
+	bool useIndependentNormal = model.options().useIndependentNormal();
 
 	// Define a uniform random number generator
 	randomUniform unifRand(0,1);
@@ -1310,7 +1909,7 @@ void gibbsForGammaActive(mcmcChain<pReMiuMParams>& chain,
 
 				// Now compute probability of switching
 				currentGamma[j]=1-currentGamma[j];
-				currentParams.gamma(c,j,currentGamma[j],covariateType);
+				currentParams.gamma(c,j,currentGamma[j],covariateType,useIndependentNormal);
 
 				for(unsigned int i=0;i<nSubjects;i++){
 					unsigned int zi = currentParams.z(i);
@@ -1335,7 +1934,7 @@ void gibbsForGammaActive(mcmcChain<pReMiuMParams>& chain,
 				// Sticking (we actually need to revert back to what we were
 				// before doing the calculations)
 				currentGamma[j]=1-currentGamma[j];
-				currentParams.gamma(c,j,currentGamma[j],covariateType);
+				currentParams.gamma(c,j,currentGamma[j],covariateType, useIndependentNormal);
 			}
 			// Otherwise switching but nothing to do here as we had already done the
 			// switch in the calculations
@@ -1435,6 +2034,8 @@ void metropolisHastingsForLabels123(mcmcChain<pReMiuMParams>& chain,
 	}
 	string varSelectType = model.options().varSelectType();
 	string covariateType = model.options().covariateType();
+	bool useIndependentNormal = model.options().useIndependentNormal();
+	bool useSeparationPrior = model.options().useSeparationPrior();
 
 	randomUniform unifRand(0,1);
 
@@ -1467,7 +2068,7 @@ void metropolisHastingsForLabels123(mcmcChain<pReMiuMParams>& chain,
 	if(unifRand(rndGenerator)<exp(logAcceptRatio)){
 //		nAccept++;
 		// Switch the labels
-		currentParams.switchLabels(c1,c2,covariateType,varSelectType);
+		currentParams.switchLabels(c1, c2, covariateType, varSelectType, useIndependentNormal, useSeparationPrior);
 	}
 
 	// Move 2 - swap labels of 2 randomly selected neighbouring clusters,
@@ -1483,7 +2084,7 @@ void metropolisHastingsForLabels123(mcmcChain<pReMiuMParams>& chain,
 		nAccept++;
 
 		// Switch the labels
-		currentParams.switchLabels(c1,c1+1,covariateType,varSelectType);
+		currentParams.switchLabels(c1, c1 + 1, covariateType, varSelectType, useIndependentNormal, useSeparationPrior);
 
 		// Also switch the v's
 		double v1=currentParams.v(c1);
@@ -1532,7 +2133,7 @@ void metropolisHastingsForLabels123(mcmcChain<pReMiuMParams>& chain,
 
 	if(unifRand(rndGenerator)<exp(logAcceptRatio)){
 //		nAccept++;
-		currentParams.switchLabels(c1,c1+1,covariateType,varSelectType);
+		currentParams.switchLabels(c1, c1 + 1, covariateType, varSelectType, useIndependentNormal, useSeparationPrior);
 		double currPsiC1 = exp(currentParams.logPsi(c1));
 		double currPsiC1Plus1 = exp(currentParams.logPsi(c1+1));
 		double sumCurrPsi = currPsiC1+currPsiC1Plus1;
@@ -1578,6 +2179,8 @@ void metropolisHastingsForLabels12(mcmcChain<pReMiuMParams>& chain,
 	}
 	string varSelectType = model.options().varSelectType();
 	string covariateType = model.options().covariateType();
+	bool useIndependentNormal = model.options().useIndependentNormal();
+	bool useSeparationPrior = model.options().useSeparationPrior();
 
 	randomUniform unifRand(0,1);
 
@@ -1609,7 +2212,7 @@ void metropolisHastingsForLabels12(mcmcChain<pReMiuMParams>& chain,
 	if(unifRand(rndGenerator)<exp(logAcceptRatio)){
 		nAccept++;
 		// Switch the labels
-		currentParams.switchLabels(c1,c2,covariateType,varSelectType);
+		currentParams.switchLabels(c1, c2, covariateType, varSelectType, useIndependentNormal, useSeparationPrior);
 	}
 
 	// Move 2 - swap labels of 2 randomly selected neighbouring clusters,
@@ -1623,7 +2226,7 @@ void metropolisHastingsForLabels12(mcmcChain<pReMiuMParams>& chain,
 	if(unifRand(rndGenerator)<exp(logAcceptRatio)){
 //		nAccept++;
 		// Switch the labels
-		currentParams.switchLabels(c1,c1+1,covariateType,varSelectType);
+		currentParams.switchLabels(c1, c1 + 1, covariateType, varSelectType, useIndependentNormal, useSeparationPrior);
 
 		// Also switch the v's
 		double v1=currentParams.v(c1);
@@ -1664,6 +2267,8 @@ void metropolisHastingsForLabels3(mcmcChain<pReMiuMParams>& chain,
 	}
 	string varSelectType = model.options().varSelectType();
 	string covariateType = model.options().covariateType();
+	bool useIndependentNormal = model.options().useIndependentNormal();
+	bool useSeparationPrior= model.options().useSeparationPrior();
 
 	randomUniform unifRand(0,1);
 
@@ -1709,7 +2314,7 @@ void metropolisHastingsForLabels3(mcmcChain<pReMiuMParams>& chain,
 
 	if(unifRand(rndGenerator)<exp(logAcceptRatio)){
 		nAccept++;
-		currentParams.switchLabels(c1,c1+1,covariateType,varSelectType);
+		currentParams.switchLabels(c1, c1 + 1, covariateType, varSelectType, useIndependentNormal, useSeparationPrior);
 		double currPsiC1 = exp(currentParams.logPsi(c1));
 		double currPsiC1Plus1 = exp(currentParams.logPsi(c1+1));
 		double sumCurrPsi = currPsiC1+currPsiC1Plus1;
@@ -1889,6 +2494,8 @@ void gibbsForVInActive(mcmcChain<pReMiuMParams>& chain,
 	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
 	string samplerType = model.options().samplerType();
 	string covariateType = model.options().covariateType();
+	bool useIndependentNormal = model.options().useIndependentNormal();
+	bool useSeparationPrior= model.options().useSeparationPrior();
 
 	nTry++;
 	nAccept++;
@@ -1954,7 +2561,7 @@ void gibbsForVInActive(mcmcChain<pReMiuMParams>& chain,
 				cumPsi.push_back(cumPsi[c-1]+exp(logPsi));
 			}
 		}
-		currentParams.maxNClusters(maxNClusters,covariateType);
+		currentParams.maxNClusters(maxNClusters, covariateType, useIndependentNormal, useSeparationPrior);
 
 	}
 
@@ -1968,6 +2575,182 @@ void gibbsForVInActive(mcmcChain<pReMiuMParams>& chain,
 // Theta contains phi, mu, Tau, gamma, theta. Only need to sample
 // up to maxNClusters = max_i{Ci}. Several different routines here for
 // each of the variables
+
+// Adaptive Metropolis Hastings move for kappa1
+void metropolisHastingsForKappa1(mcmcChain<pReMiuMParams>& chain,
+	unsigned int& nTry, unsigned int& nAccept,
+	const mcmcModel<pReMiuMParams,
+	pReMiuMOptions,
+	pReMiuMData>& model,
+	pReMiuMPropParams& propParams,
+	baseGeneratorType& rndGenerator) {
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+
+	// Find the number of clusters
+	unsigned int maxZ = currentParams.workMaxZi();
+	// Find the number of covariates
+	unsigned int nCovariates = 0;
+	if (model.options().covariateType().compare("Mixed") == 0) {
+		nCovariates = currentParams.nContinuousCovs();
+	}
+	else {
+		nCovariates = currentParams.nCovariates();
+	}
+
+	// Define a uniform random number generator
+	randomUniform unifRand(0, 1);
+
+	double& stdDev = propParams.kappa1StdDev();
+	double kappa1Current = currentParams.kappa11();
+
+	double kappa1Prop;
+	kappa1Prop = truncNormalRand(rndGenerator, kappa1Current, stdDev, "L", nCovariates, 0);
+
+	double logAcceptRatio = 0.0;
+	double workLogDetR1 = currentParams.workLogDetR1();
+	for (unsigned int c = 0; c <= maxZ; c++) {
+		double workLogDetTau = currentParams.workLogDetTau(c);
+		logAcceptRatio += -logMultivarGammaFn(kappa1Prop / 2.0, nCovariates) +
+			(-(kappa1Prop*nCovariates) / 2.0)*log(2.0) + (-kappa1Prop / 2.0)*workLogDetR1 +
+			((kappa1Prop - nCovariates - 1.0) / 2.0)*workLogDetTau;
+		logAcceptRatio -= -logMultivarGammaFn(kappa1Current / 2.0, nCovariates) +
+			(-(kappa1Current*nCovariates) / 2.0)*log(2.0) + (-kappa1Current / 2.0)*workLogDetR1 +
+			((kappa1Current - nCovariates - 1.0) / 2.0)*workLogDetTau;
+	}
+
+	logAcceptRatio += logPdfInverseGamma(kappa1Prop - nCovariates , hyperParams.shapeKappa1(), hyperParams.scaleKappa1());
+	logAcceptRatio -= logPdfInverseGamma(kappa1Current - nCovariates , hyperParams.shapeKappa1(), hyperParams.scaleKappa1());
+
+	// Add the proposal contribution
+	logAcceptRatio += logPdfTruncatedNormal(kappa1Current, kappa1Prop, stdDev, "L", nCovariates , 0);
+	logAcceptRatio -= logPdfTruncatedNormal(kappa1Prop, kappa1Current, stdDev, "L", nCovariates , 0);
+
+	propParams.kappa1AddTry();
+	nTry++;
+	if (unifRand(rndGenerator)<exp(logAcceptRatio)) {
+		nAccept++;
+		propParams.kappa1AddAccept();
+		// If the move was accepted update the state
+		currentParams.kappa11(kappa1Prop);
+
+		// Also update the proposal standard deviation
+		if (propParams.nTryKappa1() % propParams.kappa1UpdateFreq() == 0) {
+			stdDev += 10 * (propParams.kappa1LocalAcceptRate() - propParams.kappa1AcceptTarget()) /
+				pow((double)(propParams.nTryKappa1() / propParams.kappa1UpdateFreq()) + 2.0, 0.75);
+			propParams.kappa1AnyUpdates(true);
+			if (stdDev>propParams.kappa1StdDevUpper() || stdDev<propParams.kappa1StdDevLower()) {
+				propParams.kappa1StdDevReset();
+			}
+			propParams.kappa1LocalReset();
+		}
+	}
+	else {
+		// Otherwise update the proposal standard deviation
+		if (propParams.nTryKappa1() % propParams.kappa1UpdateFreq() == 0) {
+			stdDev += 10 * (propParams.kappa1LocalAcceptRate() - propParams.kappa1AcceptTarget()) /
+				pow((double)(propParams.nTryKappa1() / propParams.kappa1UpdateFreq()) + 2.0, 0.75);
+			propParams.kappa1AnyUpdates(true);
+			if (stdDev>propParams.kappa1StdDevUpper() || stdDev<propParams.kappa1StdDevLower()) {
+				propParams.kappa1StdDevReset();
+			}
+			propParams.kappa1LocalReset();
+		}
+
+	}
+
+} 
+
+// Adaptive Metropolis Hastings move for kappa1 when the separation prior is used 
+void metropolisHastingsForKappa1SP(mcmcChain<pReMiuMParams>& chain,
+	unsigned int& nTry, unsigned int& nAccept,
+	const mcmcModel<pReMiuMParams,
+	pReMiuMOptions,
+	pReMiuMData>& model,
+	pReMiuMPropParams& propParams,
+	baseGeneratorType& rndGenerator) {
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+
+	// Find the number of clusters
+	unsigned int maxZ = currentParams.workMaxZi();
+	// Find the number of covariates
+	unsigned int nCovariates = 0;
+	if (model.options().covariateType().compare("Mixed") == 0) {
+		nCovariates = currentParams.nContinuousCovs();
+	}
+	else {
+		nCovariates = currentParams.nCovariates();
+	}
+
+	// Define a uniform random number generator
+	randomUniform unifRand(0, 1);
+
+	double& stdDev = propParams.kappa1StdDev();
+	double kappa1Current = currentParams.kappa11();
+
+	double kappa1Prop;
+	kappa1Prop = truncNormalRand(rndGenerator, kappa1Current, stdDev, "L", nCovariates, 0);
+
+	double logAcceptRatio = 0.0;
+	double workLogDetR0 = hyperParams.workLogDetR0();
+	for (unsigned int c = 0; c <= maxZ; c++) {
+		double workLogDetTauR = currentParams.workLogDetTauR(c);
+		logAcceptRatio += -logMultivarGammaFn(kappa1Prop / 2.0, nCovariates) +
+			(-(kappa1Prop*nCovariates) / 2.0)*log(2.0) + (-kappa1Prop / 2.0)*workLogDetR0 +
+			((kappa1Prop - nCovariates - 1.0) / 2.0)*workLogDetTauR;
+		logAcceptRatio -= -logMultivarGammaFn(kappa1Current / 2.0, nCovariates) +
+			(-(kappa1Current*nCovariates) / 2.0)*log(2.0) + (-kappa1Current / 2.0)*workLogDetR0 +
+			((kappa1Current - nCovariates - 1.0) / 2.0)*workLogDetTauR;
+	}
+
+	logAcceptRatio += logPdfInverseGamma(kappa1Prop - nCovariates, hyperParams.shapeKappa1(), hyperParams.scaleKappa1());
+	logAcceptRatio -= logPdfInverseGamma(kappa1Current - nCovariates, hyperParams.shapeKappa1(), hyperParams.scaleKappa1());
+
+	// Add the proposal contribution
+	logAcceptRatio += logPdfTruncatedNormal(kappa1Current, kappa1Prop, stdDev, "L", nCovariates, 0);
+	logAcceptRatio -= logPdfTruncatedNormal(kappa1Prop, kappa1Current, stdDev, "L", nCovariates, 0);
+
+	propParams.kappa1AddTry();
+	nTry++;
+	if (unifRand(rndGenerator)<exp(logAcceptRatio)) {
+		nAccept++;
+		propParams.kappa1AddAccept();
+		// If the move was accepted update the state
+		currentParams.kappa11(kappa1Prop);
+
+		// Also update the proposal standard deviation
+		if (propParams.nTryKappa1() % propParams.kappa1UpdateFreq() == 0) {
+			stdDev += 10 * (propParams.kappa1LocalAcceptRate() - propParams.kappa1AcceptTarget()) /
+				pow((double)(propParams.nTryKappa1() / propParams.kappa1UpdateFreq()) + 2.0, 0.75);
+			propParams.kappa1AnyUpdates(true);
+			if (stdDev>propParams.kappa1StdDevUpper() || stdDev<propParams.kappa1StdDevLower()) {
+				propParams.kappa1StdDevReset();
+			}
+			propParams.kappa1LocalReset();
+		}
+	}
+	else {
+		// Otherwise update the proposal standard deviation
+		if (propParams.nTryKappa1() % propParams.kappa1UpdateFreq() == 0) {
+			stdDev += 10 * (propParams.kappa1LocalAcceptRate() - propParams.kappa1AcceptTarget()) /
+				pow((double)(propParams.nTryKappa1() / propParams.kappa1UpdateFreq()) + 2.0, 0.75);
+			propParams.kappa1AnyUpdates(true);
+			if (stdDev>propParams.kappa1StdDevUpper() || stdDev<propParams.kappa1StdDevLower()) {
+				propParams.kappa1StdDevReset();
+			}
+			propParams.kappa1LocalReset();
+		}
+
+	}
+
+}
+
+
 
 // Gibbs move for updating R1
 void gibbsForR1(mcmcChain<pReMiuMParams>& chain,
@@ -2003,9 +2786,205 @@ void gibbsForR1(mcmcChain<pReMiuMParams>& chain,
 	SumTau += hyperParams.R0();
 	MatrixXd R0Star = SumTau.inverse();
 
-	MatrixXd R1 =  wishartRand(rndGenerator,R0Star,workNactive*hyperParams.kappa1()+hyperParams.kappa0());
+	MatrixXd inverseR1 =  wishartRand(rndGenerator,R0Star,workNactive*currentParams.kappa11()+hyperParams.kappa0());
+	MatrixXd R1 = inverseR1.inverse();
 	currentParams.R1(R1);
 	
+}
+
+// Gibbs update for mu00 in Normal covariate case
+void gibbsForMu00(mcmcChain<pReMiuMParams>& chain,
+	unsigned int& nTry, unsigned int& nAccept,
+	const mcmcModel<pReMiuMParams, pReMiuMOptions, pReMiuMData>& model,
+	pReMiuMPropParams& propParams,
+	baseGeneratorType& rndGenerator) {
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+	bool useSeparationPrior = model.options().useSeparationPrior();
+
+	// Find the number of clusters
+	unsigned int maxZ = currentParams.workMaxZi();
+	// Find the number of covariates
+	unsigned int nCovariates = 0;
+	if (model.options().covariateType().compare("Mixed") == 0) {
+		nCovariates = currentParams.nContinuousCovs();
+	}
+	else {
+		nCovariates = currentParams.nCovariates();
+	}
+
+	nTry++;
+	nAccept++;
+	
+	VectorXd SumMu;
+	SumMu.setZero(nCovariates);
+	unsigned int workNactive = 0;
+	for (unsigned int c = 0; c <= maxZ; c++) {
+		SumMu = SumMu + currentParams.mu(c);
+		workNactive += 1;
+	}
+
+	MatrixXd sigmaMu00(nCovariates, nCovariates);
+	VectorXd meanMu00(nCovariates);
+
+	if (useSeparationPrior) {
+		sigmaMu00 = (workNactive*hyperParams.Tau00() + hyperParams.Tau0()).inverse();
+		meanMu00 = sigmaMu00*(hyperParams.Tau00()*SumMu + hyperParams.Tau0()*hyperParams.mu0());
+	}
+	else {
+		sigmaMu00 = (workNactive*currentParams.Tau00() + hyperParams.Tau0()).inverse();
+		meanMu00 = sigmaMu00*(currentParams.Tau00()*SumMu + hyperParams.Tau0()*hyperParams.mu0());
+	}
+	
+
+	VectorXd mu00(nCovariates);
+	mu00 = multivarNormalRand(rndGenerator, meanMu00, sigmaMu00);
+
+	currentParams.mu00(mu00);
+
+}
+
+// Gibbs update for Tau00 in Normal covariate case
+void gibbsForTau00(mcmcChain<pReMiuMParams>& chain,
+	unsigned int& nTry, unsigned int& nAccept,
+	const mcmcModel<pReMiuMParams, pReMiuMOptions, pReMiuMData>& model,
+	pReMiuMPropParams& propParams,
+	baseGeneratorType& rndGenerator) {
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+
+	// Find the number of clusters
+	unsigned int maxZ = currentParams.workMaxZi();
+	// Find the number of covariates
+	unsigned int nCovariates = 0;
+	if (model.options().covariateType().compare("Mixed") == 0) {
+		nCovariates = currentParams.nContinuousCovs();
+	}
+	else {
+		nCovariates = currentParams.nCovariates();
+	}
+
+	nTry++;
+	nAccept++;
+
+	MatrixXd SumMuDiff;
+	SumMuDiff.setZero(nCovariates, nCovariates);
+	unsigned int workNactive = 0;
+	for (unsigned int c = 0; c <= maxZ; c++) {
+		SumMuDiff = SumMuDiff + (currentParams.mu(c) - currentParams.mu00())*((currentParams.mu(c) - currentParams.mu00()).transpose());
+		workNactive += 1;
+	}
+
+	SumMuDiff += hyperParams.R00().inverse();
+
+	MatrixXd RUpadated(nCovariates, nCovariates);
+	RUpadated= SumMuDiff.inverse();
+
+	MatrixXd Tau00(nCovariates, nCovariates);
+	Tau00 = wishartRand(rndGenerator, RUpadated, workNactive + hyperParams.kappa00());
+
+	currentParams.Tau00(Tau00);
+
+}
+
+// Gibbs move for updating BetaTauS when the separation prior is used 
+void gibbsForBetaTauS(mcmcChain<pReMiuMParams>& chain,
+	unsigned int& nTry, unsigned int& nAccept,
+	const mcmcModel<pReMiuMParams, pReMiuMOptions, pReMiuMData>& model,
+	pReMiuMPropParams& propParams,
+	baseGeneratorType& rndGenerator) {
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+
+	// Find the number of clusters
+	unsigned int maxZ = currentParams.workMaxZi();
+	// Find the number of covariates
+	unsigned int nCovariates = 0;
+	if (model.options().covariateType().compare("Mixed") == 0) {
+		nCovariates = currentParams.nContinuousCovs();
+	}
+	else {
+		nCovariates = currentParams.nCovariates();
+	}
+
+	nTry++;
+	nAccept++;
+
+	VectorXd sumTau = VectorXd::Zero(nCovariates);
+	unsigned int workNactive = 0;
+	for (unsigned int c = 0; c < maxZ + 1; c++) {
+		for (unsigned int j = 0; j < nCovariates; j++) {
+			sumTau(j) = sumTau(j) + currentParams.TauS(c,j);
+		}
+		workNactive += 1;
+	}
+
+	VectorXd betas_new(nCovariates);
+	VectorXd beta_taus0 = hyperParams.beta_taus0();
+	for (unsigned int j = 0; j < nCovariates; j++) {
+		double alpha_new = workNactive * hyperParams.alpha_taus() + hyperParams.alpha_taus0();
+		double beta_new = sumTau(j) + beta_taus0(j);
+
+		randomGamma gammaRand(alpha_new, 1.0 / beta_new);
+		betas_new(j) = gammaRand(rndGenerator);
+
+	}
+	currentParams.beta_taus(betas_new);
+
+}
+
+
+// Gibbs move for updating R1 when the independent normal conditional likelihood is used 
+void gibbsForR1Indep(mcmcChain<pReMiuMParams>& chain,
+	unsigned int& nTry, unsigned int& nAccept,
+	const mcmcModel<pReMiuMParams, pReMiuMOptions, pReMiuMData>& model,
+	pReMiuMPropParams& propParams,
+	baseGeneratorType& rndGenerator) {
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+
+	// Find the number of clusters
+	unsigned int maxZ = currentParams.workMaxZi();
+	// Find the number of covariates
+	unsigned int nCovariates = 0;
+	if (model.options().covariateType().compare("Mixed") == 0) {
+		nCovariates = currentParams.nContinuousCovs();
+	}
+	else {
+		nCovariates = currentParams.nCovariates();
+	}
+
+	nTry++;
+	nAccept++;
+
+	VectorXd sumTau= VectorXd::Zero(nCovariates);
+	unsigned int workNactive = 0;
+	for (unsigned int c = 0; c < maxZ + 1; c++) {
+		sumTau = sumTau + currentParams.Tau_Indep(c);
+		workNactive += 1;
+	}
+
+	VectorXd r1(nCovariates);
+	VectorXd R0_Indep = hyperParams.R0_Indep();
+	for (unsigned int j = 0; j < nCovariates; j++) {
+		double kappaNew = workNactive * (double)hyperParams.kappa1() + (double)hyperParams.kappa0();
+		double rNew = sumTau(j) + R0_Indep(j);
+
+		randomGamma gammaRand(kappaNew, 1.0 / rNew);
+		r1(j) = gammaRand(rndGenerator);
+
+	}
+
+	currentParams.R1_Indep(r1);
+
 }
 
 // Gibbs move for updating phi
@@ -2063,6 +3042,11 @@ void gibbsForMuInActive(mcmcChain<pReMiuMParams>& chain,
 	pReMiuMParams& currentParams = currentState.parameters();
 	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
 
+	bool useIndependentNormal = model.options().useIndependentNormal();
+	bool useHyperpriorR1 = model.options().useHyperpriorR1();
+	bool useSeparationPrior = model.options().useSeparationPrior();
+
+
 	// Find the number of clusters
 	unsigned int maxZ = currentParams.workMaxZi();
 	unsigned int maxNClusters = currentParams.maxNClusters();
@@ -2078,19 +3062,80 @@ void gibbsForMuInActive(mcmcChain<pReMiuMParams>& chain,
 	nAccept++;
 
 	MatrixXd covMat(nCovariates,nCovariates);
-	covMat = hyperParams.Tau0().inverse();
 	VectorXd meanVec(nCovariates);
-	meanVec = hyperParams.mu0();
+
+	if (useHyperpriorR1) {
+		covMat = currentParams.Tau00().inverse();
+		meanVec = currentParams.mu00();
+	}
+	else if (useSeparationPrior) {
+		covMat = hyperParams.Tau00().inverse();
+		meanVec = currentParams.mu00();
+	} 
+	else {
+		covMat = hyperParams.Tau0().inverse();
+		meanVec = hyperParams.mu0();
+	}
 
 	for(unsigned int c=maxZ+1;c<maxNClusters;c++){
 		VectorXd mu(nCovariates);
+
 		// We sample from this posterior
-		mu = multivarNormalRand(rndGenerator,meanVec,covMat);
+		mu = multivarNormalRand(rndGenerator, meanVec, covMat);
+
 		// We store our sample
-		currentParams.mu(c,mu);
+		currentParams.mu(c, mu, useIndependentNormal);
 	}
 
 }
+
+
+
+// Gibbs update for mu in Independent Normal covariate case
+void gibbsForMuInActiveIndep(mcmcChain<pReMiuMParams>& chain,
+	unsigned int& nTry, unsigned int& nAccept,
+	const mcmcModel<pReMiuMParams, pReMiuMOptions, pReMiuMData>& model,
+	pReMiuMPropParams& propParams,
+	baseGeneratorType& rndGenerator) {
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+
+	bool useIndependentNormal = model.options().useIndependentNormal();
+
+	// Find the number of clusters
+	unsigned int maxZ = currentParams.workMaxZi();
+	unsigned int maxNClusters = currentParams.maxNClusters();
+	// Find the number of covariates
+	unsigned int nCovariates = 0;
+	if (model.options().covariateType().compare("Mixed") == 0) {
+		nCovariates = currentParams.nContinuousCovs();
+	}
+	else {
+		nCovariates = currentParams.nCovariates();
+	}
+
+	nTry++;
+	nAccept++;
+
+	VectorXd mu0(nCovariates);
+	mu0 = hyperParams.mu0();
+	VectorXd Tau0(nCovariates);
+	Tau0 = hyperParams.Tau0_Indep();
+
+	for (unsigned int c = maxZ + 1; c<maxNClusters; c++) {
+		VectorXd mu(nCovariates);
+		for (unsigned int j = 0; j < nCovariates; j++) {
+			double mean = mu0(j);
+			double variance = 1.0 / Tau0(j);
+			mu(j) = NormalRand(rndGenerator, mean, variance);	
+		}
+		currentParams.mu(c, mu, useIndependentNormal);
+	}
+
+}
+
 
 // Gibbs update for mu in Normal covariate case when the normal inverse Wishart prior is used
 void gibbsForMuInActiveNIWP(mcmcChain<pReMiuMParams>& chain,
@@ -2102,6 +3147,8 @@ void gibbsForMuInActiveNIWP(mcmcChain<pReMiuMParams>& chain,
 	mcmcState<pReMiuMParams>& currentState = chain.currentState();
 	pReMiuMParams& currentParams = currentState.parameters();
 	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+
+	bool useIndependentNormal = model.options().useIndependentNormal();
 
 	// Find the number of clusters
 	unsigned int maxZ = currentParams.workMaxZi();
@@ -2129,7 +3176,7 @@ void gibbsForMuInActiveNIWP(mcmcChain<pReMiuMParams>& chain,
 		// We sample from this posterior
 		mu = multivarNormalRand(rndGenerator,meanVec,covMat);
 		// We store our sample
-		currentParams.mu(c,mu);
+		currentParams.mu(c, mu, useIndependentNormal);
 	}
 
 }
@@ -2155,7 +3202,7 @@ void gibbsForTauInActive(mcmcChain<pReMiuMParams>& chain,
 
 	if (useHyperpriorR1){
 		for(unsigned int c=maxZ+1;c<maxNClusters;c++){
-			MatrixXd Tau = wishartRand(rndGenerator,currentParams.R1(),hyperParams.kappa1());
+			MatrixXd Tau = wishartRand(rndGenerator,currentParams.R1(), currentParams.kappa11());
 			currentParams.Tau(c,Tau);
 		}
 	} else {
@@ -2165,6 +3212,111 @@ void gibbsForTauInActive(mcmcChain<pReMiuMParams>& chain,
 		}
 	}
 
+
+}
+
+
+// Gibbs update for TauR in the Normal covariate case when separation prior is used 
+void gibbsForTauRInActive(mcmcChain<pReMiuMParams>& chain,
+	unsigned int& nTry, unsigned int& nAccept,
+	const mcmcModel<pReMiuMParams, pReMiuMOptions, pReMiuMData>& model,
+	pReMiuMPropParams& propParams,
+	baseGeneratorType& rndGenerator) {
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+
+	// Find the number of clusters
+	unsigned int maxZ = currentParams.workMaxZi();
+	unsigned int maxNClusters = currentParams.maxNClusters();
+
+	nTry++;
+	nAccept++;
+
+	for (unsigned int c = maxZ + 1; c<maxNClusters; c++) {
+		MatrixXd TauR = wishartRand(rndGenerator, hyperParams.R0(), currentParams.kappa11());
+		currentParams.TauR(c, TauR);
+	}
+
+}
+
+
+// Gibbs update for TauS in the Normal covariate case when separation prior is used 
+void gibbsForTauSInActive(mcmcChain<pReMiuMParams>& chain,
+	unsigned int& nTry, unsigned int& nAccept,
+	const mcmcModel<pReMiuMParams, pReMiuMOptions, pReMiuMData>& model,
+	pReMiuMPropParams& propParams,
+	baseGeneratorType& rndGenerator) {
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+
+	// Find the number of clusters
+	unsigned int maxZ = currentParams.workMaxZi();
+	unsigned int maxNClusters = currentParams.maxNClusters();
+
+	unsigned int nCovariates = 0;
+	if (model.options().covariateType().compare("Mixed") == 0) {
+		nCovariates = currentParams.nContinuousCovs();
+	}
+	else {
+		nCovariates = currentParams.nCovariates();
+	}
+
+	nTry++;
+	nAccept++;
+
+	for (unsigned int c = maxZ + 1; c<maxNClusters; c++) {
+		for (unsigned int j = 0; j < nCovariates; j++) {
+			double alpha_taus = hyperParams.alpha_taus();
+			double beta_tausj = currentParams.beta_taus(j);
+			randomGamma gammaRand(alpha_taus, 1.0 / beta_tausj);
+			double tausj = gammaRand(rndGenerator);
+			currentParams.TauS(c, j, tausj);
+		}
+	}
+
+}
+
+
+//Gibbs update for Tau in the Independent Normal covariate case
+void gibbsForTauInActiveIndep(mcmcChain<pReMiuMParams>& chain,
+	unsigned int& nTry, unsigned int& nAccept,
+	const mcmcModel<pReMiuMParams, pReMiuMOptions, pReMiuMData>& model,
+	pReMiuMPropParams& propParams,
+	baseGeneratorType& rndGenerator) {
+
+	mcmcState<pReMiuMParams>& currentState = chain.currentState();
+	pReMiuMParams& currentParams = currentState.parameters();
+	pReMiuMHyperParams hyperParams = currentParams.hyperParams();
+
+	// Find the number of clusters
+	unsigned int maxZ = currentParams.workMaxZi();
+	unsigned int maxNClusters = currentParams.maxNClusters();
+
+	unsigned int nCovariates = 0;
+	if (model.options().covariateType().compare("Mixed") == 0) {
+		nCovariates = currentParams.nContinuousCovs();
+	}
+	else {
+		nCovariates = currentParams.nCovariates();
+	}
+
+	nTry++;
+	nAccept++;
+
+	VectorXd Tau(nCovariates);
+	for (unsigned int c = maxZ + 1; c<maxNClusters; c++) {
+		for (unsigned int j = 0; j < nCovariates; j++) {
+			double kappa = hyperParams.kappa1();
+			double r = currentParams.R1_Indep(j);
+			randomGamma gammaRand(kappa, 1.0 / r);
+			Tau(j) = gammaRand(rndGenerator);
+		}
+		currentParams.Tau_Indep(c, Tau);
+	}
 
 }
 
@@ -2188,6 +3340,7 @@ void gibbsForGammaInActive(mcmcChain<pReMiuMParams>& chain,
 	unsigned int maxNClusters = currentParams.maxNClusters();
 	string covariateType = model.options().covariateType();
 	string varSelectType = model.options().varSelectType();
+	bool useIndependentNormal = model.options().useIndependentNormal();
 
 	// Define a uniform random number generator
 	randomUniform unifRand(0,1);
@@ -2231,7 +3384,7 @@ void gibbsForGammaInActive(mcmcChain<pReMiuMParams>& chain,
 			}
 			if(unifRand(rndGenerator)<probSwitch){
 				// Switching
-				currentParams.gamma(c,j,proposedGamma,covariateType);
+				currentParams.gamma(c,j,proposedGamma,covariateType, useIndependentNormal);
 
 			}
 
@@ -2528,6 +3681,7 @@ void metropolisHastingsForRhoOmega(mcmcChain<pReMiuMParams>& chain,
 	unsigned int nCovariates = currentParams.nCovariates();
 	string covariateType = model.options().covariateType();
 	string varSelectType = model.options().varSelectType();
+	bool useIndependentNormal = model.options().useIndependentNormal();
 
 	// Define a uniform random number generator
 	randomUniform unifRand(0,1);
@@ -2567,7 +3721,7 @@ void metropolisHastingsForRhoOmega(mcmcChain<pReMiuMParams>& chain,
 			proposedRho=0.0;
 
 			currentParams.omega(j,proposedOmega);
-			currentParams.rho(j,proposedRho,covariateType,varSelectType);
+			currentParams.rho(j, proposedRho, covariateType, varSelectType, useIndependentNormal);
 			proposedLogPost = logCondPostRhoOmegaj(currentParams,model,j);
 			double logAcceptRatio = proposedLogPost - currentLogPost;
 
@@ -2582,13 +3736,13 @@ void metropolisHastingsForRhoOmega(mcmcChain<pReMiuMParams>& chain,
 			}else{
 				// Move rejected, reset parameters
 				currentParams.omega(j,currentOmega[j]);
-				currentParams.rho(j,currentRho[j],covariateType,varSelectType);
+				currentParams.rho(j, currentRho[j], covariateType, varSelectType, useIndependentNormal);
 			}
 
 		}else{
 			if(currentOmega[j]==1){
 				proposedRho  = truncNormalRand(rndGenerator,currentRho[j],stdDev,"B",0,1);
-				currentParams.rho(j,proposedRho,covariateType,varSelectType);
+				currentParams.rho(j, proposedRho, covariateType, varSelectType, useIndependentNormal);
 				proposedLogPost = logCondPostRhoOmegaj(currentParams,model,j);
 				double logAcceptRatio = proposedLogPost - currentLogPost;
 				logAcceptRatio += logPdfTruncatedNormal(currentRho[j],proposedRho,stdDev,"B",0,1);
@@ -2615,7 +3769,7 @@ void metropolisHastingsForRhoOmega(mcmcChain<pReMiuMParams>& chain,
 				}else{
 					// Move rejected, reset parameters
 					currentParams.omega(j,currentOmega[j]);
-					currentParams.rho(j,currentRho[j],covariateType,varSelectType);
+					currentParams.rho(j, currentRho[j], covariateType, varSelectType, useIndependentNormal);
 					// Also update the proposal standard deviation
 					if(propParams.nTryRho(j)%propParams.rhoUpdateFreq()==0){
 						stdDev += 0.1*(propParams.rhoLocalAcceptRate(j)-propParams.rhoAcceptTarget())/
@@ -2631,7 +3785,7 @@ void metropolisHastingsForRhoOmega(mcmcChain<pReMiuMParams>& chain,
 				proposedRho = betaRand(rndGenerator,hyperParams.aRho(),hyperParams.bRho());
 				proposedOmega=1;
 				currentParams.omega(j,proposedOmega);
-				currentParams.rho(j,proposedRho,covariateType,varSelectType);
+				currentParams.rho(j,proposedRho,covariateType,varSelectType, useIndependentNormal);
 				proposedLogPost = logCondPostRhoOmegaj(currentParams,model,j);
 				double logAcceptRatio = proposedLogPost - currentLogPost;
 				logAcceptRatio -= logPdfBeta(proposedRho,hyperParams.aRho(),hyperParams.bRho());
@@ -2644,7 +3798,7 @@ void metropolisHastingsForRhoOmega(mcmcChain<pReMiuMParams>& chain,
 				}else{
 					// Move rejected, reset parameters
 					currentParams.omega(j,currentOmega[j]);
-					currentParams.rho(j,currentRho[j],covariateType,varSelectType);
+					currentParams.rho(j, currentRho[j], covariateType, varSelectType, useIndependentNormal);
 				}
 			}
 		}
@@ -2762,7 +3916,6 @@ void gibbsForNu(mcmcChain<pReMiuMParams>& chain,
 		}
 	}
 }
-
 
 // Gibbs update for the precision of spatial random term
 void gibbsForTauCAR(mcmcChain<pReMiuMParams>& chain,
@@ -2992,6 +4145,7 @@ void gibbsForUCARNormal(mcmcChain<pReMiuMParams>& chain,
 }
 
 
+
 /*********** BLOCK 5 p(Z|.) **********************************/
 
 // Gibbs update for the allocation variables
@@ -3025,6 +4179,8 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 	bool responseExtraVar = model.options().responseExtraVar();
 	const bool includeCAR=model.options().includeCAR();
 	const string& predictType = model.options().predictType();
+	bool useIndependentNormal = model.options().useIndependentNormal();
+
 
 	nTry++;
 	nAccept++;
@@ -3103,7 +4259,20 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 						for(unsigned int j=0;j<nCovariates;j++){
 							xi(j)=currentParams.workContinuousX(i,j);
 						}
-						logPXiGivenZi[i][c]=logPdfMultivarNormal(nCovariates,xi,currentParams.workMuStar(c),currentParams.workSqrtTau(c),currentParams.workLogDetTau(c));
+						if (useIndependentNormal) {
+							VectorXd muStar = currentParams.workMuStar(c);
+							VectorXd sigma_cj(nCovariates);
+							for (unsigned int j = 0; j < nCovariates; j++) {
+								sigma_cj(j)= sqrt(1.0 / currentParams.Tau_Indep(c, j));
+							}
+							for (unsigned int j = 0; j<nCovariates; j++) {
+								logPXiGivenZi[i][c] += logPdfNormal(xi(j), muStar(j), sigma_cj(j));
+							}
+						}
+						else {
+							logPXiGivenZi[i][c] = logPdfMultivarNormal(nCovariates, xi, currentParams.workMuStar(c), currentParams.workSqrtTau(c), currentParams.workLogDetTau(c));
+						}
+						
 					}
 				}
 
@@ -3122,40 +4291,73 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 
 					VectorXd xi=VectorXd::Zero(nNotMissing);
 					VectorXd muStar=VectorXd::Zero(nNotMissing);
-					MatrixXd sqrtTau=MatrixXd::Zero(nNotMissing,nNotMissing);
-					double logDetTau =0.0;
+					VectorXd sigma_cj = VectorXd::Zero(nNotMissing);
+					MatrixXd sqrtTau = MatrixXd::Zero(nNotMissing, nNotMissing);
+					double logDetTau = 0.0;
+					
 					if(nNotMissing==nCovariates){
 						muStar=workMuStar;
-						sqrtTau=currentParams.workSqrtTau(c);
-						logDetTau=currentParams.workLogDetTau(c);
+						if (useIndependentNormal) {
+							for (unsigned int j = 0; j < nCovariates; j++) {
+								sigma_cj(j) = sqrt(1.0 / currentParams.Tau_Indep(c,j));
+							}
+						}
+						else {
+							sqrtTau = currentParams.workSqrtTau(c);
+							logDetTau = currentParams.workLogDetTau(c);
+						}
 						for(unsigned int j=0;j<nCovariates;j++){
 							xi(j)=currentParams.workContinuousX(i,j);
 						}
 					}else{
-						MatrixXd workSigma=currentParams.Sigma(c);
-						MatrixXd Sigma=MatrixXd::Zero(nNotMissing,nNotMissing);
-						MatrixXd Tau=MatrixXd::Zero(nNotMissing,nNotMissing);
-						unsigned int j=0;
-						for(unsigned int j0=0;j0<nCovariates;j0++){
-							if(!missingX[i][nDiscreteCovs+j0]){
-								xi(j)=currentParams.workContinuousX(i,j0);
-								muStar(j)=workMuStar(j0);
-								unsigned int r=0;
-								for(unsigned int j1=0;j1<nCovariates;j1++){
-									if(!missingX[i][nDiscreteCovs+j1]){
-										Sigma(j,r)=workSigma(j0,j1);
-										r++;
-									}
+
+						if (useIndependentNormal) {
+							VectorXd workSigma = currentParams.Sigma_Indep(c);
+							unsigned int j = 0;
+							for (unsigned int j0 = 0; j0<nCovariates; j0++) {
+								if (!missingX[i][nDiscreteCovs + j0]) {
+									xi(j) = currentParams.workContinuousX(i, j0);
+									muStar(j) = workMuStar(j0);
+									sigma_cj(j) = sqrt(workSigma(j0));
+									j++;
 								}
-								j++;
 							}
 						}
-						Tau = Sigma.inverse();
-						sqrtTau = (llt.compute(Tau)).matrixU();
-						logDetTau = log(Tau.determinant());
+						else {
+							MatrixXd workSigma = currentParams.Sigma(c);
+							MatrixXd Sigma = MatrixXd::Zero(nNotMissing, nNotMissing);
+							MatrixXd Tau = MatrixXd::Zero(nNotMissing, nNotMissing);
+							unsigned int j = 0;
+							for (unsigned int j0 = 0; j0<nCovariates; j0++) {
+								if (!missingX[i][nDiscreteCovs + j0]) {
+									xi(j) = currentParams.workContinuousX(i, j0);
+									muStar(j) = workMuStar(j0);
+									unsigned int r = 0;
+									for (unsigned int j1 = 0; j1<nCovariates; j1++) {
+										if (!missingX[i][nDiscreteCovs + j1]) {
+											Sigma(j, r) = workSigma(j0, j1);
+											r++;
+										}
+									}
+									j++;
+								}
+							}
+							Tau = Sigma.inverse();
+							sqrtTau = (llt.compute(Tau)).matrixU();
+							logDetTau = log(Tau.determinant());
+						}
 
 					}
-					logPXiGivenZi[i][c]=logPdfMultivarNormal(nNotMissing,xi,muStar,sqrtTau,logDetTau);
+						
+					if (useIndependentNormal) {
+						for (unsigned int j = 0; j<nNotMissing; j++) {
+							logPXiGivenZi[i][c] += logPdfNormal(xi(j), muStar(j), sigma_cj(j));
+						}
+					}
+					else {
+						logPXiGivenZi[i][c] = logPdfMultivarNormal(nNotMissing, xi, muStar, sqrtTau, logDetTau);
+					}
+
 				}
 			}
 		}
@@ -3177,7 +4379,21 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 						for(unsigned int j=0;j<nContinuousCovs;j++){
 							xi(j)=currentParams.workContinuousX(i,j);
 						}
-						logPXiGivenZi[i][c]+=logPdfMultivarNormal(nContinuousCovs,xi,currentParams.workMuStar(c),currentParams.workSqrtTau(c),currentParams.workLogDetTau(c));
+
+						if (useIndependentNormal) {
+							VectorXd muStar = currentParams.workMuStar(c);
+							VectorXd sigma_cj(nContinuousCovs);
+							for (unsigned int j = 0; j < nContinuousCovs; j++) {
+								sigma_cj(j)= sqrt(1.0 / currentParams.Tau_Indep(c,j));
+							}
+							for (unsigned int j = 0; j<nContinuousCovs; j++) {
+								logPXiGivenZi[i][c] += logPdfNormal(xi(j), muStar(j), sigma_cj(j));
+							}
+						}
+						else {
+							logPXiGivenZi[i][c] += logPdfMultivarNormal(nContinuousCovs, xi, currentParams.workMuStar(c), currentParams.workSqrtTau(c), currentParams.workLogDetTau(c));						
+						}
+						
 					}
 				}
 			}
@@ -3209,40 +4425,74 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 					VectorXd workMuStar=currentParams.workMuStar(c);
 					VectorXd xi=VectorXd::Zero(nNotMissing);
 					VectorXd muStar=VectorXd::Zero(nNotMissing);
-					MatrixXd sqrtTau=MatrixXd::Zero(nNotMissing,nNotMissing);
-					double logDetTau =0.0;
+					VectorXd sigma_cj = VectorXd::Zero(nNotMissing);
+					MatrixXd sqrtTau = MatrixXd::Zero(nNotMissing, nNotMissing);
+					double logDetTau = 0.0;
+		
 					if(nNotMissing==nContinuousCovs){
 						muStar=workMuStar;
-						sqrtTau=currentParams.workSqrtTau(c);
-						logDetTau=currentParams.workLogDetTau(c);
+						if (useIndependentNormal) {
+							for (unsigned int j = 0; j < nContinuousCovs; j++) {
+								sigma_cj(j) = sqrt(1.0 / currentParams.Tau_Indep(c, j));
+							}
+						}
+						else {
+							sqrtTau = currentParams.workSqrtTau(c);
+							logDetTau = currentParams.workLogDetTau(c);
+						}
 						for(unsigned int j=0;j<nContinuousCovs;j++){
 							xi(j)=currentParams.workContinuousX(i,j);
 						}
 					}else{
-						MatrixXd workSigma=currentParams.Sigma(c);
-						MatrixXd Sigma=MatrixXd::Zero(nNotMissing,nNotMissing);
-						MatrixXd Tau=MatrixXd::Zero(nNotMissing,nNotMissing);
-						unsigned int j=0;
-						for(unsigned int j0=0;j0<nContinuousCovs;j0++){
-							if(!missingX[i][nDiscreteCovs+j0]){
-								xi(j)=currentParams.workContinuousX(i,j0);
-								muStar(j)=workMuStar(j0);
-								unsigned int r=0;
-								for(unsigned int j1=0;j1<nContinuousCovs;j1++){
-									if(!missingX[i][nDiscreteCovs+j1]){
-										Sigma(j,r)=workSigma(j0,j1);
-										r++;
-									}
+
+						if (useIndependentNormal) {
+							VectorXd workSigma = currentParams.Sigma_Indep(c);
+							unsigned int j = 0;
+							for (unsigned int j0 = 0; j0<nContinuousCovs; j0++) {
+								if (!missingX[i][nDiscreteCovs + j0]) {
+									xi(j) = currentParams.workContinuousX(i, j0);
+									muStar(j) = workMuStar(j0);
+									sigma_cj(j) = sqrt(workSigma(j0));
+									j++;
 								}
-								j++;
 							}
 						}
-						Tau = Sigma.inverse();
-						sqrtTau = (llt.compute(Tau)).matrixU();
-						logDetTau = log(Tau.determinant());
+						else {
+							MatrixXd workSigma = currentParams.Sigma(c);
+							MatrixXd Sigma = MatrixXd::Zero(nNotMissing, nNotMissing);
+							MatrixXd Tau = MatrixXd::Zero(nNotMissing, nNotMissing);
+							unsigned int j = 0;
+							for (unsigned int j0 = 0; j0<nContinuousCovs; j0++) {
+								if (!missingX[i][nDiscreteCovs + j0]) {
+									xi(j) = currentParams.workContinuousX(i, j0);
+									muStar(j) = workMuStar(j0);
+									unsigned int r = 0;
+									for (unsigned int j1 = 0; j1<nContinuousCovs; j1++) {
+										if (!missingX[i][nDiscreteCovs + j1]) {
+											Sigma(j, r) = workSigma(j0, j1);
+											r++;
+										}
+									}
+									j++;
+								}
+							}
+							Tau = Sigma.inverse();
+							sqrtTau = (llt.compute(Tau)).matrixU();
+							logDetTau = log(Tau.determinant());
+						}
 
 					}
-					logPXiGivenZi[i][c]+=logPdfMultivarNormal(nNotMissing,xi,muStar,sqrtTau,logDetTau);
+
+					if (useIndependentNormal) {
+						for (unsigned int j = 0; j<nNotMissing; j++) {
+							logPXiGivenZi[i][c] += logPdfNormal(xi(j), muStar(j), sigma_cj(j));
+						}
+					}
+					else {
+						logPXiGivenZi[i][c] += logPdfMultivarNormal(nNotMissing, xi, muStar, sqrtTau, logDetTau);
+					}
+
+					
 				}
 			}
 		}
@@ -3419,7 +4669,7 @@ void gibbsForZ(mcmcChain<pReMiuMParams>& chain,
 		}
 
 
-		currentParams.z(i,zi,covariateType);
+		currentParams.z(i, zi, covariateType, useIndependentNormal);
 		if(computeEntropy){
 			currentParams.workEntropy(i,entropyVal);
 		}
