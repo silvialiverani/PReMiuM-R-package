@@ -19,8 +19,19 @@ Type 'q()' to quit R.
 
 > pkgname <- "PReMiuM"
 > source(file.path(R.home("share"), "R", "examples-header.R"))
-> gctorture(TRUE)
 > options(warn = 1)
+> base::assign(".ExTimings", "PReMiuM-Ex.timings", pos = 'CheckExEnv')
+> base::cat("name\tuser\tsystem\telapsed\n", file=base::get(".ExTimings", pos = 'CheckExEnv'))
+> base::assign(".format_ptime",
++ function(x) {
++   if(!is.na(x[4L])) x[1L] <- x[1L] + x[4L]
++   if(!is.na(x[5L])) x[2L] <- x[2L] + x[5L]
++   options(OutDec = '.')
++   format(x[1L:3L], digits = 7L)
++ },
++ pos = 'CheckExEnv')
+> 
+> ### * </HEADER>
 > library('PReMiuM')
 > 
 > base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
@@ -30,6 +41,7 @@ Type 'q()' to quit R.
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: PReMiuM-package
 > ### Title: Dirichlet Process Bayesian Clustering
 > ### Aliases: PReMiuMpackage PReMiuM
@@ -53,12 +65,15 @@ Type 'q()' to quit R.
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("PReMiuM-package", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("calcAvgRiskAndProfile")
 > ### * calcAvgRiskAndProfile
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: calcAvgRiskAndProfile
 > ### Title: Calculation of the average risks and profiles
 > ### Aliases: calcAvgRiskAndProfile
@@ -80,12 +95,15 @@ Type 'q()' to quit R.
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("calcAvgRiskAndProfile", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("calcDissimilarityMatrix")
 > ### * calcDissimilarityMatrix
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: calcDissimilarityMatrix
 > ### Title: Calculates the dissimilarity matrix
 > ### Aliases: calcDissimilarityMatrix
@@ -98,7 +116,7 @@ Type 'q()' to quit R.
 > runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
 +     nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
 +     covNames=inputs$covNames,nClusInit=15)
-Random number seed: 1559412791
+Random number seed: 1560197475
 Sweep: 1
 > 
 > dissimObj<-calcDissimilarityMatrix(runInfoObj)
@@ -106,12 +124,15 @@ Sweep: 1
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("calcDissimilarityMatrix", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("calcOptimalClustering")
 > ### * calcOptimalClustering
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: calcOptimalClustering
 > ### Title: Calculation of the optimal clustering
 > ### Aliases: calcOptimalClustering
@@ -132,12 +153,15 @@ Sweep: 1
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("calcOptimalClustering", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("calcPredictions")
 > ### * calcPredictions
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: calcPredictions
 > ### Title: Calculates the predictions
 > ### Aliases: calcPredictions
@@ -223,12 +247,15 @@ Sweep: 1
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("calcPredictions", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("clusSummaryBernoulliDiscrete")
 > ### * clusSummaryBernoulliDiscrete
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: clusSummaryBernoulliDiscrete
 > ### Title: Sample datasets for profile regression
 > ### Aliases: clusSummaryBernoulliDiscrete clusSummaryBernoulliNormal
@@ -252,12 +279,15 @@ Sweep: 1
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("clusSummaryBernoulliDiscrete", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("generateSampleDataFile")
 > ### * generateSampleDataFile
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: generateSampleDataFile
 > ### Title: Generate sample data files for profile regression
 > ### Aliases: generateSampleDataFile
@@ -273,12 +303,15 @@ Sweep: 1
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("generateSampleDataFile", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("globalParsTrace")
 > ### * globalParsTrace
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: globalParsTrace
 > ### Title: Plot of the trace of some of the global parameters
 > ### Aliases: globalParsTrace
@@ -295,7 +328,7 @@ Sweep: 1
 +  nSweeps=10, nBurn=20, data=inputs$inputData, output="output", nFilter=3,
 +  covNames=inputs$covNames,nClusInit=15,reportBurnIn=FALSE,
 +  fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1559480449
+Random number seed: 1560197476
 Sweep: 1
 > 
 > # plot trace for alpha
@@ -304,12 +337,15 @@ Sweep: 1
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("globalParsTrace", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("heatDissMat")
 > ### * heatDissMat
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: heatDissMat
 > ### Title: Plot the heatmap of the dissimilarity matrix
 > ### Aliases: heatDissMat
@@ -335,12 +371,15 @@ Sweep: 1
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("heatDissMat", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("is.wholenumber")
 > ### * is.wholenumber
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: is.wholenumber
 > ### Title: Function to check if a number is a whole number
 > ### Aliases: is.wholenumber
@@ -354,12 +393,15 @@ Sweep: 1
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("is.wholenumber", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("mapforGeneratedData")
 > ### * mapforGeneratedData
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: mapforGeneratedData
 > ### Title: Map generated data
 > ### Aliases: mapforGeneratedData
@@ -371,12 +413,15 @@ Sweep: 1
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("mapforGeneratedData", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("margModelPosterior")
 > ### * margModelPosterior
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: margModelPosterior
 > ### Title: Marginal Model Posterior
 > ### Aliases: margModelPosterior
@@ -391,9 +436,264 @@ Sweep: 1
 +          nBurn=10, data=inputs$inputData, output="output", 
 +          covNames = inputs$covNames, nClusInit=15,
 +          fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1559481824
+Random number seed: 1560197477
 Sweep: 1
 > 
 > margModelPost<-margModelPosterior(runInfoObj)
-
-Execution halted
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("margModelPosterior", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("plotPredictions")
+> ### * plotPredictions
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: plotPredictions
+> ### Title: Plot the conditional density using the predicted scenarios
+> ### Aliases: plotPredictions
+> ### Keywords: predictions, plots
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # example with Bernoulli outcome and Discrete covariates
+> ##D inputs <- generateSampleDataFile(clusSummaryBernoulliDiscrete())
+> ##D # prediction profiles
+> ##D preds<-data.frame(matrix(c(
+> ##D 2, 2, 2, 2, 2,
+> ##D 0, 0, NA, 0, 0),ncol=5,byrow=TRUE))
+> ##D 
+> ##D colnames(preds)<-names(inputs$inputData)[2:(inputs$nCovariates+1)]
+> ##D # run profile regression
+> ##D runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+> ##D  nSweeps=10000, nBurn=10000, data=inputs$inputData, output="output", 
+> ##D  covNames=inputs$covNames,predict=preds,
+> ##D  fixedEffectsNames = inputs$fixedEffectNames)        
+> ##D dissimObj <- calcDissimilarityMatrix(runInfoObj)
+> ##D clusObj <- calcOptimalClustering(dissimObj)
+> ##D riskProfileObj <- calcAvgRiskAndProfile(clusObj)
+> ##D predictions <- calcPredictions(riskProfileObj,fullSweepPredictions=TRUE,fullSweepLogOR=TRUE)
+> ##D 
+> ##D plotPredictions(outfile="predictiveDensity.pdf",runInfoObj=runInfoObj,
+> ##D  predictions=predictions,logOR=TRUE)
+> ##D 
+> ## End(Not run)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("plotPredictions", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("plotRiskProfile")
+> ### * plotRiskProfile
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: plotRiskProfile
+> ### Title: Plot the Risk Profiles
+> ### Aliases: plotRiskProfile
+> ### Keywords: plots postprocessing
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # example for Poisson outcome and Discrete covariates
+> ##D inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
+> ##D runInfoObj<-profRegr(yModel=inputs$yModel, 
+> ##D     xModel=inputs$xModel, nSweeps=10, nClusInit=15,
+> ##D     nBurn=20, data=inputs$inputData, output="output", 
+> ##D     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
+> ##D     fixedEffectsNames = inputs$fixedEffectNames)
+> ##D 
+> ##D dissimObj<-calcDissimilarityMatrix(runInfoObj)
+> ##D clusObj<-calcOptimalClustering(dissimObj)
+> ##D riskProfileObj<-calcAvgRiskAndProfile(clusObj)
+> ##D clusterOrderObj<-plotRiskProfile(riskProfileObj,"summary.png")
+> ## End(Not run)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("plotRiskProfile", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("profRegr")
+> ### * profRegr
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: profRegr
+> ### Title: Profile Regression
+> ### Aliases: profRegr
+> ### Keywords: profileRegression
+> 
+> ### ** Examples
+> 
+> # example for Poisson outcome and Discrete covariates
+> inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
+> runInfoObj<-profRegr(yModel=inputs$yModel, 
++     xModel=inputs$xModel, nSweeps=10, nClusInit=20,
++     nBurn=20, data=inputs$inputData, output="output", 
++     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
++     fixedEffectsNames = inputs$fixedEffectNames)
+Random number seed: 1560197477
+Sweep: 1
+> 
+> 
+> # example with Bernoulli outcome and Mixed covariates
+> inputs <- generateSampleDataFile(clusSummaryBernoulliMixed())
+> runInfoObj<-profRegr(yModel=inputs$yModel, 
++     xModel=inputs$xModel, nSweeps=10, nClusInit=15,
++     nBurn=20, data=inputs$inputData, output="output", 
++     discreteCovs = inputs$discreteCovs,
++     continuousCovs = inputs$continuousCovs)
+Random number seed: 1560197478
+Sweep: 1
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("profRegr", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("setHyperparams")
+> ### * setHyperparams
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: setHyperparams
+> ### Title: Definition of characteristics of sample datasets for profile
+> ###   regression
+> ### Aliases: setHyperparams
+> ### Keywords: hyperparameters
+> 
+> ### ** Examples
+> 
+> 
+> hyp <- setHyperparams(shapeAlpha=3,rateAlpha=2,mu0=c(30,13),R0=3.2*diag(2))
+> 
+> inputs <- generateSampleDataFile(clusSummaryPoissonNormal())
+> runInfoObj<-profRegr(yModel=inputs$yModel, 
++     xModel=inputs$xModel, nSweeps=2, nClusInit=15,
++     nBurn=2, data=inputs$inputData, output="output", 
++     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
++     fixedEffectsNames = inputs$fixedEffectNames,
++     hyper=hyp)
+Random number seed: 1560197478
+Sweep: 1
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("setHyperparams", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("simBenchmark")
+> ### * simBenchmark
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: simBenchmark
+> ### Title: Benchmark for simulated examples
+> ### Aliases: simBenchmark
+> ### Keywords: benchmark simulations testing
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # vector of all test datasets allowed by this benchmarking function
+> ##D testDatasets<-c("clusSummaryBernoulliNormal",
+> ##D   "clusSummaryBernoulliDiscreteSmall","clusSummaryCategoricalDiscrete",
+> ##D   "clusSummaryNormalDiscrete","clusSummaryNormalNormal", 
+> ##D   "clusSummaryNormalNormalSpatial","clusSummaryVarSelectBernoulliDiscrete", 
+> ##D   "clusSummaryBernoulliMixed")
+> ##D 
+> ##D # runs profile regression on all datasets and 
+> ##D # computes confusion matrix for each one
+> ##D for (i in 1:length(testDatasets)){
+> ##D   tester<-simBenchmark(testDatasets[i])
+> ##D   print(table(tester[,c(1,3)]))
+> ##D }
+> ##D 
+> ##D 
+> ## End(Not run)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("simBenchmark", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("summariseVarSelectRho")
+> ### * summariseVarSelectRho
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: summariseVarSelectRho
+> ### Title: summariseVarSelectRho
+> ### Aliases: summariseVarSelectRho
+> ### Keywords: variableSelection
+> 
+> ### ** Examples
+> 
+> 
+> inputs <- generateSampleDataFile(clusSummaryVarSelectBernoulliDiscrete())
+> 
+> runInfoObj<-profRegr(yModel=inputs$yModel, 
++     xModel=inputs$xModel, nSweeps=10, nClusInit=15, 
++     nBurn=20, data=inputs$inputData, output="output", 
++     covNames = inputs$covNames, varSelect="Continuous")
+Random number seed: 1560197478
+Sweep: 1
+> 
+> rho<-summariseVarSelectRho(runInfoObj)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("summariseVarSelectRho", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("vec2mat")
+> ### * vec2mat
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: vec2mat
+> ### Title: Vector to upper triangular matrix
+> ### Aliases: vec2mat
+> 
+> ### ** Examples
+> 
+> vec2mat(data=c(1,2,3),nrow=3)
+     [,1] [,2] [,3]
+[1,]    0    1    2
+[2,]    1    0    3
+[3,]    2    3    0
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("vec2mat", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> ### * <FOOTER>
+> ###
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  5.292 0.3 5.6 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

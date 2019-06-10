@@ -2,10 +2,12 @@
 * using R version 3.4.4 (2018-03-15)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
-* using option ‘--use-gct’
+* using option ‘--as-cran’
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
 * this is package ‘PReMiuM’ version ‘3.2.2’
+* checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
+Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
 * checking package namespace information ... OK
 * checking package dependencies ... OK
 * checking if this is a source package ... OK
@@ -33,6 +35,7 @@
 * checking whether the namespace can be loaded with stated dependencies ... OK
 * checking whether the namespace can be unloaded cleanly ... OK
 * checking loading without being on the library search path ... OK
+* checking use of S3 registration ... OK
 * checking dependencies in R code ... OK
 * checking S3 generic/method consistency ... OK
 * checking replacement functions ... OK
@@ -40,73 +43,10 @@
 * checking R code for possible problems ... OK
 * checking Rd files ... OK
 * checking Rd metadata ... OK
+* checking Rd line widths ... OK
 * checking Rd cross-references ... OK
 * checking for missing documentation entries ... OK
-* checking for code/documentation mismatches ... WARNING
-Codoc mismatches from documentation object 'profRegr':
-profRegr
-  Code: function(covNames, fixedEffectsNames, outcome = "outcome",
-                 outcomeT = NA, data, output = "output", hyper,
-                 predict, predictType = "RaoBlackwell", nSweeps = 1000,
-                 nBurn = 1000, nProgress = 500, nFilter = 1, nClusInit,
-                 seed, yModel = "Bernoulli", xModel = "Discrete",
-                 sampler = "SliceDependent", alpha = -2, dPitmanYor =
-                 0, excludeY = FALSE, extraYVar = FALSE, varSelectType
-                 = "None", entropy, reportBurnIn = FALSE, run = TRUE,
-                 discreteCovs, continuousCovs, whichLabelSwitch =
-                 "123", includeCAR = FALSE, neighboursFile =
-                 "Neighbours.txt", uCARinit = FALSE, PoissonCARadaptive
-                 = FALSE, weibullFixedShape = TRUE, useNormInvWishPrior
-                 = FALSE, useHyperpriorR1 = TRUE, useIndependentNormal
-                 = FALSE, useSeparationPrior = FALSE)
-  Docs: function(covNames, fixedEffectsNames, outcome = "outcome",
-                 outcomeT = NA, data, output = "output", hyper,
-                 predict, predictType = "RaoBlackwell", nSweeps = 1000,
-                 nBurn = 1000, nProgress = 500, nFilter = 1, nClusInit,
-                 seed, yModel = "Bernoulli", xModel = "Discrete",
-                 sampler = "SliceDependent", alpha = -2, dPitmanYor =
-                 0, excludeY = FALSE, extraYVar = FALSE, varSelectType
-                 = "None", entropy, reportBurnIn = FALSE, run = TRUE,
-                 discreteCovs, continuousCovs, whichLabelSwitch =
-                 "123", includeCAR = FALSE, neighboursFile =
-                 "Neighbours.txt", uCARinit = FALSE, PoissonCARadaptive
-                 = FALSE, weibullFixedShape = TRUE, useNormInvWishPrior
-                 = FALSE, useHyperpriorR1 = FALSE)
-  Argument names in code not in docs:
-    useIndependentNormal useSeparationPrior
-  Mismatches in argument default values:
-    Name: 'useHyperpriorR1' Code: TRUE Docs: FALSE
-
-Codoc mismatches from documentation object 'setHyperparams':
-setHyperparams
-  Code: function(shapeAlpha = NULL, rateAlpha = NULL, aPhi = NULL, mu0
-                 = NULL, Tau0 = NULL, TauIndep0 = NULL, R0 = NULL,
-                 RIndep0 = NULL, kappa0 = NULL, kappa1 = NULL, nu0 =
-                 NULL, muTheta = NULL, sigmaTheta = NULL, dofTheta =
-                 NULL, muBeta = NULL, sigmaBeta = NULL, dofBeta = NULL,
-                 shapeTauEpsilon = NULL, rateTauEpsilon = NULL, aRho =
-                 NULL, bRho = NULL, atomRho = NULL, shapeSigmaSqY =
-                 NULL, scaleSigmaSqY = NULL, pQuantile = NULL, rSlice =
-                 NULL, truncationEps = NULL, shapeTauCAR = NULL,
-                 rateTauCAR = NULL, shapeNu = NULL, scaleNu = NULL,
-                 initAlloc = NULL)
-  Docs: function(shapeAlpha = NULL, rateAlpha = NULL, aPhi = NULL, mu0
-                 = NULL, Tau0 = NULL, R0 = NULL, kappa0 = NULL, kappa1
-                 = NULL, nu0 = NULL, muTheta = NULL, sigmaTheta = NULL,
-                 dofTheta = NULL, muBeta = NULL, sigmaBeta = NULL,
-                 dofBeta = NULL, shapeTauEpsilon = NULL, rateTauEpsilon
-                 = NULL, aRho = NULL, bRho = NULL, atomRho = NULL,
-                 shapeSigmaSqY = NULL, scaleSigmaSqY = NULL, pQuantile
-                 = NULL, rSlice = NULL, truncationEps = NULL,
-                 shapeTauCAR = NULL, rateTauCAR = NULL, shapeNu = NULL,
-                 scaleNu = NULL, initAlloc = NULL)
-  Argument names in code not in docs:
-    TauIndep0 RIndep0
-  Mismatches in argument names (first 3):
-    Position: 6 Code: TauIndep0 Docs: R0
-    Position: 7 Code: R0 Docs: kappa0
-    Position: 8 Code: RIndep0 Docs: kappa1
-
+* checking for code/documentation mismatches ... OK
 * checking Rd \usage sections ... OK
 * checking Rd contents ... OK
 * checking for unstated dependencies in examples ... OK
@@ -116,29 +56,10 @@ setHyperparams
 * checking for GNU extensions in Makefiles ... OK
 * checking for portable use of $(BLAS_LIBS) and $(LAPACK_LIBS) ... OK
 * checking compiled code ... OK
-* checking examples ... ERROR
-Running examples in ‘PReMiuM-Ex.R’ failed
-The error most likely occurred in:
-
-> ### Name: margModelPosterior
-> ### Title: Marginal Model Posterior
-> ### Aliases: margModelPosterior
-> ### Keywords: margModelPosterior
-> 
-> ### ** Examples
-> 
-> inputs <- generateSampleDataFile(clusSummaryBernoulliDiscrete())
-> 
-> runInfoObj<-profRegr(yModel=inputs$yModel, 
-+          xModel=inputs$xModel, nSweeps=5, 
-+          nBurn=10, data=inputs$inputData, output="output", 
-+          covNames = inputs$covNames, nClusInit=15,
-+          fixedEffectsNames = inputs$fixedEffectNames)
-Random number seed: 1559481824
-Sweep: 1
-> 
-> margModelPost<-margModelPosterior(runInfoObj)
-
-Execution halted
+* checking examples ... OK
 * checking for unstated dependencies in ‘tests’ ... OK
-* checking tests ...
+* checking tests ... OK
+  Running ‘test-basic1.R’
+* checking PDF version of manual ... OK
+* DONE
+Status: 1 NOTE

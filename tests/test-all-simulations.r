@@ -68,3 +68,4 @@ clusObj<-calcOptimalClustering(dissimObj,maxNClusters = 8)
 riskProfileObj<-calcAvgRiskAndProfile(clusObj)
 clusterOrderObj<-plotRiskProfile(riskProfileObj,paste("summary",i+1,whichPackage,".png",sep=""))
 
+

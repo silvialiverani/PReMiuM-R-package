@@ -12,8 +12,9 @@ profRegr(covNames, fixedEffectsNames, outcome="outcome",
   extraYVar=FALSE, varSelectType="None", entropy,reportBurnIn=FALSE,
   run=TRUE, discreteCovs, continuousCovs, whichLabelSwitch="123",
   includeCAR=FALSE, neighboursFile="Neighbours.txt", uCARinit=FALSE,
-	PoissonCARadaptive=FALSE,	weibullFixedShape=TRUE, 
-	useNormInvWishPrior=FALSE, useHyperpriorR1=FALSE)
+  PoissonCARadaptive=FALSE,weibullFixedShape=TRUE, 
+  useNormInvWishPrior=FALSE, useHyperpriorR1=TRUE, 
+  useIndependentNormal=FALSE, useSeparationPrior=FALSE)
 }
 \arguments{
 \item{covNames}{A vector of strings of the covariate names as by the column names in the data argument. The names of the covariates cannot include space characters.}
@@ -67,7 +68,9 @@ See ?calcPredictions for more details and examples.
 \item{weibullFixedShape}{This parameter controls whether the shape parameter of the Weibull distribution (for yModel=Survival only) is a global parameter (fixed) or cluster specific. It is equal to TRUE by default.}
 \item{useNormInvWishPrior}{By default this variable equals FALSE. When this variable equals TRUE, the conjugate Normal-inverse-Wishart prior is used rather
 than the independant normal and inverse Wishart priors. If this prior is used, variable selection cannot be used as it has not been implemented.}
-\item{useHyperpriorR1}{Adds a hyperprior for R1, which is the (global) scale parameter for Tau, which is the precision matrix for xModel=Normal or Mixed. The default for this option is TRUE.}
+\item{useHyperpriorR1}{Adds hyperpriors for the hyperparameter R1, kappa1, mu0 and Sigma0 for xModel=Normal or Mixed. The default for this option is TRUE.}
+\item{useIndependentNormal}{If the data contains continuous variables (xModel=Normal or Mixed) and the variables are assumed to be independent for each cluster, the multivariate normal likelihood should be replaced by the independent normal likelihood. Therefore, this option should set to TRUE. The default for this option is FALSE.}
+\item{useSeparationPrior}{ A separation prior is used to model the within-cluster covariance matrix for each cluster when the data contains continuous variables (xModel=Normal or Mixed). The default for this option is FALSE.}
 }
 
 \value{

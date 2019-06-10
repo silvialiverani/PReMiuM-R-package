@@ -45,11 +45,11 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
   
   if (useNormInvWishPrior==TRUE && !varSelectType=="None") stop("Variable selection is not available for Normal-inverse-Wishart prior for Normal covariates.")
   
-  if (useIndependentNormal==TRUE && useHyperpriorR1==TRUE) stop("useIndependentNormal option automatically contains the hyperprior for R1")
+  if (useIndependentNormal==TRUE && useHyperpriorR1==FALSE) stop("useIndependentNormal option automatically contains the hyperprior for R1")
   
-  if (useIndependentNormal==TRUE && useSeparationPrior==TRUE) stop("useSeparationPrior option cannot be used for independent normal likelihood")
+  if (useIndependentNormal==TRUE && useSeparationPrior==TRUE) stop("useSeparationPrior option cannot be used for independent normal likelihood.")
   
-  if (useHyperpriorR1==TRUE && useSeparationPrior==TRUE) stop("useSeparationPrior option automatically contains hyperpriors")
+  if (useHyperpriorR1==FALSE && useSeparationPrior==TRUE) stop("useSeparationPrior option automatically contains hyperpriors")
     
   if (xModel=="Normal") {
     sdContVars<-apply(data[covNames],2,sd)
