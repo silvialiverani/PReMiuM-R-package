@@ -3120,7 +3120,7 @@ class pReMiuMParams{
 
 		/// \brief A matrix of parameters for R1 where Tau ~ Wishart (R1, kappa1)
 		MatrixXd _R1;
-	    MatrixXd _Tau00;
+	    	MatrixXd _Tau00;
 		MatrixXd _Sigma00;
 		VectorXd _mu00;
 

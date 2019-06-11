@@ -45,11 +45,11 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
   
   if (useNormInvWishPrior==TRUE && !varSelectType=="None") stop("Variable selection is not available for Normal-inverse-Wishart prior for Normal covariates.")
   
-  if (useIndependentNormal==TRUE && useHyperpriorR1==FALSE) stop("useIndependentNormal option automatically contains the hyperprior for R1")
+  if (useIndependentNormal==TRUE) useHyperpriorR1=FALSE # because it happens automatically
   
   if (useIndependentNormal==TRUE && useSeparationPrior==TRUE) stop("useSeparationPrior option cannot be used for independent normal likelihood.")
   
-  if (useHyperpriorR1==FALSE && useSeparationPrior==TRUE) stop("useSeparationPrior option automatically contains hyperpriors")
+  if (useSeparationPrior==TRUE) useHyperpriorR1=FALSE # because it happens automatically
     
   if (xModel=="Normal") {
     sdContVars<-apply(data[covNames],2,sd)
@@ -317,9 +317,9 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
       includeuCARinit<-TRUE
     }
   }
-  
+
   inputString<-paste("PReMiuM --input=",fileName," --output=",output," --xModel=",xModel," --yModel=",yModel," --varSelect=",varSelectType," --whichLabelSwitch=",whichLabelSwitch," --predType=",predictType,sep="")
-  
+
   # create hyperparameters file
   if (!missing(hyper)) {
     hyperFile <-paste(output,"_hyper.txt",sep="")
@@ -450,6 +450,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
   if (useHyperpriorR1) inputString<-paste(inputString," --useHyperpriorR1", sep="")
   if (useSeparationPrior) inputString<-paste(inputString," --useSeparationPrior", sep="")
   if (useIndependentNormal) inputString<-paste(inputString," --useIndependentNormal", sep="")
+
   if (run) .Call('profRegr', inputString, PACKAGE = 'PReMiuM')
   
   

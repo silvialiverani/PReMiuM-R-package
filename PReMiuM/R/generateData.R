@@ -757,16 +757,16 @@ clusSummaryBernoulliNormal<-function(){
 			'covariateMeans'=c(0,2),
 			'covariateCovariance'=matrix(c(0.5,0,0,3),nrow=2)),
 		list('theta'=log(2),
-			'covariateMeans'=c(0,2),
+			'covariateMeans'=c(-2,-5),
 			'covariateCovariance'=matrix(c(0.5,0,0,3),nrow=2)),
 		list('theta'=0,
-			'covariateMeans'=c(0,2),
+			'covariateMeans'=c(4,7),
 			'covariateCovariance'=matrix(c(0.5,0,0,3),nrow=2)),
 		list('theta'=log(1/2),
-			'covariateMeans'=c(0,2),
+			'covariateMeans'=c(-8,-9),
 			'covariateCovariance'=matrix(c(0.5,0,0,3),nrow=2)),
 		list('theta'=log(1/9),
-			'covariateMeans'=c(0,2),
+			'covariateMeans'=c(11,11),
 			'covariateCovariance'=matrix(c(0.5,0,0,3),nrow=2))))
 
 }
