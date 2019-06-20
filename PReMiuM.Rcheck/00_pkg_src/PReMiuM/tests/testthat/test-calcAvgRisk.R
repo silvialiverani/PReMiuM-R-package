@@ -5,7 +5,8 @@ test_that("Dissimilarity function is running correctly", {
   generateDataList <- clusSummaryBernoulliDiscrete()
   inputs <- generateSampleDataFile(generateDataList)
   runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
-                       nSweeps=1, nBurn=0, data=inputs$inputData, output="output", 
+                       nSweeps=1, nBurn=0, data=inputs$inputData, 
+                       output=paste(tempdir(),"/output",sep=""), 
                        covNames=inputs$covNames,nClusInit=15, seed=12345)
   dissimObj<-calcDissimilarityMatrix(runInfoObj)
   expect_equal(head(dissimObj$disSimMat,10),c(1,0, 1, 1, 1, 0, 1, 1, 1, 1))

@@ -69,8 +69,8 @@ See ?calcPredictions for more details and examples.
 \item{useNormInvWishPrior}{By default this variable equals FALSE. When this variable equals TRUE, the conjugate Normal-inverse-Wishart prior is used rather
 than the independant normal and inverse Wishart priors. If this prior is used, variable selection cannot be used as it has not been implemented.}
 \item{useHyperpriorR1}{Adds hyperpriors for the hyperparameter R1, kappa1, mu0 and Sigma0 for xModel=Normal or Mixed. The default for this option is TRUE.}
-\item{useIndependentNormal}{If the data contains continuous variables (xModel=Normal or Mixed) and the variables are assumed to be independent for each cluster, the multivariate normal likelihood should be replaced by the independent normal likelihood. Therefore, this option should set to TRUE. The default for this option is FALSE.}
-\item{useSeparationPrior}{ A separation prior is used to model the within-cluster covariance matrix for each cluster when the data contains continuous variables (xModel=Normal or Mixed). The default for this option is FALSE.}
+\item{useIndependentNormal}{If the data contains continuous variables (xModel=Normal or Mixed) and the variables are assumed to be independent for each cluster, the multivariate normal likelihood should be replaced by the independent normal likelihood. Therefore, this option should set to TRUE. The default for this option is FALSE. When useIndependentNormal=TRUE, useHyperpriorR1 must be TRUE.}
+\item{useSeparationPrior}{ A separation prior is used to model the within-cluster covariance matrix for each cluster when the data contains continuous variables (xModel=Normal or Mixed). The default for this option is FALSE. When useSeparationPrior=TRUE, useHyperpriorR1 must be TRUE.}
 }
 
 \value{
@@ -157,6 +157,7 @@ Hastie, D. I., Liverani, S. and Richardson, S. (2014) Sampling from Dirichlet pr
 
 }
 \examples{
+\dontrun{
 # example for Poisson outcome and Discrete covariates
 inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
 runInfoObj<-profRegr(yModel=inputs$yModel, 
@@ -173,7 +174,7 @@ runInfoObj<-profRegr(yModel=inputs$yModel,
     nBurn=20, data=inputs$inputData, output="output", 
     discreteCovs = inputs$discreteCovs,
     continuousCovs = inputs$continuousCovs)
-
+}
 }
 \keyword{profileRegression}
 

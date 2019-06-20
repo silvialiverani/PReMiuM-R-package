@@ -92,14 +92,15 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-generateDataList <- clusSummaryBernoulliDiscrete()
-inputs <- generateSampleDataFile(generateDataList)
-runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
-    nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
-    covNames=inputs$covNames,nClusInit=15)
-
-dissimObj<-calcDissimilarityMatrix(runInfoObj)
-
+## Not run: 
+##D generateDataList <- clusSummaryBernoulliDiscrete()
+##D inputs <- generateSampleDataFile(generateDataList)
+##D runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+##D     nSweeps=10, nBurn=20, data=inputs$inputData, output="output", 
+##D     covNames=inputs$covNames,nClusInit=15)
+##D 
+##D dissimObj<-calcDissimilarityMatrix(runInfoObj)
+## End(Not run)
 
 
 
@@ -293,20 +294,20 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-
-# generate simulated dataset
-generateDataList <- clusSummaryBernoulliDiscreteSmall()
-inputs <- generateSampleDataFile(generateDataList)
-
-# run profile regression
-runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
- nSweeps=10, nBurn=20, data=inputs$inputData, output="output", nFilter=3,
- covNames=inputs$covNames,nClusInit=15,reportBurnIn=FALSE,
- fixedEffectsNames = inputs$fixedEffectNames)
-
-# plot trace for alpha
-globalParsTrace(runInfoObj,parameters="alpha",plotBurnIn=FALSE)
-
+## Not run: 
+##D # generate simulated dataset
+##D generateDataList <- clusSummaryBernoulliDiscreteSmall()
+##D inputs <- generateSampleDataFile(generateDataList)
+##D 
+##D # run profile regression
+##D runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
+##D  nSweeps=10, nBurn=20, data=inputs$inputData, output="output", nFilter=3,
+##D  covNames=inputs$covNames,nClusInit=15,reportBurnIn=FALSE,
+##D  fixedEffectsNames = inputs$fixedEffectNames)
+##D 
+##D # plot trace for alpha
+##D globalParsTrace(runInfoObj,parameters="alpha",plotBurnIn=FALSE)
+## End(Not run)
 
 
 
@@ -379,8 +380,10 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-inputs=generateSampleDataFile(clusSummaryPoissonNormalSpatial())
-mapforGeneratedData(inputs$uCAR)
+## Not run: 
+##D inputs=generateSampleDataFile(clusSummaryPoissonNormalSpatial())
+##D mapforGeneratedData(inputs$uCAR)
+## End(Not run)
 
 
 
@@ -400,16 +403,17 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-inputs <- generateSampleDataFile(clusSummaryBernoulliDiscrete())
-
-runInfoObj<-profRegr(yModel=inputs$yModel, 
-         xModel=inputs$xModel, nSweeps=5, 
-         nBurn=10, data=inputs$inputData, output="output", 
-         covNames = inputs$covNames, nClusInit=15,
-         fixedEffectsNames = inputs$fixedEffectNames)
-
-margModelPost<-margModelPosterior(runInfoObj)
-
+## Not run: 
+##D inputs <- generateSampleDataFile(clusSummaryBernoulliDiscrete())
+##D 
+##D runInfoObj<-profRegr(yModel=inputs$yModel, 
+##D          xModel=inputs$xModel, nSweeps=5, 
+##D          nBurn=10, data=inputs$inputData, output="output", 
+##D          covNames = inputs$covNames, nClusInit=15,
+##D          fixedEffectsNames = inputs$fixedEffectNames)
+##D 
+##D margModelPost<-margModelPosterior(runInfoObj)
+## End(Not run)
 
 
 
@@ -425,7 +429,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 ### Name: plotPredictions
 ### Title: Plot the conditional density using the predicted scenarios
 ### Aliases: plotPredictions
-### Keywords: predictions, plots
+### Keywords: predictions
 
 ### ** Examples
 
@@ -504,23 +508,24 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-# example for Poisson outcome and Discrete covariates
-inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
-runInfoObj<-profRegr(yModel=inputs$yModel, 
-    xModel=inputs$xModel, nSweeps=10, nClusInit=20,
-    nBurn=20, data=inputs$inputData, output="output", 
-    covNames = inputs$covNames, outcomeT = inputs$outcomeT,
-    fixedEffectsNames = inputs$fixedEffectNames)
-
-
-# example with Bernoulli outcome and Mixed covariates
-inputs <- generateSampleDataFile(clusSummaryBernoulliMixed())
-runInfoObj<-profRegr(yModel=inputs$yModel, 
-    xModel=inputs$xModel, nSweeps=10, nClusInit=15,
-    nBurn=20, data=inputs$inputData, output="output", 
-    discreteCovs = inputs$discreteCovs,
-    continuousCovs = inputs$continuousCovs)
-
+## Not run: 
+##D # example for Poisson outcome and Discrete covariates
+##D inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
+##D runInfoObj<-profRegr(yModel=inputs$yModel, 
+##D     xModel=inputs$xModel, nSweeps=10, nClusInit=20,
+##D     nBurn=20, data=inputs$inputData, output="output", 
+##D     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
+##D     fixedEffectsNames = inputs$fixedEffectNames)
+##D 
+##D 
+##D # example with Bernoulli outcome and Mixed covariates
+##D inputs <- generateSampleDataFile(clusSummaryBernoulliMixed())
+##D runInfoObj<-profRegr(yModel=inputs$yModel, 
+##D     xModel=inputs$xModel, nSweeps=10, nClusInit=15,
+##D     nBurn=20, data=inputs$inputData, output="output", 
+##D     discreteCovs = inputs$discreteCovs,
+##D     continuousCovs = inputs$continuousCovs)
+## End(Not run)
 
 
 
@@ -541,17 +546,17 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-
-hyp <- setHyperparams(shapeAlpha=3,rateAlpha=2,mu0=c(30,13),R0=3.2*diag(2))
-
-inputs <- generateSampleDataFile(clusSummaryPoissonNormal())
-runInfoObj<-profRegr(yModel=inputs$yModel, 
-    xModel=inputs$xModel, nSweeps=2, nClusInit=15,
-    nBurn=2, data=inputs$inputData, output="output", 
-    covNames = inputs$covNames, outcomeT = inputs$outcomeT,
-    fixedEffectsNames = inputs$fixedEffectNames,
-    hyper=hyp)
-
+## Not run: 
+##D hyp <- setHyperparams(shapeAlpha=3,rateAlpha=2,mu0=c(30,13),R0=3.2*diag(2))
+##D 
+##D inputs <- generateSampleDataFile(clusSummaryPoissonNormal())
+##D runInfoObj<-profRegr(yModel=inputs$yModel, 
+##D     xModel=inputs$xModel, nSweeps=2, nClusInit=15,
+##D     nBurn=2, data=inputs$inputData, output="output", 
+##D     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
+##D     fixedEffectsNames = inputs$fixedEffectNames,
+##D     hyper=hyp)
+## End(Not run)
 
 
 
@@ -607,15 +612,16 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-
-inputs <- generateSampleDataFile(clusSummaryVarSelectBernoulliDiscrete())
-
-runInfoObj<-profRegr(yModel=inputs$yModel, 
-    xModel=inputs$xModel, nSweeps=10, nClusInit=15, 
-    nBurn=20, data=inputs$inputData, output="output", 
-    covNames = inputs$covNames, varSelect="Continuous")
-
-rho<-summariseVarSelectRho(runInfoObj)
+## Not run: 
+##D inputs <- generateSampleDataFile(clusSummaryVarSelectBernoulliDiscrete())
+##D 
+##D runInfoObj<-profRegr(yModel=inputs$yModel, 
+##D     xModel=inputs$xModel, nSweeps=10, nClusInit=15, 
+##D     nBurn=20, data=inputs$inputData, output="output", 
+##D     covNames = inputs$covNames, varSelect="Continuous")
+##D 
+##D rho<-summariseVarSelectRho(runInfoObj)
+## End(Not run)
 
 
 

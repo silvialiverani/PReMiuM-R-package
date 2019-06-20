@@ -23,6 +23,7 @@ Silvia Liverani, David I. Hastie, Lamiae Azizi, Michail Papathomas, Sylvia Richa
 
 }
 \examples{
+\dontrun{
 inputs <- generateSampleDataFile(clusSummaryBernoulliDiscrete())
 
 runInfoObj<-profRegr(yModel=inputs$yModel, 
@@ -32,7 +33,7 @@ runInfoObj<-profRegr(yModel=inputs$yModel,
          fixedEffectsNames = inputs$fixedEffectNames)
 
 margModelPost<-margModelPosterior(runInfoObj)
-
+}
 }
 \keyword{margModelPosterior}
 

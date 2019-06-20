@@ -157,6 +157,7 @@ Hastie, D. I., Liverani, S. and Richardson, S. (2014) Sampling from Dirichlet pr
 
 }
 \examples{
+\dontrun{
 # example for Poisson outcome and Discrete covariates
 inputs <- generateSampleDataFile(clusSummaryPoissonDiscrete())
 runInfoObj<-profRegr(yModel=inputs$yModel, 
@@ -173,7 +174,7 @@ runInfoObj<-profRegr(yModel=inputs$yModel,
     nBurn=20, data=inputs$inputData, output="output", 
     discreteCovs = inputs$discreteCovs,
     continuousCovs = inputs$continuousCovs)
-
+}
 }
 \keyword{profileRegression}
 

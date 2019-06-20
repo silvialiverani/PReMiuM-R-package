@@ -24,8 +24,9 @@ Silvia Liverani, David I. Hastie, Lamiae Azizi, Michail Papathomas, Sylvia Richa
 
 }
 \examples{
+\dontrun{
 inputs=generateSampleDataFile(clusSummaryPoissonNormalSpatial())
 mapforGeneratedData(inputs$uCAR)
 }
-
+}
 

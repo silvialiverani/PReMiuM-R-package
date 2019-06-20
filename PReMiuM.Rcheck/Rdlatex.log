@@ -75,15 +75,15 @@ Overfull \hbox (46.23737pt too wide) in paragraph at lines 116--118
 \T1/ptm/m/n/10 TERMAP USA. Hy-per-ten-sion 64 (6), 1198-1204. Avail-able at htt
 p://www.ncbi.nlm.nih.gov/pubmed/25201893 
 [3] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [4] [5]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [6]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [7] [8]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [6] [7]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [8]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [9] [10] [11]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
 Underfull \vbox (badness 10000) has occurred while \output is active [12]
 [13] [14] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [15] [16]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (11.78088pt too wide) in paragraph at lines 719--719
+Overfull \hbox (11.78088pt too wide) in paragraph at lines 721--721
  []\T1/zi4/m/n/10 globalParsTrace(runInfoObj, parameters = "nClusters",plotBurn
 In=FALSE,whichBeta=1)[] 
 [17] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [18]
@@ -92,58 +92,58 @@ In=FALSE,whichBeta=1)[]
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/ts1zi4.fd) [20]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [21]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [22]
-Overfull \hbox (16.9809pt too wide) in paragraph at lines 1026--1026
+Overfull \hbox (16.9809pt too wide) in paragraph at lines 1034--1034
  []\T1/zi4/m/n/9 predictions <- calcPredictions(riskProfileObj,fullSweepPredict
 ions=TRUE,fullSweepLogOR=TRUE)[] 
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [23] [24]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [25]
-Overfull \hbox (0.62779pt too wide) in paragraph at lines 1165--1166
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [25] [26]
+Overfull \hbox (0.62779pt too wide) in paragraph at lines 1173--1174
 []\T1/ptm/m/n/10 This can be set equal to "RaoBlack-well" and "ran-dom". The de
 -fault is RaoBlack-
-[26] [27]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1183--1184
+[27]
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1191--1192
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1184--1185
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1192--1193
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 [28] [29]
-Overfull \hbox (5.48706pt too wide) in paragraph at lines 1243--1244
+Overfull \hbox (5.48706pt too wide) in paragraph at lines 1251--1252
 []\T1/ptm/m/n/10 Internal file to com-mu-ni-cate be-tween R and C++ the val-ues
  of the hy-per-paramters. 
 [30] [31] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [32]
-Overfull \hbox (42.07666pt too wide) in paragraph at lines 1342--1343
+Overfull \hbox (42.07666pt too wide) in paragraph at lines 1352--1353
 \T1/ptm/m/n/10 in mul-ti-vari-ate Nor-mal co-vari-ate case (useIn-de-pen-dent-N
 or-mal=FALSE), de-fault=empirical
 
-Overfull \hbox (12.1776pt too wide) in paragraph at lines 1343--1344
+Overfull \hbox (12.1776pt too wide) in paragraph at lines 1353--1354
 \T1/ptm/m/n/10 used in mul-ti-vari-ate Nor-mal co-vari-ate case, when useIn-de-
 pen-dent-Nor-mal=FALSE).
 
-Overfull \hbox (24.47763pt too wide) in paragraph at lines 1345--1346
+Overfull \hbox (24.47763pt too wide) in paragraph at lines 1355--1356
 []\T1/ptm/m/n/10 The scale pa-ram-e-ter for the Wishart dis-tri-bu-tion for Tau
 _c if use-Hy-per-pri-orR1=FALSE
 [33]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1364--1365
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1374--1375
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1364--1365
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1374--1375
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
 [34] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [35]
-Overfull \hbox (140.52487pt too wide) in paragraph at lines 1426--1428
+Overfull \hbox (140.52487pt too wide) in paragraph at lines 1437--1439
 \T1/ptm/m/n/10 age: "clus-Sum-ma-ry-Bernoulli-Nor-mal","clusSummaryBernoulliDis
 creteSmall","clusSummaryCategoricalDiscrete",
 
-Overfull \hbox (18.11702pt too wide) in paragraph at lines 1426--1428
+Overfull \hbox (18.11702pt too wide) in paragraph at lines 1437--1439
 \T1/ptm/m/n/10 "clus-Sum-ma-ryNormalD-is-crete","clusSummaryNormalNormal", "clu
 s-Sum-ma-ryNor-
 [36] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [37]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [38]
 No file Rd2.ind.
-[39] (/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.aux)
+[39] (/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.aux)
 
 Package rerunfilecheck Warning: File `Rd2.out' has changed.
 (rerunfilecheck)                Rerun to get outlines right
@@ -159,7 +159,7 @@ consolata-zi4r.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr
 are/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (39 pages, 165916 bytes).
+Output written on Rd2.pdf (39 pages, 166520 bytes).
 Transcript written on Rd2.log.
 This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex)
  restricted \write18 enabled.
@@ -220,18 +220,18 @@ Package hyperref Warning: Option `pagebackref' has already been used,
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.dfu))
 (/usr/share/texlive/texmf-dist/tex/latex/base/latin1.def))
 Writing index file Rd2.idx
-(/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.aux)
+(/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.aux)
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd)
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ptm.fd)
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 ) (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty))
-(/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.out)
-(/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.out)
+(/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.out)
+(/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.out)
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/t1zi4.fd)
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd)
-(/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.toc [1{/var/lib/texmf/fonts/map/pdftex/
+(/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.toc [1{/var/lib/texmf/fonts/map/pdftex/
 updmap/pdftex.map}]) (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
 [2] (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd) [3]
 Overfull \hbox (46.23737pt too wide) in paragraph at lines 116--118
@@ -246,7 +246,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active [12]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [15]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [16]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (11.78088pt too wide) in paragraph at lines 719--719
+Overfull \hbox (11.78088pt too wide) in paragraph at lines 721--721
  []\T1/zi4/m/n/10 globalParsTrace(runInfoObj, parameters = "nClusters",plotBurn
 In=FALSE,whichBeta=1)[] 
 [17] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [18]
@@ -255,58 +255,58 @@ In=FALSE,whichBeta=1)[]
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/ts1zi4.fd) [20]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [21] [22]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [23]
-Overfull \hbox (16.9809pt too wide) in paragraph at lines 1026--1026
+Overfull \hbox (16.9809pt too wide) in paragraph at lines 1034--1034
  []\T1/zi4/m/n/9 predictions <- calcPredictions(riskProfileObj,fullSweepPredict
 ions=TRUE,fullSweepLogOR=TRUE)[] 
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [24] [25]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [26]
-Overfull \hbox (0.62779pt too wide) in paragraph at lines 1165--1166
+Overfull \hbox (0.62779pt too wide) in paragraph at lines 1173--1174
 []\T1/ptm/m/n/10 This can be set equal to "RaoBlack-well" and "ran-dom". The de
 -fault is RaoBlack-
 [27] [28]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1183--1184
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1191--1192
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1184--1185
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1192--1193
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 [29] [30]
-Overfull \hbox (5.48706pt too wide) in paragraph at lines 1243--1244
+Overfull \hbox (5.48706pt too wide) in paragraph at lines 1251--1252
 []\T1/ptm/m/n/10 Internal file to com-mu-ni-cate be-tween R and C++ the val-ues
  of the hy-per-paramters. 
 [31] [32] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [33]
-Overfull \hbox (42.07666pt too wide) in paragraph at lines 1342--1343
+Overfull \hbox (42.07666pt too wide) in paragraph at lines 1352--1353
 \T1/ptm/m/n/10 in mul-ti-vari-ate Nor-mal co-vari-ate case (useIn-de-pen-dent-N
 or-mal=FALSE), de-fault=empirical
 
-Overfull \hbox (12.1776pt too wide) in paragraph at lines 1343--1344
+Overfull \hbox (12.1776pt too wide) in paragraph at lines 1353--1354
 \T1/ptm/m/n/10 used in mul-ti-vari-ate Nor-mal co-vari-ate case, when useIn-de-
 pen-dent-Nor-mal=FALSE).
 
-Overfull \hbox (24.47763pt too wide) in paragraph at lines 1345--1346
+Overfull \hbox (24.47763pt too wide) in paragraph at lines 1355--1356
 []\T1/ptm/m/n/10 The scale pa-ram-e-ter for the Wishart dis-tri-bu-tion for Tau
 _c if use-Hy-per-pri-orR1=FALSE
 [34]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1364--1365
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1374--1375
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1364--1365
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1374--1375
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
 [35] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [36]
-Overfull \hbox (140.52487pt too wide) in paragraph at lines 1426--1428
+Overfull \hbox (140.52487pt too wide) in paragraph at lines 1437--1439
 \T1/ptm/m/n/10 age: "clus-Sum-ma-ry-Bernoulli-Nor-mal","clusSummaryBernoulliDis
 creteSmall","clusSummaryCategoricalDiscrete",
 
-Overfull \hbox (18.11702pt too wide) in paragraph at lines 1426--1428
+Overfull \hbox (18.11702pt too wide) in paragraph at lines 1437--1439
 \T1/ptm/m/n/10 "clus-Sum-ma-ryNormalD-is-crete","clusSummaryNormalNormal", "clu
 s-Sum-ma-ryNor-
 [37] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [38]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [39]
 No file Rd2.ind.
-[40] (/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.aux) )
+[40] (/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.aux) )
 (see the transcript file for additional information){/usr/share/texlive/texmf-d
 ist/fonts/enc/dvips/inconsolata/i4-ts1.enc}{/usr/share/texlive/texmf-dist/fonts
 /enc/dvips/base/8r.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/inconsola
@@ -316,12 +316,12 @@ consolata-zi4r.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr
 are/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (40 pages, 169122 bytes).
+Output written on Rd2.pdf (40 pages, 169408 bytes).
 Transcript written on Rd2.log.
 This is makeindex, version 2.15 [TeX Live 2015] (kpathsea + Thai support).
 Scanning input file Rd2.idx....done (52 entries accepted, 0 rejected).
-Sorting entries....done (322 comparisons).
-Generating output file Rd2.ind....done (108 lines written, 0 warnings).
+Sorting entries....done (323 comparisons).
+Generating output file Rd2.ind....done (107 lines written, 0 warnings).
 Output written in Rd2.ind.
 Transcript written in Rd2.ilg.
 This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex)
@@ -383,18 +383,18 @@ Package hyperref Warning: Option `pagebackref' has already been used,
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.dfu))
 (/usr/share/texlive/texmf-dist/tex/latex/base/latin1.def))
 Writing index file Rd2.idx
-(/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.aux)
+(/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.aux)
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd)
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ptm.fd)
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 ) (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty))
-(/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.out)
-(/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.out)
+(/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.out)
+(/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.out)
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/t1zi4.fd)
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd)
-(/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.toc [1{/var/lib/texmf/fonts/map/pdftex/
+(/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.toc [1{/var/lib/texmf/fonts/map/pdftex/
 updmap/pdftex.map}]) (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
 [2] (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd) [3]
 Overfull \hbox (46.23737pt too wide) in paragraph at lines 116--118
@@ -409,7 +409,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active [12]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [15]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [16]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (11.78088pt too wide) in paragraph at lines 719--719
+Overfull \hbox (11.78088pt too wide) in paragraph at lines 721--721
  []\T1/zi4/m/n/10 globalParsTrace(runInfoObj, parameters = "nClusters",plotBurn
 In=FALSE,whichBeta=1)[] 
 [17] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [18]
@@ -418,62 +418,62 @@ In=FALSE,whichBeta=1)[]
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/ts1zi4.fd) [20]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [21] [22]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [23]
-Overfull \hbox (16.9809pt too wide) in paragraph at lines 1026--1026
+Overfull \hbox (16.9809pt too wide) in paragraph at lines 1034--1034
  []\T1/zi4/m/n/9 predictions <- calcPredictions(riskProfileObj,fullSweepPredict
 ions=TRUE,fullSweepLogOR=TRUE)[] 
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [24] [25]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [26]
-Overfull \hbox (0.62779pt too wide) in paragraph at lines 1165--1166
+Overfull \hbox (0.62779pt too wide) in paragraph at lines 1173--1174
 []\T1/ptm/m/n/10 This can be set equal to "RaoBlack-well" and "ran-dom". The de
 -fault is RaoBlack-
 [27] [28]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1183--1184
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1191--1192
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1184--1185
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1192--1193
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 [29] [30]
-Overfull \hbox (5.48706pt too wide) in paragraph at lines 1243--1244
+Overfull \hbox (5.48706pt too wide) in paragraph at lines 1251--1252
 []\T1/ptm/m/n/10 Internal file to com-mu-ni-cate be-tween R and C++ the val-ues
  of the hy-per-paramters. 
 [31] [32] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [33]
-Overfull \hbox (42.07666pt too wide) in paragraph at lines 1342--1343
+Overfull \hbox (42.07666pt too wide) in paragraph at lines 1352--1353
 \T1/ptm/m/n/10 in mul-ti-vari-ate Nor-mal co-vari-ate case (useIn-de-pen-dent-N
 or-mal=FALSE), de-fault=empirical
 
-Overfull \hbox (12.1776pt too wide) in paragraph at lines 1343--1344
+Overfull \hbox (12.1776pt too wide) in paragraph at lines 1353--1354
 \T1/ptm/m/n/10 used in mul-ti-vari-ate Nor-mal co-vari-ate case, when useIn-de-
 pen-dent-Nor-mal=FALSE).
 
-Overfull \hbox (24.47763pt too wide) in paragraph at lines 1345--1346
+Overfull \hbox (24.47763pt too wide) in paragraph at lines 1355--1356
 []\T1/ptm/m/n/10 The scale pa-ram-e-ter for the Wishart dis-tri-bu-tion for Tau
 _c if use-Hy-per-pri-orR1=FALSE
 [34]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1364--1365
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1374--1375
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1364--1365
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1374--1375
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
 [35] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [36]
-Overfull \hbox (140.52487pt too wide) in paragraph at lines 1426--1428
+Overfull \hbox (140.52487pt too wide) in paragraph at lines 1437--1439
 \T1/ptm/m/n/10 age: "clus-Sum-ma-ry-Bernoulli-Nor-mal","clusSummaryBernoulliDis
 creteSmall","clusSummaryCategoricalDiscrete",
 
-Overfull \hbox (18.11702pt too wide) in paragraph at lines 1426--1428
+Overfull \hbox (18.11702pt too wide) in paragraph at lines 1437--1439
 \T1/ptm/m/n/10 "clus-Sum-ma-ryNormalD-is-crete","clusSummaryNormalNormal", "clu
 s-Sum-ma-ryNor-
 [37] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [38]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [39]
-(/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.ind [40]
+(/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.ind [40]
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 39.
+(Font)              using `T1/zi4/m/n' instead on input line 38.
 
-[41] [42]) (/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.aux)
+[41] [42]) (/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.aux)
 
 Package rerunfilecheck Warning: File `Rd2.out' has changed.
 (rerunfilecheck)                Rerun to get outlines right
@@ -493,12 +493,12 @@ m/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb
 xlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/u
 rw/times/utmri8a.pfb>
-Output written on Rd2.pdf (42 pages, 181988 bytes).
+Output written on Rd2.pdf (42 pages, 181745 bytes).
 Transcript written on Rd2.log.
 This is makeindex, version 2.15 [TeX Live 2015] (kpathsea + Thai support).
 Scanning input file Rd2.idx....done (52 entries accepted, 0 rejected).
-Sorting entries....done (322 comparisons).
-Generating output file Rd2.ind....done (108 lines written, 0 warnings).
+Sorting entries....done (323 comparisons).
+Generating output file Rd2.ind....done (107 lines written, 0 warnings).
 Output written in Rd2.ind.
 Transcript written in Rd2.ilg.
 This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex)
@@ -560,18 +560,18 @@ Package hyperref Warning: Option `pagebackref' has already been used,
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.dfu))
 (/usr/share/texlive/texmf-dist/tex/latex/base/latin1.def))
 Writing index file Rd2.idx
-(/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.aux)
+(/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.aux)
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd)
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ptm.fd)
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 ) (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty))
-(/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.out)
-(/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.out)
+(/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.out)
+(/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.out)
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/t1zi4.fd)
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd)
-(/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.toc [1{/var/lib/texmf/fonts/map/pdftex/
+(/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.toc [1{/var/lib/texmf/fonts/map/pdftex/
 updmap/pdftex.map}]) (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
 [2] (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd) [3]
 Overfull \hbox (46.23737pt too wide) in paragraph at lines 116--118
@@ -585,7 +585,7 @@ p://www.ncbi.nlm.nih.gov/pubmed/25201893
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [15]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [16] [17]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (11.78088pt too wide) in paragraph at lines 719--719
+Overfull \hbox (11.78088pt too wide) in paragraph at lines 721--721
  []\T1/zi4/m/n/10 globalParsTrace(runInfoObj, parameters = "nClusters",plotBurn
 In=FALSE,whichBeta=1)[] 
 [18] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [19]
@@ -594,62 +594,62 @@ In=FALSE,whichBeta=1)[]
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/ts1zi4.fd) [21]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [22]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [23]
-Overfull \hbox (16.9809pt too wide) in paragraph at lines 1026--1026
+Overfull \hbox (16.9809pt too wide) in paragraph at lines 1034--1034
  []\T1/zi4/m/n/9 predictions <- calcPredictions(riskProfileObj,fullSweepPredict
 ions=TRUE,fullSweepLogOR=TRUE)[] 
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [24] [25]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [26]
-Overfull \hbox (0.62779pt too wide) in paragraph at lines 1165--1166
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [26] [27]
+Overfull \hbox (0.62779pt too wide) in paragraph at lines 1173--1174
 []\T1/ptm/m/n/10 This can be set equal to "RaoBlack-well" and "ran-dom". The de
 -fault is RaoBlack-
-[27] [28]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1183--1184
+[28]
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1191--1192
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1184--1185
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1192--1193
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 [29] [30]
-Overfull \hbox (5.48706pt too wide) in paragraph at lines 1243--1244
+Overfull \hbox (5.48706pt too wide) in paragraph at lines 1251--1252
 []\T1/ptm/m/n/10 Internal file to com-mu-ni-cate be-tween R and C++ the val-ues
  of the hy-per-paramters. 
 [31] [32] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [33]
-Overfull \hbox (42.07666pt too wide) in paragraph at lines 1342--1343
+Overfull \hbox (42.07666pt too wide) in paragraph at lines 1352--1353
 \T1/ptm/m/n/10 in mul-ti-vari-ate Nor-mal co-vari-ate case (useIn-de-pen-dent-N
 or-mal=FALSE), de-fault=empirical
 
-Overfull \hbox (12.1776pt too wide) in paragraph at lines 1343--1344
+Overfull \hbox (12.1776pt too wide) in paragraph at lines 1353--1354
 \T1/ptm/m/n/10 used in mul-ti-vari-ate Nor-mal co-vari-ate case, when useIn-de-
 pen-dent-Nor-mal=FALSE).
 
-Overfull \hbox (24.47763pt too wide) in paragraph at lines 1345--1346
+Overfull \hbox (24.47763pt too wide) in paragraph at lines 1355--1356
 []\T1/ptm/m/n/10 The scale pa-ram-e-ter for the Wishart dis-tri-bu-tion for Tau
 _c if use-Hy-per-pri-orR1=FALSE
 [34]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1364--1365
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1374--1375
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1364--1365
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1374--1375
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
 [35] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [36]
-Overfull \hbox (140.52487pt too wide) in paragraph at lines 1426--1428
+Overfull \hbox (140.52487pt too wide) in paragraph at lines 1437--1439
 \T1/ptm/m/n/10 age: "clus-Sum-ma-ry-Bernoulli-Nor-mal","clusSummaryBernoulliDis
 creteSmall","clusSummaryCategoricalDiscrete",
 
-Overfull \hbox (18.11702pt too wide) in paragraph at lines 1426--1428
+Overfull \hbox (18.11702pt too wide) in paragraph at lines 1437--1439
 \T1/ptm/m/n/10 "clus-Sum-ma-ryNormalD-is-crete","clusSummaryNormalNormal", "clu
 s-Sum-ma-ryNor-
 [37] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [38]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [39]
-(/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.ind [40]
+(/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.ind [40]
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 39.
+(Font)              using `T1/zi4/m/n' instead on input line 38.
 
-[41] [42]) (/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.aux)
+[41] [42]) (/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -664,12 +664,12 @@ m/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb
 xlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/u
 rw/times/utmri8a.pfb>
-Output written on Rd2.pdf (42 pages, 181928 bytes).
+Output written on Rd2.pdf (42 pages, 182210 bytes).
 Transcript written on Rd2.log.
 This is makeindex, version 2.15 [TeX Live 2015] (kpathsea + Thai support).
 Scanning input file Rd2.idx....done (52 entries accepted, 0 rejected).
-Sorting entries....done (322 comparisons).
-Generating output file Rd2.ind....done (108 lines written, 0 warnings).
+Sorting entries....done (323 comparisons).
+Generating output file Rd2.ind....done (107 lines written, 0 warnings).
 Output written in Rd2.ind.
 Transcript written in Rd2.ilg.
 This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex)
@@ -731,18 +731,18 @@ Package hyperref Warning: Option `pagebackref' has already been used,
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.dfu))
 (/usr/share/texlive/texmf-dist/tex/latex/base/latin1.def))
 Writing index file Rd2.idx
-(/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.aux)
+(/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.aux)
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd)
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ptm.fd)
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 ) (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty))
-(/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.out)
-(/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.out)
+(/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.out)
+(/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.out)
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/t1zi4.fd)
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd)
-(/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.toc [1{/var/lib/texmf/fonts/map/pdftex/
+(/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.toc [1{/var/lib/texmf/fonts/map/pdftex/
 updmap/pdftex.map}]) (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
 [2] (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd) [3]
 Overfull \hbox (46.23737pt too wide) in paragraph at lines 116--118
@@ -756,7 +756,7 @@ p://www.ncbi.nlm.nih.gov/pubmed/25201893
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [15]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [16] [17]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def)
-Overfull \hbox (11.78088pt too wide) in paragraph at lines 719--719
+Overfull \hbox (11.78088pt too wide) in paragraph at lines 721--721
  []\T1/zi4/m/n/10 globalParsTrace(runInfoObj, parameters = "nClusters",plotBurn
 In=FALSE,whichBeta=1)[] 
 [18] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [19]
@@ -765,62 +765,62 @@ In=FALSE,whichBeta=1)[]
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/ts1zi4.fd) [21]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [22]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [23]
-Overfull \hbox (16.9809pt too wide) in paragraph at lines 1026--1026
+Overfull \hbox (16.9809pt too wide) in paragraph at lines 1034--1034
  []\T1/zi4/m/n/9 predictions <- calcPredictions(riskProfileObj,fullSweepPredict
 ions=TRUE,fullSweepLogOR=TRUE)[] 
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [24] [25]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [26]
-Overfull \hbox (0.62779pt too wide) in paragraph at lines 1165--1166
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [26] [27]
+Overfull \hbox (0.62779pt too wide) in paragraph at lines 1173--1174
 []\T1/ptm/m/n/10 This can be set equal to "RaoBlack-well" and "ran-dom". The de
 -fault is RaoBlack-
-[27] [28]
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1183--1184
+[28]
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1191--1192
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 
-Overfull \hbox (19.17761pt too wide) in paragraph at lines 1184--1185
+Overfull \hbox (19.17761pt too wide) in paragraph at lines 1192--1193
 []\T1/ptm/m/n/10 The names of the dis-crete co-vari-ates among the co-vari-ate 
 names, if xModel="Mixed".
 [29] [30]
-Overfull \hbox (5.48706pt too wide) in paragraph at lines 1243--1244
+Overfull \hbox (5.48706pt too wide) in paragraph at lines 1251--1252
 []\T1/ptm/m/n/10 Internal file to com-mu-ni-cate be-tween R and C++ the val-ues
  of the hy-per-paramters. 
 [31] [32] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [33]
-Overfull \hbox (42.07666pt too wide) in paragraph at lines 1342--1343
+Overfull \hbox (42.07666pt too wide) in paragraph at lines 1352--1353
 \T1/ptm/m/n/10 in mul-ti-vari-ate Nor-mal co-vari-ate case (useIn-de-pen-dent-N
 or-mal=FALSE), de-fault=empirical
 
-Overfull \hbox (12.1776pt too wide) in paragraph at lines 1343--1344
+Overfull \hbox (12.1776pt too wide) in paragraph at lines 1353--1354
 \T1/ptm/m/n/10 used in mul-ti-vari-ate Nor-mal co-vari-ate case, when useIn-de-
 pen-dent-Nor-mal=FALSE).
 
-Overfull \hbox (24.47763pt too wide) in paragraph at lines 1345--1346
+Overfull \hbox (24.47763pt too wide) in paragraph at lines 1355--1356
 []\T1/ptm/m/n/10 The scale pa-ram-e-ter for the Wishart dis-tri-bu-tion for Tau
 _c if use-Hy-per-pri-orR1=FALSE
 [34]
-Overfull \hbox (3.52693pt too wide) in paragraph at lines 1364--1365
+Overfull \hbox (3.52693pt too wide) in paragraph at lines 1374--1375
 []\T1/ptm/m/n/10 Slice pa-ram-e-ter for in-de-pen-dent slice sam-pler such that
  xi_c = (1-rSlice)*rSlice^c
 
-Overfull \hbox (24.30757pt too wide) in paragraph at lines 1364--1365
+Overfull \hbox (24.30757pt too wide) in paragraph at lines 1374--1375
 \T1/ptm/m/n/10 for c=0,1,2,... (only used for slice in-de-pen-dent sam-pler i.e
 . sam-pler=SliceIndependent,
 [35] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [36]
-Overfull \hbox (140.52487pt too wide) in paragraph at lines 1426--1428
+Overfull \hbox (140.52487pt too wide) in paragraph at lines 1437--1439
 \T1/ptm/m/n/10 age: "clus-Sum-ma-ry-Bernoulli-Nor-mal","clusSummaryBernoulliDis
 creteSmall","clusSummaryCategoricalDiscrete",
 
-Overfull \hbox (18.11702pt too wide) in paragraph at lines 1426--1428
+Overfull \hbox (18.11702pt too wide) in paragraph at lines 1437--1439
 \T1/ptm/m/n/10 "clus-Sum-ma-ryNormalD-is-crete","clusSummaryNormalNormal", "clu
 s-Sum-ma-ryNor-
 [37] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [38]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def) [39]
-(/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.ind [40]
+(/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.ind [40]
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 39.
+(Font)              using `T1/zi4/m/n' instead on input line 38.
 
-[41] [42]) (/tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5/Rd2.aux)
+[41] [42]) (/tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee/Rd2.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -835,8 +835,8 @@ m/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb
 xlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/u
 rw/times/utmri8a.pfb>
-Output written on Rd2.pdf (42 pages, 181937 bytes).
+Output written on Rd2.pdf (42 pages, 182228 bytes).
 Transcript written on Rd2.log.
 Saving output to ‘PReMiuM-manual.pdf’ ...
 Done
-You may want to clean up by 'rm -rf /tmp/RtmpF2nj2t/Rd2pdf12504f2f00e5'
+You may want to clean up by 'rm -rf /tmp/RtmpJtgLGp/Rd2pdf1fc22de92dee'

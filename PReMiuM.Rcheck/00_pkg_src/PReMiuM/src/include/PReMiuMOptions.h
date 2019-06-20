@@ -537,7 +537,7 @@ class pReMiuMOptions{
 		bool _useHyperpriorR1;
 		// Whether we use the independent conditional likelihood for continuous variables
 		bool _useIndependentNormal;
-
+		// Whether we use the separation prior for the Wishart distriution for xModel=Normal or xModel=Mixed
 		bool _useSeparationPrior;
 };
 

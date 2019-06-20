@@ -30,6 +30,7 @@ Liverani, S., Hastie, D. I., Azizi, L., Papathomas, M. and Richardson, S. (2014)
 
 }
 \examples{
+\dontrun{
 generateDataList <- clusSummaryBernoulliDiscrete()
 inputs <- generateSampleDataFile(generateDataList)
 runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel, 
@@ -37,6 +38,6 @@ runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel,
     covNames=inputs$covNames,nClusInit=15)
 
 dissimObj<-calcDissimilarityMatrix(runInfoObj)
-
+}
 }
 \keyword{postprocessing}

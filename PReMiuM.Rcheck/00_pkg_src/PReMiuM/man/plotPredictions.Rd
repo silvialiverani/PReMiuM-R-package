@@ -51,4 +51,4 @@ plotPredictions(outfile="predictiveDensity.pdf",runInfoObj=runInfoObj,
 
 }
 }
-\keyword{predictions, plots}
+\keyword{predictions}

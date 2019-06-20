@@ -28,7 +28,7 @@ Silvia Liverani, David I. Hastie, Lamiae Azizi, Michail Papathomas, Sylvia Richa
 
 }
 \examples{
-
+\dontrun{
 inputs <- generateSampleDataFile(clusSummaryVarSelectBernoulliDiscrete())
 
 runInfoObj<-profRegr(yModel=inputs$yModel, 
@@ -37,6 +37,7 @@ runInfoObj<-profRegr(yModel=inputs$yModel,
     covNames = inputs$covNames, varSelect="Continuous")
 
 rho<-summariseVarSelectRho(runInfoObj)
+}
 }
 \keyword{variableSelection}
 

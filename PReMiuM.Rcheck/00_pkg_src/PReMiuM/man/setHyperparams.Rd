@@ -71,7 +71,7 @@ Silvia Liverani, David I. Hastie, Lamiae Azizi, Michail Papathomas, Sylvia Richa
 
 }
 \examples{
-
+\dontrun{
 hyp <- setHyperparams(shapeAlpha=3,rateAlpha=2,mu0=c(30,13),R0=3.2*diag(2))
 
 inputs <- generateSampleDataFile(clusSummaryPoissonNormal())
@@ -81,6 +81,6 @@ runInfoObj<-profRegr(yModel=inputs$yModel,
     covNames = inputs$covNames, outcomeT = inputs$outcomeT,
     fixedEffectsNames = inputs$fixedEffectNames,
     hyper=hyp)
-
+}
 }
 \keyword{hyperparameters}

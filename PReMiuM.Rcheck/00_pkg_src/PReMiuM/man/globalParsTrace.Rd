@@ -30,7 +30,7 @@ Silvia Liverani, David I. Hastie, Lamiae Azizi, Michail Papathomas, Sylvia Richa
 
 }
 \examples{
-
+\dontrun{
 # generate simulated dataset
 generateDataList <- clusSummaryBernoulliDiscreteSmall()
 inputs <- generateSampleDataFile(generateDataList)
@@ -43,7 +43,7 @@ runInfoObj<-profRegr(yModel=inputs$yModel, xModel=inputs$xModel,
 
 # plot trace for alpha
 globalParsTrace(runInfoObj,parameters="alpha",plotBurnIn=FALSE)
-
+}
 }
 
 
