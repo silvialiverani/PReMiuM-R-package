@@ -28,6 +28,8 @@ For normal covariates, for each covariate the upper plot is the posterior
 distribution for the mean mu, and the lower plot is the posterior distribution
 of sqrt(Sigma[j,j]) (i.e. the standard deviation for that covariate).
 
+The coloured points on the boxplots highlight the 5% and 95% quantiles, therefore depicting the 90% credible intervals. 
+
 It also returns the following vector.
 \item{meanSortIndex}{This vector is the index that represents the order that the clusters are represented. The default ordering is by empirical risk.}
 }

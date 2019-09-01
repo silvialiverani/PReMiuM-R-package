@@ -1,11 +1,11 @@
 * using log directory ‘/home/mastssl/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
-* using R version 3.4.4 (2018-03-15)
+* using R version 3.6.1 (2019-07-05)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * using option ‘--as-cran’
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘PReMiuM’ version ‘3.2.2’
+* this is package ‘PReMiuM’ version ‘3.2.3’
 * checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
 Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
 * checking package namespace information ... OK
@@ -16,12 +16,14 @@ Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
 * checking for hidden files and directories ... OK
 * checking for portable file names ... OK
 * checking for sufficient/correct file permissions ... OK
+* checking serialization versions ... OK
 * checking whether package ‘PReMiuM’ can be installed ... OK
 * checking installed package size ... NOTE
-  installed size is 15.1Mb
+  installed size is 15.6Mb
   sub-directories of 1Mb or more:
-    libs  14.7Mb
+    libs  15.0Mb
 * checking package directory ... OK
+* checking for future file timestamps ... OK
 * checking DESCRIPTION meta-information ... OK
 * checking top-level files ... OK
 * checking for left-over files ... OK
@@ -55,6 +57,9 @@ Maintainer: ‘Silvia Liverani <liveranis@gmail.com>’
 * checking compilation flags in Makevars ... OK
 * checking for GNU extensions in Makefiles ... OK
 * checking for portable use of $(BLAS_LIBS) and $(LAPACK_LIBS) ... OK
+* checking use of SHLIB_OPENMP_*FLAGS in Makefiles ... OK
+* checking pragmas in C/C++ headers and code ... OK
+* checking compilation flags used ... OK
 * checking compiled code ... OK
 * checking examples ... OK
 * checking for unstated dependencies in ‘tests’ ... OK

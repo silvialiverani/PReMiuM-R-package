@@ -1,6 +1,6 @@
 
-R version 3.4.4 (2018-03-15) -- "Someone to Lean On"
-Copyright (C) 2018 The R Foundation for Statistical Computing
+R version 3.6.1 (2019-07-05) -- "Action of the Toes"
+Copyright (C) 2019 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -47,9 +47,9 @@ Trying 20 clusters
 Random number seed: 12345
 Sweep: 1
 ══ testthat results  ═══════════════════════════════════════════════════════════
-OK: 6 SKIPPED: 0 FAILED: 0
+[ OK: 6 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 0 ]
 > 
 > 
 > proc.time()
    user  system elapsed 
-  6.136   0.152   6.289 
+  5.460   0.186   5.637 

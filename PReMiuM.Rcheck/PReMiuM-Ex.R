@@ -16,6 +16,7 @@ pos = 'CheckExEnv')
 library('PReMiuM')
 
 base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
 cleanEx()
 nameEx("PReMiuM-package")
 ### * PReMiuM-package
@@ -648,6 +649,7 @@ base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos =
 base::cat("vec2mat", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 ### * <FOOTER>
 ###
+cleanEx()
 options(digits = 7L)
 base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
 grDevices::dev.off()

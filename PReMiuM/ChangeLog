@@ -1,4 +1,10 @@
-Changes in version 3.2.2 (2018-10-25)
+Changes in version 3.2.3 (2019-?-?)
+
+*
+* Added information in help file for plotRiskProfile
+
+--------------------------------------------
+Changes in version 3.2.2 (2019-06-20)
 
 * Increased flexibility of priors for the covariance matrix, for improved efficiency and accuracy
 
