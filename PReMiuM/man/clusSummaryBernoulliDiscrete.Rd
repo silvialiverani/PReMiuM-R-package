@@ -14,6 +14,7 @@
 \alias{clusSummaryBernoulliMixed}
 \alias{clusSummaryWeibullDiscrete}
 \alias{clusSummaryQuantileNormal}
+\alias{clusSummaryGammaNormal}
 \title{Sample datasets for profile regression}
 \description{Definition of skeleton of sample datasets for profile regression.}
 \usage{
@@ -32,6 +33,7 @@ clusSummaryVarSelectBernoulliDiscrete()
 clusSummaryBernoulliMixed()
 clusSummaryWeibullDiscrete()
 clusSummaryQuantileNormal()
+clusSummaryGammaNormal()
 }
 \section{Details}{
 
@@ -63,7 +65,9 @@ clusSummaryBernoulliMixed generates a dataset with Bernoulli outcome and mixed c
 
 clusSummaryWeibullDiscrete generates a dataset with a Weibull outcome and censored observations.
 
-clusSummaryQuantileNormal generates a dataset with a Quantile outcome and censored observations.
+clusSummaryQuantileNormal generates a dataset with a Quantile outcome.
+
+clusSummaryGammaNormal generates a dataset with a Gamma outcome with scale=1.
 }
 
 \value{

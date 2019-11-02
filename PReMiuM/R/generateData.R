@@ -219,6 +219,8 @@ generateSampleDataFile<-function(clusterSummary,pQuantile=0.05){
 		}else if(outcomeType=='Quantile'){
 		  Y[i]<-rALD(1,mu+U[i],sqrt(sigmaSqY),p=pQuantile)
 		  #Y[i]<-rnorm(1,mu+U[i],sqrt(sigmaSqY))
+		}else if(outcomeType=='Gamma'){
+		  Y[i]<-rgamma(1,shape=mu)
 		}else if (outcomeType=='Categorical'){
 			p<-vector()
 			sumMu<-sum(exp(mu))		
@@ -841,6 +843,33 @@ clusSummaryQuantileNormal<-function(){
 }
 
 
+clusSummaryGammaNormal<-function(){
+  list(
+    'outcomeType'='Gamma',
+    'covariateType'='Normal',
+    'nCovariates'=1,
+    'nFixedEffects'=0,
+    'missingDataProb'=0,
+    'nClusters'=5,
+    'clusterSizes'=c(600,200,400,300,800),
+    'includeCAR'=FALSE,
+    'clusterData'=list(
+      list('theta'=1,
+           'covariateMeans'= -3,
+           'covariateCovariance'=10),
+      list('theta'=4,
+           'covariateMeans'= 0,
+           'covariateCovariance'=6),
+      list('theta'= 7,
+           'covariateMeans'= 6,
+           'covariateCovariance'=7),
+      list('theta'= 10,
+           'covariateMeans'= -8,
+           'covariateCovariance'=4),
+      list('theta'= 13,
+           'covariateMeans'= 5,
+           'covariateCovariance'=17)))
+}
 
 
 

@@ -5,7 +5,7 @@ importFrom("graphics", "axis", "mtext", "par", "plot", "plot.new", "plot.window"
 importFrom("grDevices", "colorRampPalette", "dev.off", "pdf", "png")
 importFrom("stats", "density", "heatmap", "median", "na.omit", "optim", "quantile", "rmultinom", "rnorm", "rpois", "runif", "var")
 importFrom("utils", "head", "read.table", "tail", "write.table")
-importFrom("stats", "sd")
+importFrom("stats", "sd", "rgamma")
 
 importFrom(grid,grid.layout, grid.newpage, pushViewport, viewport, unit)
 importFrom(gamlss.dist,rWEI2)

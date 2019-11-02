@@ -1,6 +1,6 @@
 Changes in version 3.2.3 (2019-?-?)
 
-*
+* Added the framework for asymmetric simulated datasets: clusSummaryGammaNormal
 * Added information in help file for plotRiskProfile
 
 --------------------------------------------
