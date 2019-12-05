@@ -3,6 +3,7 @@ site_description: PReMiuM Project Documentation
 repo_url: https://github.com/silvialiverani/PReMiuM-R-package/docs
 theme: readthedocs
 edit_uri: https://github.com/silvialiverani/PReMiuM-R-package/docs
+docs_dir: '/docs'
 pages:
 - Home: index.md
 - 'Premium Manual': manual.md
