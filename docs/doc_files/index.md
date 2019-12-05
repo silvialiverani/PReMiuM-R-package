@@ -1,6 +1,6 @@
 # Welcome to the documentation for PReMiuM!
 
-This repository is home to _.md_ files rendered to html at [PReMiuM](http://premium.readthedocs.io/en/latest/).
+This repository is home to _.md_ files rendered to html at [PReMiuM](https://premium-r-package.readthedocs.io/en/latest/).
 
 See [Updating the Docs](/updating/) for instructions to modify content in this repository.
 
