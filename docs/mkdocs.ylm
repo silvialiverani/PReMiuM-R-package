@@ -8,7 +8,6 @@ theme:
         - yaml
         - rust
 edit_uri: https://github.com/silvialiverani/PReMiuM-R-package/docs
-docs_dir: '/doc_files'
 pages:
 - Home: index.md
 - 'Premium Manual': manual.md
