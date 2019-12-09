@@ -2,7 +2,7 @@
 
 This repository is home to _.md_ files rendered to html at [PReMiuM](https://premium-r-package.readthedocs.io/en/latest/).
 
-### EnviroTyping
+### R Package PReMiuM
 
 Dirichlet Process Bayesian Clustering, Profile Regression
 
