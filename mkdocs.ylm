@@ -1,13 +1,8 @@
 site_name: PReMiuM
 site_description: PReMiuM Project Documentation
-theme:
-    name: readthedocs
-    highlightjs: true
-    hljs_languages:
-        - yaml
-        - rust
 nav:
 - Home: index.md
 - Premium Manual: manual.md
+theme: readthedocs
 
 site_author: 'Silvia Liverani'
