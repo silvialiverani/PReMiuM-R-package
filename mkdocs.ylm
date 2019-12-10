@@ -4,8 +4,9 @@ site_description: PReMiuM documentation
 
 repo_url: https://github.com/silvialiverani/PReMiuM-R-package
 
-pages:
+nav:
     - Home: index.md
+    - prova: prova.md
     - 'Manual': manual.md
 
 theme: 
