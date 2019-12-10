@@ -6,7 +6,6 @@ repo_url: https://github.com/silvialiverani/PReMiuM-R-package
 
 nav:
     - Home: index.md
-    - prova: prova.md
     - 'Manual': manual.md
 
 theme: 
