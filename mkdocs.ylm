@@ -1,8 +1,8 @@
 site_name: PReMiuM
-site_description: PReMiuM Project Documentation
+site_description: PReMiuM documentation
 nav:
 - Home: index.md
-- Premium Manual: manual.md
+- Manual: manual.md
 theme: readthedocs
 
 site_author: 'Silvia Liverani'
