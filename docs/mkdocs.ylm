@@ -10,6 +10,6 @@ theme:
 edit_uri: https://github.com/silvialiverani/PReMiuM-R-package/docs
 pages:
 - Home: index.md
-- 'Premium Manual': manual.md
+- Premium Manual: manual.md
 
 site_author: 'Silvia Liverani'
