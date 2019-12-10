@@ -2,7 +2,7 @@ site_name: PReMiuM
 site_description: PReMiuM documentation
 nav:
 - Home: index.md
-- Manual: manual.md
+- 'Manual': manual.md
 theme: readthedocs
 
 site_author: 'Silvia Liverani'
