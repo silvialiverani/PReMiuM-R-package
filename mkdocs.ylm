@@ -6,7 +6,7 @@ theme:
     hljs_languages:
         - yaml
         - rust
-pages:
+nav:
 - Home: index.md
 - Premium Manual: manual.md
 
