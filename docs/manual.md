@@ -699,11 +699,11 @@ sessionInfo()
 
 ## References
 
-# Main reference
+### Main reference
 
 Liverani, S., Hastie, D. I., Azizi, L., Papathomas, M. and Richardson, S. (2015) PReMiuM: An R package for Profile Regression Mixture Models using Dirichlet Processes. Journal of Statistical Software, 64(7), 1-30. URL http://www.jstatsoft.org/v64/i07/
 
-# Other resources and applications
+### Other resources and applications
 
 Liu X., Liverani S., Smith K. J. and Yu K. (2019) Modelling Tails for Collinear Data with Outliers in the English Longitudinal Study of Ageing: Quantile Profile Regression. Biometrical Journal (to appear)
 
