@@ -6,7 +6,7 @@ The main references for the PReMiuM package are:
 R package for Profile Regression Mixture Models using Dirichlet Processes. Journal of
 Statistical Software, 64(7), 1-30.
 
-- A practical manual available at [https://premium-r-package.readthedocs.io/en/latest/] (https://premium-r-package.readthedocs.io/en/latest/), with additional information also at  [http://envirotyping.readthedocs.io/en/latest/manual/](http://envirotyping.readthedocs.io/en/latest/manual/) 
+- A practical manual available at [https://premium-r-package.readthedocs.io/en/latest/](https://premium-r-package.readthedocs.io/en/latest/), with additional information also at  [http://envirotyping.readthedocs.io/en/latest/manual/](http://envirotyping.readthedocs.io/en/latest/manual/) 
 
 See the package's page on CRAN with the latest released version: [https://cran.r-project.org/web/packages/PReMiuM/index.html](https://cran.r-project.org/web/packages/PReMiuM/index.html)
 
