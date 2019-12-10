@@ -1,13 +1,11 @@
 site_name: PReMiuM
 site_description: PReMiuM Project Documentation
-repo_url: https://github.com/silvialiverani/PReMiuM-R-package/docs
 theme:
     name: readthedocs
     highlightjs: true
     hljs_languages:
         - yaml
         - rust
-edit_uri: https://github.com/silvialiverani/PReMiuM-R-package/docs
 pages:
 - Home: index.md
 - Premium Manual: manual.md
