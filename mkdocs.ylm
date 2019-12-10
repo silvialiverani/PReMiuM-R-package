@@ -2,9 +2,10 @@ site_name: PReMiuM
 site_description: PReMiuM documentation
 repo_url: https://github.com/silvialiverani/PReMiuM-R-package
 pages:
-- Home: index.md
-- 'Manual': manual.md
-theme: readthedocs
+    - Home: index.md
+    - 'Manual': manual.md
+theme: 
+    name: readthedocs
 
 site_author: 'Silvia Liverani'
 
