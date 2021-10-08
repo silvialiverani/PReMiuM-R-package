@@ -10,5 +10,5 @@ test_that("MCMC output of main profile regression function runs correctly", {
                        covNames = inputs$covNames, outcomeT = inputs$outcomeT,
                        fixedEffectsNames = inputs$fixedEffectNames,seed=12345)
   testthis<-read.table(paste(tempdir(),"/output_nClusters.txt",sep=""))[1]
-  expect_equal(testthis[1,1], 21)
+  expect_equal(testthis[1,1], 24)
 })

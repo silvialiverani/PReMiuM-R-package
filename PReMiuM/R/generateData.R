@@ -1054,4 +1054,46 @@ mapforGeneratedData=function(u, del=NULL, palette='RGB', main=''){
   return(res)
 }
 
+rALD<-function (n, mu = 0, sigma = 1, p = 0.5) 
+{
+  # random generation for a Three-Parameter 
+  #Asymmetric Laplace Distribution defined in Koenker and Machado (1999) 
+  if (length(n) == 0) 
+    stop("The sample size n must be provided.")
+  if (n <= 0 || n%%1 != 0) 
+    stop("The sample size n must be a positive integer value.")
+  if (sigma <= 0) 
+    stop("sigma must be a positive number.")
+  if (p >= 1 | p <= 0) 
+    stop("p must be a real number in (0,1).")
+  if (abs(mu) == Inf) 
+    stop("mu must be a finite real number.")
+  u = runif(n)
+  r = sapply(X = u, FUN = qALD, mu = mu, sigma = sigma, p = p)
+  return(r)
+}
 
+qALD<-function (prob, mu = 0, sigma = 1, p = 0.5, lower.tail = TRUE) 
+{
+  # quantile function for a Three-Parameter Asymmetric 
+  # Laplace Distribution defined in Koenker and Machado (1999) 
+  if (length(prob) == 0) 
+    stop("prob must be provided.")
+  if (sigma <= 0) 
+    stop("sigma must be a positive number.")
+  if (p >= 1 | p <= 0) 
+    stop("p must be a real number in (0,1).")
+  if (abs(mu) == Inf) 
+    stop("mu must be a finite real number.")
+  if (lower.tail != TRUE && lower.tail != FALSE) 
+    stop("lower.tail must be TRUE or FALSE.")
+  if (sum(prob > 1 | prob < 0) > 0) 
+    stop("All elements of prob must be real numbers in [0,1].")
+  q = sapply(X = prob, FUN = function(prob, mu, sigma, p) {
+    ifelse(test = lower.tail == TRUE, yes = prob, no = (1 - 
+                                                          prob))
+    ifelse(test = prob < p, yes = mu + ((sigma * log(prob/p))/(1 - 
+     p)), no = mu - ((sigma * log((1 - prob)/(1 - p)))/p))
+  }, mu = mu, sigma = sigma, p = p)
+  return(q)
+}
