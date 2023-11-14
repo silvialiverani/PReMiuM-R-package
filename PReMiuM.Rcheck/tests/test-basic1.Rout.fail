@@ -1,0 +1,41 @@
+
+R version 4.2.3 (2023-03-15) -- "Shortstop Beagle"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(testthat)
+> library(PReMiuM)
+> 
+> # this function should not be called directly
+> # it is meant to be called by R CMD check only
+> # use devtools::test() if need to call directly
+> test_check("PReMiuM")
+[ FAIL 2 | WARN 0 | SKIP 0 | PASS 0 ]
+
+══ Failed tests ════════════════════════════════════════════════════════════════
+── Error ('test-calcAvgRisk.R:7'): Dissimilarity function is running correctly ──
+Error in `.Call(profRegr, inputString, PACKAGE = "PReMiuM")`: first argument must be a string (of length 1) or native symbol reference
+Backtrace:
+    ▆
+ 1. └─PReMiuM::profRegr(...) at test-calcAvgRisk.R:7:2
+── Error ('test-profRegr.R:6'): MCMC output of main profile regression function runs correctly ──
+Error in `.Call(profRegr, inputString, PACKAGE = "PReMiuM")`: first argument must be a string (of length 1) or native symbol reference
+Backtrace:
+    ▆
+ 1. └─PReMiuM::profRegr(...) at test-profRegr.R:6:2
+
+[ FAIL 2 | WARN 0 | SKIP 0 | PASS 0 ]
+Error: Test failures
+Execution halted

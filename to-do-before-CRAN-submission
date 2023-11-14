@@ -34,3 +34,14 @@ R CMD check --use-gct yourPackage_0.0.1.tar.gz
 ###################################
 to install packages from command line:
 install.packages("Dropbox/PReMiuM-R-package/PReMiuM_3.1.6.tar.gz", repos = NULL, type="source",lib="/scratch/sliverani/Rlibraries/")
+
+################################### to build and install for checking
+R CMD build yourPackage/
+R CMD INSTALL yourPackage_0.0.1.tar.gz
+################################### to archive in git
+git add. 
+git commit -m "text to add"
+git push origin master
+
+
+

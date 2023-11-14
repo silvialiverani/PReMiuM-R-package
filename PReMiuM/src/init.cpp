@@ -19,7 +19,6 @@ void R_init_PReMiuM(DllInfo *dll)
 {
     R_registerRoutines(dll, NULL, R_CallDef, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
-    R_forceSymbols(dll, TRUE);
 }
 
 

@@ -1,12 +1,12 @@
-citHeader("To cite PReMiuM in publications use:")
-
-citEntry(entry = "Article",
+bibentry(bibtype = "Article",
   title        = "{PReMiuM}: An {R} Package for Profile Regression Mixture Models Using Dirichlet Processes",
-  author       = personList(as.person("Silvia Liverani"),
-                   as.person("David I. Hastie"),
-                   as.person("Lamiae Azizi"),
-                   as.person("Michail Papathomas"),
-                   as.person("Sylvia Richardson")),
+      author = c(
+       person(given="Silvia", family="Liverani",
+              email = "liveranis@gmail.com"),
+       person(given="David I.", family="Hastie"),
+       person(given="Lamiae", family="Azizi"),
+       person(given="Michail", family="Papathomas"),
+       person(given="Sylvia", family="Richardson")),
   journal      = "Journal of Statistical Software",
   year         = "2015",
   volume       = "64",
@@ -18,6 +18,7 @@ citEntry(entry = "Article",
   paste("Silvia Liverani, David I. Hastie, Lamiae Azizi, Michail Papathomas, Sylvia Richardson (2015).",
         "PReMiuM: An R Package for Profile Regression Mixture Models Using Dirichlet Processes.",
         "Journal of Statistical Software, 64(7), 1-30.",
-        "doi:10.18637/jss.v064.i07.")
+        "doi:10.18637/jss.v064.i07."),
+    header = "To cite clusterSim in publications use:"
 )
 

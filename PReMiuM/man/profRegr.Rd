@@ -153,7 +153,7 @@ The R package PReMiuM is supported through research grants. One key requirement 
 
 Silvia Liverani, David I. Hastie, Lamiae Azizi, Michail Papathomas, Sylvia Richardson (2015). PReMiuM: An R Package for Profile Regression Mixture Models Using Dirichlet Processes. Journal of Statistical Software, 64(7), 1-30. \doi{10.18637/jss.v064.i07}.
 
-Hastie, D. I., Liverani, S. and Richardson, S. (2014) Sampling from Dirichlet process mixture models with unknown concentration parameter: Mixing issues in large data implementations. \emph{Forthcoming in the Statistics \& Computing}. Available at http://link.springer.com/article/10.1007%2Fs11222-014-9471-3
+Hastie, D. I., Liverani, S. and Richardson, S. (2014) Sampling from Dirichlet process mixture models with unknown concentration parameter: Mixing issues in large data implementations. \emph{Statistics and Computing}. Available at http://link.springer.com/article/10.1007%2Fs11222-014-9471-3
 
 }
 \examples{

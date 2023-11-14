@@ -1,23 +1,88 @@
 * using log directory ‘/home/mastssl/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
-* using R version 4.1.1 (2021-08-10)
+* using R version 4.2.3 (2023-03-15)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘PReMiuM’ version ‘3.2.7’
+* this is package ‘PReMiuM’ version ‘3.2.9’
 * checking package namespace information ... OK
-* checking package dependencies ... ERROR
-Packages required but not available:
-  'Rcpp', 'ggplot2', 'plotrix', 'gamlss.dist', 'data.table', 'spdep',
-  'rgdal', 'RcppEigen', 'BH'
-
-Package suggested but not available: ‘testthat’
-
-The suggested packages are required for a complete check.
-Checking can be attempted without them by setting the environment
-variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
-
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
+* checking package dependencies ... OK
+* checking if this is a source package ... WARNING
+Subdirectory ‘PReMiuM/src’ contains apparent object files/libraries
+  PReMiuM.o PReMiuM.so init.o postProcess.o
+Object files/libraries should not be included in a source package.
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... OK
+* checking for sufficient/correct file permissions ... OK
+* checking whether package ‘PReMiuM’ can be installed ... OK
+* checking installed package size ... NOTE
+  installed size is 18.3Mb
+  sub-directories of 1Mb or more:
+    libs  17.9Mb
+* checking package directory ... OK
+* checking DESCRIPTION meta-information ... NOTE
+Checking should be performed on sources prepared by ‘R CMD build’.
+* checking top-level files ... OK
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... OK
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking loading without being on the library search path ... OK
+* checking dependencies in R code ... OK
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... NOTE
+.pYGivenZW_Bernoulli: no visible binding for global variable
+  ‘pYGivenZW’
+.pYGivenZW_Bernoulli_gradient: no visible binding for global variable
+  ‘GradpYGivenZW’
+Undefined global functions or variables:
+  GradpYGivenZW pYGivenZW
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... OK
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... OK
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking line endings in C/C++/Fortran sources/headers ... OK
+* checking line endings in Makefiles ... OK
+* checking compilation flags in Makevars ... OK
+* checking for GNU extensions in Makefiles ... OK
+* checking for portable use of $(BLAS_LIBS) and $(LAPACK_LIBS) ... OK
+* checking use of PKG_*FLAGS in Makefiles ... OK
+* checking compiled code ... OK
+* checking examples ... OK
+* checking for unstated dependencies in ‘tests’ ... OK
+* checking tests ... ERROR
+  Running ‘test-basic1.R’
+Running the tests in ‘tests/test-basic1.R’ failed.
+Last 13 lines of output:
+  ══ Failed tests ════════════════════════════════════════════════════════════════
+  ── Error ('test-calcAvgRisk.R:7'): Dissimilarity function is running correctly ──
+  Error in `.Call(profRegr, inputString, PACKAGE = "PReMiuM")`: first argument must be a string (of length 1) or native symbol reference
+  Backtrace:
+      ▆
+   1. └─PReMiuM::profRegr(...) at test-calcAvgRisk.R:7:2
+  ── Error ('test-profRegr.R:6'): MCMC output of main profile regression function runs correctly ──
+  Error in `.Call(profRegr, inputString, PACKAGE = "PReMiuM")`: first argument must be a string (of length 1) or native symbol reference
+  Backtrace:
+      ▆
+   1. └─PReMiuM::profRegr(...) at test-profRegr.R:6:2
+  
+  [ FAIL 2 | WARN 0 | SKIP 0 | PASS 0 ]
+  Error: Test failures
+  Execution halted
+* checking PDF version of manual ... OK
 * DONE
-Status: 1 ERROR
+Status: 1 ERROR, 1 WARNING, 3 NOTEs

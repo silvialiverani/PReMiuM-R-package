@@ -1,5 +1,4 @@
 
 PKG_CPPFLAGS=-I./include -DBOOST_MATH_PROMOTE_DOUBLE_POLICY=false 
 
-## We want C++11
-CXX_STD = CXX11
+

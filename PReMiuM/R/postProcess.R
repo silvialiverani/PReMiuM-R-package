@@ -89,6 +89,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
         print(paste("Replacing level ",levels(outcomeFactor)," with ",c(0:(yLevels-1)),sep=""))
         levels(outcomeFactor)<-c(0:(yLevels-1))
         dataMatrix<-outcomeFactor
+        if (!missing(predict)) stop("If you are including data for prediction, it is advised that the recoding of the categorical variables as advised above is done manually ahead of running this function, as errors might arise.")
       }
     } else {
       print("Recoding of the outcome as follows")
@@ -96,6 +97,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
       print(paste("Replacing level ",levels(outcomeFactor)," with ",c(0:(yLevels-1)),sep=""))
       levels(outcomeFactor)<-c(0:(yLevels-1))
       dataMatrix<-outcomeFactor
+      if (!missing(predict)) stop("If you are including data for prediction, it is advised that the recoding of the categorical variables as advised above is done manually ahead of running this function, as errors might arise.")
     }
     if (yModel=="Bernoulli") yLevels <- 1
   } else {
@@ -127,7 +129,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
         levels(tmpCovFactor)<-c(0:(xLevels[k]-1))	
         dataMatrix[,(1+k)]<-tmpCovFactor
         dataMatrix[,(1+k)]<-as.numeric(levels(dataMatrix[,(1+k)]))[as.integer(dataMatrix[,(1+k)])]
-        
+	if (!missing(predict)) stop("If you are including data for prediction, it is advised that the recoding of the categorical variables as advised above is done manually ahead of running this function, as errors might arise.")
+
       } else {
         if (!(min(tmpCov,na.rm=TRUE)==0&&max(tmpCov,na.rm=TRUE)==(xLevels[k]-1)&&sum(!is.wholenumber(tmpCov[!is.na(tmpCov)]))==0)) {
           print(paste("Recoding of covariate ",colnames(dataMatrix)[k+1]," as follows",sep=""))
@@ -137,6 +140,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
           levels(tmpCovFactor)<-c(0:(xLevels[k]-1))	
           dataMatrix[,(1+k)]<-tmpCovFactor
           dataMatrix[,(1+k)]<-as.numeric(levels(dataMatrix[,(1+k)]))[as.integer(dataMatrix[,(1+k)])]
+	if (!missing(predict)) stop("If you are including data for prediction, it is advised that the recoding of the categorical variables as advised above is done manually ahead of running this function, as errors might arise.")
+
         }
       }
     }
@@ -153,6 +158,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
         levels(tmpCovFactor)<-c(0:(xLevels[k]-1))	
         dataMatrix[,(1+k)]<-tmpCovFactor
         dataMatrix[,(1+k)]<-as.numeric(levels(dataMatrix[,(1+k)]))[as.integer(dataMatrix[,(1+k)])]
+      if (!missing(predict)) stop("If you are including data for prediction, it is advised that the recoding of the categorical variables as advised above is done manually ahead of running this function, as errors might arise.")
+        
       } else {
         if (!(min(tmpCov,na.rm=TRUE)==0&&max(tmpCov,na.rm=TRUE)==(xLevels[k]-1)&&sum(!is.wholenumber(tmpCov[!is.na(tmpCov)]))==0)) {
           print(paste("Recoding of covariate number ",colnames(dataMatrix)[k+1]," as follows",sep=""))
@@ -162,6 +169,8 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
           levels(tmpCovFactor)<-c(0:(xLevels[k]-1))	
           dataMatrix[,(1+k)]<-tmpCovFactor
           dataMatrix[,(1+k)]<-as.numeric(levels(dataMatrix[,(1+k)]))[as.integer(dataMatrix[,(1+k)])]
+      if (!missing(predict)) stop("If you are including data for prediction, it is advised that the recoding of the categorical variables as advised above is done manually ahead of running this function, as errors might arise.")
+
         }
       }
     }
@@ -190,7 +199,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
     if (sum(is.na(fixedEffects))>0) stop("ERROR: fixed effects cannot have missing values. Use an imputation method before using profRegr().")
     dataMatrix<-cbind(dataMatrix,fixedEffects)
     for (i in dim(fixedEffects)[2]){
-      if (class(fixedEffects[,i])=="character") stop("ERROR: fixed effects must be of class numeric. See help pages.") 
+      if (isa(fixedEffects[,i],"character")) stop("ERROR: fixed effects must be of class numeric. See help pages.") 
     }
   } else {
     nFixedEffects<-0
@@ -451,7 +460,7 @@ profRegr<-function(covNames, fixedEffectsNames, outcome="outcome", outcomeT=NA, 
   if (useSeparationPrior) inputString<-paste(inputString," --useSeparationPrior", sep="")
   if (useIndependentNormal) inputString<-paste(inputString," --useIndependentNormal", sep="")
 
-  if (run) .Call('profRegr', inputString, PACKAGE = 'PReMiuM')
+  if (run) .Call("profRegr", inputString, PACKAGE = 'PReMiuM')
   
   
   # define directory path and fileStem
@@ -583,7 +592,7 @@ calcDissimilarityMatrix<-function(runInfoObj,onlyLS=FALSE){
   }
   
   # Call the C++ to compute the dissimilarity matrix
-  disSimList<-.Call('calcDisSimMat',fileName,nSweeps,recordedNBurn,nFilter,nSubjects,
+  disSimList<-.Call("calcDisSimMat",fileName,nSweeps,recordedNBurn,nFilter,nSubjects,
                     nPredictSubjects, onlyLS, PACKAGE = 'PReMiuM')
   
   if (onlyLS){
@@ -2739,7 +2748,7 @@ margModelPosterior<-function(runInfoObj,allocation){
   }
   nTableNames<-as.integer(nTableNames)
   maxNTableNames<-max(nTableNames)
-  out<-.Call('pYGivenZW',beta,theta,zAlloc,hyperParams$sigmaBeta,
+  out<-.Call("pYGivenZW",beta,theta,zAlloc,hyperParams$sigmaBeta,
              hyperParams$sigmaTheta,hyperParams$dofTheta,hyperParams$dofBeta,nSubjects,
              yMat,betaW,nFixedEffects,nTableNames,constants,
              maxNTableNames,PACKAGE = 'PReMiuM')
@@ -2757,14 +2766,14 @@ margModelPosterior<-function(runInfoObj,allocation){
   if (nFixedEffects>0){
     beta<-tail(thetaBeta,-nClusters)
     betaW<-as.matrix(wMat)%*%beta
-    yPred<-.Call('GradpYGivenZW',beta,theta,zAlloc,nSubjects,
+    yPred<-.Call("GradpYGivenZW",beta,theta,zAlloc,nSubjects,
                  betaW,yMat,nFixedEffects,nTableNames,
                  maxNTableNames,PACKAGE = 'PReMiuM')
     wPred<- as.matrix(wMat)*yPred
   } else {
     beta<-0
     betaW<-0
-    yPred<-.Call('GradpYGivenZW',beta,theta,zAlloc,nSubjects,
+    yPred<-.Call("GradpYGivenZW",beta,theta,zAlloc,nSubjects,
                  betaW,yMat,nFixedEffects,nTableNames,
                  maxNTableNames,PACKAGE = 'PReMiuM')
   }
@@ -2894,7 +2903,7 @@ margModelPosterior<-function(runInfoObj,allocation){
   nPlus<-head(c(rev(cumsum(rev(clusterSizes[-1]))),0),-1)	
   
   # computation of pX+pZ
-  pZpX<-.Call('pZpX',nClusters,nCategories,hyperParams$aPhi,clusterSizes,nCovariates, zAlloc, as.vector(as.matrix(xMat)), as.integer(nTableNames), alphaMPP, nPlus, PACKAGE = 'PReMiuM')
+  pZpX<-.Call("pZpX",nClusters,nCategories,hyperParams$aPhi,clusterSizes,nCovariates, zAlloc, as.vector(as.matrix(xMat)), as.integer(nTableNames), alphaMPP, nPlus, PACKAGE = 'PReMiuM')
   
   # computation of pY
   if (includeResponse==T){

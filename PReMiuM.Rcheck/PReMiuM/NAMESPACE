@@ -1,0 +1,22 @@
+useDynLib(PReMiuM, .registration = TRUE, .fixes = "C_")
+exportPattern("^[[:alpha:]]+")
+
+importFrom("graphics", "axis", "mtext", "par", "plot", "plot.new", "plot.window", "rect", "text")
+importFrom("grDevices", "colorRampPalette", "dev.off", "pdf", "png")
+importFrom("stats", "density", "heatmap", "median", "na.omit", "optim", "quantile", "rmultinom", "rnorm", "rpois", "runif", "var")
+importFrom("utils", "head", "read.table", "tail", "write.table")
+importFrom("stats", "sd", "rgamma")
+
+importFrom(grid,grid.layout, grid.newpage, pushViewport, viewport, unit)
+importFrom(gamlss.dist,rWEI2)
+importFrom(data.table,rbindlist)
+importFrom(spdep,poly2nb,nb2INLA)
+
+import(sf)
+import(cluster)
+import(ggplot2)
+import(Rcpp)
+import(plotrix)
+
+
+

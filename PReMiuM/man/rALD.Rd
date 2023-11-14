@@ -20,13 +20,13 @@ If mu, sigma or p are not specified they assume the default values of 0, 1 and 0
 
 As discussed in Koenker and Machado (1999) and Yu and Moyeed (2001) we say that a random variable Y is distributed as an ALD with location parameter mu, scale parameter sigma>0 and skewness parameter p in (0,1), if its probability density function (pdf) is given by
 
-f(y|mu,sigma,p)=p(1-p)/sigma * e^{-p_{p}(y-mu)/sigma)}
+f(y|mu,sigma,p)=p(1-p)/sigma * e^(-p_p(y-mu)/sigma))
 
 where p_p(.) is the so called check (or loss) function defined by
 
-p_p(u)=u(p - I_{u<0})
+p_p(u)=u(p - I(u<0))
 
-with I_{.} denoting the usual indicator function. This distribution is denoted by ALD(mu,sigma,p) and it's p-th quantile is equal to mu.
+with I() denoting the usual indicator function. This distribution is denoted by ALD(mu,sigma,p) and it's p-th quantile is equal to mu.
 
 The scale parameter sigma must be positive and non zero. The skew parameter p must be between zero and one (0<p<1).
 }

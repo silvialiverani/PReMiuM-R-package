@@ -125,7 +125,7 @@ generateSampleDataFile<-function(clusterSummary,pQuantile=0.05){
 	# Spatial CAR term
 	if (includeCAR) {
 		tau=clusterSummary$TauCAR
-		NC <- readOGR(system.file("shapes/sids.shp", package="PReMiuM")[1],verbose=FALSE)
+		NC <- st_read(system.file("shape/nc.shp", package="sf"), quiet=TRUE)
 		listNB<-poly2nb(NC, queen=TRUE, row.names=NC$FIPSNO)
 		nb2INLA("Neighbours.txt",listNB)
 		M=.prec_Matrix()

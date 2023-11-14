@@ -1366,7 +1366,7 @@ void gibbsForMuActive(mcmcChain<pReMiuMParams>& chain,
 				nXInC*gammaMat[c] * currentParams.Tau(c)*(meanX[c] - oneMinusGammaMat[c] * currentParams.nullMu());
 			meanVec = covMat*meanVec;
 		} 
-		else {
+		else if (!useIndependentNormal){
 			covMat = (hyperParams.Tau0() + nXInC*gammaMat[c] * currentParams.Tau(c)*gammaMat[c]).inverse();
 			meanVec = hyperParams.Tau0()*hyperParams.mu0() +
 				nXInC*gammaMat[c] * currentParams.Tau(c)*(meanX[c] - oneMinusGammaMat[c] * currentParams.nullMu());
@@ -3978,7 +3978,7 @@ void adaptiveRejectionSamplerForUCARPoisson(mcmcChain<pReMiuMParams>& chain,
 	pReMiuMParams& currentParams = currentState.parameters();
 	const pReMiuMData& dataset = model.dataset();
 	unsigned int nSubjects=dataset.nSubjects();
-	unsigned int nFixedEffects=dataset.nFixedEffects();
+
 
 	nTry++;
 	nAccept++;
@@ -4036,7 +4036,7 @@ void metropolisForUCARPoisson(mcmcChain<pReMiuMParams>& chain,
 
 		double propCondLogPost = logPYiGivenZiWiPoissonSpatial(currentParams,dataset,nFixedEffects,zi,iSub);
 		// prior variance
-		int nNeighi = dataset.nNeighbours(iSub);
+		unsigned int nNeighi = dataset.nNeighbours(iSub);
 		double priorVar = currentParams.TauCAR()/nNeighi;
 
 		// prior mean
