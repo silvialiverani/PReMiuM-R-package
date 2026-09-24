@@ -13,7 +13,7 @@ flush(stderr()); flush(stdout())
 
 ### Name: PReMiuM-package
 ### Title: Dirichlet Process Bayesian Clustering
-### Aliases: PReMiuMpackage PReMiuM
+### Aliases: PReMiuMpackage PReMiuM PReMiuM-package
 
 ### ** Examples
 

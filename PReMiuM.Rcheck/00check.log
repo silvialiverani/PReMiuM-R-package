@@ -1,29 +1,30 @@
 * using log directory ‘/home/mastssl/Dropbox/PReMiuM-R-package/PReMiuM.Rcheck’
-* using R version 4.2.3 (2023-03-15)
+* using R version 4.3.3 (2024-02-29)
 * using platform: x86_64-pc-linux-gnu (64-bit)
+* R was compiled by
+    gcc (Ubuntu 13.2.0-23ubuntu3) 13.2.0
+    GNU Fortran (Ubuntu 13.2.0-23ubuntu3) 13.2.0
+* running under: Ubuntu 24.04.5 LTS
 * using session charset: UTF-8
 * checking for file ‘PReMiuM/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘PReMiuM’ version ‘3.2.9’
+* this is package ‘PReMiuM’ version ‘3.2.14’
 * checking package namespace information ... OK
 * checking package dependencies ... OK
-* checking if this is a source package ... WARNING
-Subdirectory ‘PReMiuM/src’ contains apparent object files/libraries
-  PReMiuM.o PReMiuM.so init.o postProcess.o
-Object files/libraries should not be included in a source package.
+* checking if this is a source package ... OK
 * checking if there is a namespace ... OK
 * checking for executable files ... OK
 * checking for hidden files and directories ... OK
 * checking for portable file names ... OK
 * checking for sufficient/correct file permissions ... OK
 * checking whether package ‘PReMiuM’ can be installed ... OK
+* used C++ compiler: ‘g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0’
 * checking installed package size ... NOTE
-  installed size is 18.3Mb
+  installed size is 23.1Mb
   sub-directories of 1Mb or more:
-    libs  17.9Mb
+    libs  22.7Mb
 * checking package directory ... OK
-* checking DESCRIPTION meta-information ... NOTE
-Checking should be performed on sources prepared by ‘R CMD build’.
+* checking DESCRIPTION meta-information ... OK
 * checking top-level files ... OK
 * checking for left-over files ... OK
 * checking index information ... OK
@@ -40,13 +41,7 @@ Checking should be performed on sources prepared by ‘R CMD build’.
 * checking S3 generic/method consistency ... OK
 * checking replacement functions ... OK
 * checking foreign function calls ... OK
-* checking R code for possible problems ... NOTE
-.pYGivenZW_Bernoulli: no visible binding for global variable
-  ‘pYGivenZW’
-.pYGivenZW_Bernoulli_gradient: no visible binding for global variable
-  ‘GradpYGivenZW’
-Undefined global functions or variables:
-  GradpYGivenZW pYGivenZW
+* checking R code for possible problems ... OK
 * checking Rd files ... OK
 * checking Rd metadata ... OK
 * checking Rd cross-references ... OK
@@ -64,25 +59,8 @@ Undefined global functions or variables:
 * checking compiled code ... OK
 * checking examples ... OK
 * checking for unstated dependencies in ‘tests’ ... OK
-* checking tests ... ERROR
+* checking tests ... OK
   Running ‘test-basic1.R’
-Running the tests in ‘tests/test-basic1.R’ failed.
-Last 13 lines of output:
-  ══ Failed tests ════════════════════════════════════════════════════════════════
-  ── Error ('test-calcAvgRisk.R:7'): Dissimilarity function is running correctly ──
-  Error in `.Call(profRegr, inputString, PACKAGE = "PReMiuM")`: first argument must be a string (of length 1) or native symbol reference
-  Backtrace:
-      ▆
-   1. └─PReMiuM::profRegr(...) at test-calcAvgRisk.R:7:2
-  ── Error ('test-profRegr.R:6'): MCMC output of main profile regression function runs correctly ──
-  Error in `.Call(profRegr, inputString, PACKAGE = "PReMiuM")`: first argument must be a string (of length 1) or native symbol reference
-  Backtrace:
-      ▆
-   1. └─PReMiuM::profRegr(...) at test-profRegr.R:6:2
-  
-  [ FAIL 2 | WARN 0 | SKIP 0 | PASS 0 ]
-  Error: Test failures
-  Execution halted
 * checking PDF version of manual ... OK
 * DONE
-Status: 1 ERROR, 1 WARNING, 3 NOTEs
+Status: 1 NOTE

@@ -1,4 +1,4 @@
-PReMiuMpackage          Dirichlet Process Bayesian Clustering
+PReMiuM-package         Dirichlet Process Bayesian Clustering
 calcAvgRiskAndProfile   Calculation of the average risks and profiles
 calcDissimilarityMatrix
                         Calculates the dissimilarity matrix

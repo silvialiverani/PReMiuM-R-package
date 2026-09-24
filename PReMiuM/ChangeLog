@@ -1,3 +1,13 @@
+Changes in version 3.2.13 (2026-09-24)
+
+* Removed dependence on gamlss.dist
+
+--------------------------------------------
+Changes in version 3.2.12 (2023-12-07)
+
+* Fixed bug in compiler with Rprintf
+
+--------------------------------------------
 Changes in version 3.2.11 (2023-11-13)
 
 * Fixed bug with predictions when categorical variables are not in 0-1-2-etc format

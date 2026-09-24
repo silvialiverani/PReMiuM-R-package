@@ -1,0 +1,4 @@
+
+PKG_CPPFLAGS=-I./include -DBOOST_MATH_PROMOTE_DOUBLE_POLICY=false 
+
+

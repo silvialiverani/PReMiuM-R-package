@@ -39,7 +39,7 @@ install.packages("Dropbox/PReMiuM-R-package/PReMiuM_3.1.6.tar.gz", repos = NULL,
 R CMD build yourPackage/
 R CMD INSTALL yourPackage_0.0.1.tar.gz
 ################################### to archive in git
-git add. 
+git add . 
 git commit -m "text to add"
 git push origin master
 

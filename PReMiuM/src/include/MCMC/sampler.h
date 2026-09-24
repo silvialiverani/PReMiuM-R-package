@@ -238,7 +238,8 @@ template<class modelParamType,class optionType,class propParamType,class dataTyp
 			}else{
 				_seed = seedValue;
 			}
-			Rprintf("Random number seed: %i\n",_seed);
+			unsigned long int _seed2 = static_cast<unsigned long int>(_seed);
+			Rprintf("Random number seed: %lu\n",_seed2);
 			_rndGenerator.seed(_seed);
 		}
 

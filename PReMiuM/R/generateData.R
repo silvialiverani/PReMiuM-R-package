@@ -228,7 +228,8 @@ generateSampleDataFile<-function(clusterSummary,pQuantile=0.05){
 			for (kk in 2:nCategoriesY) p[kk]<-exp(mu[kk])/sumMu
 			Y[i]<-which(rmultinom(1,1,p)==1)-1
 		}else if (outcomeType == 'Survival'){
-			Y[i] <-rWEI2(1, exp(mu), shapeTmp)#rlnorm(1,exp(mu),shapeTmp)#  #rweibull(1,exp(mu),shapeTmp)         #scale = exp(mu) 
+		  Y[i] <-rweibull(1, scale = exp(mu), shape = 1/shapeTmp)#rlnorm(1,exp(mu),shapeTmp)#  #rweibull(1,exp(mu),shapeTmp)         #scale = exp(mu) 
+			#Y[i] <-rWEI2(1, exp(mu), shapeTmp)#rlnorm(1,exp(mu),shapeTmp)#  #rweibull(1,exp(mu),shapeTmp)         #scale = exp(mu) 
 			if (Y[i] >  censorT){  
 				Y[i] <- censorT 
 				event[i] <- 0
